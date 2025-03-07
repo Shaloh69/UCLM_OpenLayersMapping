@@ -12,7 +12,13 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
+        jomhuria: ["var(--font-jomhuria)"],
+        judson: ["var(--font-judson)"],
       },
+      backgroundImage: {
+        idlebg: "url('/idlebg.png')",
+        homebg: "url('/homebg.png')",
+      }
     },
   },
   darkMode: "class",

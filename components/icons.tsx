@@ -185,3 +185,30 @@ export const SearchIcon = (props: IconSvgProps) => (
     />
   </svg>
 );
+
+export const ArrowRightIcon = ({
+  size = 32, // Default larger size
+  width,
+  height,
+  ...props
+}: IconSvgProps) => (
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    height={size || height}
+    role="presentation"
+    viewBox="0 0 50 30" // Wider to accommodate the longer arrow
+    width={size || width}
+    {...props}
+  >
+    <path
+      d="M3 15h38M33 6l10 9-10 9"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={3.5} // Thicker stroke
+    />
+  </svg>
+);
+
