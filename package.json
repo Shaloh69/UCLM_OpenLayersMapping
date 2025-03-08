@@ -19,6 +19,7 @@
   "@heroui/modal": "^2.2.12",
   "@heroui/navbar": "2.2.12",
   "@heroui/snippet": "2.2.14",
+  "@heroui/spinner": "^2.2.12",
   "@heroui/switch": "2.2.12",
   "@heroui/system": "2.4.10",
   "@heroui/theme": "2.4.9",

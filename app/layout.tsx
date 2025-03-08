@@ -6,6 +6,7 @@ import clsx from "clsx";
 import AFKModal from "./modal";
 import { Providers } from "./providers";
 
+import LoadingAnimation from "@/components/loader";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 
@@ -45,6 +46,7 @@ export default function RootLayout({
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
           <AFKModal />
+          <LoadingAnimation/>
             <main className="container mx-auto max-w-7xl flex-grow">
               {children}
             </main>
