@@ -10,7 +10,6 @@ import LoadingAnimation from "@/components/loader";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 
-
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -45,8 +44,8 @@ export default function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
-          <AFKModal />
-          <LoadingAnimation/>
+            {/* <AFKModal /> */}
+            <LoadingAnimation />
             <main className="container mx-auto max-w-7xl flex-grow">
               {children}
             </main>
