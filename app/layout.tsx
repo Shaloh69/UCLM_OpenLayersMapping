@@ -3,7 +3,7 @@ import { Metadata, Viewport } from "next";
 import { Link } from "@heroui/link";
 import clsx from "clsx";
 
-import AFKModal from "./modal";
+import AFKModal from "@/components/AFKModal";
 import { Providers } from "./providers";
 
 import LoadingAnimation from "@/components/loader";
