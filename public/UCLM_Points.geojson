@@ -143,6 +143,123 @@
         "type": "Point"
       },
       "id": 11
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#24f",
+        "marker-size": "small",
+        "marker-symbol": "entrance"
+      },
+      "geometry": {
+        "coordinates": [123.95304157223944, 10.325152910493912],
+        "type": "Point"
+      },
+      "id": 12
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#24f",
+        "marker-size": "small",
+        "marker-symbol": "entrance"
+      },
+      "geometry": {
+        "coordinates": [123.95329755798218, 10.32539750653676],
+        "type": "Point"
+      },
+      "id": 13
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#24f",
+        "marker-size": "small",
+        "marker-symbol": "entrance"
+      },
+      "geometry": {
+        "coordinates": [123.95334201616191, 10.325428296287456],
+        "type": "Point"
+      },
+      "id": 14
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#24f",
+        "marker-size": "small",
+        "marker-symbol": "entrance"
+      },
+      "geometry": {
+        "coordinates": [123.95377384470567, 10.325725398399129],
+        "type": "Point"
+      },
+      "id": 15
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#24f",
+        "marker-size": "small",
+        "marker-symbol": "entrance"
+      },
+      "geometry": {
+        "coordinates": [123.954512489776, 10.325632427937876],
+        "type": "Point"
+      },
+      "id": 16
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#24f",
+        "marker-size": "small",
+        "marker-symbol": "entrance"
+      },
+      "geometry": {
+        "coordinates": [123.955214224776, 10.326516069784304],
+        "type": "Point"
+      },
+      "id": 17
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#24f",
+        "marker-size": "small",
+        "marker-symbol": "entrance"
+      },
+      "geometry": {
+        "coordinates": [123.95572610133871, 10.327134918727268],
+        "type": "Point"
+      },
+      "id": 18
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#24f",
+        "marker-size": "small",
+        "marker-symbol": "entrance"
+      },
+      "geometry": {
+        "coordinates": [123.95592146804466, 10.327840652214235],
+        "type": "Point"
+      },
+      "id": 19
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#24f",
+        "marker-size": "small",
+        "marker-symbol": "entrance"
+      },
+      "geometry": {
+        "coordinates": [123.95483542771171, 10.32790555231496],
+        "type": "Point"
+      },
+      "id": 20
     }
   ]
 }

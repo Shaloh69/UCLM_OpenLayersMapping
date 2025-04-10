@@ -1,0 +1,405 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node1",
+        "name": "Old Building Entrance",
+        "isDestination": true,
+        "category": "Main Buildings",
+        "description": "Main entrance to the Old Building"
+      },
+      "geometry": {
+        "coordinates": [123.95337867934211, 10.325185190652974],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node2",
+        "name": "SH Building Entrance",
+        "isDestination": true,
+        "category": "Main Buildings",
+        "description": "Main entrance to SH Building"
+      },
+      "geometry": {
+        "coordinates": [123.95402776816132, 10.325133613677977],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node3",
+        "name": "SH Building Back Entrance",
+        "isDestination": true,
+        "category": "Main Buildings",
+        "description": "Back entrance to SH Building"
+      },
+      "geometry": {
+        "coordinates": [123.95378678069818, 10.325664537790544],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node4",
+        "name": "Maritime Building Entrance",
+        "isDestination": true,
+        "category": "Maritime",
+        "description": "Main entrance to Maritime Building"
+      },
+      "geometry": {
+        "coordinates": [123.95483491429235, 10.326178768097321],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node5",
+        "name": "Maritime Canteen",
+        "isDestination": true,
+        "category": "Facilities",
+        "description": "Campus canteen in the Maritime area"
+      },
+      "geometry": {
+        "coordinates": [123.9543785198224, 10.326188040046048],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node6",
+        "name": "Covered Court",
+        "isDestination": true,
+        "category": "Sports Facilities",
+        "description": "Indoor sports facility"
+      },
+      "geometry": {
+        "coordinates": [123.95473848062397, 10.32659834873732],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node7",
+        "name": "Maritime Building 2",
+        "isDestination": true,
+        "category": "Maritime",
+        "description": "Secondary Maritime Building"
+      },
+      "geometry": {
+        "coordinates": [123.95526138005476, 10.326647129795063],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node8",
+        "name": "Maritime Building 3",
+        "isDestination": true,
+        "category": "Maritime",
+        "description": "Maritime Building 3"
+      },
+      "geometry": {
+        "coordinates": [123.95476016086326, 10.327094254042905],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node9",
+        "name": "Maritime Building 4",
+        "isDestination": true,
+        "category": "Maritime",
+        "description": "Maritime Building 4"
+      },
+      "geometry": {
+        "coordinates": [123.9547177081713, 10.327637504642581],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node10",
+        "name": "Maritime Building 5",
+        "isDestination": true,
+        "category": "Maritime",
+        "description": "Maritime Building 5"
+      },
+      "geometry": {
+        "coordinates": [123.95494428163971, 10.327661253031465],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node11",
+        "name": "CBE Building Entrance",
+        "isDestination": true,
+        "category": "Business",
+        "description": "College of Business and Economics main entrance"
+      },
+      "geometry": {
+        "coordinates": [123.95572866199376, 10.327308097814665],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction1",
+        "name": "Main Road Junction 1",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95299466761664, 10.325214190563102],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction2",
+        "name": "Main Road Junction 2",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95389224870866, 10.325764875358633],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction3",
+        "name": "Walkway 1 Start",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95398223048181, 10.325546342470545],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction4",
+        "name": "Walkway 1 End",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95448272075629, 10.325714441924276],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction5",
+        "name": "Walkway 2 Start",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95411551088023, 10.325808030607675],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction6",
+        "name": "Walkway 2 End",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95437499811368, 10.326428713184214],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction7",
+        "name": "Maritime Junction 1",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95508367109983, 10.32615967263989],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction8",
+        "name": "Maritime Junction 2",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95553589914738, 10.326716934839197],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction9",
+        "name": "CBE Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95590981879491, 10.327194525194699],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction10",
+        "name": "Maritime Building 5 Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95520405556505, 10.328095821700542],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate1",
+        "name": "Gate 1",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 1"
+      },
+      "geometry": {
+        "coordinates": [123.95304157223944, 10.325152910493912],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate2",
+        "name": "Gate 2",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 2"
+      },
+      "geometry": {
+        "coordinates": [123.95329755798218, 10.32539750653676],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate3",
+        "name": "Gate 3",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 3"
+      },
+      "geometry": {
+        "coordinates": [123.95334201616191, 10.325428296287456],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate4",
+        "name": "Gate 4",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 4"
+      },
+      "geometry": {
+        "coordinates": [123.95377384470567, 10.325725398399129],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate5",
+        "name": "Maritime Side Gate",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate ambot basta kilid nis basiced og maritime"
+      },
+      "geometry": {
+        "coordinates": [123.954512489776, 10.325632427937876],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate6",
+        "name": "Central Gate",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate ambot basta sa nsa ni dapit"
+      },
+      "geometry": {
+        "coordinates": [123.955214224776, 10.326516069784304],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate7",
+        "name": "Gate 8",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 8"
+      },
+      "geometry": {
+        "coordinates": [123.95572610133871, 10.327134918727268],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate8",
+        "name": "CBE Gate",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate ambot way pulos sa cbe"
+      },
+      "geometry": {
+        "coordinates": [123.95592146804466, 10.327840652214235],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate9",
+        "name": "M.E. Room Gate",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate ambot basta M.E. Room dapit daw"
+      },
+      "geometry": {
+        "coordinates": [123.95483542771171, 10.32790555231496],
+        "type": "Point"
+      }
+    }
+  ]
+}

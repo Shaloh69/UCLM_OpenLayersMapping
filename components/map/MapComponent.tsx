@@ -12,6 +12,8 @@ import { Vector as VectorLayer } from "ol/layer";
 import { useRouter, useSearchParams } from "next/navigation";
 import { containsCoordinate, Extent } from "ol/extent";
 import Point from "ol/geom/Point";
+import View from "ol/View";
+import Geometry from "ol/geom/Geometry";
 
 import { MapProps } from "./types";
 import { setupLayers } from "./layers";
@@ -45,8 +47,8 @@ import RouteOverlay from "./RouteOverlay";
 const CampusMap: React.FC<MapProps> = ({
   mapUrl = "/UCLM_Map.geojson",
   pointsUrl = "/UCLM_Points.geojson",
-  roadsUrl = "/UCLM_Roads.geojson", // New prop for roads data
-  nodesUrl = "/UCLM_Nodes.geojson", // New prop for nodes data
+  roadsUrl = "/UCLM_Roads.geojson",
+  nodesUrl = "/UCLM_Nodes.geojson",
   backdropColor = "#f7f2e4",
   initialZoom = 15,
   debug = false,
@@ -86,18 +88,28 @@ const CampusMap: React.FC<MapProps> = ({
   const [showQRCodeModal, setShowQRCodeModal] = useState<boolean>(false);
   const [qrCodeUrl, setQRCodeUrl] = useState<string>("");
 
+  // User location permission state
+  const [locationPermissionRequested, setLocationPermissionRequested] =
+    useState<boolean>(false);
+  const [locationTrackingEnabled, setLocationTrackingEnabled] =
+    useState<boolean>(false);
+  const [defaultStartLocation, setDefaultStartLocation] =
+    useState<RoadNode | null>(null);
+
   // Map instance and source references
   const mapInstanceRef = useRef<Map | null>(null);
-  const vectorSourceRef = useRef<any>(null);
-  const pointsSourceRef = useRef<any>(null);
+  const vectorSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
+  const pointsSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
   const drawInteractionRef = useRef<any>(null);
   const modifyInteractionRef = useRef<any>(null);
   const selectInteractionRef = useRef<any>(null);
 
   // Road system references
-  const roadsSourceRef = useRef<VectorSource<Feature> | null>(null);
-  const nodesSourceRef = useRef<VectorSource<Feature> | null>(null);
-  const routeLayerRef = useRef<VectorLayer<VectorSource<Feature>> | null>(null);
+  const roadsSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
+  const nodesSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
+  const routeLayerRef = useRef<VectorLayer<
+    VectorSource<Feature<Geometry>>
+  > | null>(null);
 
   // Store UI in refs to minimize re-renders
   const locationErrorRef = useRef<string | null>(null);
@@ -109,6 +121,125 @@ const CampusMap: React.FC<MapProps> = ({
   const lastValidCenterRef = useRef<number[] | null>(null);
   const expandedExtentRef = useRef<Extent | null>(null);
   const isUpdatingPositionRef = useRef<boolean>(false);
+  const locationWatchIdRef = useRef<number | null>(null);
+  const locationNodeIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Function to request location permission on user action
+  const requestLocationPermission = () => {
+    setLocationPermissionRequested(true);
+
+    // This will now be in response to a user gesture
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        debugLog(debugInfoRef, debug, "Location permission granted", () =>
+          setDebugInfo([...debugInfoRef.current])
+        );
+
+        // Start location tracking now that we have permission
+        const cleanup = initLocationTracking();
+        return () => {
+          if (cleanup) cleanup();
+        };
+      },
+      (error) => {
+        console.error("Location permission denied", error);
+        setLocationError(
+          "Location permission denied. Using default entry point for navigation."
+        );
+        debugLog(
+          debugInfoRef,
+          debug,
+          `Geolocation error: ${error.message}`,
+          () => setDebugInfo([...debugInfoRef.current])
+        );
+      }
+    );
+  };
+
+  // Initialize location tracking after permission is granted
+  const initLocationTracking = () => {
+    if (!mapInstanceRef.current) return undefined;
+
+    setLocationTrackingEnabled(true);
+
+    // Setup location tracking
+    const { watchId, userPositionFeature, accuracyFeature } =
+      setupLocationTracking(
+        mapInstanceRef.current,
+        debugInfoRef,
+        locationErrorRef,
+        isOutsideSchoolRef,
+        schoolBoundaryRef,
+        isUpdatingPositionRef,
+        debug
+      );
+
+    locationWatchIdRef.current = watchId;
+
+    // Update current location node when user position changes
+    const updateCurrentLocationNode = () => {
+      if (
+        !userPositionFeature ||
+        !nodesSourceRef.current ||
+        isUpdatingPositionRef.current
+      )
+        return;
+
+      const geometry = userPositionFeature.getGeometry();
+      if (!geometry) return;
+
+      const coords = geometry.getFirstCoordinate
+        ? geometry.getFirstCoordinate()
+        : geometry instanceof Point
+          ? geometry.getCoordinates()
+          : null;
+      if (!coords) return;
+
+      // Convert to geo coordinates
+      const geoCoords = toLonLat(coords);
+
+      // Find the closest node
+      const closestNode = findClosestNode(
+        geoCoords[0],
+        geoCoords[1],
+        nodesSourceRef.current
+      );
+
+      if (
+        closestNode &&
+        (!currentLocation || closestNode.id !== currentLocation.id)
+      ) {
+        setCurrentLocation(closestNode);
+        debugLog(
+          debugInfoRef,
+          debug,
+          `Current location updated to: ${closestNode.name}`,
+          () => setDebugInfo([...debugInfoRef.current])
+        );
+
+        // If there's an active destination, update the route
+        if (selectedDestination) {
+          displayRoute(closestNode.id, selectedDestination.id);
+        }
+      }
+    };
+
+    // Set up timer to update current location node
+    const locationNodeInterval = setInterval(updateCurrentLocationNode, 3000);
+    locationNodeIntervalRef.current = locationNodeInterval;
+
+    // Return cleanup function
+    return () => {
+      if (locationWatchIdRef.current) {
+        navigator.geolocation.clearWatch(locationWatchIdRef.current);
+        locationWatchIdRef.current = null;
+      }
+      if (locationNodeIntervalRef.current) {
+        clearInterval(locationNodeIntervalRef.current);
+        locationNodeIntervalRef.current = null;
+      }
+    };
+  };
 
   // Update feature property
   const updateFeatureProperty = (property: string, value: any) => {
@@ -133,14 +264,29 @@ const CampusMap: React.FC<MapProps> = ({
     setShowDestinationSelector(false);
 
     if (currentLocation) {
-      // Find and display the route
+      // Find and display the route from current location
       displayRoute(currentLocation.id, destination.id);
+    } else if (defaultStartLocation) {
+      // Use default start location (main gate) when current location is not available
+      displayRoute(defaultStartLocation.id, destination.id);
+
+      debugLog(
+        debugInfoRef,
+        debug,
+        `Using ${defaultStartLocation.name} as starting point`,
+        () => setDebugInfo([...debugInfoRef.current])
+      );
     } else {
       debugLog(
         debugInfoRef,
         debug,
-        "No current location available for routing",
+        "No current location or default entry point available",
         () => setDebugInfo([...debugInfoRef.current])
+      );
+
+      // Show error message to user
+      setLocationError(
+        "No starting point available. Please grant location permission or try again."
       );
     }
   };
@@ -239,13 +385,22 @@ const CampusMap: React.FC<MapProps> = ({
 
   // Generate QR code for the current route
   const handleGenerateQR = async () => {
-    if (!currentLocation || !selectedDestination || !routeInfo) {
+    const startNodeId = currentLocation
+      ? currentLocation.id
+      : defaultStartLocation
+        ? defaultStartLocation.id
+        : null;
+
+    if (!startNodeId || !selectedDestination || !routeInfo) {
+      setLocationError(
+        "Unable to generate QR code. Missing route information."
+      );
       return;
     }
 
     try {
       const routeData: RouteData = {
-        startNodeId: currentLocation.id,
+        startNodeId,
         endNodeId: selectedDestination.id,
         routeInfo: routeInfo,
       };
@@ -370,7 +525,7 @@ const CampusMap: React.FC<MapProps> = ({
         sessionStorage.setItem("pendingRoute", JSON.stringify(routeData));
       }
     }
-  }, [searchParams]);
+  }, [searchParams, debug]);
 
   // MAIN EFFECT - Initialize map once and handle changes to GeoJSON files
   useEffect(() => {
@@ -426,6 +581,9 @@ const CampusMap: React.FC<MapProps> = ({
       const features = nodesSource.getFeatures();
       const loadedDestinations: RoadNode[] = [];
 
+      // Set default start location (main gate)
+      let mainGate: RoadNode | null = null;
+
       features.forEach((feature) => {
         const props = feature.getProperties();
         const geometry = feature.getGeometry();
@@ -443,20 +601,43 @@ const CampusMap: React.FC<MapProps> = ({
 
           const geoCoords = toLonLat(coords);
 
-          loadedDestinations.push({
+          // Create node object
+          const node: RoadNode = {
             id:
               props.id || `node-${Math.random().toString(36).substring(2, 9)}`,
             name: props.name || "Unnamed Location",
-            isDestination: true,
+            isDestination: !!props.isDestination,
             coordinates: geoCoords as [number, number],
             description: props.description,
             category: props.category || "General",
             imageUrl: props.imageUrl,
-          });
+          };
+
+          // Find and set main gate as default starting point
+          if (props.category === "Gates" && props.id === "gate1") {
+            mainGate = node;
+          }
+
+          // Add to destinations if it's a destination
+          if (props.isDestination) {
+            loadedDestinations.push(node);
+          }
         }
       });
 
       setDestinations(loadedDestinations);
+
+      // Set default start location
+      if (mainGate) {
+        setDefaultStartLocation(mainGate);
+        // debugLog(
+        //   debugInfoRef,
+        //   debug,
+        //   `Default starting point set to: ${mainGate.name}`,
+        //   () => setDebugInfo([...debugInfoRef.current])
+        // );
+      }
+
       debugLog(
         debugInfoRef,
         debug,
@@ -473,12 +654,13 @@ const CampusMap: React.FC<MapProps> = ({
           // Find nodes by ID
           const startNode =
             loadedDestinations.find((d) => d.id === routeData.startNodeId) ||
-            null;
+            mainGate;
           const endNode =
             loadedDestinations.find((d) => d.id === routeData.endNodeId) ||
             null;
 
           if (startNode && endNode) {
+            // Use the default start node or the one from the URL
             setCurrentLocation(startNode);
             setSelectedDestination(endNode);
 
@@ -499,69 +681,6 @@ const CampusMap: React.FC<MapProps> = ({
       }
     });
 
-    // Setup location tracking
-    const { watchId, userPositionFeature, accuracyFeature } =
-      setupLocationTracking(
-        map,
-        debugInfoRef,
-        locationErrorRef,
-        isOutsideSchoolRef,
-        schoolBoundaryRef,
-        isUpdatingPositionRef,
-        debug
-      );
-
-    // Update current location node when user position changes
-    const updateCurrentLocationNode = () => {
-      if (
-        !userPositionFeature ||
-        !nodesSourceRef.current ||
-        isUpdatingPositionRef.current
-      )
-        return;
-
-      const geometry = userPositionFeature.getGeometry();
-      if (!geometry) return;
-
-      const coords = geometry.getFirstCoordinate
-        ? geometry.getFirstCoordinate()
-        : geometry instanceof Point
-          ? geometry.getCoordinates()
-          : null;
-      if (!coords) return;
-
-      // Convert to geo coordinates
-      const geoCoords = toLonLat(coords);
-
-      // Find the closest node
-      const closestNode = findClosestNode(
-        geoCoords[0],
-        geoCoords[1],
-        nodesSourceRef.current
-      );
-
-      if (
-        closestNode &&
-        (!currentLocation || closestNode.id !== currentLocation.id)
-      ) {
-        setCurrentLocation(closestNode);
-        debugLog(
-          debugInfoRef,
-          debug,
-          `Current location updated to: ${closestNode.name}`,
-          () => setDebugInfo([...debugInfoRef.current])
-        );
-
-        // If there's an active destination, update the route
-        if (selectedDestination) {
-          displayRoute(closestNode.id, selectedDestination.id);
-        }
-      }
-    };
-
-    // Set up timer to update current location node
-    const locationNodeInterval = setInterval(updateCurrentLocationNode, 3000);
-
     vectorSource.on("featuresloadend", () => {
       try {
         const extent: Extent = vectorSource.getExtent();
@@ -580,7 +699,7 @@ const CampusMap: React.FC<MapProps> = ({
         }
 
         if (debug) {
-          features.forEach((feature: any, index: number) => {
+          features.forEach((feature: Feature, index: number) => {
             try {
               const properties = feature.getProperties();
               debugLog(
@@ -750,7 +869,7 @@ const CampusMap: React.FC<MapProps> = ({
           ...vectorSource.getFeatures(),
           ...pointsSource.getFeatures(),
         ];
-        const feature = features.find((f: any) => f.getId() === featureId);
+        const feature = features.find((f: Feature) => f.getId() === featureId);
         if (feature) {
           feature.set(property, value);
           debugLog(
@@ -776,17 +895,39 @@ const CampusMap: React.FC<MapProps> = ({
       // Clean up timeouts to prevent memory leaks
       if (updatePositionTimeoutRef.current) {
         clearTimeout(updatePositionTimeoutRef.current);
+        updatePositionTimeoutRef.current = null;
       }
 
       clearInterval(uiUpdateInterval);
-      clearInterval(locationNodeInterval);
+
+      // Clear location watch if active
+      if (locationWatchIdRef.current) {
+        navigator.geolocation.clearWatch(locationWatchIdRef.current);
+        locationWatchIdRef.current = null;
+      }
+
+      // Clear location update interval
+      if (locationNodeIntervalRef.current) {
+        clearInterval(locationNodeIntervalRef.current);
+        locationNodeIntervalRef.current = null;
+      }
+
       window.removeEventListener("resize", handleResize);
-      navigator.geolocation.clearWatch(watchId);
+
       // Clean up the global API
       delete (window as any).mapEditor;
       map.setTarget(undefined);
     };
-  }, [mapUrl, pointsUrl, roadsUrl, nodesUrl]); // Only re-run if the GeoJSON files change
+  }, [
+    mapUrl,
+    pointsUrl,
+    roadsUrl,
+    nodesUrl,
+    debug,
+    backdropColor,
+    centerCoordinates,
+    initialZoom,
+  ]); // Only re-run if the GeoJSON files change
 
   return (
     <div className="relative w-full h-screen">
@@ -800,17 +941,33 @@ const CampusMap: React.FC<MapProps> = ({
       />
 
       {/* Outside School Boundary Alert */}
-      {isOutsideSchool && (
-        <div className="absolute top-20 left-0 right-0 mx-auto w-64 bg-red-500 text-white p-3 rounded-lg z-20 text-center shadow-lg">
-          <strong>Warning:</strong> You appear to be outside the campus
-          boundaries.
+      {isOutsideSchool && locationTrackingEnabled && (
+        <div className="absolute top-20 left-0 right-0 mx-auto w-64 bg-yellow-500 text-white p-3 rounded-lg z-20 text-center shadow-lg">
+          <strong>Notice:</strong> You appear to be outside the campus
+          boundaries. Navigation will use the main gate as your starting point.
         </div>
       )}
 
       {/* Location Error Alert */}
       {locationError && (
-        <div className="absolute top-20 left-0 right-0 mx-auto w-64 bg-yellow-500 text-white p-3 rounded-lg z-20 text-center shadow-lg">
+        <div className="absolute top-20 left-0 right-0 mx-auto w-80 bg-red-500 text-white p-3 rounded-lg z-20 text-center shadow-lg">
           {locationError}
+        </div>
+      )}
+
+      {/* Location Permission Request Button */}
+      {!locationPermissionRequested && (
+        <div className="absolute top-20 left-4 z-40 bg-white bg-opacity-90 p-4 rounded-lg shadow-lg">
+          <h3 className="font-bold mb-2">Location Access</h3>
+          <p className="text-sm mb-3">
+            Grant location access to enable real-time navigation on campus.
+          </p>
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
+            onClick={requestLocationPermission}
+          >
+            Enable Location
+          </button>
         </div>
       )}
 
@@ -853,6 +1010,23 @@ const CampusMap: React.FC<MapProps> = ({
         />
       )}
 
+      {/* Navigation Status Bar */}
+      <div className="absolute top-4 right-4 z-30 bg-white bg-opacity-90 p-2 rounded-lg shadow-lg">
+        <div className="text-sm font-medium">
+          {currentLocation ? (
+            <span className="text-green-600">
+              ● Current location: {currentLocation.name}
+            </span>
+          ) : locationPermissionRequested && defaultStartLocation ? (
+            <span className="text-yellow-600">
+              ● Using default: {defaultStartLocation.name}
+            </span>
+          ) : (
+            <span className="text-gray-600">● Location: Not available</span>
+          )}
+        </div>
+      </div>
+
       {/* Navigation Controls */}
       <div className="absolute bottom-4 right-4 z-30">
         <button
@@ -883,14 +1057,22 @@ const CampusMap: React.FC<MapProps> = ({
             destinations={destinations}
             onSelect={handleDestinationSelect}
             onClose={() => setShowDestinationSelector(false)}
+            categories={[
+              "Gates",
+              "Main Buildings",
+              "Maritime",
+              "Business",
+              "Facilities",
+              "Sports Facilities",
+            ]}
           />
         </div>
       )}
 
       {/* Route Overlay */}
-      {showRouteOverlay && (
+      {showRouteOverlay && selectedDestination && (
         <RouteOverlay
-          startNode={currentLocation}
+          startNode={currentLocation || defaultStartLocation}
           endNode={selectedDestination}
           routeInfo={routeInfo}
           onCancel={clearRoute}
@@ -899,10 +1081,10 @@ const CampusMap: React.FC<MapProps> = ({
       )}
 
       {/* QR Code Modal */}
-      {showQRCodeModal && (
+      {showQRCodeModal && selectedDestination && (
         <QRCodeModal
           qrCodeUrl={qrCodeUrl}
-          destination={selectedDestination!}
+          destination={selectedDestination}
           routeInfo={routeInfo}
           onClose={() => setShowQRCodeModal(false)}
         />
