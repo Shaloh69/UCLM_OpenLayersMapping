@@ -1,0 +1,16 @@
+{
+  "name": "uclm-kiosk",
+  "version": "1.0.0",
+  "description": "UCLM Campus Map Kiosk",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-packager . uclm-kiosk --platform=linux --arch=armv7l --out=dist/ --overwrite"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^20.3.12",
+    "electron-packager": "^17.1.2"
+  }
+}

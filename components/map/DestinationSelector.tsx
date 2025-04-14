@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { RoadNode } from "./roadSystem";
 
 interface DestinationSelectorProps {
@@ -14,40 +14,61 @@ interface CategoryGroupProps {
   onSelect: (destination: RoadNode) => void;
 }
 
-const CategoryGroup: React.FC<CategoryGroupProps> = ({
-  category,
-  destinations,
-  onSelect,
-}) => {
-  const [expanded, setExpanded] = useState(true);
+// CategoryGroup component wrapped in React.memo for performance
+const CategoryGroup: React.FC<CategoryGroupProps> = React.memo(
+  ({ category, destinations, onSelect }) => {
+    const [expanded, setExpanded] = useState(true);
 
-  return (
-    <div className="mb-4">
-      <div
-        className="flex items-center justify-between bg-gray-100 p-2 rounded-t cursor-pointer"
-        onClick={() => setExpanded(!expanded)}
-      >
-        <h3 className="font-medium">{category}</h3>
-        <span>{expanded ? "▼" : "►"}</span>
-      </div>
+    // Skip rendering empty categories
+    if (destinations.length === 0) {
+      return null;
+    }
 
-      {expanded && (
-        <div className="pl-2 border-l-2 border-gray-200">
-          {destinations.map((destination) => (
-            <div
-              key={destination.id}
-              className="p-2 hover:bg-gray-50 cursor-pointer flex items-center"
-              onClick={() => onSelect(destination)}
-            >
-              <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-              <span>{destination.name}</span>
-            </div>
-          ))}
+    // Memoize the toggle function
+    const toggleExpanded = useCallback(() => {
+      setExpanded((prev) => !prev);
+    }, []);
+
+    return (
+      <div className="mb-4">
+        <div
+          className="flex items-center justify-between bg-gray-100 p-2 rounded-t cursor-pointer"
+          onClick={toggleExpanded}
+        >
+          <h3 className="font-medium">
+            {category} ({destinations.length})
+          </h3>
+          <span>{expanded ? "▼" : "►"}</span>
         </div>
-      )}
-    </div>
-  );
-};
+
+        {expanded && (
+          <div className="pl-2 border-l-2 border-gray-200">
+            {destinations.map((destination) => (
+              <div
+                key={destination.id}
+                className="p-2 hover:bg-gray-50 cursor-pointer flex items-center"
+                onClick={() => onSelect(destination)}
+              >
+                <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                <span>{destination.name}</span>
+                {destination.description && (
+                  <span className="ml-1 text-xs text-gray-500">
+                    {" "}
+                    - {destination.description.substring(0, 30)}
+                    {destination.description.length > 30 ? "..." : ""}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+
+// Set display name for React DevTools
+CategoryGroup.displayName = "CategoryGroup";
 
 const DestinationSelector: React.FC<DestinationSelectorProps> = ({
   destinations,
@@ -59,33 +80,19 @@ const DestinationSelector: React.FC<DestinationSelectorProps> = ({
   const [filteredDestinations, setFilteredDestinations] =
     useState<RoadNode[]>(destinations);
 
-  // Group destinations by category
-  const destinationsByCategory: Record<string, RoadNode[]> = {};
+  // Memoize the search handler to prevent recreating it on every render
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchQuery(e.target.value);
+    },
+    []
+  );
 
-  // Use provided categories or extract them from destinations
-  const usedCategories =
-    categories.length > 0
-      ? categories
-      : Array.from(new Set(destinations.map((d) => d.category || "Other")));
-
-  // Initialize empty arrays for each category
-  usedCategories.forEach((category) => {
-    destinationsByCategory[category] = [];
-  });
-
-  // Fill with filtered destinations
-  filteredDestinations.forEach((dest) => {
-    const category = dest.category || "Other";
-    if (!destinationsByCategory[category]) {
-      destinationsByCategory[category] = [];
-    }
-    destinationsByCategory[category].push(dest);
-  });
-
-  // Update filtered destinations when search changes
+  // Filter destinations based on search query - memoized
   useEffect(() => {
     if (!searchQuery.trim()) {
       setFilteredDestinations(destinations);
+
       return;
     }
 
@@ -93,11 +100,92 @@ const DestinationSelector: React.FC<DestinationSelectorProps> = ({
     const filtered = destinations.filter(
       (dest) =>
         dest.name.toLowerCase().includes(query) ||
-        (dest.description && dest.description.toLowerCase().includes(query))
+        (dest.description && dest.description.toLowerCase().includes(query)) ||
+        (dest.category && dest.category.toLowerCase().includes(query))
     );
 
     setFilteredDestinations(filtered);
   }, [searchQuery, destinations]);
+
+  // Make sure we have the latest destinations
+  useEffect(() => {
+    setFilteredDestinations(destinations);
+  }, [destinations]);
+
+  // Memoize the used categories
+  const usedCategories = useMemo(() => {
+    return categories.length > 0
+      ? categories
+      : Array.from(new Set(destinations.map((d) => d.category || "Other")));
+  }, [categories, destinations]);
+
+  // Memoize the destinations grouped by category
+  const destinationsByCategory = useMemo(() => {
+    const result: Record<string, RoadNode[]> = {};
+
+    // Initialize empty arrays for each category
+    usedCategories.forEach((category) => {
+      result[category] = [];
+    });
+
+    // Fill with filtered destinations
+    filteredDestinations.forEach((dest) => {
+      const category = dest.category || "Other";
+      if (!result[category]) {
+        result[category] = [];
+      }
+      result[category].push(dest);
+    });
+
+    return result;
+  }, [filteredDestinations, usedCategories]);
+
+  // Memoize the empty state component
+  const EmptyState = useMemo(() => {
+    if (destinations.length === 0) {
+      return (
+        <div className="text-center py-4 bg-yellow-100 rounded-lg">
+          <p className="font-medium text-yellow-800">No destinations loaded</p>
+          <p className="text-sm text-yellow-700 mt-1">
+            Please check your data files or refresh the page.
+          </p>
+        </div>
+      );
+    }
+    return null;
+  }, [destinations.length]);
+
+  // Memoize the no results component
+  const NoResults = useMemo(() => {
+    if (
+      filteredDestinations.length === 0 &&
+      destinations.length > 0 &&
+      searchQuery.trim() !== ""
+    ) {
+      return (
+        <div className="text-center text-gray-500 py-4">
+          No destinations found for "{searchQuery}"
+        </div>
+      );
+    }
+    return null;
+  }, [filteredDestinations.length, destinations.length, searchQuery]);
+
+  // Memoize the category groups
+  const CategoryGroups = useMemo(() => {
+    return Object.entries(destinationsByCategory).map(([category, dests]) => {
+      if (dests.length === 0) return null;
+
+      return (
+        <CategoryGroup
+          key={category}
+          category={category}
+          destinations={dests}
+          onSelect={onSelect}
+        />
+      );
+    });
+  }, [destinationsByCategory, onSelect]);
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 w-80 max-h-[70vh] overflow-y-auto">
@@ -114,32 +202,25 @@ const DestinationSelector: React.FC<DestinationSelectorProps> = ({
           className="w-full px-3 py-2 border rounded-md"
           placeholder="Search destinations..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={handleSearchChange}
         />
       </div>
 
-      <div>
-        {Object.entries(destinationsByCategory).map(([category, dests]) => {
-          if (dests.length === 0) return null;
+      {EmptyState || (
+        <div>
+          {CategoryGroups}
+          {NoResults}
+        </div>
+      )}
 
-          return (
-            <CategoryGroup
-              key={category}
-              category={category}
-              destinations={dests}
-              onSelect={onSelect}
-            />
-          );
-        })}
-
-        {filteredDestinations.length === 0 && (
-          <div className="text-center text-gray-500 py-4">
-            No destinations found
-          </div>
-        )}
+      {/* Debug info */}
+      <div className="mt-3 pt-2 border-t text-xs text-gray-500">
+        <p>Total destinations: {destinations.length}</p>
+        <p>Filtered destinations: {filteredDestinations.length}</p>
       </div>
     </div>
   );
 };
 
-export default DestinationSelector;
+// Export the component wrapped in React.memo for performance optimization
+export default React.memo(DestinationSelector);

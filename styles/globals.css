@@ -1,3 +1,251 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+const mobileStyles {
+  /* Mobile Specific Styles */
+  .mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 40;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .mobile-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  .mobile-back-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background-color: #f3f4f6;
+    color: #374151;
+    border: none;
+    outline: none;
+    transition: background-color 0.2s;
+  }
+
+  .mobile-back-button:active {
+    background-color: #e5e7eb;
+  }
+
+  .mobile-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .mobile-action-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    outline: none;
+    transition: background-color 0.2s;
+  }
+
+  .mobile-action-button:active {
+    background-color: #2563eb;
+  }
+
+  .mobile-route-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+    z-index: 40;
+    transition: transform 0.3s ease-out;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-route-panel.collapsed {
+    max-height: 9rem;
+  }
+
+  .route-panel-handle {
+    width: 3rem;
+    height: 0.25rem;
+    background-color: #d1d5db;
+    border-radius: 9999px;
+    margin: 0.5rem auto;
+  }
+
+  .route-summary {
+    padding: 0.5rem 1rem 1rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .destination-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+  }
+
+  .route-metrics {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .metric {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: #4b5563;
+  }
+
+  .metric-value {
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  .route-directions {
+    padding: 1rem;
+    overflow-y: auto;
+    flex-grow: 1;
+  }
+
+  .directions-header {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  .direction-step {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+
+  .step-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .start-icon {
+    background-color: #dcfce7;
+    color: #16a34a;
+  }
+
+  .end-icon {
+    background-color: #fee2e2;
+    color: #dc2626;
+  }
+
+  .waypoint-icon {
+    background-color: #dbeafe;
+    color: #2563eb;
+  }
+
+  .step-content {
+    flex-grow: 1;
+  }
+
+  .step-instruction {
+    font-weight: 500;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+  }
+
+  .step-detail {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+
+  .vertical-line {
+    width: 1px;
+    background-color: #d1d5db;
+    margin-left: 1rem;
+    margin-right: auto;
+    height: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .locate-button {
+    position: fixed;
+    bottom: 11rem;
+    right: 1rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: white;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 30;
+    border: 1px solid #e5e7eb;
+    color: #4b5563;
+  }
+
+  .toggle-panel-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #6b7280;
+  }
+
+  /* Fix for white text on white background */
+  .text-dark {
+    color: #1f2937 !important;
+  }
+
+  /* For Electron */
+  .config-container h1,
+  .config-container p,
+  .config-container label,
+  .config-container div {
+    color: #1f2937;
+  }
+
+  .config-container input {
+    color: #1f2937;
+    background-color: #f9fafb;
+  }
+}

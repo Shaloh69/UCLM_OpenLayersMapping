@@ -1,3 +1,4 @@
+import { ReadonlyURLSearchParams } from "next/navigation";
 import { MutableRefObject } from "react";
 
 export interface GeolocationPosition {
@@ -11,12 +12,15 @@ export interface GeolocationPosition {
 export interface MapProps {
   mapUrl?: string;
   pointsUrl?: string;
-  roadsUrl?: string; // Added for road network
-  nodesUrl?: string; // Added for road nodes/destinations
+  roadsUrl?: string;
+  nodesUrl?: string;
   initialZoom?: number;
   backdropColor?: string;
   debug?: boolean;
   centerCoordinates?: [number, number];
+  mobileMode?: boolean;
+  kioskId?: string;
+  searchParams?: ReadonlyURLSearchParams;
 }
 
 export interface EditControlsProps {

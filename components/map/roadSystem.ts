@@ -30,96 +30,8 @@ export interface RoadNode {
 }
 
 // Setup road system
-export const setupRoadSystem = (
-  roadsUrl: string,
-  nodesUrl: string,
-  debugInfoRef: MutableRefObject<string[]>,
-  debug: boolean,
-  updateDebugCallback?: () => void
-) => {
-  // Create source for roads
-  const roadsSource = new VectorSource({
-    url: roadsUrl,
-    format: new GeoJSON({
-      dataProjection: "EPSG:4326",
-      featureProjection: "EPSG:3857",
-    }),
-  });
-
-  // Create source for nodes/destinations
-  const nodesSource = new VectorSource({
-    url: nodesUrl,
-    format: new GeoJSON({
-      dataProjection: "EPSG:4326",
-      featureProjection: "EPSG:3857",
-    }),
-  });
-
-  // Create layer for roads with styling
-  const roadsLayer = new VectorLayer({
-    source: roadsSource,
-    style: (feature) => {
-      const properties = feature.getProperties();
-      const roadType = properties.type || "secondary";
-
-      // Different styling based on road type
-      let color = "#555555";
-      let width = 3;
-      let lineDash: number[] = [];
-
-      switch (roadType) {
-        case "main":
-          color = "#333333";
-          width = 5;
-          break;
-        case "secondary":
-          color = "#666666";
-          width = 3;
-          break;
-        case "path":
-          color = "#888888";
-          width = 2;
-          lineDash = [4, 4];
-          break;
-      }
-
-      return new Style({
-        stroke: new Stroke({
-          color: color,
-          width: width,
-          lineDash: lineDash,
-        }),
-      });
-    },
-    zIndex: 5, // Place below points but above polygon areas
-  });
-
-  // Load initial roads data
-  roadsSource.on("featuresloadend", () => {
-    const features = roadsSource.getFeatures();
-    debugLog(
-      debugInfoRef,
-      debug,
-      `Loaded ${features.length} road segments`,
-      updateDebugCallback
-    );
-  });
-
-  // Load initial nodes data
-  nodesSource.on("featuresloadend", () => {
-    const features = nodesSource.getFeatures();
-    debugLog(
-      debugInfoRef,
-      debug,
-      `Loaded ${features.length} road nodes/destinations`,
-      updateDebugCallback
-    );
-  });
-
-  return { roadsLayer, roadsSource, nodesSource };
-};
-
 // Find the closest node to the given coordinates
+
 export const findClosestNode = (
   longitude: number,
   latitude: number,
@@ -216,6 +128,12 @@ export const findShortestPath = (
     }
   });
 
+  nodesSource.on("featuresloadend", () => {
+    console.log("🚩 roadsystem.txt - featuresloadend triggered");
+    const features = nodesSource.getFeatures();
+    console.log("🚩 roadsystem.txt - features count:", features.length);
+  });
+
   // Add edges to the graph
   roadsSource.getFeatures().forEach((feature) => {
     const props = feature.getProperties();
@@ -244,7 +162,22 @@ export const findShortestPath = (
       graph[props.from][props.to] = distance;
       graph[props.to][props.from] = distance;
     }
+
+    console.log("😊😊Graph structure:", JSON.stringify(graph));
+    console.log("Looking for path between:", startNodeId, "and", endNodeId);
+    console.log("Nodes available:", Object.keys(graph));
   });
+
+  // Check if both nodes exist in the graph
+  if (!graph[startNodeId] || !graph[endNodeId]) {
+    debugLog(
+      debugInfoRef,
+      debug,
+      `Cannot find path: Node ${!graph[startNodeId] ? startNodeId : endNodeId} not found in graph`,
+      updateDebugCallback
+    );
+    return [];
+  }
 
   // Dijkstra's algorithm
   const distances: Record<string, number> = {};
@@ -346,4 +279,144 @@ export const findShortestPath = (
   );
 
   return pathFeatures;
+};
+
+export const setupRoadSystem = (
+  roadsUrl: string,
+  nodesUrl: string,
+  debugInfoRef: MutableRefObject<string[]>,
+  debug: boolean,
+  updateDebugCallback?: () => void
+) => {
+  // Create source for roads
+  const roadsSource = new VectorSource({
+    url: roadsUrl,
+    format: new GeoJSON({
+      dataProjection: "EPSG:4326",
+      featureProjection: "EPSG:3857",
+    }),
+  });
+
+  // Create source for nodes/destinations
+  const nodesSource = new VectorSource({
+    url: nodesUrl,
+    format: new GeoJSON({
+      dataProjection: "EPSG:4326",
+      featureProjection: "EPSG:3857",
+    }),
+  });
+
+  // Create layer for roads with styling
+  const roadsLayer = new VectorLayer({
+    source: roadsSource,
+    style: (feature) => {
+      const properties = feature.getProperties();
+      const roadType = properties.type || "secondary";
+
+      // Different styling based on road type
+      let color = "#555555";
+      let width = 3;
+      let lineDash: number[] = [];
+
+      switch (roadType) {
+        case "main":
+          color = "#333333";
+          width = 5;
+          break;
+        case "secondary":
+          color = "#666666";
+          width = 3;
+          break;
+        case "path":
+          color = "#888888";
+          width = 2;
+          lineDash = [4, 4];
+          break;
+      }
+
+      return new Style({
+        stroke: new Stroke({
+          color: color,
+          width: width,
+          lineDash: lineDash,
+        }),
+      });
+    },
+    zIndex: 5, // Place below points but above polygon areas
+  });
+
+  // Load initial roads data
+  roadsSource.on("featuresloadend", () => {
+    const features = roadsSource.getFeatures();
+    debugLog(
+      debugInfoRef,
+      debug,
+      `Loaded ${features.length} road segments`,
+      updateDebugCallback
+    );
+  });
+
+  // Handle potential errors loading roads
+  roadsSource.on("featuresloaderror", (error: any) => {
+    debugLog(
+      debugInfoRef,
+      debug,
+      `Error loading road segments: ${error.message}`,
+      updateDebugCallback
+    );
+  });
+
+  // Load initial nodes data
+  nodesSource.on("featuresloadend", () => {
+    const features = nodesSource.getFeatures();
+
+    // Count destinations for debugging
+    const destinations = features.filter((feature) => {
+      const props = feature.getProperties();
+      return props.isDestination === true;
+    });
+    console.log(
+      `✅ featuresloadend in road system triggered ${features}, total features: ${features.length}`
+    );
+
+    console.log(
+      `✅ featuresloadend in road system triggered, total features: ${destinations}`
+    );
+
+    debugLog(
+      debugInfoRef,
+      debug,
+      `Loaded ${features.length} road nodes (${destinations.length} destinations)`,
+      updateDebugCallback
+    );
+
+    // Check node properties to debug
+    if (debug) {
+      features.forEach((feature, index) => {
+        const props = feature.getProperties();
+        if (props.isDestination) {
+          const geom = feature.getGeometry();
+          const geomType = geom ? geom.getType() : "no geometry";
+          debugLog(
+            debugInfoRef,
+            debug,
+            `Destination #${index + 1}: ID=${props.id}, Name=${props.name}, GeomType=${geomType}`,
+            updateDebugCallback
+          );
+        }
+      });
+    }
+  });
+
+  // Handle potential errors loading nodes
+  nodesSource.on("featuresloaderror", (error: any) => {
+    debugLog(
+      debugInfoRef,
+      debug,
+      `Error loading nodes/destinations: ${error.message}`,
+      updateDebugCallback
+    );
+  });
+
+  return { roadsLayer, roadsSource, nodesSource };
 };
