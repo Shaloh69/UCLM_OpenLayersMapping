@@ -21,12 +21,12 @@ import Point from "ol/geom/Point";
 import View from "ol/View";
 import Geometry from "ol/geom/Geometry";
 
+import { getSafeCoordinates } from "./typeSafeGeometryUtils";
+import { useRouteProcessor } from "./routeProcessor";
+
 import { MapProps } from "./types";
 import { setupLayers } from "./layers";
-import {
-  setupLocationTracking,
-  isCoordinateInsideSchool,
-} from "./locationTracking";
+import { setupLocationTracking } from "./locationTracking";
 import {
   setupEditControls,
   toggleDrawInteraction,
@@ -47,9 +47,11 @@ import {
 } from "./roadSystem";
 import { generateRouteQR, parseRouteFromUrl, RouteData } from "./qrCodeUtils";
 import DestinationSelector from "./DestinationSelector";
-import QRCodeModal from "./QRCodeModal";
+import { useKioskRouteManager } from "./qrCodeUtils";
+import KioskQRModal from "./KioskQRModal";
 import RouteOverlay from "./RouteOverlay";
 import router from "next/router";
+import GeoJSON from "ol/format/GeoJSON";
 
 const CampusMap: React.FC<MapProps> = ({
   mapUrl = "/UCLM_Map.geojson",
@@ -58,9 +60,10 @@ const CampusMap: React.FC<MapProps> = ({
   nodesUrl = "/UCLM_Nodes.geojson",
   backdropColor = "#f7f2e4",
   initialZoom = 15,
-  debug = true,
   centerCoordinates = [123.9545, 10.3265],
+  routeData,
   mobileMode = false,
+  debug = false,
   searchParams,
 }) => {
   const routerSearchParams = useSearchParams();
@@ -97,8 +100,7 @@ const CampusMap: React.FC<MapProps> = ({
   const [routeInfo, setRouteInfo] = useState<
     { distance: number; estimatedTime: number } | undefined
   >(undefined);
-  const [showQRCodeModal, setShowQRCodeModal] = useState<boolean>(false);
-  const [qrCodeUrl, setQRCodeUrl] = useState<string>("");
+  const allFeaturesRef = useRef<Feature[]>([]);
 
   // User location permission state
   const [locationPermissionRequested, setLocationPermissionRequested] =
@@ -108,6 +110,24 @@ const CampusMap: React.FC<MapProps> = ({
   const [defaultStartLocation, setDefaultStartLocation] =
     useState<RoadNode | null>(null);
 
+  const {
+    qrCodeUrl,
+    showQRModal,
+    isGenerating,
+    error,
+    generateRouteQRCode,
+    closeQRModal,
+    resetKiosk,
+  } = useKioskRouteManager({
+    currentLocation,
+    selectedDestination,
+    routeInfo,
+    defaultStartLocation,
+    debugInfoRef,
+    debug: true, // Set to false in production
+    // onReset: clearRoute,
+    updateDebugCallback: () => setDebugInfo([...debugInfoRef.current]),
+  });
   // Map instance and source references
   const mapInstanceRef = useRef<Map | null>(null);
   const vectorSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
@@ -449,44 +469,9 @@ const CampusMap: React.FC<MapProps> = ({
   );
 
   // Generate QR code for the current route
-  const handleGenerateQR = useCallback(async () => {
-    const startNodeId = currentLocation
-      ? currentLocation.id
-      : defaultStartLocation
-        ? defaultStartLocation.id
-        : null;
-
-    if (!startNodeId || !selectedDestination || !routeInfo) {
-      setLocationError(
-        "Unable to generate QR code. Missing route information."
-      );
-      return;
-    }
-
-    try {
-      const routeData: RouteData = {
-        startNodeId,
-        endNodeId: selectedDestination.id,
-        routeInfo: routeInfo,
-      };
-
-      // Add QR code options
-
-      const qrCode = await generateRouteQR(routeData, debugInfoRef, debug);
-
-      setQRCodeUrl(qrCode);
-      setShowQRCodeModal(true);
-    } catch (error) {
-      console.error("Failed to generate QR code:", error);
-    }
-  }, [
-    currentLocation,
-    defaultStartLocation,
-    selectedDestination,
-    routeInfo,
-    debug,
-    logDebug,
-  ]);
+  const handleGenerateQR = useCallback(() => {
+    generateRouteQRCode();
+  }, [generateRouteQRCode]);
 
   // Clear active route
   const clearRoute = useCallback(() => {
@@ -499,6 +484,7 @@ const CampusMap: React.FC<MapProps> = ({
     setSelectedDestination(null);
     setShowRouteOverlay(false);
     setRouteInfo(undefined);
+    resetRouteProcessor();
 
     logDebug("Route cleared");
   }, [logDebug]);
@@ -587,10 +573,6 @@ const CampusMap: React.FC<MapProps> = ({
     setShowDestinationSelector(false);
   }, []);
 
-  const handleCloseQRModal = useCallback(() => {
-    setShowQRCodeModal(false);
-  }, []);
-
   const handleShowDestinationSelector = useCallback(() => {
     logDebug(
       `Show destination selector clicked. Available destinations: ${destinations.length}`
@@ -610,6 +592,19 @@ const CampusMap: React.FC<MapProps> = ({
       () => setDebugInfo([...debugInfoRef.current])
     );
   }, [debug]);
+
+  const { featuresReady, allFeatures, resetRouteProcessor } = useRouteProcessor(
+    nodesUrl,
+    roadsUrl,
+    mapInstanceRef,
+    displayRoute,
+    setCurrentLocation,
+    setSelectedDestination,
+    setRouteInfo,
+    setShowRouteOverlay,
+    routeData, // This can be from props or from URL params
+    logDebug
+  );
 
   const handleExportMap = useCallback(() => {
     exportGeoJSON(
@@ -1530,27 +1525,6 @@ const CampusMap: React.FC<MapProps> = ({
     handleGenerateQR,
   ]);
 
-  // Memoize QR code modal
-  const QRCodeModalComponent = useMemo(() => {
-    if (showQRCodeModal && selectedDestination) {
-      return (
-        <QRCodeModal
-          qrCodeUrl={qrCodeUrl}
-          destination={selectedDestination}
-          routeInfo={routeInfo}
-          onClose={handleCloseQRModal}
-        />
-      );
-    }
-    return null;
-  }, [
-    showQRCodeModal,
-    selectedDestination,
-    qrCodeUrl,
-    routeInfo,
-    handleCloseQRModal,
-  ]);
-
   // Memoize debug panel
   const DebugPanelComponent = useMemo(() => {
     if (debug) {
@@ -1838,13 +1812,37 @@ const CampusMap: React.FC<MapProps> = ({
       {!mobileMode && DestinationSelectorButton}
       {showDestinationSelector && !mobileMode && DestinationSelectorComponent}
       {!mobileMode && DestinationsDebugInfo}
+      {debug && DebugPanelComponent}
 
       {/* Render mobile UI */}
       {mobileMode && renderMobileUI()}
 
       {RouteOverlayComponent}
-      {showQRCodeModal && selectedDestination && QRCodeModalComponent}
-      {debug && DebugPanelComponent}
+      {showQRModal && selectedDestination && (
+        <KioskQRModal
+          qrCodeUrl={qrCodeUrl}
+          destination={selectedDestination}
+          routeInfo={routeInfo}
+          onClose={closeQRModal}
+          autoCloseTime={60} // Seconds before auto-close
+        />
+      )}
+
+      {/* Add loading and error states */}
+      {isGenerating && (
+        <div className="absolute inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p className="text-gray-800 font-medium">Generating QR Code...</p>
+          </div>
+        </div>
+      )}
+
+      {error && (
+        <div className="absolute top-20 left-0 right-0 mx-auto w-80 bg-red-500 text-white p-3 rounded-lg z-30 text-center shadow-lg">
+          {error}
+        </div>
+      )}
     </div>
   );
 };

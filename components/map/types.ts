@@ -18,6 +18,7 @@ export interface MapProps {
   backdropColor?: string;
   debug?: boolean;
   centerCoordinates?: [number, number];
+  routeData?: any;
   mobileMode?: boolean;
   kioskId?: string;
   searchParams?: ReadonlyURLSearchParams;

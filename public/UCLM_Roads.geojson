@@ -4,485 +4,1797 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "main",
-        "name": "Main Road 1",
-        "stroke": "#555555",
-        "stroke-width": 3,
-        "stroke-opacity": 1,
-        "fill": "#ffffff",
-        "fill-opacity": 1,
-        "from": "junction1",
-        "to": "junction2"
+        "id": "stairs_placeholder",
+        "name": "Additional Stairway",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Additional stairway in campus building"
       },
       "geometry": {
-        "coordinates": [
-          [
-            [123.9527729037855, 10.325379551237248],
-            [123.95282660132119, 10.325383016435694],
-            [123.95300266911664, 10.325394190563102],
-            [123.95304031181587, 10.32539039391547],
-            [123.95319212627237, 10.32537943933562],
-            [123.95389224870866, 10.325864875358633],
-            [123.95400306349353, 10.32625775548955],
-            [123.95401197494755, 10.326288514468004],
-            [123.95400690537303, 10.326299944489293],
-            [123.95399503818135, 10.326306712033826],
-            [123.95398130981448, 10.32630584258311],
-            [123.9539700219438, 10.326296112621492],
-            [123.95385230324541, 10.325891186365567],
-            [123.95317123831336, 10.325416095556278],
-            [123.95304791806387, 10.325431886335693],
-            [123.9529456221299, 10.32542969869651],
-            [123.95275003976349, 10.325418935926507],
-            [123.95271668624389, 10.325486916600283],
-            [123.95265644484994, 10.325458496590713],
-            [123.95308387152608, 10.324638273970066],
-            [123.95315090185784, 10.324670789746364],
-            [123.9527729037855, 10.325379551237248]
-          ]
-        ],
-        "type": "Polygon"
-      },
-      "id": "road1"
+        "coordinates": [123.95308200838059, 10.325296681233695],
+        "type": "Point"
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "type": "main",
-        "name": "Main Road 2",
+        "id": "node4",
+        "name": "Maritime Building Entrance",
+        "isDestination": true,
+        "category": "Maritime",
+        "description": "Main entrance to Maritime Building"
+      },
+      "geometry": {
+        "coordinates": [123.95483491429235, 10.326178768097321],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node6",
+        "name": "Covered Court",
+        "isDestination": true,
+        "category": "Sports Facilities",
+        "description": "Indoor sports facility"
+      },
+      "geometry": {
+        "coordinates": [123.95473848062397, 10.32659834873732],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction6",
+        "name": "Walkway 2 End",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95437499811368, 10.326428713184214],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate1",
+        "name": "Gate 1",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 1"
+      },
+      "geometry": {
+        "coordinates": [123.95304157223944, 10.325152910493912],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate2",
+        "name": "Gate 2",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 2"
+      },
+      "geometry": {
+        "coordinates": [123.95329755798218, 10.32539750653676],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate3",
+        "name": "Gate 3",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 3"
+      },
+      "geometry": {
+        "coordinates": [123.95334201616191, 10.325428296287456],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate4",
+        "name": "Gate 4",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 4"
+      },
+      "geometry": {
+        "coordinates": [123.95377384470567, 10.325725398399129],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate5",
+        "name": "Maritime Side Gate",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate beside Maritime building"
+      },
+      "geometry": {
+        "coordinates": [123.954512489776, 10.325632427937876],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate6",
+        "name": "Central Gate",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Main central gate"
+      },
+      "geometry": {
+        "coordinates": [123.955214224776, 10.326516069784304],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate7",
+        "name": "Gate 8",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 8"
+      },
+      "geometry": {
+        "coordinates": [123.95572610133871, 10.327134918727268],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate8",
+        "name": "CBE Gate",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "College of Business and Economics Gate"
+      },
+      "geometry": {
+        "coordinates": [123.95592146804466, 10.327840652214235],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate9",
+        "name": "M.E. Room Gate",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Mechanical Engineering Room Gate"
+      },
+      "geometry": {
+        "coordinates": [123.95483542771171, 10.32790555231496],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_entrance",
+        "name": "Main Entrance Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.9533418365134, 10.325335935976696],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_center",
+        "name": "Center Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95339291928877, 10.325371348838672],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs1",
+        "name": "Main Building Stairs 1",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Stairs to computer lab and 2nd floor annex building"
+      },
+      "geometry": {
+        "coordinates": [123.95323029404011, 10.325344179411417],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs2",
+        "name": "Old Building-Annex Connection",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Stairs connecting annex to old building"
+      },
+      "geometry": {
+        "coordinates": [123.95322041529738, 10.325300668155691],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs3",
+        "name": "Annex Second Floor Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Stairs to second floor of annex building"
+      },
+      "geometry": {
+        "coordinates": [123.95336647264014, 10.325013027399052],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs4",
+        "name": "SHS Building Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Senior High School building stairs"
+      },
+      "geometry": {
+        "coordinates": [123.95351431758365, 10.325505208066147],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs5",
+        "name": "SHS Building Second Floor Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Stairs to SHS Building Second Floor"
+      },
+      "geometry": {
+        "coordinates": [123.95395300302488, 10.325826323963426],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs6",
+        "name": "Annex Parent Waiting Area Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Stairs near the parents waiting area"
+      },
+      "geometry": {
+        "coordinates": [123.95363352564846, 10.325176538853029],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs7",
+        "name": "BasicEd Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Basic Education building stairs"
+      },
+      "geometry": {
+        "coordinates": [123.95386634015199, 10.324887663865937],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs8",
+        "name": "BasicEd Second Floor Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Stairs to Basic Education Second Floor"
+      },
+      "geometry": {
+        "coordinates": [123.95404979173202, 10.325570945993292],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs9",
+        "name": "New Building Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "New building main stairs"
+      },
+      "geometry": {
+        "coordinates": [123.95452930313843, 10.325740502370024],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs10",
+        "name": "Library Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Stairs near the library"
+      },
+      "geometry": {
+        "coordinates": [123.95474234346034, 10.326190529173346],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs11",
+        "name": "Canteen Area Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "Stairs near the canteen"
+      },
+      "geometry": {
+        "coordinates": [123.95443925711163, 10.326432717334967],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs12",
+        "name": "NSA Building Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "NSA building main stairs"
+      },
+      "geometry": {
+        "coordinates": [123.95516446345323, 10.326654925631644],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs13",
+        "name": "NSA Only Stairs",
+        "isDestination": true,
+        "category": "Stairs",
+        "description": "NSA building secondary stairs"
+      },
+      "geometry": {
+        "coordinates": [123.95491285786744, 10.326835605565691],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_oldbuilding",
+        "name": "Old Building Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95351915919252, 10.325407434058008],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_basicEd",
+        "name": "Basic Education Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95401033743639, 10.325527243550553],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_path1",
+        "name": "Path Junction 1",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95446547163635, 10.325667118474712],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_path2",
+        "name": "Path Junction 2",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95446148812255, 10.325782720942286],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_path3",
+        "name": "Path Junction 3",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.9544260859762, 10.32574291069389],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_library",
+        "name": "Library Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95478971979423, 10.326162916441731],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_maritime",
+        "name": "Maritime Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.9548157845893, 10.32620644636917],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_canteen",
+        "name": "Canteen Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95447019639386, 10.326401830606983],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_canteen2",
+        "name": "Canteen Junction 2",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95432096810146, 10.326320145339537],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_walkway",
+        "name": "Walkway Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95430973877666, 10.32571671345761],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_backpath",
+        "name": "Back Path Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95399574030495, 10.325745804073009],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_entrance2",
+        "name": "Secondary Entrance Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95314568896384, 10.325231076728883],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_old_connect",
+        "name": "Old Building Connection",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95321177258847, 10.325264765530548],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_nsa1",
+        "name": "NSA Junction 1",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95521638723477, 10.326669925259992],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_nsa2",
+        "name": "NSA Junction 2",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95518683763316, 10.32663776141382],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_cbe",
+        "name": "CBE Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95552811674366, 10.327126817803375],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_cbe2",
+        "name": "CBE Junction 2",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95592854517463, 10.327581953885016],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_cbe3",
+        "name": "CBE Junction 3",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95563308342037, 10.327251119739586],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_sh_back",
+        "name": "SH Back Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95383739061504, 10.325640589217059],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_court",
+        "name": "Court Junction",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95513960389968, 10.326582186505092],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction_canteen3",
+        "name": "Canteen Junction 3",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [123.95437474286052, 10.32619670393025],
+        "type": "Point"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Entrance Path 1",
         "stroke": "#555555",
-        "stroke-width": 3,
+        "stroke-width": 2,
         "stroke-opacity": 1,
-        "fill": "#ffffff",
-        "fill-opacity": 1,
-        "from": "junction2",
-        "to": "junction10"
+        "from": "gate3",
+        "to": "junction_entrance"
       },
       "geometry": {
         "coordinates": [
-          [
-            [123.95620690847102, 10.327577161625015],
-            [123.95590981879491, 10.327194525194699],
-            [123.95553589914738, 10.326716934839197],
-            [123.95508367109983, 10.32615967263989],
-            [123.95474735704573, 10.325759649970578],
-            [123.95440453499305, 10.325369242944078],
-            [123.95417343149211, 10.325113411813476],
-            [123.95394286447208, 10.324860028997534],
-            [123.95388602754753, 10.324801234647822],
-            [123.95383249410992, 10.32476772837731],
-            [123.95364032074434, 10.324717024180444],
-            [123.95355153090327, 10.324677648863869],
-            [123.95358982737281, 10.324675557098232],
-            [123.95356264514129, 10.324667846494023],
-            [123.95359320053217, 10.324663691062256],
-            [123.9535716988371, 10.324654580717024],
-            [123.95359295369741, 10.324656688170165],
-            [123.95358541921087, 10.324646736739723],
-            [123.95362437143518, 10.32466405796248],
-            [123.95364829493082, 10.324676366980484],
-            [123.95376228936857, 10.324702528911331],
-            [123.95384528109474, 10.324724601796447],
-            [123.95396339774175, 10.324814581344029],
-            [123.9540148658366, 10.324780180832718],
-            [123.95400850302781, 10.324797000684171],
-            [123.95401655028417, 10.32478834062266],
-            [123.95401579809686, 10.324797733393822],
-            [123.95402211639703, 10.324794208504343],
-            [123.95401352354696, 10.324804373576967],
-            [123.95403181843034, 10.324802571539948],
-            [123.95398307134138, 10.324836631009404],
-            [123.95418274197311, 10.325059061922644],
-            [123.9546715979036, 10.325605159584285],
-            [123.95467181428711, 10.325576328242079],
-            [123.95466118469085, 10.325546990040621],
-            [123.95467510542784, 10.325559947657396],
-            [123.95467745715308, 10.32555565110637],
-            [123.95468216763425, 10.325562859650546],
-            [123.95468703528473, 10.32555892501945],
-            [123.95469354567444, 10.325565549772548],
-            [123.95469627021032, 10.325557304026702],
-            [123.95470517390237, 10.325565115759858],
-            [123.95470774410643, 10.325549263513892],
-            [123.9547160822533, 10.325569751219263],
-            [123.9547140673227, 10.325652467296692],
-            [123.95547219223704, 10.326569632720236],
-            [123.95552787803109, 10.326542650462784],
-            [123.95551656550089, 10.326555548421737],
-            [123.95553215831222, 10.326554490263561],
-            [123.95552161438604, 10.326562216866847],
-            [123.95553906684336, 10.326566708139339],
-            [123.9554877077253, 10.326591671832574],
-            [123.95623977711028, 10.327547830995016],
-            [123.95630972973453, 10.327481135661657],
-            [123.95630775472108, 10.327499832991194],
-            [123.9563176786703, 10.327492560730207],
-            [123.95631550126586, 10.327504506356107],
-            [123.95632856430962, 10.327500453781568],
-            [123.95626085552237, 10.327573146309035],
-            [123.95588828354289, 10.328075196093877],
-            [123.95578745469146, 10.328147586835328],
-            [123.95554646356976, 10.328272416996498],
-            [123.95520405556505, 10.328495821700542],
-            [123.95525924875574, 10.32857061742007],
-            [123.95523691257023, 10.328562947281426],
-            [123.95524653342147, 10.328581349174627],
-            [123.95522533850817, 10.328577084718802],
-            [123.95522805478498, 10.328592062255623],
-            [123.95516824905201, 10.328517818593582],
-            [123.95491642876391, 10.328665764399432],
-            [123.95492608835912, 10.32864791186796],
-            [123.95491260318346, 10.328649274768097],
-            [123.95491737702054, 10.328638760879954],
-            [123.95490704253524, 10.328638566641104],
-            [123.95491058280243, 10.328630460058918],
-            [123.95489939353911, 10.328627421937753],
-            [123.9549725318879, 10.328583656164199],
-            [123.95482201534605, 10.32793617363636],
-            [123.95481425456893, 10.32790432884272],
-            [123.9548156080113, 10.327891720033492],
-            [123.95482321463652, 10.327882571447176],
-            [123.95483721149992, 10.327879463499968],
-            [123.95485248983101, 10.32788524627378],
-            [123.95485711546581, 10.327896154475184],
-            [123.95501104377655, 10.328559181531475],
-            [123.95515108890277, 10.328477458120076],
-            [123.9554820980353, 10.32826081011001],
-            [123.95536914981471, 10.328054046659915],
-            [123.9553001593464, 10.32785975196117],
-            [123.95518345192397, 10.3275574165244],
-            [123.9550891197336, 10.327404032358487],
-            [123.95502818218671, 10.327244346935686],
-            [123.95502389309019, 10.327234088293082],
-            [123.95502113136399, 10.327225846959365],
-            [123.95502361375839, 10.327220321010188],
-            [123.95502809912108, 10.327213612428324],
-            [123.95503434582645, 10.327208464560115],
-            [123.95504332583528, 10.327206161147188],
-            [123.95505113598665, 10.327206140717209],
-            [123.95505744719077, 10.32720949985594],
-            [123.95506333223466, 10.32721305146488],
-            [123.95513302705689, 10.327382354557926],
-            [123.95522470797232, 10.327542892011891],
-            [123.95529378840274, 10.327709368590376],
-            [123.95541426415406, 10.328032333427174],
-            [123.95545034502231, 10.328106286451941],
-            [123.95552380112724, 10.328237711253479],
-            [123.95585976827806, 10.328050282098673],
-            [123.95592077876216, 10.327951704311431],
-            [123.95602066744851, 10.32782341325158],
-            [123.95620690847102, 10.327577161625015]
-          ]
+          [123.95334201616191, 10.325428296287456],
+          [123.95339331766212, 10.325371531576081],
+          [123.9533418365134, 10.325335935976696]
         ],
-        "type": "Polygon"
-      },
-      "id": "road2"
+        "type": "LineString"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "Walkway 1",
+        "name": "Stairs Connection",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "fill": "#c2d1ff",
-        "fill-opacity": 0.5,
-        "from": "junction3",
-        "to": "junction4"
+        "from": "junction_entrance",
+        "to": "stairs1"
       },
       "geometry": {
         "coordinates": [
-          [
-            [123.95398223048181, 10.325546342470545],
-            [123.95404950014677, 10.325618046358784],
-            [123.95423314653476, 10.325563549226501],
-            [123.9542703619029, 10.325499817865435],
-            [123.95448272075629, 10.325714441924276],
-            [123.95443170123093, 10.3257616082565],
-            [123.95439677586137, 10.325779625578008],
-            [123.95438221737595, 10.325764295676123],
-            [123.95444378670385, 10.325716641688516],
-            [123.95427509790312, 10.325556409128652],
-            [123.9542519669456, 10.325591484426312],
-            [123.95404294822265, 10.325651155084714],
-            [123.95396010707879, 10.325576970385995],
-            [123.95398223048181, 10.325546342470545]
-          ]
+          [123.95334143755781, 10.325335731020317],
+          [123.95327101593682, 10.325361019975574],
+          [123.95323004822609, 10.325343897245602]
         ],
-        "type": "Polygon"
-      },
-      "id": "walkway1"
+        "type": "LineString"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "Walkway 2",
+        "name": "Stairs Connection 2",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "fill": "#e0e7f2",
-        "fill-opacity": 1,
-        "from": "junction5",
-        "to": "junction6"
+        "from": "stairs2",
+        "to": "junction_entrance"
       },
       "geometry": {
         "coordinates": [
-          [
-            [123.95411551088023, 10.325808030607675],
-            [123.95413475971071, 10.325780107790365],
-            [123.9542777607735, 10.325824509998],
-            [123.95442119903856, 10.325772411193185],
-            [123.95444305668053, 10.325792952917766],
-            [123.95431332036259, 10.325851685131525],
-            [123.9542945010088, 10.326119576529337],
-            [123.95432563030312, 10.326287170371828],
-            [123.9544991911012, 10.326249943292439],
-            [123.95453279079209, 10.326383996792359],
-            [123.95450408113152, 10.326405607207079],
-            [123.95447733178793, 10.326302151706201],
-            [123.95434031021728, 10.32632675531157],
-            [123.95437499811368, 10.326428713184214],
-            [123.95441338469834, 10.326474289814456],
-            [123.95438826369423, 10.326495472361017],
-            [123.95434672356896, 10.326444760365348],
-            [123.9543075772051, 10.326336169301868],
-            [123.95429713840991, 10.326296905414026],
-            [123.95426680208311, 10.326121127606143],
-            [123.95428108867213, 10.325855452865909],
-            [123.9541459173845, 10.325810943850954],
-            [123.95414319833259, 10.325827526559266],
-            [123.95411551088023, 10.325808030607675]
-          ]
+          [123.95322007273182, 10.32530085847037],
+          [123.95334162338702, 10.32533595326207]
         ],
-        "type": "Polygon"
-      },
-      "id": "walkway2"
+        "type": "LineString"
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "type": "secondary",
-        "name": "Basketball Court Outline",
+        "type": "path",
+        "name": "Center Path 1",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "from": "node4",
+        "from": "junction_center",
+        "to": "junction_oldbuilding"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95339309757878, 10.325372156495362],
+          [123.95352056219747, 10.325407151923855]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Center Path 2",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_oldbuilding",
+        "to": "stairs6"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95352014514862, 10.325407434058008],
+          [123.95363353007116, 10.325172022531333]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "BasicEd Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "stairs6",
+        "to": "junction_basicEd"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95363353007116, 10.32517645052279],
+          [123.95367853884466, 10.325160214551502],
+          [123.95401010347746, 10.32552773767965]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Path Junction",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_basicEd",
+        "to": "junction_path1"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95400834138042, 10.32552920728277],
+          [123.95398838080592, 10.325570445647159],
+          [123.95405824281465, 10.325646049302435],
+          [123.95429571164709, 10.325484474434148],
+          [123.9544653765243, 10.325667101462642],
+          [123.95451228387373, 10.325634699901158]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Path Junction 2",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_path1",
+        "to": "junction_path2"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95446347990173, 10.325667118474712],
+          [123.95448406109904, 10.325695197632584],
+          [123.95442630081789, 10.325742878239836],
+          [123.95446148812255, 10.325782067783166]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "New Building Stairs",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_path2",
+        "to": "stairs9"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95446148812255, 10.325784680419773],
+          [123.95452987099719, 10.325740265602832]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Path to Junction 3",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_path1",
+        "to": "junction_path3"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95446357990173, 10.325667118474712],
+          [123.9544260859762, 10.32574291069389]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Library Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_path2",
+        "to": "junction_library"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95446096258735, 10.325786497734569],
+          [123.95478971979423, 10.326162916441731]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Library Stairs Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_library",
+        "to": "stairs10"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95479015780302, 10.3261631923681],
+          [123.95474171000183, 10.326190964570543]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Maritime Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_library",
+        "to": "junction_maritime"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95478997767947, 10.326164499455231],
+          [123.95481690662916, 10.326205342503854]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Canteen Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_maritime",
+        "to": "junction_canteen"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.9548146625495, 10.326204238637558],
+          [123.95450161350288, 10.326433842701704],
+          [123.95447244047347, 10.326401830606983]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Canteen Stairs",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_canteen",
+        "to": "stairs11"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.954469074354, 10.32640293447264],
+          [123.95443877928477, 10.326431634971684]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Canteen Connection",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_canteen",
+        "to": "junction_canteen2"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95446795231413, 10.326401830606983],
+          [123.95445897599751, 10.326288132449207],
+          [123.95431984308954, 10.326320144556519]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Covered Court Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_canteen2",
         "to": "node6"
       },
       "geometry": {
         "coordinates": [
-          [123.95487791926166, 10.326329990526034],
-          [123.9550653615268, 10.326577196920965],
-          [123.95494202338534, 10.32666402603759],
-          [123.95476378096436, 10.326419365475715],
-          [123.9548796441988, 10.326331970446489]
+          [123.95431912865138, 10.326318928398123],
+          [123.95439582059589, 10.326531088210373],
+          [123.95446548763704, 10.326608997160136],
+          [123.95473848062397, 10.32659834873732]
         ],
         "type": "LineString"
-      },
-      "id": "Basketball_Outline"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "Gate 1 Path",
+        "name": "Canteen to Walkway",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "from": "gate1",
-        "to": "junction1"
+        "from": "junction_canteen2",
+        "to": "junction_walkway"
       },
       "geometry": {
         "coordinates": [
-          [123.95304038545385, 10.325154232012366],
-          [123.95311267613033, 10.32518600904686],
-          [123.95317189296111, 10.32517768649079],
-          [123.95329878617031, 10.325243510340016],
-          [123.9533587720511, 10.325287392897991],
-          [123.95335646490275, 10.32537213161477],
-          [123.95333262435958, 10.325357756298189],
-          [123.95329801712046, 10.325397099267619]
+          [123.95431688337766, 10.326319531281754],
+          [123.9542859058842, 10.326241956649497],
+          [123.95428027361282, 10.326164381998097],
+          [123.95428027361282, 10.326102045210234],
+          [123.95430973877666, 10.325715328193496]
         ],
         "type": "LineString"
-      },
-      "id": "path1"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "Gate 2-3 Connection",
+        "name": "Walkway to Path 3",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "from": "gate2",
-        "to": "gate3"
+        "from": "junction_walkway",
+        "to": "junction_path3"
       },
       "geometry": {
         "coordinates": [
-          [123.95335480994248, 10.325372674946607],
-          [123.95337767904539, 10.325384789660845],
-          [123.95334249580918, 10.325426325819933]
+          [123.95430973877666, 10.325715328193496],
+          [123.95442801647908, 10.325743033467461]
         ],
         "type": "LineString"
-      },
-      "id": "path2"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "Building Access Path",
+        "name": "Walkway to Back Path",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "from": "node1",
-        "to": "junction2"
+        "from": "junction_walkway",
+        "to": "junction_backpath"
       },
       "geometry": {
         "coordinates": [
-          [123.95337591988317, 10.325386520334675],
-          [123.95351137533822, 10.32540382706786],
-          [123.95411652698385, 10.325833033754193],
-          [123.95413060027937, 10.325819188386589]
+          [123.95430833137448, 10.325715328271173],
+          [123.95416330038194, 10.325754115653965],
+          [123.95409712119181, 10.32582337882765],
+          [123.95399714837185, 10.325745804073009]
         ],
         "type": "LineString"
-      },
-      "id": "path3"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "CBE Access Path",
+        "name": "Back Path to SH Stairs",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "from": "junction4",
+        "from": "junction_backpath",
+        "to": "stairs5"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95399714837185, 10.325744418809037],
+          [123.95395256892948, 10.325825432970362]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Entrance to Gate 2",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_entrance",
+        "to": "gate2"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95334202932406, 10.325336502330018],
+          [123.95329708825858, 10.325396565774597]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Entrance to Old Connection",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_entrance",
+        "to": "junction_old_connect"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95334093603384, 10.325336871373366],
+          [123.95321177258847, 10.32526417449887]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Old Connection to Entrance 2",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_old_connect",
+        "to": "junction_entrance2"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95321321877248, 10.325260953575608],
+          [123.95314599079518, 10.325229687725923]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Entrance 2 to Gate 1",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_entrance2",
+        "to": "gate1"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95314476846812, 10.325230890258908],
+          [123.9530433153385, 10.325153928153554]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Old Connection to Stairs 3",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_old_connect",
+        "to": "stairs3"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95321117182812, 10.32526358346719],
+          [123.95333192463085, 10.325031899007058],
+          [123.95336616796385, 10.325012985982767]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "NSA Stairs Connection",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "stairs12",
+        "to": "junction_nsa2"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95516357762222, 10.326654923843876],
+          [123.95518538388347, 10.32663776141382]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "NSA Junction Connection",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_nsa2",
+        "to": "junction_nsa1"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95518753784154, 10.326637227817287],
+          [123.95521537038621, 10.326670084062783]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "NSA to NSA Stairs",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_nsa1",
+        "to": "stairs13"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95491140224783, 10.326834169244734],
+          [123.95521527966224, 10.326671102861582]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "NSA to Maritime Buildings",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "stairs13",
+        "to": "gate9"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95491320087473, 10.326837173099563],
+          [123.95485119516792, 10.326744799708422],
+          [123.9547626155861, 10.326788372065948],
+          [123.95475021444645, 10.326929546464015],
+          [123.95452699390216, 10.327056777657148],
+          [123.95469729687704, 10.327371176269821],
+          [123.95477701849899, 10.327364204705205],
+          [123.95490457309654, 10.327866156914354],
+          [123.95481953669866, 10.327867899802953],
+          [123.9548337094314, 10.327909729117323]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "NSA to CBE Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_nsa1",
+        "to": "junction_cbe"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95521387496257, 10.326670050974727],
+          [123.95553200439917, 10.327124905465993]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "CBE to CBE Junction",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_cbe",
+        "to": "junction_cbe3"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95553006057145, 10.327124905465993],
+          [123.95562919576486, 10.327253032077081]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "CBE to Gate 7",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_cbe3",
+        "to": "gate7"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95563502724815, 10.327253032077081],
+          [123.9557263871323, 10.327134467154593]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "SH Back Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_oldbuilding",
+        "to": "junction_sh_back"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95351906088058, 10.325408418203438],
+          [123.9538363418805, 10.32563892360018]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "SH to Gate 4",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_sh_back",
+        "to": "gate4"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.9538363418805, 10.325639609628027],
+          [123.95377497764309, 10.325722618970445]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "SH Back to Back Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_backpath",
+        "to": "junction_sh_back"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95399463365555, 10.325746630158122],
+          [123.95383564449509, 10.325638923825068]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "CBE to CBE Gate",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_cbe3",
+        "to": "junction_cbe2"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95563394692442, 10.327252351617332],
+          [123.95592514969411, 10.327583900917645]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "CBE Gate Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_cbe2",
         "to": "gate8"
       },
       "geometry": {
         "coordinates": [
-          [123.95443583307963, 10.325772119016264],
-          [123.95534005531164, 10.326818351128168],
-          [123.95599824531041, 10.327681228475456],
-          [123.95590676889901, 10.327755646880362],
-          [123.9559173238701, 10.327836987906394]
+          [123.95592782128301, 10.327584649279004],
+          [123.9559863376893, 10.327654288431788],
+          [123.95592215840554, 10.327840921284718]
         ],
         "type": "LineString"
-      },
-      "id": "path4"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "Gate 4 Connection",
+        "name": "BasicEd Stairs Path",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "from": "gate4",
-        "to": "node3"
+        "from": "stairs6",
+        "to": "stairs7"
       },
       "geometry": {
         "coordinates": [
-          [123.95377527881101, 10.325723250880387],
-          [123.9538433311123, 10.325641142169161]
+          [123.95362949739092, 10.325175708333717],
+          [123.95367923603413, 10.325161543460979],
+          [123.95386510148552, 10.324887259901985]
         ],
         "type": "LineString"
-      },
-      "id": "path5"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "Gate 5 Connection",
+        "name": "BasicEd Stairs Connection",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "from": "gate5",
-        "to": "junction3"
+        "from": "stairs8",
+        "to": "junction_basicEd"
       },
       "geometry": {
         "coordinates": [
-          [123.954511622589, 10.325632292368454],
-          [123.95445109161494, 10.325683977852307]
+          [123.95404897944161, 10.325571574490269],
+          [123.95400982392488, 10.325526970760933]
         ],
         "type": "LineString"
-      },
-      "id": "path6"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "Walkway Connection",
+        "name": "Central Gate to Court",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "from": "junction4",
-        "to": "junction4"
+        "from": "gate6",
+        "to": "junction_court"
       },
       "geometry": {
         "coordinates": [
-          [123.95443570219857, 10.325772240423191],
-          [123.95442464999763, 10.325780905008571]
+          [123.95521389011282, 10.326517205615303],
+          [123.95514224712815, 10.32658114995823]
         ],
         "type": "LineString"
-      },
-      "id": "path7"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "Maritime Building Access",
+        "name": "Court to NSA",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "from": "node6",
+        "from": "junction_court",
+        "to": "junction_nsa2"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95513864852973, 10.32658030671621],
+          [123.9551873723882, 10.326635760497297]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Maritime to Court",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_maritime",
+        "to": "junction_court"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95481477817464, 10.326207168305288],
+          [123.95487878794938, 10.326259802465515],
+          [123.95513864852973, 10.326585006189745]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "SHS Stairs Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_oldbuilding",
+        "to": "stairs4"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95351854214186, 10.325406483115486],
+          [123.9535406660064, 10.325468317148705],
+          [123.9535140168071, 10.325504922891454]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Canteen Connection",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_canteen2",
+        "to": "junction_canteen3"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95431940043437, 10.326322644270292],
+          [123.9543109026373, 10.32620894612441],
+          [123.95437718545281, 10.32619556986954]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Court to Covered Court",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_court",
+        "to": "node6"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95513901745932, 10.326582429310577],
+          [123.95505308173114, 10.32662570765055],
+          [123.95485154198491, 10.326575383999199],
+          [123.95473593796868, 10.3265995393526]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "main",
+        "name": "Entrance Junction to Center",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_entrance",
+        "to": "junction_center"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.9533418365134, 10.32542828112328],
+          [123.95339331766212, 10.325371531576081]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Maritime Building Entrance Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_maritime",
         "to": "node4"
       },
       "geometry": {
         "coordinates": [
-          [123.95451797504961, 10.326394678808711],
-          [123.95453001798529, 10.326409488646618],
-          [123.95481101980045, 10.32621399873537]
+          [123.9548157845893, 10.32620644636917],
+          [123.95483491429235, 10.326178768097321]
         ],
         "type": "LineString"
-      },
-      "id": "path8"
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "Maritime Complex Loop",
+        "name": "Maritime Side Gate Connection",
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "from": "node10",
-        "to": "node7"
+        "from": "gate5",
+        "to": "junction_maritime"
       },
       "geometry": {
         "coordinates": [
-          [123.95481654791962, 10.327896283881827],
-          [123.95481155965183, 10.327849663118002],
-          [123.95486643061201, 10.32782757959555],
-          [123.95472426494246, 10.327358917811836],
-          [123.95463697023314, 10.327150350825193],
-          [123.9545621461969, 10.327157712015705],
-          [123.95451725177469, 10.327020303105442],
-          [123.95473174734536, 10.326922153846368],
-          [123.95468435855764, 10.326841180793167],
-          [123.95513330277743, 10.32659089998063]
+          [123.954512489776, 10.325632427937876],
+          [123.95465324577687, 10.325890764512985],
+          [123.95481578458931, 10.32620644636917]
         ],
         "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Library Stairs to Maritime",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "stairs10",
+        "to": "node4"
       },
-      "id": "path9"
+      "geometry": {
+        "coordinates": [
+          [123.95474234346034, 10.326190529173346],
+          [123.95483491429235, 10.326178768097321]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Canteen Junction to Maritime",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_canteen3",
+        "to": "node4"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95437474286052, 10.32619670393025],
+          [123.95459865421756, 10.326182594713458],
+          [123.95483491429235, 10.326178768097321]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "CBE to Gate Connection",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_cbe",
+        "to": "gate7"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95552811674366, 10.327126817803375],
+          [123.95572610133871, 10.327134918727268]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "canteen_node",
+        "name": "Main Canteen",
+        "isDestination": true,
+        "category": "Facilities",
+        "description": "Main campus canteen"
+      },
+      "geometry": {
+        "coordinates": [123.95432096810146, 10.326280145339537],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Canteen Access Path",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_canteen2",
+        "to": "canteen_node"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95432096810146, 10.326320145339537],
+          [123.95432096810146, 10.326280145339537]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "library_node",
+        "name": "Main Library",
+        "isDestination": true,
+        "category": "Academic Facilities",
+        "description": "Campus main library"
+      },
+      "geometry": {
+        "coordinates": [123.95478971979423, 10.326122916441731],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Library Access",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_library",
+        "to": "library_node"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95478971979423, 10.326162916441731],
+          [123.95478971979423, 10.326122916441731]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "admin_office",
+        "name": "Administration Office",
+        "isDestination": true,
+        "category": "Administrative",
+        "description": "Campus administration office"
+      },
+      "geometry": {
+        "coordinates": [123.95339291928877, 10.325321348838672],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Admin Office Access",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_entrance",
+        "to": "admin_office"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.9533418365134, 10.325335935976696],
+          [123.95339291928877, 10.325321348838672]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_building",
+        "name": "CBE Building",
+        "isDestination": true,
+        "category": "Business",
+        "description": "College of Business and Economics main building"
+      },
+      "geometry": {
+        "coordinates": [123.95563308342037, 10.327231119739586],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "CBE Building Access",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "from": "junction_cbe3",
+        "to": "cbe_building"
+      },
+      "geometry": {
+        "coordinates": [
+          [123.95563308342037, 10.327251119739586],
+          [123.95563308342037, 10.327231119739586]
+        ],
+        "type": "LineString"
+      }
     }
   ]
 }
