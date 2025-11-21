@@ -145,9 +145,6 @@ export const useRouteProcessor = (
           .map((f) => f.get("id"))
           .slice(0, 10), // Just show the first 10 to avoid log flooding
       });
-
-        `❌ Could not find features for startNodeId=${startNodeId} or endNodeId=${endNodeId}`
-      );
       return;
     }
 
