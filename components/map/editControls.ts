@@ -90,11 +90,11 @@ export const addPolygon = (
     feature.set("strokeWidth", 2);
   }
   if (!options.name) {
-    feature.set("name",
+    feature.set("name", `Polygon ${vectorSource.getFeatures().length + 1}`);
   }
 
   vectorSource.addFeature(feature);
-    `Added polygon with ${coordinates.length} points`,
+  return feature;
 };
 
 // Delete selected feature
@@ -109,8 +109,9 @@ export const deleteSelectedFeature = (
 
   const selectedFeatures = selectInteraction.getFeatures();
   if (selectedFeatures.getLength() === 0) {
-      "No feature selected to delete",
-    );
+    return;
+  }
+
   const feature = selectedFeatures.item(0);
   if (!feature) return;
 
@@ -122,11 +123,12 @@ export const deleteSelectedFeature = (
   setShowCustomizePanel(false);
   setSelectedFeature(null);
   selectedFeatures.clear();
-
-    "Deleted selected feature",
-  );
 };
 
+// Setup edit controls
+export const setupEditControls = (
+  editMode: boolean,
+  map: Map,
   vectorSource: any,
   pointsSource: any,
   modifyInteractionRef: MutableRefObject<Modify | null>,
