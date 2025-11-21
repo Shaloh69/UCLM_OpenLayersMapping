@@ -476,9 +476,6 @@ export class EnhancedLocationTracker {
       for (let i = 0; i < path.length - 1; i++) {
         this.totalRouteDistance += calculateDistance(path[i], path[i + 1]);
       }
-
-        `Route set: ${path.length} waypoints, ${Math.round(this.totalRouteDistance)}m total distance`
-      );
     }
   }
 
