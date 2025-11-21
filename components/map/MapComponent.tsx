@@ -28,6 +28,12 @@ import { MapProps } from "./types";
 import { setupLayers } from "./layers";
 import { setupLocationTracking } from "./locationTracking";
 import {
+  setupEnhancedLocationTracking,
+  EnhancedLocationTracker,
+  RouteProgress,
+  UserPosition,
+} from "./enhancedLocationTracking";
+import {
   setupEditControls,
   toggleDrawInteraction,
   deleteSelectedFeature,
@@ -50,6 +56,7 @@ import DestinationSelector from "./DestinationSelector";
 import { useKioskRouteManager } from "./qrCodeUtils";
 import KioskQRModal from "./KioskQRModal";
 import RouteOverlay from "./RouteOverlay";
+import EnhancedMobileRoutePanel from "./EnhancedMobileRoutePanel";
 import router from "next/router";
 import GeoJSON from "ol/format/GeoJSON";
 
@@ -156,6 +163,12 @@ const CampusMap: React.FC<MapProps> = ({
   const locationWatchIdRef = useRef<number | null>(null);
   const locationNodeIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Enhanced location tracking
+  const enhancedTrackerRef = useRef<EnhancedLocationTracker | null>(null);
+  const [routeProgress, setRouteProgress] = useState<RouteProgress | null>(null);
+  const [userPosition, setUserPosition] = useState<UserPosition | null>(null);
+  const [useEnhancedTracking, setUseEnhancedTracking] = useState<boolean>(true);
+
   // Memoized debug log function
   const logDebug = useCallback((message: string) => {
     debugLog(debugInfoRef, true, message, () =>
@@ -192,78 +205,148 @@ const CampusMap: React.FC<MapProps> = ({
 
     setLocationTrackingEnabled(true);
 
-    // Setup location tracking
-    const { watchId, userPositionFeature } = setupLocationTracking(
-      mapInstanceRef.current,
-      debugInfoRef,
-      locationErrorRef,
-      isOutsideSchoolRef,
-      schoolBoundaryRef,
-      isUpdatingPositionRef,
-      debug
-    );
+    // Use enhanced tracking for mobile mode
+    if (mobileMode && useEnhancedTracking) {
+      logDebug("Initializing enhanced location tracking for mobile");
 
-    locationWatchIdRef.current = watchId;
-
-    // Update current location node when user position changes
-    const updateCurrentLocationNode = () => {
-      if (
-        !userPositionFeature ||
-        !nodesSourceRef.current ||
-        isUpdatingPositionRef.current
-      )
-        return;
-
-      const geometry = userPositionFeature.getGeometry();
-      if (!geometry) return;
-
-      const coords = geometry.getFirstCoordinate
-        ? geometry.getFirstCoordinate()
-        : geometry instanceof Point
-          ? geometry.getCoordinates()
-          : null;
-      if (!coords) return;
-
-      // Convert to geo coordinates
-      const geoCoords = toLonLat(coords);
-
-      // Find the closest node
-      const closestNode = findClosestNode(
-        geoCoords[0],
-        geoCoords[1],
-        nodesSourceRef.current
+      // Create enhanced tracker
+      const tracker = setupEnhancedLocationTracking(
+        mapInstanceRef.current,
+        {
+          autoFollow: true,
+          rotateMap: true,
+          smoothAnimation: true,
+          animationDuration: 1000,
+          zoomLevel: 19,
+          showAccuracyCircle: true,
+          showDirectionArrow: true,
+          trackingMode: "route",
+        },
+        debugInfoRef,
+        locationErrorRef,
+        isOutsideSchoolRef,
+        schoolBoundaryRef,
+        debug
       );
 
-      if (
-        closestNode &&
-        (!currentLocation || closestNode.id !== currentLocation.id)
-      ) {
-        setCurrentLocation(closestNode);
-        logDebug(`Current location updated to: ${closestNode.name}`);
+      enhancedTrackerRef.current = tracker;
 
-        // If there's an active destination, update the route
-        if (selectedDestination) {
-          displayRoute(closestNode.id, selectedDestination.id);
+      // Start tracking with callbacks
+      tracker.startTracking(
+        (position: UserPosition) => {
+          setUserPosition(position);
+
+          // Update current location node
+          if (nodesSourceRef.current) {
+            const closestNode = findClosestNode(
+              position.coordinates[0],
+              position.coordinates[1],
+              nodesSourceRef.current
+            );
+
+            if (
+              closestNode &&
+              (!currentLocation || closestNode.id !== currentLocation.id)
+            ) {
+              setCurrentLocation(closestNode);
+              logDebug(`Current location updated to: ${closestNode.name}`);
+
+              // If there's an active destination, update the route
+              if (selectedDestination) {
+                displayRoute(closestNode.id, selectedDestination.id);
+              }
+            }
+          }
+        },
+        (progress: RouteProgress) => {
+          setRouteProgress(progress);
         }
-      }
-    };
+      );
 
-    // Set up timer to update current location node
-    const locationNodeInterval = setInterval(updateCurrentLocationNode, 3000);
-    locationNodeIntervalRef.current = locationNodeInterval;
+      // Return cleanup function
+      return () => {
+        if (enhancedTrackerRef.current) {
+          enhancedTrackerRef.current.stopTracking();
+          enhancedTrackerRef.current.destroy();
+          enhancedTrackerRef.current = null;
+        }
+      };
+    } else {
+      // Use standard tracking for desktop
+      logDebug("Initializing standard location tracking");
 
-    // Return cleanup function
-    return () => {
-      if (locationWatchIdRef.current) {
-        navigator.geolocation.clearWatch(locationWatchIdRef.current);
-        locationWatchIdRef.current = null;
-      }
-      if (locationNodeIntervalRef.current) {
-        clearInterval(locationNodeIntervalRef.current);
-        locationNodeIntervalRef.current = null;
-      }
-    };
-  }, [currentLocation, selectedDestination, debug, logDebug]);
+      const { watchId, userPositionFeature } = setupLocationTracking(
+        mapInstanceRef.current,
+        debugInfoRef,
+        locationErrorRef,
+        isOutsideSchoolRef,
+        schoolBoundaryRef,
+        isUpdatingPositionRef,
+        debug
+      );
+
+      locationWatchIdRef.current = watchId;
+
+      // Update current location node when user position changes
+      const updateCurrentLocationNode = () => {
+        if (
+          !userPositionFeature ||
+          !nodesSourceRef.current ||
+          isUpdatingPositionRef.current
+        )
+          return;
+
+        const geometry = userPositionFeature.getGeometry();
+        if (!geometry) return;
+
+        const coords = geometry.getFirstCoordinate
+          ? geometry.getFirstCoordinate()
+          : geometry instanceof Point
+            ? geometry.getCoordinates()
+            : null;
+        if (!coords) return;
+
+        // Convert to geo coordinates
+        const geoCoords = toLonLat(coords);
+
+        // Find the closest node
+        const closestNode = findClosestNode(
+          geoCoords[0],
+          geoCoords[1],
+          nodesSourceRef.current
+        );
+
+        if (
+          closestNode &&
+          (!currentLocation || closestNode.id !== currentLocation.id)
+        ) {
+          setCurrentLocation(closestNode);
+          logDebug(`Current location updated to: ${closestNode.name}`);
+
+          // If there's an active destination, update the route
+          if (selectedDestination) {
+            displayRoute(closestNode.id, selectedDestination.id);
+          }
+        }
+      };
+
+      // Set up timer to update current location node
+      const locationNodeInterval = setInterval(updateCurrentLocationNode, 3000);
+      locationNodeIntervalRef.current = locationNodeInterval;
+
+      // Return cleanup function
+      return () => {
+        if (locationWatchIdRef.current) {
+          navigator.geolocation.clearWatch(locationWatchIdRef.current);
+          locationWatchIdRef.current = null;
+        }
+        if (locationNodeIntervalRef.current) {
+          clearInterval(locationNodeIntervalRef.current);
+          locationNodeIntervalRef.current = null;
+        }
+      };
+    }
+  }, [currentLocation, selectedDestination, debug, logDebug, mobileMode, useEnhancedTracking]);
 
   const getFeatureCoordinates = (feature: Feature<Geometry>) => {
     const geometry = feature.getGeometry();
@@ -461,11 +544,33 @@ const CampusMap: React.FC<MapProps> = ({
       setActiveRoute(pathFeatures);
       setShowRouteOverlay(true);
 
+      // Set route path for enhanced tracking
+      if (enhancedTrackerRef.current && mobileMode) {
+        // Extract route coordinates from path features
+        const routePath: [number, number][] = [];
+        pathFeatures.forEach((feature) => {
+          const geometry = feature.getGeometry();
+          if (geometry && geometry.getType() === "LineString") {
+            const lineString = geometry as import("ol/geom/LineString").default;
+            const coords = lineString.getCoordinates();
+            coords.forEach((coord) => {
+              const geoCoord = toLonLat(coord);
+              routePath.push([geoCoord[0], geoCoord[1]]);
+            });
+          }
+        });
+
+        if (routePath.length > 0) {
+          enhancedTrackerRef.current.setRoute(routePath);
+          logDebug(`Route path set for enhanced tracking: ${routePath.length} waypoints`);
+        }
+      }
+
       logDebug(
         `Route displayed: ${pathFeatures.length} segments, ${(totalDistance / 1000).toFixed(2)}km`
       );
     },
-    [debug, logDebug]
+    [debug, logDebug, mobileMode]
   );
 
   // Generate QR code for the current route
@@ -484,7 +589,13 @@ const CampusMap: React.FC<MapProps> = ({
     setSelectedDestination(null);
     setShowRouteOverlay(false);
     setRouteInfo(undefined);
+    setRouteProgress(null);
     resetRouteProcessor();
+
+    // Clear route from enhanced tracker
+    if (enhancedTrackerRef.current) {
+      enhancedTrackerRef.current.clearRoute();
+    }
 
     logDebug("Route cleared");
   }, [logDebug]);
@@ -1641,151 +1752,15 @@ const CampusMap: React.FC<MapProps> = ({
           </svg>
         </button>
 
-        {/* Mobile Route Panel */}
+        {/* Enhanced Mobile Route Panel */}
         {showRouteOverlay && selectedDestination && (
-          <div
-            className={`fixed bottom-0 left-0 right-0 bg-white shadow-lg z-40 rounded-t-xl`}
-          >
-            <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto my-2"></div>
-
-            <div className="p-4 border-b border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900">
-                {selectedDestination.name}
-              </h2>
-
-              {selectedDestination.category && (
-                <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full mt-1">
-                  {selectedDestination.category}
-                </span>
-              )}
-
-              {routeInfo && (
-                <div className="flex justify-between mt-3 text-gray-900">
-                  <div className="text-center">
-                    <p className="text-gray-600 text-xs">Distance</p>
-                    <p className="text-lg font-bold">
-                      {routeInfo.distance < 1000
-                        ? `${Math.round(routeInfo.distance)}m`
-                        : `${(routeInfo.distance / 1000).toFixed(2)}km`}
-                    </p>
-                  </div>
-
-                  <div className="text-center">
-                    <p className="text-gray-600 text-xs">Time</p>
-                    <p className="text-lg font-bold">
-                      {Math.ceil(routeInfo.estimatedTime)} min
-                    </p>
-                  </div>
-
-                  <div className="text-center">
-                    <p className="text-gray-600 text-xs">Calories</p>
-                    <p className="text-lg font-bold">
-                      {Math.round((routeInfo.distance / 1000) * 65)} cal
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              <button
-                className={`w-full py-2 px-3 rounded-lg flex items-center justify-center mt-3 ${isMobileMenuOpen ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700"}`}
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen ? "Hide Directions" : "Show Directions"}
-              </button>
-            </div>
-
-            {isMobileMenuOpen && (
-              <div className="p-4 max-h-60 overflow-y-auto">
-                <h3 className="font-bold mb-4 text-gray-900">
-                  Step-by-Step Directions
-                </h3>
-
-                <ul className="space-y-4">
-                  <li className="flex items-start">
-                    <div className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3 flex-shrink-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M22 10L12 2 2 10"></path>
-                        <path d="M12 2v20"></path>
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">
-                        Start at {currentLocation?.name || "current location"}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Head toward {selectedDestination.name}
-                      </p>
-                    </div>
-                  </li>
-
-                  <li className="flex items-start">
-                    <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3 flex-shrink-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">
-                        Continue straight
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        {routeInfo?.distance
-                          ? `${Math.round(routeInfo.distance * 0.4)}m`
-                          : "100m"}
-                      </p>
-                    </div>
-                  </li>
-
-                  <li className="flex items-start">
-                    <div className="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center mr-3 flex-shrink-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">
-                        Arrive at {selectedDestination.name}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Your destination will be on the right
-                      </p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
+          <EnhancedMobileRoutePanel
+            destination={selectedDestination}
+            currentLocation={currentLocation}
+            routeInfo={routeInfo}
+            routeProgress={routeProgress}
+            onClose={clearRoute}
+          />
         )}
       </>
     );
