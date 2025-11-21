@@ -264,6 +264,11 @@ export const toggleDrawInteraction = (
   const source = type === "Point" ? pointsSource : vectorSource;
 
   const draw = new Draw({
+    source: source,
+    type: type,
+    style: new Style({
+      fill: new Fill({
+        color: "rgba(255, 204, 51, 0.2)",
       }),
       stroke: new Stroke({
         color: "#ffcc33",
@@ -285,13 +290,13 @@ export const toggleDrawInteraction = (
     if (type === "Point") {
       feature.set("marker-color", getRandomColor());
       feature.set("marker-size", "medium");
-      feature.set("name",
+      feature.set("name", `Marker ${pointsSource.getFeatures().length + 1}`);
     } else {
       feature.set("fill", getRandomColor());
       feature.set("fill-opacity", 0.5);
       feature.set("stroke", "#000000");
       feature.set("strokeWidth", 2);
-      feature.set("name",
+      feature.set("name", `${type} ${vectorSource.getFeatures().length + 1}`);
     }
 
     // Select the newly created feature
