@@ -258,8 +258,7 @@ export const parseRouteFromUrl = (
     const endNodeId = urlParams.get("endNode");
 
     if (!startNodeId || !endNodeId) {
-        "Missing required route parameters in URL",
-      );
+      console.warn("Missing required route parameters in URL");
       return null;
     }
 

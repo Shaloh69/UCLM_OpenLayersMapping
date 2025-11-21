@@ -92,16 +92,6 @@ export const useRouteProcessor = (
           // Store in ref
           allFeaturesRef.current = [...nodeFeatures, ...roadFeatures];
 
-            `✅ Combined direct load: ${allFeaturesRef.current.length} features`
-          );
-
-          // Print some debug info about nodes
-          const destinations = nodeFeatures.filter(
-            (f) => f.get("isDestination") === true
-          );
-            `✅ Loaded ${nodeFeatures.length} nodes (${destinations.length} destinations)`
-          );
-
           // Mark features as ready
           setFeaturesReady(true);
         } catch (error) {
