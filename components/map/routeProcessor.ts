@@ -25,7 +25,6 @@ export const useRouteProcessor = (
   >,
   setShowRouteOverlay: React.Dispatch<React.SetStateAction<boolean>>,
   routeData: RouteData | null | undefined,
-  logDebug: (message: string) => void
 ) => {
   // Store loaded features in a ref to avoid unnecessary re-renders
   const allFeaturesRef = useRef<Feature<Geometry>[]>([]);
@@ -73,7 +72,6 @@ export const useRouteProcessor = (
       ? "/UCLM_Roads.geojson"
       : roadsUrl;
 
-    logDebug(
       `Attempting direct GeoJSON load from: ${actualNodesUrl} and ${actualRoadsUrl}`
     );
 
@@ -97,7 +95,6 @@ export const useRouteProcessor = (
           // Store in ref
           allFeaturesRef.current = [...nodeFeatures, ...roadFeatures];
 
-          logDebug(
             `✅ Combined direct load: ${allFeaturesRef.current.length} features`
           );
 
@@ -105,7 +102,6 @@ export const useRouteProcessor = (
           const destinations = nodeFeatures.filter(
             (f) => f.get("isDestination") === true
           );
-          logDebug(
             `✅ Loaded ${nodeFeatures.length} nodes (${destinations.length} destinations)`
           );
 
@@ -113,12 +109,10 @@ export const useRouteProcessor = (
           setFeaturesReady(true);
         } catch (error) {
           console.error("Error parsing GeoJSON:", error);
-          logDebug(`❌ Error parsing GeoJSON: ${error}`);
         }
       })
       .catch((error) => {
         console.error("❌ Failed to load GeoJSON files:", error);
-        logDebug(`❌ Failed to load GeoJSON files: ${error}`);
       });
   }, [nodesUrl, roadsUrl, logDebug, featuresReady]);
 
@@ -137,8 +131,6 @@ export const useRouteProcessor = (
     const { startNodeId, endNodeId } = routeData;
     const features = allFeaturesRef.current;
 
-    logDebug(`📍 Processing route from ${startNodeId} to ${endNodeId}`);
-    logDebug(`📍 Searching in ${features.length} loaded features`);
 
     // First try exact match
     let startFeature = features.find((f) => f.get("id") === startNodeId);
@@ -167,7 +159,6 @@ export const useRouteProcessor = (
           .slice(0, 10), // Just show the first 10 to avoid log flooding
       });
 
-      logDebug(
         `❌ Could not find features for startNodeId=${startNodeId} or endNodeId=${endNodeId}`
       );
       return;
@@ -177,8 +168,6 @@ export const useRouteProcessor = (
     const startNode = createNodeFromFeature(startFeature);
     const endNode = createNodeFromFeature(endFeature);
 
-    logDebug(`✅ Found startNode: ${startNode.name} (${startNode.id})`);
-    logDebug(`✅ Found endNode: ${endNode.name} (${endNode.id})`);
 
     // Update state
     setCurrentLocation(startNode);
@@ -198,7 +187,6 @@ export const useRouteProcessor = (
     // Mark as processed to avoid duplicate processing
     routeProcessedRef.current = true;
 
-    logDebug("✅ Route processing complete");
   }, [
     routeData,
     featuresReady,

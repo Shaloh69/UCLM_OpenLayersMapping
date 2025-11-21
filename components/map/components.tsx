@@ -1,39 +1,8 @@
-import React, { MutableRefObject, ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
 import {
-  DebugPanelProps,
   EditControlsProps,
   CustomizationPanelProps,
 } from "./types";
-
-// Debug logging function
-export const debugLog = (
-  debugInfoRef: MutableRefObject<string[]>,
-  debug: boolean,
-  message: string,
-  callback?: () => void
-) => {
-  if (!debug) return;
-
-  const timestamp = new Date().toLocaleTimeString();
-  const logMessage = `[${timestamp}] ${message}`;
-
-  console.log(logMessage);
-  debugInfoRef.current = [...debugInfoRef.current, logMessage].slice(-50); // Keep last 50 messages
-
-  if (callback) callback();
-};
-
-// Debug Panel Component
-export const DebugPanel: React.FC<DebugPanelProps> = ({ debugInfo }) => (
-  <div className="absolute bottom-4 right-4 w-80 max-h-60 overflow-y-auto bg-white bg-opacity-90 rounded-lg shadow-lg p-3 text-xs font-mono z-20">
-    <h3 className="font-bold mb-2">Debug Info</h3>
-    <ul className="space-y-1">
-      {debugInfo.map((info, index) => (
-        <li key={index}>{info}</li>
-      ))}
-    </ul>
-  </div>
-);
 
 // Edit Controls Component
 export const EditControls: React.FC<EditControlsProps> = ({

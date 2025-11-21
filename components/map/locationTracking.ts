@@ -10,7 +10,6 @@ import { Extent } from "ol/extent";
 import { containsCoordinate } from "ol/extent";
 import Map from "ol/Map";
 import { MutableRefObject } from "react";
-import { debugLog } from "./components";
 
 // Check if coordinates are within school boundary
 export const isCoordinateInsideSchool = (
@@ -23,12 +22,10 @@ export const isCoordinateInsideSchool = (
 
 export const setupLocationTracking = (
   map: Map,
-  debugInfoRef: MutableRefObject<string[]>,
   locationErrorRef: MutableRefObject<string | null>,
   isOutsideSchoolRef: MutableRefObject<boolean>,
   schoolBoundaryRef: MutableRefObject<Extent | null>,
-  isUpdatingPositionRef: MutableRefObject<boolean>,
-  debug: boolean
+  isUpdatingPositionRef: MutableRefObject<boolean>
 ) => {
   // GPS Marker & Accuracy Circle
   const userPositionFeature = new Feature({
@@ -88,7 +85,6 @@ export const setupLocationTracking = (
         isOutsideSchoolRef.current = !!isOutside;
 
         if (isOutside) {
-          debugLog(debugInfoRef, debug, "Location outside school boundaries");
         }
       }
     } finally {
@@ -105,7 +101,6 @@ export const setupLocationTracking = (
       const errorMsg = `Location error: ${error.message}`;
       if (locationErrorRef.current !== errorMsg) {
         locationErrorRef.current = errorMsg;
-        debugLog(debugInfoRef, debug, `Geolocation error: ${error.message}`);
       }
     },
     {
