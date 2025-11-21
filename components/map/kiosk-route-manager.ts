@@ -20,7 +20,6 @@ export const useKioskRouteManager = ({
   selectedDestination,
   routeInfo,
   defaultStartLocation,
-  debug,
   onReset,
   updateDebugCallback,
 }: UseKioskRouteManagerOptions) => {
@@ -47,7 +46,6 @@ export const useKioskRouteManager = ({
       onReset();
     }
 
-      debug,
       "Kiosk state reset - ready for next user",
       updateDebugCallback
     );
@@ -56,7 +54,6 @@ export const useKioskRouteManager = ({
   const generateRouteQRCode = useCallback(async () => {
     // Prevent multiple simultaneous generations
     if (isProcessingRef.current) {
-        debug,
         "Already generating QR code, please wait",
         updateDebugCallback
       );
@@ -97,14 +94,12 @@ export const useKioskRouteManager = ({
       };
 
       // Generate QR code
-        debug,
         `Generating QR code for route: ${startNodeId} → ${selectedDestination.id}`,
         updateDebugCallback
       );
 
       const qrCode = await generateRouteQR(
         routeData,
-        debug,
         {
           primaryColor: "#4285F4",
           secondaryColor: "#34A853",
@@ -118,7 +113,6 @@ export const useKioskRouteManager = ({
       setQRCodeUrl(qrCode);
       setShowQRModal(true);
 
-        debug,
         "QR code generated successfully",
         updateDebugCallback
       );
@@ -127,7 +121,6 @@ export const useKioskRouteManager = ({
       const errorMessage =
         error instanceof Error ? error.message : String(error);
 
-        debug,
         `Error generating QR code: ${errorMessage}`,
         updateDebugCallback
       );
@@ -143,7 +136,6 @@ export const useKioskRouteManager = ({
     selectedDestination,
     routeInfo,
     defaultStartLocation,
-    debug,
     updateDebugCallback,
   ]);
 
