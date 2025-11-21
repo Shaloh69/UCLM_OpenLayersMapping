@@ -1,6 +1,5 @@
 import QRCode from "qrcode";
 import { MutableRefObject, useCallback, useRef, useState } from "react";
-import { debugLog } from "./components";
 import { RoadNode } from "./roadSystem";
 
 // =============================================
@@ -63,10 +62,7 @@ function roundedRect(
 
 export const generateRouteQR = async (
   routeData: RouteData,
-  debugInfoRef: MutableRefObject<string[]>,
-  debug: boolean,
   options: QRCodeOptions = {},
-  updateDebugCallback?: () => void
 ): Promise<string> => {
   try {
     // Add timestamp to ensure QR code is unique
@@ -84,20 +80,14 @@ export const generateRouteQR = async (
         const ngrokUrl = await window.electron.getNgrokUrl();
         if (ngrokUrl) {
           baseUrl = ngrokUrl;
-          debugLog(
-            debugInfoRef,
             debug,
             `Using ngrok URL: ${ngrokUrl}`,
-            updateDebugCallback
           );
         }
       } catch (error) {
         console.error("Error getting ngrok URL:", error);
-        debugLog(
-          debugInfoRef,
           debug,
           `Error getting ngrok URL: ${error}`,
-          updateDebugCallback
         );
       }
     }
@@ -123,11 +113,8 @@ export const generateRouteQR = async (
 
     const fullUrl = `${baseUrl}/route?${params.toString()}`;
 
-    debugLog(
-      debugInfoRef,
       debug,
       `Full QR URL: ${fullUrl}`,
-      updateDebugCallback
     );
 
     // Set QR code options with defaults
@@ -264,11 +251,8 @@ export const generateRouteQR = async (
     });
   } catch (error) {
     console.error("Error generating QR code:", error);
-    debugLog(
-      debugInfoRef,
       debug,
       `Error generating QR code: ${error}`,
-      updateDebugCallback
     );
     throw error;
   }
@@ -281,27 +265,18 @@ export const generateRouteQR = async (
 // Parse route data from URL parameters
 export const parseRouteFromUrl = (
   urlParams: URLSearchParams,
-  debugInfoRef: MutableRefObject<string[]>,
-  debug: boolean,
-  updateDebugCallback?: () => void
 ): RouteData | null => {
   try {
     const startNodeId = urlParams.get("startNode");
     const endNodeId = urlParams.get("endNode");
 
-    debugLog(
-      debugInfoRef,
       debug,
       `Parsing route from URL. Start: ${startNodeId}, End: ${endNodeId}`,
-      updateDebugCallback
     );
 
     if (!startNodeId || !endNodeId) {
-      debugLog(
-        debugInfoRef,
         debug,
         "Missing required route parameters in URL",
-        updateDebugCallback
       );
       return null;
     }
@@ -333,21 +308,15 @@ export const parseRouteFromUrl = (
       };
     }
 
-    debugLog(
-      debugInfoRef,
       debug,
       `Parsed route from URL: ${startNodeId} to ${endNodeId}`,
-      updateDebugCallback
     );
 
     return routeData;
   } catch (error) {
     console.error("Error parsing route data from URL:", error);
-    debugLog(
-      debugInfoRef,
       debug,
       `Error parsing route data: ${error}`,
-      updateDebugCallback
     );
     return null;
   }
@@ -366,20 +335,14 @@ export const useKioskRouteManager = (options: {
     estimatedTime: number;
   };
   defaultStartLocation: RoadNode | null;
-  debugInfoRef: MutableRefObject<string[]>;
-  debug: boolean;
   onReset?: () => void;
-  updateDebugCallback?: () => void;
 }) => {
   const {
     currentLocation,
     selectedDestination,
     routeInfo,
     defaultStartLocation,
-    debugInfoRef,
-    debug,
     onReset,
-    updateDebugCallback,
   } = options;
 
   const [qrCodeUrl, setQRCodeUrl] = useState<string>("");
@@ -405,23 +368,16 @@ export const useKioskRouteManager = (options: {
       onReset();
     }
 
-    debugLog(
-      debugInfoRef,
       debug,
       "Kiosk state reset - ready for next user",
-      updateDebugCallback
     );
-  }, [debugInfoRef, debug, onReset, updateDebugCallback]);
 
   // Function to generate QR code for current route
   const generateRouteQRCode = useCallback(async () => {
     // Prevent multiple simultaneous generations
     if (isProcessingRef.current) {
-      debugLog(
-        debugInfoRef,
         debug,
         "Already generating QR code, please wait",
-        updateDebugCallback
       );
       return;
     }
@@ -460,16 +416,12 @@ export const useKioskRouteManager = (options: {
       };
 
       // Generate QR code
-      debugLog(
-        debugInfoRef,
         debug,
         `Generating QR code for route: ${startNodeId} → ${selectedDestination.id}`,
-        updateDebugCallback
       );
 
       const qrCode = await generateRouteQR(
         routeData,
-        debugInfoRef,
         debug,
         {
           primaryColor: "#4285F4",
@@ -477,29 +429,22 @@ export const useKioskRouteManager = (options: {
           cornerRadius: 10,
           errorCorrection: "H",
         },
-        updateDebugCallback
       );
 
       // Update state with generated QR code
       setQRCodeUrl(qrCode);
       setShowQRModal(true);
 
-      debugLog(
-        debugInfoRef,
         debug,
         "QR code generated successfully",
-        updateDebugCallback
       );
     } catch (error) {
       // Handle errors
       const errorMessage =
         error instanceof Error ? error.message : String(error);
 
-      debugLog(
-        debugInfoRef,
         debug,
         `Error generating QR code: ${errorMessage}`,
-        updateDebugCallback
       );
 
       setError(errorMessage);
@@ -513,9 +458,7 @@ export const useKioskRouteManager = (options: {
     selectedDestination,
     routeInfo,
     defaultStartLocation,
-    debugInfoRef,
     debug,
-    updateDebugCallback,
   ]);
 
   // Handle closing the QR modal
