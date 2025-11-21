@@ -10,6 +10,7 @@ import { Polygon } from "ol/geom";
 import { defaults as defaultControls } from "ol/control";
 import Rotate from "ol/control/Rotate";
 import CircleStyle from "ol/style/Circle";
+import { Extent, createEmpty, extend, buffer } from "ol/extent";
 
 // Helper function to create a random color
 export const getRandomColor = () => {
@@ -127,18 +128,122 @@ export const setupLayers = (
   const view = new View({
     center: fromLonLat(centerCoordinates),
     zoom: initialZoom,
-    minZoom: 15,
-    maxZoom: 22,
+    minZoom: 16,
+    maxZoom: 21,
     enableRotation: true,
     rotation: 44.86,
+    constrainResolution: true,
+    smoothResolutionConstraint: true,
   });
 
   const map = new Map({
     target: mapElement,
     layers: [backdropLayer, vectorLayer, pointsLayer],
     view,
-    controls: defaultControls().extend([new Rotate()]),
+    controls: defaultControls({
+      zoom: true,
+      rotate: true,
+      attribution: false,
+    }).extend([new Rotate()]),
   });
 
-  return { map, vectorSource, pointsSource, view };
+  // Calculate extent from all sources and constrain map bounds
+  let combinedExtent: Extent | null = null;
+
+  const updateMapExtent = () => {
+    const extent = createEmpty();
+    let hasFeatures = false;
+
+    // Get extent from vector source (map polygons)
+    const vectorFeatures = vectorSource.getFeatures();
+    if (vectorFeatures.length > 0) {
+      vectorFeatures.forEach((feature) => {
+        const geom = feature.getGeometry();
+        if (geom) {
+          extend(extent, geom.getExtent());
+          hasFeatures = true;
+        }
+      });
+    }
+
+    // Get extent from points source
+    const pointFeatures = pointsSource.getFeatures();
+    if (pointFeatures.length > 0) {
+      pointFeatures.forEach((feature) => {
+        const geom = feature.getGeometry();
+        if (geom) {
+          extend(extent, geom.getExtent());
+          hasFeatures = true;
+        }
+      });
+    }
+
+    if (hasFeatures) {
+      // Add padding (20% buffer) around the extent
+      combinedExtent = buffer(extent,
+        Math.max(
+          extent[2] - extent[0],
+          extent[3] - extent[1]
+        ) * 0.2
+      );
+
+      // Fit view to extent with animation
+      view.fit(combinedExtent, {
+        padding: [50, 50, 50, 50],
+        maxZoom: 19,
+        duration: 1000,
+      });
+    }
+  };
+
+  // Listen for when features are loaded
+  vectorSource.on("featuresloadend", updateMapExtent);
+  pointsSource.on("featuresloadend", updateMapExtent);
+
+  // Constrain panning to stay within bounds
+  view.on("change:center", () => {
+    if (!combinedExtent) return;
+
+    const currentCenter = view.getCenter();
+    if (!currentCenter) return;
+
+    const currentExtent = view.calculateExtent();
+
+    // Check if we're outside the allowed extent
+    const [minX, minY, maxX, maxY] = combinedExtent;
+    const [viewMinX, viewMinY, viewMaxX, viewMaxY] = currentExtent;
+
+    let newCenter = [...currentCenter];
+    let needsAdjustment = false;
+
+    // Constrain X axis
+    if (viewMinX < minX) {
+      newCenter[0] += (minX - viewMinX);
+      needsAdjustment = true;
+    } else if (viewMaxX > maxX) {
+      newCenter[0] -= (viewMaxX - maxX);
+      needsAdjustment = true;
+    }
+
+    // Constrain Y axis
+    if (viewMinY < minY) {
+      newCenter[1] += (minY - viewMinY);
+      needsAdjustment = true;
+    } else if (viewMaxY > maxY) {
+      newCenter[1] -= (viewMaxY - maxY);
+      needsAdjustment = true;
+    }
+
+    if (needsAdjustment) {
+      view.setCenter(newCenter as [number, number]);
+    }
+  });
+
+  return {
+    map,
+    vectorSource,
+    pointsSource,
+    view,
+    getExtent: () => combinedExtent,
+  };
 };
