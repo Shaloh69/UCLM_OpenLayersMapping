@@ -10,9 +10,7 @@ interface UseKioskRouteManagerOptions {
     estimatedTime: number;
   };
   defaultStartLocation: RoadNode | null;
-  debug: boolean;
   onReset?: () => void;
-  updateDebugCallback?: () => void;
 }
 
 export const useKioskRouteManager = ({
@@ -21,7 +19,6 @@ export const useKioskRouteManager = ({
   routeInfo,
   defaultStartLocation,
   onReset,
-  updateDebugCallback,
 }: UseKioskRouteManagerOptions) => {
   const [qrCodeUrl, setQRCodeUrl] = useState<string>("");
   const [showQRModal, setShowQRModal] = useState<boolean>(false);
@@ -45,18 +42,13 @@ export const useKioskRouteManager = ({
     if (onReset) {
       onReset();
     }
-
-      "Kiosk state reset - ready for next user",
-      updateDebugCallback
-    );
+  }, [onReset]);
 
   // Function to generate QR code for current route
   const generateRouteQRCode = useCallback(async () => {
     // Prevent multiple simultaneous generations
     if (isProcessingRef.current) {
-        "Already generating QR code, please wait",
-        updateDebugCallback
-      );
+      console.warn("Already generating QR code, please wait");
       return;
     }
 
@@ -94,37 +86,22 @@ export const useKioskRouteManager = ({
       };
 
       // Generate QR code
-        `Generating QR code for route: ${startNodeId} → ${selectedDestination.id}`,
-        updateDebugCallback
-      );
-
-      const qrCode = await generateRouteQR(
-        routeData,
-        {
-          primaryColor: "#4285F4",
-          secondaryColor: "#34A853",
-          cornerRadius: 10,
-          errorCorrection: "H",
-        },
-        updateDebugCallback
-      );
+      const qrCode = await generateRouteQR(routeData, {
+        primaryColor: "#4285F4",
+        secondaryColor: "#34A853",
+        cornerRadius: 10,
+        errorCorrection: "H",
+      });
 
       // Update state with generated QR code
       setQRCodeUrl(qrCode);
       setShowQRModal(true);
-
-        "QR code generated successfully",
-        updateDebugCallback
-      );
     } catch (error) {
       // Handle errors
       const errorMessage =
         error instanceof Error ? error.message : String(error);
 
-        `Error generating QR code: ${errorMessage}`,
-        updateDebugCallback
-      );
-
+      console.error(`Error generating QR code: ${errorMessage}`);
       setError(errorMessage);
     } finally {
       // Reset processing flag
@@ -136,7 +113,6 @@ export const useKioskRouteManager = ({
     selectedDestination,
     routeInfo,
     defaultStartLocation,
-    updateDebugCallback,
   ]);
 
   // Handle closing the QR modal
