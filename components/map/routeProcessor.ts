@@ -72,9 +72,6 @@ export const useRouteProcessor = (
       ? "/UCLM_Roads.geojson"
       : roadsUrl;
 
-      `Attempting direct GeoJSON load from: ${actualNodesUrl} and ${actualRoadsUrl}`
-    );
-
     // Create a GeoJSON format instance
     const format = new GeoJSON({
       dataProjection: "EPSG:4326",

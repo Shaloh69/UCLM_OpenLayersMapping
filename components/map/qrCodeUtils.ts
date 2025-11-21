@@ -80,15 +80,9 @@ export const generateRouteQR = async (
         const ngrokUrl = await window.electron.getNgrokUrl();
         if (ngrokUrl) {
           baseUrl = ngrokUrl;
-            debug,
-            `Using ngrok URL: ${ngrokUrl}`,
-          );
         }
       } catch (error) {
         console.error("Error getting ngrok URL:", error);
-          debug,
-          `Error getting ngrok URL: ${error}`,
-        );
       }
     }
 
@@ -112,10 +106,6 @@ export const generateRouteQR = async (
     }
 
     const fullUrl = `${baseUrl}/route?${params.toString()}`;
-
-      debug,
-      `Full QR URL: ${fullUrl}`,
-    );
 
     // Set QR code options with defaults
     const {
@@ -251,9 +241,6 @@ export const generateRouteQR = async (
     });
   } catch (error) {
     console.error("Error generating QR code:", error);
-      debug,
-      `Error generating QR code: ${error}`,
-    );
     throw error;
   }
 };
@@ -270,12 +257,7 @@ export const parseRouteFromUrl = (
     const startNodeId = urlParams.get("startNode");
     const endNodeId = urlParams.get("endNode");
 
-      debug,
-      `Parsing route from URL. Start: ${startNodeId}, End: ${endNodeId}`,
-    );
-
     if (!startNodeId || !endNodeId) {
-        debug,
         "Missing required route parameters in URL",
       );
       return null;
@@ -308,16 +290,9 @@ export const parseRouteFromUrl = (
       };
     }
 
-      debug,
-      `Parsed route from URL: ${startNodeId} to ${endNodeId}`,
-    );
-
     return routeData;
   } catch (error) {
     console.error("Error parsing route data from URL:", error);
-      debug,
-      `Error parsing route data: ${error}`,
-    );
     return null;
   }
 };
@@ -368,7 +343,6 @@ export const useKioskRouteManager = (options: {
       onReset();
     }
 
-      debug,
       "Kiosk state reset - ready for next user",
     );
 
@@ -376,7 +350,6 @@ export const useKioskRouteManager = (options: {
   const generateRouteQRCode = useCallback(async () => {
     // Prevent multiple simultaneous generations
     if (isProcessingRef.current) {
-        debug,
         "Already generating QR code, please wait",
       );
       return;
@@ -416,13 +389,9 @@ export const useKioskRouteManager = (options: {
       };
 
       // Generate QR code
-        debug,
-        `Generating QR code for route: ${startNodeId} → ${selectedDestination.id}`,
-      );
 
       const qrCode = await generateRouteQR(
         routeData,
-        debug,
         {
           primaryColor: "#4285F4",
           secondaryColor: "#34A853",
@@ -435,17 +404,12 @@ export const useKioskRouteManager = (options: {
       setQRCodeUrl(qrCode);
       setShowQRModal(true);
 
-        debug,
         "QR code generated successfully",
       );
     } catch (error) {
       // Handle errors
       const errorMessage =
         error instanceof Error ? error.message : String(error);
-
-        debug,
-        `Error generating QR code: ${errorMessage}`,
-      );
 
       setError(errorMessage);
     } finally {
@@ -458,7 +422,6 @@ export const useKioskRouteManager = (options: {
     selectedDestination,
     routeInfo,
     defaultStartLocation,
-    debug,
   ]);
 
   // Handle closing the QR modal
