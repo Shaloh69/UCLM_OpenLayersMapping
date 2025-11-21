@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef, MutableRefObject } from "react";
 import { RouteData, generateRouteQR } from "./qrCodeUtils";
 import { RoadNode } from "./roadSystem";
-import { debugLog } from "./components";
 
 interface UseKioskRouteManagerOptions {
   currentLocation: RoadNode | null;
@@ -11,7 +10,6 @@ interface UseKioskRouteManagerOptions {
     estimatedTime: number;
   };
   defaultStartLocation: RoadNode | null;
-  debugInfoRef: MutableRefObject<string[]>;
   debug: boolean;
   onReset?: () => void;
   updateDebugCallback?: () => void;
@@ -22,7 +20,6 @@ export const useKioskRouteManager = ({
   selectedDestination,
   routeInfo,
   defaultStartLocation,
-  debugInfoRef,
   debug,
   onReset,
   updateDebugCallback,
@@ -50,20 +47,15 @@ export const useKioskRouteManager = ({
       onReset();
     }
 
-    debugLog(
-      debugInfoRef,
       debug,
       "Kiosk state reset - ready for next user",
       updateDebugCallback
     );
-  }, [debugInfoRef, debug, onReset, updateDebugCallback]);
 
   // Function to generate QR code for current route
   const generateRouteQRCode = useCallback(async () => {
     // Prevent multiple simultaneous generations
     if (isProcessingRef.current) {
-      debugLog(
-        debugInfoRef,
         debug,
         "Already generating QR code, please wait",
         updateDebugCallback
@@ -105,8 +97,6 @@ export const useKioskRouteManager = ({
       };
 
       // Generate QR code
-      debugLog(
-        debugInfoRef,
         debug,
         `Generating QR code for route: ${startNodeId} → ${selectedDestination.id}`,
         updateDebugCallback
@@ -114,7 +104,6 @@ export const useKioskRouteManager = ({
 
       const qrCode = await generateRouteQR(
         routeData,
-        debugInfoRef,
         debug,
         {
           primaryColor: "#4285F4",
@@ -129,8 +118,6 @@ export const useKioskRouteManager = ({
       setQRCodeUrl(qrCode);
       setShowQRModal(true);
 
-      debugLog(
-        debugInfoRef,
         debug,
         "QR code generated successfully",
         updateDebugCallback
@@ -140,8 +127,6 @@ export const useKioskRouteManager = ({
       const errorMessage =
         error instanceof Error ? error.message : String(error);
 
-      debugLog(
-        debugInfoRef,
         debug,
         `Error generating QR code: ${errorMessage}`,
         updateDebugCallback
@@ -158,7 +143,6 @@ export const useKioskRouteManager = ({
     selectedDestination,
     routeInfo,
     defaultStartLocation,
-    debugInfoRef,
     debug,
     updateDebugCallback,
   ]);

@@ -10,7 +10,6 @@ import { Extent } from "ol/extent";
 import { containsCoordinate } from "ol/extent";
 import Map from "ol/Map";
 import { MutableRefObject } from "react";
-import { debugLog } from "./components";
 import { LineString } from "ol/geom";
 import { getDistance } from "ol/sphere";
 
@@ -117,9 +116,6 @@ export const isCoordinateInsideSchool = (
 export class EnhancedLocationTracker {
   private map: Map;
   private options: LocationTrackingOptions;
-  private debugInfoRef: MutableRefObject<string[]>;
-  private debug: boolean;
-
   // Feature references
   private userPositionFeature: Feature;
   private accuracyFeature: Feature;
@@ -154,18 +150,14 @@ export class EnhancedLocationTracker {
   constructor(
     map: Map,
     options: Partial<LocationTrackingOptions>,
-    debugInfoRef: MutableRefObject<string[]>,
     locationErrorRef: MutableRefObject<string | null>,
     isOutsideSchoolRef: MutableRefObject<boolean>,
-    schoolBoundaryRef: MutableRefObject<Extent | null>,
-    debug: boolean
+    schoolBoundaryRef: MutableRefObject<Extent | null>
   ) {
     this.map = map;
-    this.debugInfoRef = debugInfoRef;
     this.locationErrorRef = locationErrorRef;
     this.isOutsideSchoolRef = isOutsideSchoolRef;
     this.schoolBoundaryRef = schoolBoundaryRef;
-    this.debug = debug;
 
     // Default options
     this.options = {
@@ -213,7 +205,6 @@ export class EnhancedLocationTracker {
 
     this.map.addLayer(this.userPositionLayer);
 
-    this.logDebug("Enhanced location tracker initialized");
   }
 
   // =============================================
@@ -290,11 +281,9 @@ export class EnhancedLocationTracker {
     this.onRouteProgressUpdate = onRouteProgressUpdate;
 
     if (this.watchId !== null) {
-      this.logDebug("Location tracking already active");
       return;
     }
 
-    this.logDebug("Starting enhanced location tracking");
 
     this.watchId = navigator.geolocation.watchPosition(
       (position) => this.handlePositionUpdate(position),
@@ -314,7 +303,6 @@ export class EnhancedLocationTracker {
     if (this.watchId !== null) {
       navigator.geolocation.clearWatch(this.watchId);
       this.watchId = null;
-      this.logDebug("Location tracking stopped");
     }
 
     if (this.animationFrameId !== null) {
@@ -358,7 +346,6 @@ export class EnhancedLocationTracker {
     // Record start position if not set
     if (!this.startPosition) {
       this.startPosition = [longitude, latitude];
-      this.logDebug("Start position recorded");
     }
 
     // Update map features
@@ -385,7 +372,6 @@ export class EnhancedLocationTracker {
       this.onPositionUpdate(newPosition);
     }
 
-    this.logDebug(
       `Position updated: [${longitude.toFixed(6)}, ${latitude.toFixed(6)}], accuracy: ${Math.round(accuracy)}m, heading: ${effectiveHeading ? Math.round(effectiveHeading) : "N/A"}°`
     );
   }
@@ -393,7 +379,6 @@ export class EnhancedLocationTracker {
   private handlePositionError(error: GeolocationPositionError): void {
     const errorMsg = `Location error: ${error.message}`;
     this.locationErrorRef.current = errorMsg;
-    this.logDebug(`Geolocation error: ${error.message}`);
   }
 
   private updateMapFeatures(): void {
@@ -428,7 +413,6 @@ export class EnhancedLocationTracker {
     if (isOutside !== this.isOutsideSchoolRef.current) {
       this.isOutsideSchoolRef.current = isOutside;
       if (isOutside) {
-        this.logDebug("Location outside school boundaries");
       }
     }
   }
@@ -496,7 +480,6 @@ export class EnhancedLocationTracker {
         this.totalRouteDistance += calculateDistance(path[i], path[i + 1]);
       }
 
-      this.logDebug(
         `Route set: ${path.length} waypoints, ${Math.round(this.totalRouteDistance)}m total distance`
       );
     }
@@ -507,7 +490,6 @@ export class EnhancedLocationTracker {
     this.destinationPosition = null;
     this.totalRouteDistance = 0;
     this.startPosition = null;
-    this.logDebug("Route cleared");
   }
 
   private calculateRouteProgress(): RouteProgress {
@@ -596,7 +578,6 @@ export class EnhancedLocationTracker {
 
   public setOptions(options: Partial<LocationTrackingOptions>): void {
     this.options = { ...this.options, ...options };
-    this.logDebug("Tracking options updated");
     this.userPositionLayer.changed(); // Refresh styles
   }
 
@@ -616,14 +597,9 @@ export class EnhancedLocationTracker {
   // Utilities
   // =============================================
 
-  private logDebug(message: string): void {
-    debugLog(this.debugInfoRef, this.debug, message);
-  }
-
   public destroy(): void {
     this.stopTracking();
     this.map.removeLayer(this.userPositionLayer);
-    this.logDebug("Enhanced location tracker destroyed");
   }
 }
 
@@ -634,19 +610,15 @@ export class EnhancedLocationTracker {
 export const setupEnhancedLocationTracking = (
   map: Map,
   options: Partial<LocationTrackingOptions>,
-  debugInfoRef: MutableRefObject<string[]>,
   locationErrorRef: MutableRefObject<string | null>,
   isOutsideSchoolRef: MutableRefObject<boolean>,
-  schoolBoundaryRef: MutableRefObject<Extent | null>,
-  debug: boolean
+  schoolBoundaryRef: MutableRefObject<Extent | null>
 ): EnhancedLocationTracker => {
   return new EnhancedLocationTracker(
     map,
     options,
-    debugInfoRef,
     locationErrorRef,
     isOutsideSchoolRef,
-    schoolBoundaryRef,
-    debug
+    schoolBoundaryRef
   );
 };
