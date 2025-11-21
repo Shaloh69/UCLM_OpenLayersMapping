@@ -16,7 +16,6 @@ import { fromLonLat } from "ol/proj";
 import { Polygon } from "ol/geom";
 
 import { getRandomColor, hexToRGBA } from "./layers";
-import { DebugCallback } from "./types";
 
 // Export GeoJSON data
 export const exportGeoJSON = (
@@ -32,9 +31,6 @@ export const exportGeoJSON = (
   const geoJsonStr = geoJsonFormat.writeFeatures(features);
   const blob = new Blob([geoJsonStr], { type: "application/json" });
   saveAs(blob, filename);
-    debug,
-    `Exported GeoJSON with ${features.length} features`,
-  );
 };
 
 // Add marker functionality
@@ -63,9 +59,6 @@ export const addMarker = (
   }
 
   pointsSource.addFeature(feature);
-    debug,
-    `Added marker at [${lon}, ${lat}]`,
-  );
   return feature;
 };
 
@@ -97,14 +90,11 @@ export const addPolygon = (
     feature.set("strokeWidth", 2);
   }
   if (!options.name) {
-    feature.set("name", `Polygon ${vectorSource.getFeatures().length + 1}`);
+    feature.set("name",
   }
 
   vectorSource.addFeature(feature);
-    debug,
     `Added polygon with ${coordinates.length} points`,
-  );
-  return feature;
 };
 
 // Delete selected feature
@@ -119,12 +109,8 @@ export const deleteSelectedFeature = (
 
   const selectedFeatures = selectInteraction.getFeatures();
   if (selectedFeatures.getLength() === 0) {
-      debug,
       "No feature selected to delete",
     );
-    return;
-  }
-
   const feature = selectedFeatures.item(0);
   if (!feature) return;
 
@@ -137,15 +123,10 @@ export const deleteSelectedFeature = (
   setSelectedFeature(null);
   selectedFeatures.clear();
 
-    debug,
     "Deleted selected feature",
   );
 };
 
-// Setup edit controls
-export const setupEditControls = (
-  editMode: boolean,
-  map: Map,
   vectorSource: any,
   pointsSource: any,
   modifyInteractionRef: MutableRefObject<Modify | null>,
@@ -277,19 +258,10 @@ export const toggleDrawInteraction = (
     return;
   }
 
-    debug,
-    `Draw mode enabled: ${type}`,
-  );
-
   // Create draw interaction with the appropriate source
   const source = type === "Point" ? pointsSource : vectorSource;
 
   const draw = new Draw({
-    source,
-    type,
-    style: new Style({
-      fill: new Fill({
-        color: "rgba(255, 255, 255, 0.2)",
       }),
       stroke: new Stroke({
         color: "#ffcc33",
@@ -311,13 +283,13 @@ export const toggleDrawInteraction = (
     if (type === "Point") {
       feature.set("marker-color", getRandomColor());
       feature.set("marker-size", "medium");
-      feature.set("name", `Marker ${pointsSource.getFeatures().length}`);
+      feature.set("name",
     } else {
       feature.set("fill", getRandomColor());
       feature.set("fill-opacity", 0.5);
       feature.set("stroke", "#000000");
       feature.set("strokeWidth", 2);
-      feature.set("name", `${type} ${vectorSource.getFeatures().length}`);
+      feature.set("name",
     }
 
     // Select the newly created feature
@@ -333,10 +305,6 @@ export const toggleDrawInteraction = (
       setFeatureProperties(properties);
       setShowCustomizePanel(true);
     }
-
-      debug,
-      `Created new ${type} feature`,
-    );
   });
 
   map.addInteraction(draw);
