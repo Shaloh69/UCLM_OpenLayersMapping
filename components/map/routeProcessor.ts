@@ -101,7 +101,7 @@ export const useRouteProcessor = (
       .catch((error) => {
         console.error("❌ Failed to load GeoJSON files:", error);
       });
-  }, [nodesUrl, roadsUrl, logDebug, featuresReady]);
+  }, [nodesUrl, roadsUrl, featuresReady]);
 
   // Process route data once features are loaded
   useEffect(() => {
@@ -184,7 +184,6 @@ export const useRouteProcessor = (
     setRouteInfo,
     setShowRouteOverlay,
     createNodeFromFeature,
-    logDebug,
   ]);
 
   // Method to reset the route processing state - useful for clearing routes
