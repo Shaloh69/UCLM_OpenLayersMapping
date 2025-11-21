@@ -371,9 +371,6 @@ export class EnhancedLocationTracker {
     if (this.onPositionUpdate) {
       this.onPositionUpdate(newPosition);
     }
-
-      `Position updated: [${longitude.toFixed(6)}, ${latitude.toFixed(6)}], accuracy: ${Math.round(accuracy)}m, heading: ${effectiveHeading ? Math.round(effectiveHeading) : "N/A"}°`
-    );
   }
 
   private handlePositionError(error: GeolocationPositionError): void {
