@@ -341,16 +341,13 @@ export const useKioskRouteManager = (options: {
     if (onReset) {
       onReset();
     }
-
-      "Kiosk state reset - ready for next user",
-    );
+  }, [onReset]);
 
   // Function to generate QR code for current route
   const generateRouteQRCode = useCallback(async () => {
     // Prevent multiple simultaneous generations
     if (isProcessingRef.current) {
-        "Already generating QR code, please wait",
-      );
+      console.warn("Already generating QR code, please wait");
       return;
     }
 
@@ -388,23 +385,16 @@ export const useKioskRouteManager = (options: {
       };
 
       // Generate QR code
-
-      const qrCode = await generateRouteQR(
-        routeData,
-        {
-          primaryColor: "#4285F4",
-          secondaryColor: "#34A853",
-          cornerRadius: 10,
-          errorCorrection: "H",
-        },
-      );
+      const qrCode = await generateRouteQR(routeData, {
+        primaryColor: "#4285F4",
+        secondaryColor: "#34A853",
+        cornerRadius: 10,
+        errorCorrection: "H",
+      });
 
       // Update state with generated QR code
       setQRCodeUrl(qrCode);
       setShowQRModal(true);
-
-        "QR code generated successfully",
-      );
     } catch (error) {
       // Handle errors
       const errorMessage =
