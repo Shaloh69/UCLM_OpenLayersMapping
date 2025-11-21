@@ -41,9 +41,3 @@ export interface CustomizationPanelProps {
   markerSizeOptions: string[];
   onClose: () => void;
 }
-
-export interface DebugPanelProps {
-  debugInfo: string[];
-}
-
-export type DebugCallback = () => void;

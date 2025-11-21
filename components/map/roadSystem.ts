@@ -6,7 +6,6 @@ import { Vector as VectorSource } from "ol/source";
 import { Vector as VectorLayer } from "ol/layer";
 import { Style, Stroke } from "ol/style";
 import { MutableRefObject } from "react";
-import { debugLog } from "./components";
 import Point from "ol/geom/Point";
 import { Geometry } from "ol/geom";
 
@@ -99,10 +98,7 @@ export const findShortestPath = (
   startNodeId: string,
   endNodeId: string,
   roadsSource: VectorSource<Feature>,
-  nodesSource: VectorSource<Feature>,
-  debugInfoRef: MutableRefObject<string[]>,
-  debug: boolean,
-  updateDebugCallback?: () => void
+  nodesSource: VectorSource<Feature>
 ): Feature[] => {
   // Build a graph from the road network
   const graph: Record<string, Record<string, number>> = {};
@@ -170,12 +166,6 @@ export const findShortestPath = (
 
   // Check if both nodes exist in the graph
   if (!graph[startNodeId] || !graph[endNodeId]) {
-    debugLog(
-      debugInfoRef,
-      debug,
-      `Cannot find path: Node ${!graph[startNodeId] ? startNodeId : endNodeId} not found in graph`,
-      updateDebugCallback
-    );
     return [];
   }
 
@@ -230,12 +220,6 @@ export const findShortestPath = (
 
   if (previous[endNodeId] === null && startNodeId !== endNodeId) {
     // No path found
-    debugLog(
-      debugInfoRef,
-      debug,
-      `No path found between ${startNodeId} and ${endNodeId}`,
-      updateDebugCallback
-    );
     return [];
   }
 
@@ -271,22 +255,13 @@ export const findShortestPath = (
     }
   }
 
-  debugLog(
-    debugInfoRef,
-    debug,
-    `Found path with ${pathFeatures.length} segments from ${startNodeId} to ${endNodeId}`,
-    updateDebugCallback
-  );
 
   return pathFeatures;
 };
 
 export const setupRoadSystem = (
   roadsUrl: string,
-  nodesUrl: string,
-  debugInfoRef: MutableRefObject<string[]>,
-  debug: boolean,
-  updateDebugCallback?: () => void
+  nodesUrl: string
 ) => {
   // Create source for roads
   const roadsSource = new VectorSource({
@@ -348,22 +323,10 @@ export const setupRoadSystem = (
   // Load initial roads data
   roadsSource.on("featuresloadend", () => {
     const features = roadsSource.getFeatures();
-    debugLog(
-      debugInfoRef,
-      debug,
-      `Loaded ${features.length} road segments`,
-      updateDebugCallback
-    );
   });
 
   // Handle potential errors loading roads
   roadsSource.on("featuresloaderror", (error: any) => {
-    debugLog(
-      debugInfoRef,
-      debug,
-      `Error loading road segments: ${error.message}`,
-      updateDebugCallback
-    );
   });
 
   // Load initial nodes data
@@ -383,39 +346,11 @@ export const setupRoadSystem = (
       `✅ featuresloadend in road system triggered, total features: ${destinations}`
     );
 
-    debugLog(
-      debugInfoRef,
-      debug,
-      `Loaded ${features.length} road nodes (${destinations.length} destinations)`,
-      updateDebugCallback
-    );
 
-    // Check node properties to debug
-    if (debug) {
-      features.forEach((feature, index) => {
-        const props = feature.getProperties();
-        if (props.isDestination) {
-          const geom = feature.getGeometry();
-          const geomType = geom ? geom.getType() : "no geometry";
-          debugLog(
-            debugInfoRef,
-            debug,
-            `Destination #${index + 1}: ID=${props.id}, Name=${props.name}, GeomType=${geomType}`,
-            updateDebugCallback
-          );
-        }
-      });
-    }
   });
 
   // Handle potential errors loading nodes
   nodesSource.on("featuresloaderror", (error: any) => {
-    debugLog(
-      debugInfoRef,
-      debug,
-      `Error loading nodes/destinations: ${error.message}`,
-      updateDebugCallback
-    );
   });
 
   return { roadsLayer, roadsSource, nodesSource };

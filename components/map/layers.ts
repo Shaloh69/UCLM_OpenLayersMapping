@@ -149,12 +149,12 @@ export const setupLayers = (
 
   // Calculate extent from all sources and constrain map bounds
   let combinedExtent: Extent | null = null;
+  let isAdjustingCenter = false;
 
   const updateMapExtent = () => {
     const extent = createEmpty();
     let hasFeatures = false;
 
-    // Get extent from vector source (map polygons)
     const vectorFeatures = vectorSource.getFeatures();
     if (vectorFeatures.length > 0) {
       vectorFeatures.forEach((feature) => {
@@ -166,7 +166,6 @@ export const setupLayers = (
       });
     }
 
-    // Get extent from points source
     const pointFeatures = pointsSource.getFeatures();
     if (pointFeatures.length > 0) {
       pointFeatures.forEach((feature) => {
@@ -179,7 +178,6 @@ export const setupLayers = (
     }
 
     if (hasFeatures) {
-      // Add padding (20% buffer) around the extent
       combinedExtent = buffer(extent,
         Math.max(
           extent[2] - extent[0],
@@ -187,7 +185,6 @@ export const setupLayers = (
         ) * 0.2
       );
 
-      // Fit view to extent with animation
       view.fit(combinedExtent, {
         padding: [50, 50, 50, 50],
         maxZoom: 19,
@@ -196,27 +193,22 @@ export const setupLayers = (
     }
   };
 
-  // Listen for when features are loaded
-  vectorSource.on("featuresloadend", updateMapExtent);
-  pointsSource.on("featuresloadend", updateMapExtent);
+  vectorSource.once("featuresloadend", updateMapExtent);
+  pointsSource.once("featuresloadend", updateMapExtent);
 
-  // Constrain panning to stay within bounds
   view.on("change:center", () => {
-    if (!combinedExtent) return;
+    if (!combinedExtent || isAdjustingCenter) return;
 
     const currentCenter = view.getCenter();
     if (!currentCenter) return;
 
     const currentExtent = view.calculateExtent();
-
-    // Check if we're outside the allowed extent
     const [minX, minY, maxX, maxY] = combinedExtent;
     const [viewMinX, viewMinY, viewMaxX, viewMaxY] = currentExtent;
 
     let newCenter = [...currentCenter];
     let needsAdjustment = false;
 
-    // Constrain X axis
     if (viewMinX < minX) {
       newCenter[0] += (minX - viewMinX);
       needsAdjustment = true;
@@ -225,7 +217,6 @@ export const setupLayers = (
       needsAdjustment = true;
     }
 
-    // Constrain Y axis
     if (viewMinY < minY) {
       newCenter[1] += (minY - viewMinY);
       needsAdjustment = true;
@@ -235,7 +226,9 @@ export const setupLayers = (
     }
 
     if (needsAdjustment) {
+      isAdjustingCenter = true;
       view.setCenter(newCenter as [number, number]);
+      setTimeout(() => { isAdjustingCenter = false; }, 10);
     }
   });
 

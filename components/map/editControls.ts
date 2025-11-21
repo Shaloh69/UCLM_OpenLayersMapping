@@ -14,7 +14,7 @@ import Map from "ol/Map";
 import { MutableRefObject } from "react";
 import { fromLonLat } from "ol/proj";
 import { Polygon } from "ol/geom";
-import { debugLog } from "./components";
+
 import { getRandomColor, hexToRGBA } from "./layers";
 import { DebugCallback } from "./types";
 
@@ -22,9 +22,6 @@ import { DebugCallback } from "./types";
 export const exportGeoJSON = (
   source: any,
   filename: string,
-  debugInfoRef: MutableRefObject<string[]>,
-  debug: boolean,
-  updateDebugCallback?: DebugCallback
 ) => {
   const features = source.getFeatures();
   const geoJsonFormat = new GeoJSON({
@@ -35,11 +32,8 @@ export const exportGeoJSON = (
   const geoJsonStr = geoJsonFormat.writeFeatures(features);
   const blob = new Blob([geoJsonStr], { type: "application/json" });
   saveAs(blob, filename);
-  debugLog(
-    debugInfoRef,
     debug,
     `Exported GeoJSON with ${features.length} features`,
-    updateDebugCallback
   );
 };
 
@@ -48,10 +42,7 @@ export const addMarker = (
   lon: number,
   lat: number,
   pointsSource: any,
-  debugInfoRef: MutableRefObject<string[]>,
-  debug: boolean,
   options: any = {},
-  updateDebugCallback?: DebugCallback
 ) => {
   if (!pointsSource) return;
 
@@ -72,11 +63,8 @@ export const addMarker = (
   }
 
   pointsSource.addFeature(feature);
-  debugLog(
-    debugInfoRef,
     debug,
     `Added marker at [${lon}, ${lat}]`,
-    updateDebugCallback
   );
   return feature;
 };
@@ -85,10 +73,7 @@ export const addMarker = (
 export const addPolygon = (
   coordinates: number[][],
   vectorSource: any,
-  debugInfoRef: MutableRefObject<string[]>,
-  debug: boolean,
   options: any = {},
-  updateDebugCallback?: DebugCallback
 ) => {
   if (!vectorSource) return;
 
@@ -116,11 +101,8 @@ export const addPolygon = (
   }
 
   vectorSource.addFeature(feature);
-  debugLog(
-    debugInfoRef,
     debug,
     `Added polygon with ${coordinates.length} points`,
-    updateDebugCallback
   );
   return feature;
 };
@@ -132,19 +114,13 @@ export const deleteSelectedFeature = (
   pointsSource: any,
   setShowCustomizePanel: (show: boolean) => void,
   setSelectedFeature: (feature: Feature | null) => void,
-  debugInfoRef: MutableRefObject<string[]>,
-  debug: boolean,
-  updateDebugCallback?: DebugCallback
 ) => {
   if (!selectInteraction) return;
 
   const selectedFeatures = selectInteraction.getFeatures();
   if (selectedFeatures.getLength() === 0) {
-    debugLog(
-      debugInfoRef,
       debug,
       "No feature selected to delete",
-      updateDebugCallback
     );
     return;
   }
@@ -161,11 +137,8 @@ export const deleteSelectedFeature = (
   setSelectedFeature(null);
   selectedFeatures.clear();
 
-  debugLog(
-    debugInfoRef,
     debug,
     "Deleted selected feature",
-    updateDebugCallback
   );
 };
 
@@ -182,9 +155,6 @@ export const setupEditControls = (
   setFeatureProperties: (props: { [key: string]: any }) => void,
   setShowCustomizePanel: (show: boolean) => void,
   setDrawType: (type: "Point" | "LineString" | "Polygon" | null) => void,
-  debug: boolean,
-  debugInfoRef: MutableRefObject<string[]>,
-  updateDebugCallback?: DebugCallback
 ) => {
   // Remove existing interactions
   if (modifyInteractionRef.current) {
@@ -201,11 +171,9 @@ export const setupEditControls = (
   }
 
   if (!editMode) {
-    debugLog(debugInfoRef, debug, "Edit mode disabled", updateDebugCallback);
     return;
   }
 
-  debugLog(debugInfoRef, debug, "Edit mode enabled", updateDebugCallback);
 
   // Create select interaction
   const select = new Select({
@@ -261,7 +229,6 @@ export const setupEditControls = (
       setFeatureProperties(properties);
       setShowCustomizePanel(true);
 
-      debugLog(debugInfoRef, debug, "Feature selected", updateDebugCallback);
     } else {
       setSelectedFeature(null);
       setFeatureProperties({});
@@ -297,9 +264,6 @@ export const toggleDrawInteraction = (
   setSelectedFeature: (feature: Feature | null) => void,
   setFeatureProperties: (props: { [key: string]: any }) => void,
   setShowCustomizePanel: (show: boolean) => void,
-  debug: boolean,
-  debugInfoRef: MutableRefObject<string[]>,
-  updateDebugCallback?: DebugCallback
 ) => {
   if (!map || !editMode) return;
 
@@ -310,15 +274,11 @@ export const toggleDrawInteraction = (
   }
 
   if (!type) {
-    debugLog(debugInfoRef, debug, "Draw mode disabled", updateDebugCallback);
     return;
   }
 
-  debugLog(
-    debugInfoRef,
     debug,
     `Draw mode enabled: ${type}`,
-    updateDebugCallback
   );
 
   // Create draw interaction with the appropriate source
@@ -374,11 +334,8 @@ export const toggleDrawInteraction = (
       setShowCustomizePanel(true);
     }
 
-    debugLog(
-      debugInfoRef,
       debug,
       `Created new ${type} feature`,
-      updateDebugCallback
     );
   });
 
