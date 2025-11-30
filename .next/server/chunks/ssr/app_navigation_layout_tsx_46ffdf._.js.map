@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://C%3A/Projects/Thesis/UCWAYS/UCLM_OpenLayersMapping/app/navigation/layout.tsx"],"sourcesContent":["export default function NavLayout({ children }: { children: React.ReactNode }) {\r\n  return (\r\n    <section className=\"fixed left-0 top-0 w-full h-full\">\r\n      <div className=\"relative inset-0\">{children}</div>\r\n    </section>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;;AAAe,SAAS,UAAU,EAAE,QAAQ,EAAiC;IAC3E,qBACE,8OAAC;QAAQ,WAAU;kBACjB,cAAA,8OAAC;YAAI,WAAU;sBAAoB;;;;;;;;;;;AAGzC"}},
-    {"offset": {"line": 29, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}
