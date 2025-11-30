@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -108,7 +108,8 @@ const RouteReadyScreen = ({ startRoute }: { startRoute: () => void }) => (
   </div>
 );
 
-export default function RoutePage() {
+// Component that uses useSearchParams - wrapped in Suspense
+function RouteContent() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -168,5 +169,14 @@ export default function RoutePage() {
         </div>
       )}
     </>
+  );
+}
+
+// Main page component with Suspense boundary
+export default function RoutePage() {
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <RouteContent />
+    </Suspense>
   );
 }
