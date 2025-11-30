@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: uclm-openlayersmapping
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd web && npm install && npm run build
+    startCommand: cd web && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.0
+      - key: NODE_ENV
+        value: production
