@@ -118,6 +118,13 @@ const CampusMap: React.FC<MapProps> = ({
   const [showKioskWelcome, setShowKioskWelcome] = useState<boolean>(!mobileMode);
   const [useEnhancedKioskUI, setUseEnhancedKioskUI] = useState<boolean>(true);
 
+  // State for custom GeoJSON URLs (from Electron config)
+  const [actualMapUrl, setActualMapUrl] = useState<string>(mapUrl);
+  const [actualPointsUrl, setActualPointsUrl] = useState<string>(pointsUrl);
+  const [actualRoadsUrl, setActualRoadsUrl] = useState<string>(roadsUrl);
+  const [actualNodesUrl, setActualNodesUrl] = useState<string>(nodesUrl);
+  const [customGeoJSONLoaded, setCustomGeoJSONLoaded] = useState<boolean>(false);
+
   const {
     qrCodeUrl,
     showQRModal,
@@ -644,8 +651,8 @@ const CampusMap: React.FC<MapProps> = ({
   }, []);
 
   const { featuresReady, allFeatures, resetRouteProcessor } = useRouteProcessor(
-    nodesUrl,
-    roadsUrl,
+    actualNodesUrl,
+    actualRoadsUrl,
     mapInstanceRef,
     displayRoute,
     setCurrentLocation,
@@ -660,6 +667,64 @@ const CampusMap: React.FC<MapProps> = ({
       vectorSourceRef.current,
       "map_export.geojson"
     );
+  }, []);
+
+  // Load custom GeoJSON files from Electron if available
+  useEffect(() => {
+    const loadCustomGeoJSON = async () => {
+      // Check if running in Electron
+      if (typeof window !== 'undefined' && (window as any).electron) {
+        try {
+          console.log('Checking for custom GeoJSON files from Electron...');
+
+          // Try to load custom files
+          const buildingsData = await (window as any).electron.getCustomGeoJSON('Buildings.geojson');
+          const roadSystemData = await (window as any).electron.getCustomGeoJSON('RoadSystem.geojson');
+          const pointsData = await (window as any).electron.getCustomGeoJSON('Points.geojson');
+
+          let hasCustomFiles = false;
+
+          // If custom files exist, create blob URLs from them
+          if (buildingsData) {
+            console.log('Custom Buildings.geojson found');
+            const blob = new Blob([JSON.stringify(buildingsData)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            setActualMapUrl(url);
+            hasCustomFiles = true;
+          }
+
+          if (roadSystemData) {
+            console.log('Custom RoadSystem.geojson found');
+            const blob = new Blob([JSON.stringify(roadSystemData)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            setActualRoadsUrl(url);
+            setActualNodesUrl(url); // Both use the same file
+            hasCustomFiles = true;
+          }
+
+          if (pointsData) {
+            console.log('Custom Points.geojson found');
+            const blob = new Blob([JSON.stringify(pointsData)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            setActualPointsUrl(url);
+            hasCustomFiles = true;
+          }
+
+          if (hasCustomFiles) {
+            console.log('Using custom GeoJSON files from Electron configuration');
+          } else {
+            console.log('No custom GeoJSON files found, using defaults');
+          }
+        } catch (error) {
+          console.log('Error loading custom GeoJSON files, using defaults:', error);
+        }
+      }
+
+      // Mark as loaded (whether custom files were found or not)
+      setCustomGeoJSONLoaded(true);
+    };
+
+    loadCustomGeoJSON();
   }, []);
 
   useEffect(() => {
@@ -717,8 +782,8 @@ const CampusMap: React.FC<MapProps> = ({
       backdropColor,
       centerCoordinates,
       initialZoom,
-      mapUrl,
-      pointsUrl
+      actualMapUrl,
+      actualPointsUrl
     );
 
     mapInstanceRef.current = map;
@@ -726,8 +791,8 @@ const CampusMap: React.FC<MapProps> = ({
     pointsSourceRef.current = pointsSource;
 
     const { roadsLayer, roadsSource, nodesSource } = setupRoadSystem(
-      roadsUrl,
-      nodesUrl
+      actualRoadsUrl,
+      actualNodesUrl
     );
 
     // Add road layer to map
@@ -838,7 +903,7 @@ const CampusMap: React.FC<MapProps> = ({
 
     // Function to load destinations directly from GeoJSON
     const loadDestinationsDirectly = () => {
-      fetch(nodesUrl)
+      fetch(actualNodesUrl)
         .then((response) => response.json())
         .then((data) => {
           const directLoadedDestinations: RoadNode[] = [];
@@ -968,7 +1033,7 @@ const CampusMap: React.FC<MapProps> = ({
 
       // If no destinations were loaded, try to load them directly from the GeoJSON file
       if (loadedDestinations.length === 0) {
-        fetch(nodesUrl)
+        fetch(actualNodesUrl)
           .then((response) => response.json())
           .then((data) => {
             const directLoadedDestinations: RoadNode[] = [];
@@ -1200,14 +1265,17 @@ const CampusMap: React.FC<MapProps> = ({
       delete (window as any).mapEditor;
       map.setTarget(undefined);
     };
-  }, []);
+  }, [actualMapUrl, actualPointsUrl, actualRoadsUrl, actualNodesUrl]);
 
+  // Only initialize map after custom GeoJSON check is complete
   useEffect(() => {
+    if (!customGeoJSONLoaded) return;
+
     const cleanup = initializeMap();
     return () => {
       if (cleanup) cleanup();
     };
-  }, []);
+  }, [customGeoJSONLoaded, initializeMap]);
 
   // Memoize UI components to reduce re-renders
   const OutsideSchoolAlert = useMemo(() => {
@@ -1590,8 +1658,9 @@ const CampusMap: React.FC<MapProps> = ({
       {OutsideSchoolAlert && !mobileMode && OutsideSchoolAlert}
       {LocationErrorAlert}
       {!mobileMode && !showKioskWelcome && LocationPermissionButton}
-      {!mobileMode && !showKioskWelcome && EditControlsComponent}
-      {!mobileMode && !showKioskWelcome && CustomizationPanelComponent}
+      {/* Edit controls only shown when debug mode is enabled - hidden in kiosk */}
+      {!mobileMode && !showKioskWelcome && debug && EditControlsComponent}
+      {!mobileMode && !showKioskWelcome && debug && CustomizationPanelComponent}
       {!mobileMode && !showKioskWelcome && NavigationStatusBar}
       {!mobileMode && !showKioskWelcome && DestinationSelectorButton}
       {showDestinationSelector && !mobileMode && !showKioskWelcome && DestinationSelectorComponent}
