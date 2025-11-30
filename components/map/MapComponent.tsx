@@ -51,9 +51,12 @@ import {
 } from "./roadSystem";
 import { generateRouteQR, parseRouteFromUrl, RouteData } from "./qrCodeUtils";
 import DestinationSelector from "./DestinationSelector";
+import EnhancedDestinationSelector from "./EnhancedDestinationSelector";
 import { useKioskRouteManager } from "./qrCodeUtils";
 import KioskQRModal from "./KioskQRModal";
 import RouteOverlay from "./RouteOverlay";
+import EnhancedRouteOverlay from "./EnhancedRouteOverlay";
+import EnhancedKioskUI from "./EnhancedKioskUI";
 import EnhancedMobileRoutePanel from "./EnhancedMobileRoutePanel";
 import router from "next/router";
 import GeoJSON from "ol/format/GeoJSON";
@@ -112,6 +115,8 @@ const CampusMap: React.FC<MapProps> = ({
     useState<boolean>(false);
   const [defaultStartLocation, setDefaultStartLocation] =
     useState<RoadNode | null>(null);
+  const [showKioskWelcome, setShowKioskWelcome] = useState<boolean>(!mobileMode);
+  const [useEnhancedKioskUI, setUseEnhancedKioskUI] = useState<boolean>(true);
 
   const {
     qrCodeUrl,
@@ -1320,23 +1325,27 @@ const CampusMap: React.FC<MapProps> = ({
     () => (
       <div className="absolute bottom-4 right-4 z-30">
         <button
-          className="bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 focus:outline-none"
+          className="group bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-3xl hover:scale-105 focus:outline-none transition-all duration-300"
           onClick={handleShowDestinationSelector}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
+          <div className="flex items-center gap-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="group-hover:scale-110 transition-transform"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span className="hidden sm:block font-bold text-lg">Find Location</span>
+          </div>
         </button>
       </div>
     ),
@@ -1346,6 +1355,25 @@ const CampusMap: React.FC<MapProps> = ({
   // Memoize destination selector
   const DestinationSelectorComponent = useMemo(() => {
     if (showDestinationSelector) {
+      // Use enhanced UI for desktop/kiosk mode
+      if (useEnhancedKioskUI && !mobileMode) {
+        return (
+          <EnhancedDestinationSelector
+            destinations={destinations}
+            onSelect={handleDestinationSelect}
+            onClose={handleCloseDestinationSelector}
+            categories={[
+              "Gates",
+              "Main Buildings",
+              "Maritime",
+              "Business",
+              "Facilities",
+              "Sports Facilities",
+            ]}
+          />
+        );
+      }
+      // Use original UI for mobile or when enhanced UI is disabled
       return (
         <div className="absolute top-4 left-4 z-40">
           <DestinationSelector
@@ -1370,12 +1398,28 @@ const CampusMap: React.FC<MapProps> = ({
     destinations,
     handleDestinationSelect,
     handleCloseDestinationSelector,
+    useEnhancedKioskUI,
+    mobileMode,
   ]);
 
 
   // Memoize route overlay
   const RouteOverlayComponent = useMemo(() => {
-    if (showRouteOverlay && selectedDestination) {
+    if (showRouteOverlay && selectedDestination && !mobileMode) {
+      // Use enhanced UI for desktop/kiosk mode
+      if (useEnhancedKioskUI) {
+        return (
+          <EnhancedRouteOverlay
+            startNode={currentLocation || defaultStartLocation}
+            endNode={selectedDestination}
+            routeInfo={routeInfo}
+            onCancel={clearRoute}
+            onGenerateQR={handleGenerateQR}
+            isLoading={isGenerating}
+          />
+        );
+      }
+      // Use original UI when enhanced UI is disabled
       return (
         <RouteOverlay
           startNode={currentLocation || defaultStartLocation}
@@ -1395,6 +1439,9 @@ const CampusMap: React.FC<MapProps> = ({
     routeInfo,
     clearRoute,
     handleGenerateQR,
+    useEnhancedKioskUI,
+    mobileMode,
+    isGenerating,
   ]);
 
 
@@ -1522,6 +1569,14 @@ const CampusMap: React.FC<MapProps> = ({
 
   return (
     <div className="relative w-full h-screen">
+      {/* Kiosk Welcome Screen */}
+      {!mobileMode && useEnhancedKioskUI && showKioskWelcome && (
+        <EnhancedKioskUI
+          onStartNavigation={() => setShowKioskWelcome(false)}
+          showWelcome={showKioskWelcome}
+        />
+      )}
+
       <div
         ref={mapRef}
         className="w-full h-full absolute top-0 left-0"
@@ -1534,18 +1589,18 @@ const CampusMap: React.FC<MapProps> = ({
       {/* Conditionally show/hide UI elements based on mobileMode */}
       {OutsideSchoolAlert && !mobileMode && OutsideSchoolAlert}
       {LocationErrorAlert}
-      {!mobileMode && LocationPermissionButton}
-      {!mobileMode && EditControlsComponent}
-      {!mobileMode && CustomizationPanelComponent}
-      {!mobileMode && NavigationStatusBar}
-      {!mobileMode && DestinationSelectorButton}
-      {showDestinationSelector && !mobileMode && DestinationSelectorComponent}
+      {!mobileMode && !showKioskWelcome && LocationPermissionButton}
+      {!mobileMode && !showKioskWelcome && EditControlsComponent}
+      {!mobileMode && !showKioskWelcome && CustomizationPanelComponent}
+      {!mobileMode && !showKioskWelcome && NavigationStatusBar}
+      {!mobileMode && !showKioskWelcome && DestinationSelectorButton}
+      {showDestinationSelector && !mobileMode && !showKioskWelcome && DestinationSelectorComponent}
 
       {/* Render mobile UI */}
       {mobileMode && renderMobileUI()}
 
-      {RouteOverlayComponent}
-      {showQRModal && selectedDestination && (
+      {!showKioskWelcome && RouteOverlayComponent}
+      {!showKioskWelcome && showQRModal && selectedDestination && (
         <KioskQRModal
           qrCodeUrl={qrCodeUrl}
           destination={selectedDestination}
