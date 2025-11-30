@@ -62,10 +62,10 @@ import router from "next/router";
 import GeoJSON from "ol/format/GeoJSON";
 
 const CampusMap: React.FC<MapProps> = ({
-  mapUrl = "/UCLM_Map.geojson",
+  mapUrl = "/UCLM_Buildings.geojson",
   pointsUrl = "/UCLM_Points.geojson",
-  roadsUrl = "/UCLM_Roads.geojson",
-  nodesUrl = "/UCLM_Nodes.geojson",
+  roadsUrl = "/UCLM_RoadSystem.geojson",
+  nodesUrl = "/UCLM_RoadSystem.geojson",
   backdropColor = "#f7f2e4",
   initialZoom = 15,
   centerCoordinates = [123.9545, 10.3265],
