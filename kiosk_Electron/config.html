@@ -4,33 +4,66 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>UCLM Kiosk Configuration</title>
+    <title>Campus Navigation Kiosk Configuration</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            background-color: #f0f2f5;
         }
 
         .container {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 90%;
-            max-width: 500px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         h1 {
-            color: #1a73e8;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-top: 0;
+            margin-bottom: 10px;
             text-align: center;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px dashed #e0e0e0;
+            border-radius: 12px;
+            background-color: #fafafa;
+        }
+
+        .section-title {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
         }
 
         .input-group {
@@ -39,159 +72,313 @@
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 500;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        .button-row {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        button {
-            background-color: #1a73e8;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
+            color: #333;
             font-size: 14px;
-            font-weight: 500;
-            flex: 1;
-            margin: 0 5px;
         }
 
-        button.secondary {
-            background-color: #f0f2f5;
-            color: #1a73e8;
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
         }
 
-        .status {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            background-color: #f8f9fa;
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 12px;
+            background-color: white;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
             text-align: center;
+            cursor: pointer;
+            color: #667eea;
+            font-weight: 500;
         }
 
-        .shortcuts {
-            margin-top: 20px;
+        .file-name {
+            margin-top: 8px;
             font-size: 12px;
             color: #666;
         }
 
-        .shortcuts h3 {
-            margin-bottom: 5px;
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            flex: 1;
+            margin: 5px;
         }
 
-        .shortcuts-list {
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 5px;
+        button.secondary {
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        .button-row {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #e3f2fd;
+            text-align: center;
+            border-left: 4px solid #2196f3;
+            color: #0d47a1;
+        }
+
+        .status.error {
+            background-color: #ffebee;
+            border-left-color: #f44336;
+            color: #c62828;
+        }
+
+        .status.success {
+            background-color: #e8f5e9;
+            border-left-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .info-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        .shortcuts {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9ff;
+            border-radius: 8px;
+        }
+
+        .shortcuts h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #667eea;
+            font-size: 14px;
         }
 
         .shortcut-key {
             font-weight: bold;
-            color: #1a73e8;
+            color: #667eea;
+            background-color: #f0f2f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>UCLM Kiosk Configuration</h1>
+        <h1>🗺️ Campus Navigation Kiosk</h1>
+        <p class="subtitle">Configure your campus navigation system</p>
 
-        <div class="input-group">
-            <label for="serverUrl">Server URL:</label>
-            <input type="text" id="serverUrl" placeholder="http://localhost:3000 or https://your-ngrok-url.ngrok.io">
+        <div class="info-box">
+            <strong>💡 Pro Tip:</strong> Upload custom campus GeoJSON files to make this work for any location!
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">🌐 Server Configuration</h3>
+            <div class="input-group">
+                <label for="serverUrl">Web App URL:</label>
+                <input type="text" id="serverUrl" placeholder="http://localhost:3000">
+            </div>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">📍 Campus Map Data</h3>
+
+            <div class="input-group">
+                <label for="buildingsFile">Buildings GeoJSON:</label>
+                <div class="file-input-wrapper">
+                    <label class="file-input-label" for="buildingsFile">
+                        📄 Choose Buildings File
+                    </label>
+                    <input type="file" id="buildingsFile" accept=".geojson,.json" style="display: none;">
+                </div>
+                <div class="file-name" id="buildingsFileName">No file selected</div>
+            </div>
+
+            <div class="input-group">
+                <label for="roadSystemFile">Road System GeoJSON:</label>
+                <div class="file-input-wrapper">
+                    <label class="file-input-label" for="roadSystemFile">
+                        🛣️ Choose Road System File
+                    </label>
+                    <input type="file" id="roadSystemFile" accept=".geojson,.json" style="display: none;">
+                </div>
+                <div class="file-name" id="roadSystemFileName">No file selected</div>
+            </div>
+
+            <div class="input-group">
+                <label for="pointsFile">Points GeoJSON (Optional):</label>
+                <div class="file-input-wrapper">
+                    <label class="file-input-label" for="pointsFile">
+                        📌 Choose Points File
+                    </label>
+                    <input type="file" id="pointsFile" accept=".geojson,.json" style="display: none;">
+                </div>
+                <div class="file-name" id="pointsFileName">Optional</div>
+            </div>
         </div>
 
         <div class="button-row">
-            <button id="saveButton">Save and Launch</button>
-            <button class="secondary" id="reloadButton">Reload App</button>
+            <button id="saveButton">💾 Save & Launch</button>
+            <button class="secondary" id="reloadButton">🔄 Reload</button>
         </div>
 
-        <div class="status" id="status">
-            Enter your server URL or ngrok URL
-        </div>
+        <div class="status" id="status">Ready to configure</div>
 
         <div class="shortcuts">
-            <h3>Keyboard Shortcuts:</h3>
-            <div class="shortcuts-list">
-                <div><span class="shortcut-key">Ctrl+Shift+C</span>: Open config</div>
-                <div><span class="shortcut-key">Ctrl+Shift+R</span>: Reload page</div>
-                <div><span class="shortcut-key">Ctrl+Shift+F</span>: Toggle fullscreen</div>
-                <div><span class="shortcut-key">Ctrl+Shift+Q</span>: Quit app</div>
-            </div>
+            <h3>⌨️ Shortcuts</h3>
+            <p><span class="shortcut-key">Ctrl+Shift+C</span> Config | <span class="shortcut-key">Ctrl+Shift+R</span> Reload | <span class="shortcut-key">Ctrl+Shift+Q</span> Quit</p>
         </div>
     </div>
 
     <script>
-        // Wait for DOM to load
+        let buildingsFileData = null;
+        let roadSystemFileData = null;
+        let pointsFileData = null;
+
+        async function readFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        resolve(JSON.parse(e.target.result));
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                reader.onerror = reject;
+                reader.readAsText(file);
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', async () => {
-            const urlInput = document.getElementById('serverUrl');
-            const saveButton = document.getElementById('saveButton');
-            const reloadButton = document.getElementById('reloadButton');
             const statusDiv = document.getElementById('status');
 
-            // Get current server URL if available
-            if (window.electron) {
-                try {
-                    const savedUrl = await window.electron.getNgrokUrl();
-                    if (savedUrl) {
-                        urlInput.value = savedUrl;
-                        statusDiv.textContent = `Current URL: ${savedUrl}`;
-                    }
-                } catch (error) {
-                    statusDiv.textContent = `Error loading saved URL: ${error.message}`;
-                }
-            } else {
-                statusDiv.textContent = 'Electron API not available';
-            }
-
-            // Save URL when button is clicked
-            saveButton.addEventListener('click', async () => {
-                const url = urlInput.value.trim();
-                if (!url) {
-                    statusDiv.textContent = 'Please enter a valid URL';
-                    return;
-                }
-
-                statusDiv.textContent = 'Updating URL...';
-
-                if (window.electron) {
+            // Buildings file
+            document.getElementById('buildingsFile').addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (file) {
                     try {
-                        const success = await window.electron.updateNgrokUrl(url);
-                        if (success) {
-                            statusDiv.textContent = `URL updated to: ${url}`;
-                        } else {
-                            statusDiv.textContent = 'Failed to update URL';
-                        }
+                        buildingsFileData = await readFile(file);
+                        document.getElementById('buildingsFileName').textContent = `✅ ${file.name}`;
+                        statusDiv.className = 'status success';
+                        statusDiv.textContent = 'Buildings file loaded!';
                     } catch (error) {
-                        statusDiv.textContent = `Error: ${error.message}`;
+                        statusDiv.className = 'status error';
+                        statusDiv.textContent = 'Error reading buildings file';
                     }
-                } else {
-                    statusDiv.textContent = 'Electron API not available';
                 }
             });
 
-            // Reload app
-            reloadButton.addEventListener('click', () => {
+            // Road system file
+            document.getElementById('roadSystemFile').addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        roadSystemFileData = await readFile(file);
+                        document.getElementById('roadSystemFileName').textContent = `✅ ${file.name}`;
+                        statusDiv.className = 'status success';
+                        statusDiv.textContent = 'Road system file loaded!';
+                    } catch (error) {
+                        statusDiv.className = 'status error';
+                        statusDiv.textContent = 'Error reading road system file';
+                    }
+                }
+            });
+
+            // Points file
+            document.getElementById('pointsFile').addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        pointsFileData = await readFile(file);
+                        document.getElementById('pointsFileName').textContent = `✅ ${file.name}`;
+                        statusDiv.className = 'status success';
+                        statusDiv.textContent = 'Points file loaded!';
+                    } catch (error) {
+                        statusDiv.className = 'status error';
+                        statusDiv.textContent = 'Error reading points file';
+                    }
+                }
+            });
+
+            // Load current config
+            if (window.electron) {
+                try {
+                    const config = await window.electron.getConfig();
+                    if (config.url) {
+                        document.getElementById('serverUrl').value = config.url;
+                    }
+                } catch (error) {
+                    console.error('Error loading config:', error);
+                }
+            }
+
+            // Save button
+            document.getElementById('saveButton').addEventListener('click', async () => {
+                const url = document.getElementById('serverUrl').value.trim();
+
+                if (!url) {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = 'Please enter a server URL';
+                    return;
+                }
+
+                statusDiv.className = 'status';
+                statusDiv.textContent = 'Saving...';
+
+                const config = {
+                    url: url,
+                    buildingsFile: buildingsFileData,
+                    roadSystemFile: roadSystemFileData,
+                    pointsFile: pointsFileData
+                };
+
+                if (window.electron) {
+                    try {
+                        await window.electron.saveConfig(config);
+                        statusDiv.className = 'status success';
+                        statusDiv.textContent = '✅ Saved! Reloading...';
+                        setTimeout(() => window.electron.reloadApp(), 1000);
+                    } catch (error) {
+                        statusDiv.className = 'status error';
+                        statusDiv.textContent = `Error: ${error.message}`;
+                    }
+                }
+            });
+
+            // Reload button
+            document.getElementById('reloadButton').addEventListener('click', () => {
                 if (window.electron) {
                     window.electron.reloadApp();
-                    statusDiv.textContent = 'Reloading application...';
-                } else {
-                    window.location.reload();
                 }
             });
         });

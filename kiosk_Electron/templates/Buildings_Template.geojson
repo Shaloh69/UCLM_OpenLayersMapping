@@ -1,0 +1,49 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "fill": "#34ea40",
+        "fill-opacity": 1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [123.9540, 10.3270],
+            [123.9545, 10.3270],
+            [123.9545, 10.3265],
+            [123.9540, 10.3265],
+            [123.9540, 10.3270]
+          ]
+        ]
+      },
+      "id": "building_1"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "fill": "#3498db",
+        "fill-opacity": 1
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [123.9550, 10.3275],
+            [123.9555, 10.3275],
+            [123.9555, 10.3270],
+            [123.9550, 10.3270],
+            [123.9550, 10.3275]
+          ]
+        ]
+      },
+      "id": "building_2"
+    }
+  ]
+}

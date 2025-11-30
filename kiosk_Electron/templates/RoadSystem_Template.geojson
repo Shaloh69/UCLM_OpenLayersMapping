@@ -1,0 +1,94 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node1",
+        "name": "Main Entrance",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Main entrance to the campus"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [123.9540, 10.3270]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "node2",
+        "name": "Library Building",
+        "isDestination": true,
+        "category": "Main Buildings",
+        "description": "Campus library and study area"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [123.9550, 10.3275]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "junction1",
+        "name": "Junction 1",
+        "isDestination": false,
+        "category": "Junctions"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [123.9545, 10.3272]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "from": "node1",
+        "to": "junction1",
+        "type": "main"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [123.9540, 10.3270],
+          [123.9545, 10.3272]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "from": "junction1",
+        "to": "node2",
+        "type": "main"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [123.9545, 10.3272],
+          [123.9550, 10.3275]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "road1"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [123.9539, 10.3269],
+            [123.9551, 10.3276],
+            [123.9551, 10.3274],
+            [123.9539, 10.3267],
+            [123.9539, 10.3269]
+          ]
+        ]
+      }
+    }
+  ]
+}
