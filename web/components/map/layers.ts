@@ -128,7 +128,7 @@ export const setupLayers = (
   const view = new View({
     center: fromLonLat(centerCoordinates),
     zoom: initialZoom,
-    minZoom: 16,
+    minZoom: 17.5, // Restrict zoom out to prevent losing context
     maxZoom: 21,
     enableRotation: true,
     rotation: 44.86,
@@ -178,12 +178,16 @@ export const setupLayers = (
     }
 
     if (hasFeatures) {
+      // Tighter buffer to keep map focused on campus (10% instead of 20%)
       combinedExtent = buffer(extent,
         Math.max(
           extent[2] - extent[0],
           extent[3] - extent[1]
-        ) * 0.2
+        ) * 0.1
       );
+
+      // Set extent constraint on the view to prevent panning outside
+      view.setProperties({ extent: combinedExtent });
 
       view.fit(combinedExtent, {
         padding: [50, 50, 50, 50],
@@ -209,6 +213,7 @@ export const setupLayers = (
     let newCenter = [...currentCenter];
     let needsAdjustment = false;
 
+    // More restrictive panning - don't allow view to move beyond extent at all
     if (viewMinX < minX) {
       newCenter[0] += (minX - viewMinX);
       needsAdjustment = true;
