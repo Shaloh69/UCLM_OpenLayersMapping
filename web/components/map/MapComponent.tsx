@@ -472,16 +472,43 @@ const CampusMap: React.FC<MapProps> = ({
         features: pathFeatures,
       });
 
+      // Create multi-layered route for better visibility
       const routeLayer = new VectorLayer({
         source: routeSource,
-        style: new Style({
-          stroke: new Stroke({
-            color: "#4285F4",
-            width: 6,
-            lineDash: [],
+        style: [
+          // Outer glow/shadow for depth
+          new Style({
+            stroke: new Stroke({
+              color: "rgba(255, 87, 34, 0.3)", // Orange glow
+              width: 14,
+              lineCap: "round",
+              lineJoin: "round",
+            }),
+            zIndex: 998,
           }),
-          zIndex: 10,
-        }),
+          // Middle bright layer
+          new Style({
+            stroke: new Stroke({
+              color: "#FF5722", // Bright orange-red
+              width: 8,
+              lineCap: "round",
+              lineJoin: "round",
+            }),
+            zIndex: 999,
+          }),
+          // Inner white core for contrast
+          new Style({
+            stroke: new Stroke({
+              color: "#FFFFFF",
+              width: 3,
+              lineCap: "round",
+              lineJoin: "round",
+            }),
+            zIndex: 1000,
+          }),
+        ],
+        // Ensure route layer renders above all other layers
+        zIndex: 100,
       });
 
       // Add the layer to the map

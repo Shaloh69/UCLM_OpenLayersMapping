@@ -134,6 +134,7 @@ export const setupLayers = (
     rotation: 44.86,
     constrainResolution: true,
     smoothResolutionConstraint: true,
+    // Note: extent will be set dynamically after features load
   });
 
   const map = new Map({
@@ -178,18 +179,36 @@ export const setupLayers = (
     }
 
     if (hasFeatures) {
-      // Tighter buffer to keep map focused on campus (10% instead of 20%)
-      combinedExtent = buffer(extent,
-        Math.max(
-          extent[2] - extent[0],
-          extent[3] - extent[1]
-        ) * 0.1
-      );
+      // Tighter buffer to keep map focused on campus (15% for smooth panning)
+      const bufferSize = Math.max(
+        extent[2] - extent[0],
+        extent[3] - extent[1]
+      ) * 0.15;
 
-      // Set extent constraint on the view to prevent panning outside
-      view.setProperties({ extent: combinedExtent });
+      combinedExtent = buffer(extent, bufferSize);
 
-      view.fit(combinedExtent, {
+      // Use OpenLayers' built-in extent constraint for smooth panning
+      // This prevents jarring repositioning while allowing smooth interaction
+      const viewOptions = view.getProperties();
+      viewOptions.extent = combinedExtent;
+
+      // Create a new view with extent constraint
+      const constrainedView = new View({
+        center: view.getCenter(),
+        zoom: view.getZoom(),
+        minZoom: 17.5,
+        maxZoom: 21,
+        enableRotation: true,
+        rotation: view.getRotation(),
+        constrainResolution: true,
+        smoothResolutionConstraint: true,
+        extent: combinedExtent, // This handles panning constraints smoothly
+      });
+
+      map.setView(constrainedView);
+
+      // Fit to the extent with animation
+      constrainedView.fit(combinedExtent, {
         padding: [50, 50, 50, 50],
         maxZoom: 19,
         duration: 1000,
@@ -200,42 +219,8 @@ export const setupLayers = (
   vectorSource.once("featuresloadend", updateMapExtent);
   pointsSource.once("featuresloadend", updateMapExtent);
 
-  view.on("change:center", () => {
-    if (!combinedExtent || isAdjustingCenter) return;
-
-    const currentCenter = view.getCenter();
-    if (!currentCenter) return;
-
-    const currentExtent = view.calculateExtent();
-    const [minX, minY, maxX, maxY] = combinedExtent;
-    const [viewMinX, viewMinY, viewMaxX, viewMaxY] = currentExtent;
-
-    let newCenter = [...currentCenter];
-    let needsAdjustment = false;
-
-    // More restrictive panning - don't allow view to move beyond extent at all
-    if (viewMinX < minX) {
-      newCenter[0] += (minX - viewMinX);
-      needsAdjustment = true;
-    } else if (viewMaxX > maxX) {
-      newCenter[0] -= (viewMaxX - maxX);
-      needsAdjustment = true;
-    }
-
-    if (viewMinY < minY) {
-      newCenter[1] += (minY - viewMinY);
-      needsAdjustment = true;
-    } else if (viewMaxY > maxY) {
-      newCenter[1] -= (viewMaxY - maxY);
-      needsAdjustment = true;
-    }
-
-    if (needsAdjustment) {
-      isAdjustingCenter = true;
-      view.setCenter(newCenter as [number, number]);
-      setTimeout(() => { isAdjustingCenter = false; }, 10);
-    }
-  });
+  // Extent constraint is now handled by the View's extent property
+  // This provides smooth panning without jarring snapping behavior
 
   return {
     map,
