@@ -102,16 +102,16 @@
         "id": "gate_9",
         "name": "Gate 9",
         "isDestination": true,
-        "category": "Points of Interest",
-        "description": "Gate 9",
+        "category": "Gates",
+        "description": "",
         "nearest_node": "",
         "additionalDirections": ""
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          123.956028,
-          10.327753
+          123.95601430391741,
+          10.327708383097956
         ]
       }
     },
