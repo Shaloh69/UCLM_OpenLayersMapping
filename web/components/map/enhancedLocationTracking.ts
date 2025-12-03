@@ -290,7 +290,7 @@ export class EnhancedLocationTracker {
       (error) => this.handlePositionError(error),
       {
         enableHighAccuracy: true,
-        maximumAge: 1000, // More frequent updates for mobile
+        maximumAge: 500, // Ultra-responsive: updates every 0.5 seconds for smooth navigation
         timeout: 15000,
       }
     );
