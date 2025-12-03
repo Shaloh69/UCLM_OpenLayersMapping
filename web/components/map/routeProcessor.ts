@@ -53,6 +53,8 @@ export const useRouteProcessor = (
         category: feature.get("category"),
         description: feature.get("description"),
         imageUrl: feature.get("imageUrl"),
+        nearest_node: feature.get("nearest_node"),
+        additionalDirections: feature.get("additionalDirections"),
       };
     },
     []

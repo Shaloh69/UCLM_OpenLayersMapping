@@ -9,8 +9,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "First test point of interest marker",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_cbe2",
+        "additionalDirections": "Walk to Test POI 1 from CBE Junction 2. Look for building entrance or signage."
       },
       "geometry": {
         "type": "Point",
@@ -28,8 +28,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Second test point of interest marker",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_sh_back",
+        "additionalDirections": "Walk to Test POI 2 from SH Back Junction. Look for building entrance or signage."
       },
       "geometry": {
         "coordinates": [
@@ -47,8 +47,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE ELEVATOR",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "gate7",
+        "additionalDirections": "Enter CBE building main entrance. Elevator is on the right side of the lobby."
       },
       "geometry": {
         "type": "Point",
@@ -66,8 +66,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Gate 9 Elevator",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_cbe2",
+        "additionalDirections": "Enter CBE building main entrance. Elevator is on the right side of the lobby."
       },
       "geometry": {
         "type": "Point",
@@ -85,8 +85,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "GATE 8",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "gate7",
+        "additionalDirections": "You have arrived at GATE 8."
       },
       "geometry": {
         "type": "Point",
@@ -104,8 +104,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Gate 9",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "gate8",
+        "additionalDirections": "You have arrived at Gate 9."
       },
       "geometry": {
         "type": "Point",
@@ -123,14 +123,14 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Canteen (Ground Floor)",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_nsa1",
+        "additionalDirections": "Enter CBE building ground floor. Canteen is accessible from main corridor."
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
           123.955409,
-          10.326770
+          10.32677
         ]
       }
     },
@@ -142,13 +142,13 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "NSA DORM and Canteen(Ground floor)",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_court",
+        "additionalDirections": "NSA canteen is on the ground floor of NSA building."
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          123.955090,
+          123.95509,
           10.326573
         ]
       }
@@ -161,8 +161,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Guidance",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "stairs12",
+        "additionalDirections": "Guidance office is inside the building, follow directional signs."
       },
       "geometry": {
         "type": "Point",
@@ -180,8 +180,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "ME TOOL ROOM AND LAB",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_cbe",
+        "additionalDirections": "Enter building and look for room number signage."
       },
       "geometry": {
         "type": "Point",
@@ -199,14 +199,14 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "NSA OFFICE",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_court",
+        "additionalDirections": "Enter NSA building. Office is on the ground floor, follow corridor signs."
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
           123.955049,
-          10.326450
+          10.32645
         ]
       }
     },
@@ -218,8 +218,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBT01 &CBT02",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_maritime",
+        "additionalDirections": "Walk to CBT01 &CBT02 from Maritime Junction. Look for building entrance or signage."
       },
       "geometry": {
         "type": "Point",
@@ -237,13 +237,13 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CLINIC",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_maritime",
+        "additionalDirections": "Clinic is located on the ground floor. Look for medical cross signage."
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          123.954810,
+          123.95481,
           10.326186
         ]
       }
@@ -256,8 +256,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CHAPEL",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "stairs10",
+        "additionalDirections": "Chapel entrance is clearly marked. Follow pathway signs."
       },
       "geometry": {
         "type": "Point",
@@ -275,8 +275,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Texbook Section",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_canteen",
+        "additionalDirections": "Walk to Texbook Section from Canteen Junction. Look for building entrance or signage."
       },
       "geometry": {
         "type": "Point",
@@ -294,8 +294,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "PE FACULTY",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_canteen3",
+        "additionalDirections": "Walk to PE FACULTY from Canteen Junction 3. Look for building entrance or signage."
       },
       "geometry": {
         "type": "Point",
@@ -313,8 +313,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "FOODCOURT",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_canteen3",
+        "additionalDirections": "Follow signs to canteen area inside the building."
       },
       "geometry": {
         "type": "Point",
@@ -332,8 +332,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Stairs, elevator, and President's office",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "library_node",
+        "additionalDirections": "Look for elevator signs inside the building entrance."
       },
       "geometry": {
         "type": "Point",
@@ -351,8 +351,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Maritime Building Stairs",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_path3",
+        "additionalDirections": "Enter Maritime building and look for stairs near the main hallway."
       },
       "geometry": {
         "type": "Point",
@@ -370,8 +370,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Small stairs(old building)",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "stairs_placeholder",
+        "additionalDirections": "Stairs are located inside the old building main corridor."
       },
       "geometry": {
         "type": "Point",
@@ -389,8 +389,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Main Stairs (oldbuilding)",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "stairs_placeholder",
+        "additionalDirections": "Stairs are located inside the old building main corridor."
       },
       "geometry": {
         "type": "Point",
@@ -408,8 +408,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Stairs to URO(old building)",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "stairs3",
+        "additionalDirections": "Stairs are located inside the old building main corridor."
       },
       "geometry": {
         "type": "Point",
@@ -427,8 +427,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "ANNEX 1 stairs",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "stairs6",
+        "additionalDirections": "Enter the building and follow signage to stairs."
       },
       "geometry": {
         "type": "Point",
@@ -446,8 +446,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Annex 1 elevator",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "stairs6",
+        "additionalDirections": "Enter Annex 1 building. Elevator is located near the main entrance."
       },
       "geometry": {
         "type": "Point",
@@ -465,13 +465,13 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Study Hall",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_oldbuilding",
+        "additionalDirections": "Enter building and look for room number or signage."
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          123.953520,
+          123.95352,
           10.325306
         ]
       }
@@ -484,8 +484,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Canteen Annex 1",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "stairs3",
+        "additionalDirections": "Annex 1 canteen is accessible from the ground floor corridor."
       },
       "geometry": {
         "type": "Point",
@@ -503,8 +503,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Prefect of Descipline",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_entrance",
+        "additionalDirections": "Walk to Prefect of Descipline from Main Entrance Junction. Look for building entrance or signage."
       },
       "geometry": {
         "type": "Point",
@@ -522,14 +522,14 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Stairs to SAO",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "junction_entrance",
+        "additionalDirections": "Look for stairs leading to SAO office on upper floor."
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          123.953350,
-          10.325340
+          123.95335,
+          10.32534
         ]
       }
     }

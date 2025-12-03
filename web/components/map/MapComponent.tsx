@@ -48,11 +48,14 @@ import {
   findClosestNode,
   findShortestPath,
   RoadNode,
+  resolveRoutingNode,
+  requiresAdditionalDirections,
 } from "./roadSystem";
 import { generateRouteQR, parseRouteFromUrl, RouteData } from "./qrCodeUtils";
 import DestinationSelector from "./DestinationSelector";
 import EnhancedDestinationSelector from "./EnhancedDestinationSelector";
 import CompactDestinationSelector from "./CompactDestinationSelector";
+import AdditionalDirections from "./AdditionalDirections";
 import { useKioskRouteManager } from "./qrCodeUtils";
 import KioskQRModal from "./KioskQRModal";
 import CompactRouteFooter from "./CompactRouteFooter";
@@ -119,6 +122,8 @@ const CampusMap: React.FC<MapProps> = ({
     useState<RoadNode | null>(null);
   const [showKioskWelcome, setShowKioskWelcome] = useState<boolean>(!mobileMode);
   const [useEnhancedKioskUI, setUseEnhancedKioskUI] = useState<boolean>(true);
+  const [showAdditionalDirections, setShowAdditionalDirections] =
+    useState<boolean>(false);
 
   // State for custom GeoJSON URLs (from Electron config)
   const [actualMapUrl, setActualMapUrl] = useState<string>(mapUrl);
@@ -246,7 +251,19 @@ const CampusMap: React.FC<MapProps> = ({
 
               // If there's an active destination, update the route
               if (selectedDestination) {
-                displayRoute(closestNode.id, selectedDestination.id);
+                const routingNodeId = resolveRoutingNode(selectedDestination);
+                displayRoute(closestNode.id, routingNodeId);
+
+                // Check if user has reached the routing node (nearest_node for POIs)
+                if (closestNode.id === routingNodeId) {
+                  // User reached the routing node - show additional directions if needed
+                  if (requiresAdditionalDirections(selectedDestination)) {
+                    console.log(
+                      `[Navigation] Reached routing node "${routingNodeId}". Showing additional directions.`
+                    );
+                    setShowAdditionalDirections(true);
+                  }
+                }
               }
             }
           }
@@ -425,6 +442,7 @@ const CampusMap: React.FC<MapProps> = ({
     (destination: RoadNode) => {
       setSelectedDestination(destination);
       setShowDestinationSelector(false);
+      setShowAdditionalDirections(false); // Reset additional directions modal
 
       let startNodeToUse: RoadNode | null = null;
 
@@ -494,7 +512,16 @@ const CampusMap: React.FC<MapProps> = ({
 
       // Calculate route from the determined start point
       if (startNodeToUse) {
-        displayRoute(startNodeToUse.id, destination.id);
+        // Resolve the actual routing node (handles POIs with nearest_node)
+        const routingNodeId = resolveRoutingNode(destination);
+        displayRoute(startNodeToUse.id, routingNodeId);
+
+        // Log if routing to nearest node instead of actual destination
+        if (routingNodeId !== destination.id) {
+          console.log(
+            `[Route] Routing to nearest node "${routingNodeId}" for POI "${destination.name}"`
+          );
+        }
       }
     },
     [currentLocation, userPosition, locationPermissionRequested, requestLocationPermission, mobileMode, defaultStartLocation]
@@ -1801,6 +1828,15 @@ const CampusMap: React.FC<MapProps> = ({
         <div className="absolute top-20 left-0 right-0 mx-auto w-80 bg-red-500 text-white p-3 rounded-lg z-30 text-center shadow-lg">
           {error}
         </div>
+      )}
+
+      {/* Additional Directions Modal - shown when user reaches routing node for POI */}
+      {showAdditionalDirections && selectedDestination && (
+        <AdditionalDirections
+          destination={selectedDestination}
+          onClose={() => setShowAdditionalDirections(false)}
+          mobileMode={mobileMode}
+        />
       )}
     </div>
   );
