@@ -4,7 +4,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Test1",
+        "id": "test_poi_1",
+        "name": "Test POI 1",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "First test point of interest marker",
         "nearest_node": [
           123.95598905893246,
           10.327633134990137
@@ -20,11 +24,17 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "Test2",
+      "properties": {
+        "id": "test_poi_2",
+        "name": "Test POI 2",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Second test point of interest marker",
         "nearest_node": [
-           123.95387758896055,
-            10.325673449314735
-        ]},
+          123.95387758896055,
+          10.325673449314735
+        ]
+      },
       "geometry": {
         "coordinates": [
           123.95382702444317,
