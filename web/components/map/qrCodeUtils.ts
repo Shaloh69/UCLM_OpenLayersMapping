@@ -9,6 +9,10 @@ import { RoadNode } from "./roadSystem";
 export interface RouteData {
   startNodeId: string;
   endNodeId: string;
+  startGPS?: {
+    longitude: number;
+    latitude: number;
+  };
   routeInfo?: {
     distance: number;
     estimatedTime: number;
@@ -90,6 +94,13 @@ export const generateRouteQR = async (
     const params = new URLSearchParams();
     params.set("startNode", routeData.startNodeId);
     params.set("endNode", routeData.endNodeId);
+
+    // CRITICAL: Include GPS coordinates from kiosk
+    if (routeData.startGPS) {
+      params.set("startLon", routeData.startGPS.longitude.toString());
+      params.set("startLat", routeData.startGPS.latitude.toString());
+      console.log('[QR] Including GPS in URL:', routeData.startGPS);
+    }
 
     if (routeData.routeInfo) {
       params.set("distance", routeData.routeInfo.distance.toString());
@@ -256,15 +267,29 @@ export const parseRouteFromUrl = (
   try {
     const startNodeId = urlParams.get("startNode");
     const endNodeId = urlParams.get("endNode");
+    const startLon = urlParams.get("startLon");
+    const startLat = urlParams.get("startLat");
 
     if (!startNodeId || !endNodeId) {
       console.warn("Missing required route parameters in URL");
       return null;
     }
 
+    // CRITICAL: Parse GPS coordinates from kiosk
+    const startGPS =
+      startLon && startLat
+        ? {
+            longitude: parseFloat(startLon),
+            latitude: parseFloat(startLat),
+          }
+        : undefined;
+
+    console.log('[PHONE] Parsed GPS from QR:', startGPS);
+
     const routeData: RouteData = {
       startNodeId,
       endNodeId,
+      startGPS, // ← GPS coordinates from kiosk
       timestamp: Date.now(),
     };
 

@@ -138,6 +138,7 @@ const CampusMap: React.FC<MapProps> = ({
   } = useKioskRouteManager({
     currentLocation,
     selectedDestination,
+    userPosition,
     routeInfo,
     defaultStartLocation,
   });

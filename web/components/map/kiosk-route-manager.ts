@@ -1,10 +1,12 @@
 import { useState, useCallback, useRef, MutableRefObject } from "react";
 import { RouteData, generateRouteQR } from "./qrCodeUtils";
 import { RoadNode } from "./roadSystem";
+import { UserPosition } from "./enhancedLocationTracking";
 
 interface UseKioskRouteManagerOptions {
   currentLocation: RoadNode | null;
   selectedDestination: RoadNode | null;
+  userPosition: UserPosition | null;
   routeInfo?: {
     distance: number;
     estimatedTime: number;
@@ -16,6 +18,7 @@ interface UseKioskRouteManagerOptions {
 export const useKioskRouteManager = ({
   currentLocation,
   selectedDestination,
+  userPosition,
   routeInfo,
   defaultStartLocation,
   onReset,
@@ -74,10 +77,31 @@ export const useKioskRouteManager = ({
         throw new Error("Missing route information");
       }
 
+      // CRITICAL: Include kiosk's actual GPS position in QR code
+      const startGPS = userPosition
+        ? {
+            longitude: userPosition.coordinates[0],
+            latitude: userPosition.coordinates[1],
+          }
+        : currentLocation
+          ? {
+              longitude: currentLocation.coordinates[0],
+              latitude: currentLocation.coordinates[1],
+            }
+          : defaultStartLocation
+            ? {
+                longitude: defaultStartLocation.coordinates[0],
+                latitude: defaultStartLocation.coordinates[1],
+              }
+            : undefined;
+
+      console.log(`[KIOSK QR] Including GPS in QR code:`, startGPS);
+
       // Create route data object
       const routeData: RouteData = {
         startNodeId,
         endNodeId: selectedDestination.id,
+        startGPS, // ← Kiosk's actual GPS position
         routeInfo: {
           distance: routeInfo.distance,
           estimatedTime: routeInfo.estimatedTime,
