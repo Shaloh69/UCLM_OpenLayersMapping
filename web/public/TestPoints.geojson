@@ -102,16 +102,16 @@
         "id": "gate_9",
         "name": "Gate 9",
         "isDestination": true,
-        "category": "Points of Interest",
-        "description": "Gate 9",
+        "category": "Gates",
+        "description": "",
         "nearest_node": "",
         "additionalDirections": ""
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          123.956028,
-          10.327753
+          123.95601430391741,
+          10.327708383097956
         ]
       }
     },
@@ -530,6 +530,139 @@
         "coordinates": [
           123.953350,
           10.325340
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_1",
+        "name": "Gate 1",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95304889265816,
+          10.325069490572119
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_2",
+        "name": "Gate 2",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95324804319557,
+          10.325374535347564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_3",
+        "name": "Gate 3",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95329860032285,
+          10.325405949068255
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_4",
+        "name": "Gate 4",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.9537337637567,
+          10.325700272543187
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_5",
+        "name": "Gate 5",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.9539442753603,
+          10.32495861020341
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_6",
+        "name": "Gate 6",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95446220889471,
+          10.325597525000873
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_7",
+        "name": "Gate 7",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95520327445519,
+          10.326436677143334
         ]
       }
     }
