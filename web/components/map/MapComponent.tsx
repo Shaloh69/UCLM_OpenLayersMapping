@@ -1697,8 +1697,8 @@ const CampusMap: React.FC<MapProps> = ({
       {/* Render mobile UI */}
       {mobileMode && renderMobileUI()}
 
-      {!showKioskWelcome && RouteOverlayComponent}
-      {!showKioskWelcome && selectedDestination && (
+      {/* Desktop/Kiosk Route Footer - only show compact footer, not the old overlay */}
+      {!showKioskWelcome && !mobileMode && selectedDestination && (
         <CompactRouteFooter
           destination={selectedDestination}
           currentLocation={currentLocation}
