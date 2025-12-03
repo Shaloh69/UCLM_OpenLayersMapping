@@ -149,7 +149,7 @@ const CampusMap: React.FC<MapProps> = ({
   });
   // Map instance and source references
   const mapInstanceRef = useRef<Map | null>(null);
-  const vectorSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
+  const vectorSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null); 
   const pointsSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
   const drawInteractionRef = useRef<any>(null);
   const modifyInteractionRef = useRef<any>(null);
