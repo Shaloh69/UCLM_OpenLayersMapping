@@ -277,14 +277,16 @@ export class EnhancedLocationTracker {
     onPositionUpdate?: (position: UserPosition) => void,
     onRouteProgressUpdate?: (progress: RouteProgress) => void
   ): void {
+    console.log(`[GPS] 🚀 Starting GPS tracking with update interval: 0.5s`);
     this.onPositionUpdate = onPositionUpdate;
     this.onRouteProgressUpdate = onRouteProgressUpdate;
 
     if (this.watchId !== null) {
+      console.log(`[GPS] ⚠️ GPS tracking already active (watchId: ${this.watchId})`);
       return;
     }
 
-
+    console.log(`[GPS] 📡 Requesting high-accuracy GPS location...`);
     this.watchId = navigator.geolocation.watchPosition(
       (position) => this.handlePositionUpdate(position),
       (error) => this.handlePositionError(error),
@@ -313,6 +315,7 @@ export class EnhancedLocationTracker {
 
   private handlePositionUpdate(geoPosition: GeolocationPosition): void {
     const { latitude, longitude, accuracy, heading, speed } = geoPosition.coords;
+    console.log(`[GPS] 📍 Position: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} | Accuracy: ${accuracy?.toFixed(1)}m | Speed: ${speed?.toFixed(2)}m/s`);
 
     // Calculate derived heading from movement if not provided by device
     let effectiveHeading = heading;
@@ -382,6 +385,7 @@ export class EnhancedLocationTracker {
     if (!this.currentPosition) return;
 
     const coords = fromLonLat(this.currentPosition.coordinates);
+    console.log(`[GPS] 🎯 Marker updated at: [${coords[0].toFixed(2)}, ${coords[1].toFixed(2)}]`);
 
     // Update position marker
     this.userPositionFeature.setGeometry(new Point(coords));
@@ -399,7 +403,10 @@ export class EnhancedLocationTracker {
   }
 
   private checkBoundary(): void {
-    if (!this.currentPosition || !this.schoolBoundaryRef.current) return;
+    if (!this.currentPosition || !this.schoolBoundaryRef.current) {
+      console.log(`[GPS] ⚠️ Boundary check skipped (no position or boundary defined)`);
+      return;
+    }
 
     const coords = fromLonLat(this.currentPosition.coordinates);
     const isOutside = !isCoordinateInsideSchool(
@@ -410,6 +417,9 @@ export class EnhancedLocationTracker {
     if (isOutside !== this.isOutsideSchoolRef.current) {
       this.isOutsideSchoolRef.current = isOutside;
       if (isOutside) {
+        console.log(`[GPS] 🚨 User is OUTSIDE campus boundaries - but marker still shows!`);
+      } else {
+        console.log(`[GPS] ✅ User is INSIDE campus boundaries`);
       }
     }
   }
