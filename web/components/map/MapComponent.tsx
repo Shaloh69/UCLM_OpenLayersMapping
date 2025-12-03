@@ -127,6 +127,11 @@ const CampusMap: React.FC<MapProps> = ({
   const [actualNodesUrl, setActualNodesUrl] = useState<string>(nodesUrl);
   const [customGeoJSONLoaded, setCustomGeoJSONLoaded] = useState<boolean>(false);
 
+  const [routeProgress, setRouteProgress] = useState<RouteProgress | null>(null);
+  const [userPosition, setUserPosition] = useState<UserPosition | null>(null);
+  const [useEnhancedTracking, setUseEnhancedTracking] = useState<boolean>(true);
+
+
   const {
     qrCodeUrl,
     showQRModal,
@@ -172,10 +177,6 @@ const CampusMap: React.FC<MapProps> = ({
 
   // Enhanced location tracking
   const enhancedTrackerRef = useRef<EnhancedLocationTracker | null>(null);
-  const [routeProgress, setRouteProgress] = useState<RouteProgress | null>(null);
-  const [userPosition, setUserPosition] = useState<UserPosition | null>(null);
-  const [useEnhancedTracking, setUseEnhancedTracking] = useState<boolean>(true);
-
   const requestLocationPermission = useCallback(() => {
     setLocationPermissionRequested(true);
 
