@@ -1198,7 +1198,9 @@ const CampusMap: React.FC<MapProps> = ({
         const extent: Extent = vectorSource.getExtent();
         const features = vectorSource.getFeatures();
 
-        // Store the school boundary for location checking
+        // DISABLED: Boundary checking removed to allow GPS anywhere globally
+        // Users can navigate from any location, not restricted to campus
+        // Store the school boundary for map extent only (not for location restriction)
         if (extent && extent.every((v) => isFinite(v))) {
           // Add some padding to the boundary
           const expandedBoundary: Extent = [
@@ -1207,7 +1209,7 @@ const CampusMap: React.FC<MapProps> = ({
             extent[2] + 500,
             extent[3] + 500,
           ];
-          schoolBoundaryRef.current = expandedBoundary;
+          schoolBoundaryRef.current = null; // Disabled - set to null to skip boundary checks
         }
 
         if (extent && extent.every((v) => isFinite(v))) {
@@ -1350,15 +1352,9 @@ const CampusMap: React.FC<MapProps> = ({
   }, [customGeoJSONLoaded, initializeMap]);
 
   // Memoize UI components to reduce re-renders
+  // DISABLED: Outside school alert removed - GPS works globally now
   const OutsideSchoolAlert = useMemo(() => {
-    if (isOutsideSchool && locationTrackingEnabled) {
-      return (
-        <div className="absolute top-20 left-0 right-0 mx-auto w-64 bg-yellow-500 text-white p-3 rounded-lg z-20 text-center shadow-lg">
-          <strong>Notice:</strong> You appear to be outside the campus
-          boundaries. Navigation will use the main gate as your starting point.
-        </div>
-      );
-    }
+    // Boundary checking disabled - users can navigate from anywhere
     return null;
   }, [isOutsideSchool, locationTrackingEnabled]);
 

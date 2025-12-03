@@ -4,6 +4,23 @@
     {
       "type": "Feature",
       "properties": {
+        "id": "gate1",
+        "name": "Test Gate 1",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Main test gate - fallback start point for kiosk mode only"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95598905893246,
+          10.327633134990137
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "id": "test_node_1",
         "name": "Test Point 1",
         "isDestination": true,
@@ -13,8 +30,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          123.95598905893246,
-          10.327633134990137
+          123.95603261754911,
+          10.327575918292553
         ]
       }
     },
@@ -128,6 +145,21 @@
     {
       "type": "Feature",
       "properties": {
+        "from": "gate1",
+        "to": "test_node_1",
+        "type": "main"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [123.95598905893246, 10.327633134990137],
+          [123.95603261754911, 10.327575918292553]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "from": "test_node_1",
         "to": "test_junction_1",
         "type": "main"
@@ -135,7 +167,7 @@
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [123.95598905893246, 10.327633134990137],
+          [123.95603261754911, 10.327575918292553],
           [123.95532327410768, 10.326764399284528]
         ]
       }
