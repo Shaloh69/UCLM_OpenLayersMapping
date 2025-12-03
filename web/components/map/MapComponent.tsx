@@ -443,16 +443,20 @@ const CampusMap: React.FC<MapProps> = ({
   // Display route between two nodes
   const displayRoute = useCallback(
     (startNodeId: string, endNodeId: string) => {
+      console.log(`[displayRoute] Called with start: ${startNodeId}, end: ${endNodeId}`);
+
       if (
         !roadsSourceRef.current ||
         !nodesSourceRef.current ||
         !mapInstanceRef.current
       ) {
+        console.log("[displayRoute] Sources or map not ready");
         return;
       }
 
       // Clear existing route
       if (routeLayerRef.current) {
+        console.log("[displayRoute] Removing existing route layer");
         mapInstanceRef.current.removeLayer(routeLayerRef.current);
         routeLayerRef.current = null;
       }
@@ -465,7 +469,10 @@ const CampusMap: React.FC<MapProps> = ({
         nodesSourceRef.current
       );
 
+      console.log(`[displayRoute] Found ${pathFeatures.length} path features`);
+
       if (pathFeatures.length === 0) {
+        console.log("[displayRoute] No path found!");
         return;
       }
 
@@ -481,8 +488,8 @@ const CampusMap: React.FC<MapProps> = ({
           // Outer glow/shadow for depth
           new Style({
             stroke: new Stroke({
-              color: "rgba(255, 87, 34, 0.3)", // Orange glow
-              width: 14,
+              color: "rgba(255, 87, 34, 0.4)", // Brighter orange glow
+              width: 16, // Wider for better visibility
               lineCap: "round",
               lineJoin: "round",
             }),
@@ -492,7 +499,7 @@ const CampusMap: React.FC<MapProps> = ({
           new Style({
             stroke: new Stroke({
               color: "#FF5722", // Bright orange-red
-              width: 8,
+              width: 10, // Wider
               lineCap: "round",
               lineJoin: "round",
             }),
@@ -502,20 +509,22 @@ const CampusMap: React.FC<MapProps> = ({
           new Style({
             stroke: new Stroke({
               color: "#FFFFFF",
-              width: 3,
+              width: 4, // Wider white core
               lineCap: "round",
               lineJoin: "round",
             }),
             zIndex: 1000,
           }),
         ],
-        // Ensure route layer renders above all other layers
-        zIndex: 100,
+        // Ensure route layer renders above roads but below user marker
+        // User marker is at zIndex 1000, so route should be just below at 500
+        zIndex: 500,
       });
 
       // Add the layer to the map
       mapInstanceRef.current.addLayer(routeLayer);
       routeLayerRef.current = routeLayer;
+      console.log("[displayRoute] Route layer added to map with zIndex 500");
 
       // Calculate route information (distance and time)
       let totalDistance = 0;
