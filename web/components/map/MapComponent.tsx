@@ -823,6 +823,18 @@ const CampusMap: React.FC<MapProps> = ({
     loadCustomGeoJSON();
   }, []);
 
+  // Auto-request GPS permission on mobile mode
+  useEffect(() => {
+    if (mobileMode && !locationPermissionRequested && mapInstanceRef.current) {
+      console.log('[MOBILE] Auto-requesting GPS permission on load');
+      // Small delay to ensure map is ready
+      const timer = setTimeout(() => {
+        requestLocationPermission();
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [mobileMode, locationPermissionRequested, requestLocationPermission]);
+
   useEffect(() => {
     if (effectiveSearchParams && mobileMode) {
       console.log(
