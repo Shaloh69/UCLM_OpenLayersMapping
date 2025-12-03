@@ -65,9 +65,9 @@ import GeoJSON from "ol/format/GeoJSON";
 
 const CampusMap: React.FC<MapProps> = ({
   mapUrl = "/UCLM_Buildings.geojson",
-  pointsUrl = "/UCLM_Points.geojson",
-  roadsUrl = "/UCLM_RoadSystem.geojson",
-  nodesUrl = "/UCLM_RoadSystem.geojson",
+  pointsUrl = "/TestPoints.geojson",      // Updated to use test GeoJSON
+  roadsUrl = "/TestRoad.geojson",         // Updated to use test GeoJSON
+  nodesUrl = "/TestRoad.geojson",         // Updated to use test GeoJSON (nodes from roads)
   backdropColor = "#f7f2e4",
   initialZoom = 15,
   centerCoordinates = [123.9545, 10.3265],
@@ -424,12 +424,34 @@ const CampusMap: React.FC<MapProps> = ({
       setSelectedDestination(destination);
       setShowDestinationSelector(false);
 
-      if (currentLocation) {
-        // Find and display the route from current location
-        displayRoute(currentLocation.id, destination.id);
-      } else if (defaultStartLocation) {
-        // Use default start location (main gate) when current location is not available
-        displayRoute(defaultStartLocation.id, destination.id);
+      // FIXED: Use actual GPS position first, then fallback to currentLocation node, then gate1
+      let startNodeToUse: RoadNode | null = null;
+
+      // Priority 1: If we have GPS position, find closest node to actual position
+      if (userPosition && nodesSourceRef.current) {
+        const closestNode = findClosestNode(
+          userPosition.coordinates[0],
+          userPosition.coordinates[1],
+          nodesSourceRef.current
+        );
+        if (closestNode) {
+          startNodeToUse = closestNode;
+          setCurrentLocation(closestNode); // Update state for consistency
+        }
+      }
+
+      // Priority 2: Use current location node if no GPS position
+      if (!startNodeToUse && currentLocation) {
+        startNodeToUse = currentLocation;
+      }
+
+      // Priority 3: Fallback to default start location (gate1) only if no GPS
+      if (!startNodeToUse && defaultStartLocation) {
+        startNodeToUse = defaultStartLocation;
+      }
+
+      if (startNodeToUse) {
+        displayRoute(startNodeToUse.id, destination.id);
       } else {
         // Show error message to user
         setLocationError(
@@ -437,7 +459,7 @@ const CampusMap: React.FC<MapProps> = ({
         );
       }
     },
-    [currentLocation, defaultStartLocation]
+    [currentLocation, defaultStartLocation, userPosition]
   );
 
   // Display route between two nodes
