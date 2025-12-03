@@ -52,8 +52,10 @@ import {
 import { generateRouteQR, parseRouteFromUrl, RouteData } from "./qrCodeUtils";
 import DestinationSelector from "./DestinationSelector";
 import EnhancedDestinationSelector from "./EnhancedDestinationSelector";
+import CompactDestinationSelector from "./CompactDestinationSelector";
 import { useKioskRouteManager } from "./qrCodeUtils";
 import KioskQRModal from "./KioskQRModal";
+import CompactRouteFooter from "./CompactRouteFooter";
 import RouteOverlay from "./RouteOverlay";
 import EnhancedRouteOverlay from "./EnhancedRouteOverlay";
 import EnhancedKioskUI from "./EnhancedKioskUI";
@@ -1450,10 +1452,10 @@ const CampusMap: React.FC<MapProps> = ({
   // Memoize destination selector
   const DestinationSelectorComponent = useMemo(() => {
     if (showDestinationSelector) {
-      // Use enhanced UI for desktop/kiosk mode
+      // Use compact UI for desktop/kiosk mode
       if (useEnhancedKioskUI && !mobileMode) {
         return (
-          <EnhancedDestinationSelector
+          <CompactDestinationSelector
             destinations={destinations}
             onSelect={handleDestinationSelect}
             onClose={handleCloseDestinationSelector}
@@ -1696,13 +1698,15 @@ const CampusMap: React.FC<MapProps> = ({
       {mobileMode && renderMobileUI()}
 
       {!showKioskWelcome && RouteOverlayComponent}
-      {!showKioskWelcome && showQRModal && selectedDestination && (
-        <KioskQRModal
-          qrCodeUrl={qrCodeUrl}
+      {!showKioskWelcome && selectedDestination && (
+        <CompactRouteFooter
           destination={selectedDestination}
+          currentLocation={currentLocation}
           routeInfo={routeInfo}
+          qrCodeUrl={showQRModal ? qrCodeUrl : undefined}
           onClose={closeQRModal}
-          autoCloseTime={60} // Seconds before auto-close
+          onGenerateQR={generateRouteQRCode}
+          isGeneratingQR={isGenerating}
         />
       )}
 
