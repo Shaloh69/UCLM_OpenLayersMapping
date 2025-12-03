@@ -56,13 +56,13 @@ import DestinationSelector from "./DestinationSelector";
 import EnhancedDestinationSelector from "./EnhancedDestinationSelector";
 import CompactDestinationSelector from "./CompactDestinationSelector";
 import AdditionalDirections from "./AdditionalDirections";
+import ModernMobileNavUI from "./ModernMobileNavUI";
 import { useKioskRouteManager } from "./qrCodeUtils";
 import KioskQRModal from "./KioskQRModal";
 import CompactRouteFooter from "./CompactRouteFooter";
 import RouteOverlay from "./RouteOverlay";
 import EnhancedRouteOverlay from "./EnhancedRouteOverlay";
 import EnhancedKioskUI from "./EnhancedKioskUI";
-import EnhancedMobileRoutePanel from "./EnhancedMobileRoutePanel";
 import router from "next/router";
 import GeoJSON from "ol/format/GeoJSON";
 
@@ -1855,15 +1855,16 @@ const CampusMap: React.FC<MapProps> = ({
           </button>
         )}
 
-        {/* Enhanced Mobile Route Panel */}
-        {showRouteOverlay && selectedDestination && (
-          <EnhancedMobileRoutePanel
+        {/* Modern Mobile Navigation UI */}
+        {selectedDestination && (
+          <ModernMobileNavUI
             destination={selectedDestination}
             currentLocation={currentLocation}
-            cameraFollowMode={cameraFollowMode}
             routeInfo={routeInfo}
             routeProgress={routeProgress}
-            onClose={clearRoute}
+            cameraFollowMode={cameraFollowMode}
+            onToggleCameraFollow={() => toggleCameraFollow(!cameraFollowMode)}
+            onClearRoute={clearRoute}
           />
         )}
       </>
