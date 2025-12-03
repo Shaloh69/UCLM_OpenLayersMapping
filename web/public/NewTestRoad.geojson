@@ -4,9 +4,11 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "Gate1_RoadEnd",
-        "name": "Gate1_RoadEnd",
-        "isDestination": false
+        "id": "gate1",
+        "name": "Gate 1",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Main gate - fallback start point for kiosk mode"
       },
       "geometry": {
         "coordinates": [
@@ -22,7 +24,7 @@
       "properties": {
         "type": "path",
         "name": "fromgate1",
-        "from": "Gate1_RoadEnd",
+        "from": "gate1",
         "to": "OldBuildingIntersection"
       },
       "geometry": {

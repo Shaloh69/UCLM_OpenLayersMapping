@@ -68,9 +68,9 @@ import GeoJSON from "ol/format/GeoJSON";
 
 const CampusMap: React.FC<MapProps> = ({
   mapUrl = "/UCLM_Buildings.geojson",
-  pointsUrl = "/TestPoints.geojson",      // Updated to use test GeoJSON
-  roadsUrl = "/TestRoad.geojson",         // Updated to use test GeoJSON
-  nodesUrl = "/TestRoad.geojson",         // Updated to use test GeoJSON (nodes from roads)
+  pointsUrl = "/newPoints.geojson",       // Updated to use new GeoJSON
+  roadsUrl = "/NewTestRoad.geojson",      // Updated to use new GeoJSON
+  nodesUrl = "/NewTestRoad.geojson",      // Updated to use new GeoJSON (nodes from roads)
   backdropColor = "#f7f2e4",
   initialZoom = 15,
   centerCoordinates = [123.9545, 10.3265],
@@ -366,6 +366,7 @@ const CampusMap: React.FC<MapProps> = ({
         }
       };
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLocation, selectedDestination, mobileMode, useEnhancedTracking]);
 
   const getFeatureCoordinates = (feature: Feature<Geometry>) => {
@@ -584,7 +585,8 @@ const CampusMap: React.FC<MapProps> = ({
         }
       }
     },
-    [currentLocation, userPosition, locationPermissionRequested, requestLocationPermission, mobileMode, defaultStartLocation, toggleCameraFollow, resolveRoutingNode, displayRoute]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentLocation, userPosition, locationPermissionRequested, requestLocationPermission, mobileMode, defaultStartLocation, toggleCameraFollow]
   );
 
   // Display route between two nodes
