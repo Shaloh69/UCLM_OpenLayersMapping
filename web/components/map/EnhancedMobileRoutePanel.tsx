@@ -60,6 +60,9 @@ const EnhancedMobileRoutePanel: React.FC<EnhancedMobileRoutePanelProps> = ({
   const displayTime = routeProgress?.estimatedTimeRemaining ?? (routeInfo?.estimatedTime ? routeInfo.estimatedTime * 60 : 0);
   const percentComplete = routeProgress?.percentComplete ?? 0;
 
+  // Arrival detection - consider arrived if within 20 meters
+  const hasArrived = displayDistance < 20;
+
   const handleDrag = (_: any, info: PanInfo) => {
     setDragY(info.offset.y);
   };
@@ -137,9 +140,72 @@ const EnhancedMobileRoutePanel: React.FC<EnhancedMobileRoutePanelProps> = ({
           </motion.div>
         )}
 
+        {/* Arrival Celebration */}
+        <AnimatePresence>
+          {hasArrived && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: -20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: -20 }}
+              className="mb-4 p-6 bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 border-2 border-green-400 rounded-2xl shadow-2xl overflow-hidden relative"
+            >
+              {/* Confetti background effect */}
+              <div className="absolute inset-0 opacity-20">
+                <motion.div
+                  animate={{
+                    backgroundPosition: ["0% 0%", "100% 100%"],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="w-full h-full bg-gradient-to-br from-yellow-200 via-green-200 to-blue-200"
+                />
+              </div>
+
+              <div className="relative z-10 flex items-center">
+                <motion.div
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    rotate: [0, 10, -10, 0],
+                  }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                  className="text-5xl mr-4"
+                >
+                  🎉
+                </motion.div>
+                <div className="flex-1">
+                  <motion.p
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="text-xl font-bold text-green-900 mb-1"
+                  >
+                    You Have Arrived!
+                  </motion.p>
+                  <motion.p
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-sm text-green-700"
+                  >
+                    Welcome to {destination.name} 🎯
+                  </motion.p>
+                </div>
+                <motion.div
+                  animate={{
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                  className="text-4xl"
+                >
+                  ✅
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Off Route Warning */}
         <AnimatePresence>
-          {routeProgress?.isOffRoute && (
+          {!hasArrived && routeProgress?.isOffRoute && (
             <motion.div
               initial={{ opacity: 0, y: -20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
