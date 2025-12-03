@@ -424,10 +424,11 @@ const CampusMap: React.FC<MapProps> = ({
       setSelectedDestination(destination);
       setShowDestinationSelector(false);
 
-      // FIXED: Use actual GPS position first, then fallback to currentLocation node, then gate1
+      // MOBILE MODE: ALWAYS USE ACTUAL GPS POSITION - No fallback
+      // KIOSK MODE: Allow fallback to default start location (gate1)
       let startNodeToUse: RoadNode | null = null;
 
-      // Priority 1: If we have GPS position, find closest node to actual position
+      // Priority 1: Use GPS position to find closest node (both modes)
       if (userPosition && nodesSourceRef.current) {
         const closestNode = findClosestNode(
           userPosition.coordinates[0],
@@ -440,26 +441,37 @@ const CampusMap: React.FC<MapProps> = ({
         }
       }
 
-      // Priority 2: Use current location node if no GPS position
+      // Priority 2: Use cached location node if GPS not available yet
       if (!startNodeToUse && currentLocation) {
         startNodeToUse = currentLocation;
       }
 
-      // Priority 3: Fallback to default start location (gate1) only if no GPS
-      if (!startNodeToUse && defaultStartLocation) {
+      // Priority 3: KIOSK ONLY - Fallback to default start location (gate1)
+      if (!startNodeToUse && !mobileMode && defaultStartLocation) {
         startNodeToUse = defaultStartLocation;
       }
 
       if (startNodeToUse) {
         displayRoute(startNodeToUse.id, destination.id);
       } else {
-        // Show error message to user
-        setLocationError(
-          "No starting point available. Please grant location permission or try again."
-        );
+        // GPS is required for mobile mode
+        if (mobileMode) {
+          setLocationError(
+            "GPS location required for navigation. Please enable location services and grant permission."
+          );
+          // Request location permission
+          if (!locationPermissionRequested) {
+            requestLocationPermission();
+          }
+        } else {
+          // Kiosk mode - should have default location
+          setLocationError(
+            "No starting point available. Please configure a default start location."
+          );
+        }
       }
     },
-    [currentLocation, defaultStartLocation, userPosition]
+    [currentLocation, userPosition, locationPermissionRequested, requestLocationPermission, mobileMode, defaultStartLocation]
   );
 
   // Display route between two nodes
