@@ -1,0 +1,37 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Test1",
+        "nearest_node": [
+          123.95598905893246,
+          10.327633134990137
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95603261754911,
+          10.327575918292553
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Test2",
+        "nearest_node": [
+           123.95387758896055,
+            10.325673449314735
+        ]},
+      "geometry": {
+        "coordinates": [
+          123.95382702444317,
+          10.325619570602143
+        ],
+        "type": "Point"
+      }
+    }
+  ]
+}
