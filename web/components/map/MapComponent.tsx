@@ -424,51 +424,75 @@ const CampusMap: React.FC<MapProps> = ({
       setSelectedDestination(destination);
       setShowDestinationSelector(false);
 
-      // MOBILE MODE: ALWAYS USE ACTUAL GPS POSITION - No fallback
-      // KIOSK MODE: Allow fallback to default start location (gate1)
       let startNodeToUse: RoadNode | null = null;
 
-      // Priority 1: Use GPS position to find closest node (both modes)
-      if (userPosition && nodesSourceRef.current) {
-        const closestNode = findClosestNode(
-          userPosition.coordinates[0],
-          userPosition.coordinates[1],
-          nodesSourceRef.current
-        );
-        if (closestNode) {
-          startNodeToUse = closestNode;
-          setCurrentLocation(closestNode); // Update state for consistency
+      // ===== MOBILE MODE: GPS ONLY - NO GATE1, NO FALLBACK =====
+      if (mobileMode) {
+        // MOBILE: ONLY use GPS position, never gate1
+        if (userPosition && nodesSourceRef.current) {
+          const closestNode = findClosestNode(
+            userPosition.coordinates[0],
+            userPosition.coordinates[1],
+            nodesSourceRef.current
+          );
+          if (closestNode) {
+            startNodeToUse = closestNode;
+            setCurrentLocation(closestNode);
+            console.log(`[MOBILE] Using GPS position: ${closestNode.name}`);
+          }
         }
-      }
 
-      // Priority 2: Use cached location node if GPS not available yet
-      if (!startNodeToUse && currentLocation) {
-        startNodeToUse = currentLocation;
-      }
-
-      // Priority 3: KIOSK ONLY - Fallback to default start location (gate1)
-      if (!startNodeToUse && !mobileMode && defaultStartLocation) {
-        startNodeToUse = defaultStartLocation;
-      }
-
-      if (startNodeToUse) {
-        displayRoute(startNodeToUse.id, destination.id);
-      } else {
-        // GPS is required for mobile mode
-        if (mobileMode) {
+        // If no GPS on mobile, show error and request permission
+        if (!startNodeToUse) {
           setLocationError(
             "GPS location required for navigation. Please enable location services and grant permission."
           );
-          // Request location permission
           if (!locationPermissionRequested) {
             requestLocationPermission();
           }
-        } else {
-          // Kiosk mode - should have default location
+          return; // EXIT - don't use gate1 or any fallback
+        }
+      }
+      // ===== KIOSK MODE: GPS first, then gate1 fallback =====
+      else {
+        // KIOSK: Try GPS first
+        if (userPosition && nodesSourceRef.current) {
+          const closestNode = findClosestNode(
+            userPosition.coordinates[0],
+            userPosition.coordinates[1],
+            nodesSourceRef.current
+          );
+          if (closestNode) {
+            startNodeToUse = closestNode;
+            setCurrentLocation(closestNode);
+            console.log(`[KIOSK] Using GPS position: ${closestNode.name}`);
+          }
+        }
+
+        // KIOSK: Try cached location
+        if (!startNodeToUse && currentLocation) {
+          startNodeToUse = currentLocation;
+          console.log(`[KIOSK] Using cached location: ${currentLocation.name}`);
+        }
+
+        // KIOSK: Fallback to gate1 (last resort)
+        if (!startNodeToUse && defaultStartLocation) {
+          startNodeToUse = defaultStartLocation;
+          console.log(`[KIOSK] Using fallback gate1: ${defaultStartLocation.name}`);
+        }
+
+        // KIOSK: Error if nothing available
+        if (!startNodeToUse) {
           setLocationError(
             "No starting point available. Please configure a default start location."
           );
+          return;
         }
+      }
+
+      // Calculate route from the determined start point
+      if (startNodeToUse) {
+        displayRoute(startNodeToUse.id, destination.id);
       }
     },
     [currentLocation, userPosition, locationPermissionRequested, requestLocationPermission, mobileMode, defaultStartLocation]
