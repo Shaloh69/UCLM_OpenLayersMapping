@@ -48,18 +48,21 @@ import {
   findClosestNode,
   findShortestPath,
   RoadNode,
+  resolveRoutingNode,
+  requiresAdditionalDirections,
 } from "./roadSystem";
 import { generateRouteQR, parseRouteFromUrl, RouteData } from "./qrCodeUtils";
 import DestinationSelector from "./DestinationSelector";
 import EnhancedDestinationSelector from "./EnhancedDestinationSelector";
 import CompactDestinationSelector from "./CompactDestinationSelector";
+import AdditionalDirections from "./AdditionalDirections";
+import ModernMobileNavUI from "./ModernMobileNavUI";
 import { useKioskRouteManager } from "./qrCodeUtils";
 import KioskQRModal from "./KioskQRModal";
 import CompactRouteFooter from "./CompactRouteFooter";
 import RouteOverlay from "./RouteOverlay";
 import EnhancedRouteOverlay from "./EnhancedRouteOverlay";
 import EnhancedKioskUI from "./EnhancedKioskUI";
-import EnhancedMobileRoutePanel from "./EnhancedMobileRoutePanel";
 import router from "next/router";
 import GeoJSON from "ol/format/GeoJSON";
 
@@ -119,6 +122,10 @@ const CampusMap: React.FC<MapProps> = ({
     useState<RoadNode | null>(null);
   const [showKioskWelcome, setShowKioskWelcome] = useState<boolean>(!mobileMode);
   const [useEnhancedKioskUI, setUseEnhancedKioskUI] = useState<boolean>(true);
+  const [showAdditionalDirections, setShowAdditionalDirections] =
+    useState<boolean>(false);
+  const [cameraFollowMode, setCameraFollowMode] = useState<boolean>(false);
+  const [lastUserPosition, setLastUserPosition] = useState<[number, number] | null>(null);
 
   // State for custom GeoJSON URLs (from Electron config)
   const [actualMapUrl, setActualMapUrl] = useState<string>(mapUrl);
@@ -230,6 +237,14 @@ const CampusMap: React.FC<MapProps> = ({
         (position: UserPosition) => {
           setUserPosition(position);
 
+          // Auto-follow camera in mobile mode when navigating
+          if (mobileMode && cameraFollowMode && selectedDestination) {
+            followUserPosition(position.coordinates);
+          }
+
+          // Store last position for comparison
+          setLastUserPosition(position.coordinates);
+
           // Update current location node
           if (nodesSourceRef.current) {
             const closestNode = findClosestNode(
@@ -246,7 +261,24 @@ const CampusMap: React.FC<MapProps> = ({
 
               // If there's an active destination, update the route
               if (selectedDestination) {
-                displayRoute(closestNode.id, selectedDestination.id);
+                const routingNodeId = resolveRoutingNode(selectedDestination);
+                displayRoute(closestNode.id, routingNodeId);
+
+                // Check if user has reached the routing node (nearest_node for POIs)
+                if (closestNode.id === routingNodeId) {
+                  // User reached the routing node - show additional directions if needed
+                  if (requiresAdditionalDirections(selectedDestination)) {
+                    console.log(
+                      `[Navigation] Reached routing node "${routingNodeId}". Showing additional directions.`
+                    );
+                    setShowAdditionalDirections(true);
+
+                    // Disable camera follow when destination reached
+                    if (mobileMode) {
+                      setCameraFollowMode(false);
+                    }
+                  }
+                }
               }
             }
           }
@@ -404,6 +436,45 @@ const CampusMap: React.FC<MapProps> = ({
     }
   };
 
+  /**
+   * Smoothly animate camera to follow user's GPS position
+   * Used in mobile mode for real-time navigation
+   */
+  const followUserPosition = useCallback(
+    (coordinates: [number, number], zoom?: number) => {
+      if (!mapInstanceRef.current) return;
+
+      const view = mapInstanceRef.current.getView();
+      const targetCoords = fromLonLat(coordinates);
+
+      // Smooth animation to user's position
+      view.animate({
+        center: targetCoords,
+        zoom: zoom || view.getZoom() || 19,
+        duration: 500, // 500ms smooth animation
+        easing: (t: number) => t * (2 - t), // Ease-out quad
+      });
+    },
+    []
+  );
+
+  /**
+   * Enable or disable camera follow mode
+   * When enabled, camera automatically centers on user's GPS position
+   */
+  const toggleCameraFollow = useCallback(
+    (enabled: boolean) => {
+      setCameraFollowMode(enabled);
+      console.log(`[Camera] Follow mode ${enabled ? 'enabled' : 'disabled'}`);
+
+      // If enabling and we have a user position, immediately center on it
+      if (enabled && userPosition) {
+        followUserPosition(userPosition.coordinates, 19);
+      }
+    },
+    [userPosition, followUserPosition]
+  );
+
   // Update feature property
   const updateFeatureProperty = useCallback(
     (property: string, value: any) => {
@@ -425,6 +496,7 @@ const CampusMap: React.FC<MapProps> = ({
     (destination: RoadNode) => {
       setSelectedDestination(destination);
       setShowDestinationSelector(false);
+      setShowAdditionalDirections(false); // Reset additional directions modal
 
       let startNodeToUse: RoadNode | null = null;
 
@@ -494,10 +566,25 @@ const CampusMap: React.FC<MapProps> = ({
 
       // Calculate route from the determined start point
       if (startNodeToUse) {
-        displayRoute(startNodeToUse.id, destination.id);
+        // Resolve the actual routing node (handles POIs with nearest_node)
+        const routingNodeId = resolveRoutingNode(destination);
+        displayRoute(startNodeToUse.id, routingNodeId);
+
+        // Log if routing to nearest node instead of actual destination
+        if (routingNodeId !== destination.id) {
+          console.log(
+            `[Route] Routing to nearest node "${routingNodeId}" for POI "${destination.name}"`
+          );
+        }
+
+        // Enable camera follow mode on mobile when route starts
+        if (mobileMode && userPosition) {
+          toggleCameraFollow(true);
+          console.log('[Mobile] Auto-enabled camera follow mode for navigation');
+        }
       }
     },
-    [currentLocation, userPosition, locationPermissionRequested, requestLocationPermission, mobileMode, defaultStartLocation]
+    [currentLocation, userPosition, locationPermissionRequested, requestLocationPermission, mobileMode, defaultStartLocation, toggleCameraFollow, resolveRoutingNode, displayRoute]
   );
 
   // Display route between two nodes
@@ -1727,14 +1814,57 @@ const CampusMap: React.FC<MapProps> = ({
           </svg>
         </button>
 
-        {/* Enhanced Mobile Route Panel */}
-        {showRouteOverlay && selectedDestination && (
-          <EnhancedMobileRoutePanel
+        {/* Camera Follow Toggle Button - Only show when navigating */}
+        {selectedDestination && (
+          <button
+            className={`fixed right-4 bottom-40 z-40 w-12 h-12 rounded-full shadow-lg flex items-center justify-center border-2 transition-all ${
+              cameraFollowMode
+                ? 'bg-blue-500 border-blue-600 text-white'
+                : 'bg-white border-gray-200 text-gray-600'
+            }`}
+            onClick={() => toggleCameraFollow(!cameraFollowMode)}
+            title={cameraFollowMode ? 'Camera Following' : 'Enable Camera Follow'}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {cameraFollowMode ? (
+                // Camera on icon
+                <>
+                  <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                  <path d="M12 2v4m0 12v4M2 12h4m12 0h4"></path>
+                  <circle cx="12" cy="12" r="9"></circle>
+                </>
+              ) : (
+                // Camera off icon
+                <>
+                  <circle cx="12" cy="12" r="10" strokeDasharray="3 3"></circle>
+                  <path d="M12 8v8"></path>
+                  <path d="M8 12h8"></path>
+                </>
+              )}
+            </svg>
+          </button>
+        )}
+
+        {/* Modern Mobile Navigation UI */}
+        {selectedDestination && (
+          <ModernMobileNavUI
             destination={selectedDestination}
             currentLocation={currentLocation}
             routeInfo={routeInfo}
             routeProgress={routeProgress}
-            onClose={clearRoute}
+            cameraFollowMode={cameraFollowMode}
+            onToggleCameraFollow={() => toggleCameraFollow(!cameraFollowMode)}
+            onClearRoute={clearRoute}
           />
         )}
       </>
@@ -1801,6 +1931,15 @@ const CampusMap: React.FC<MapProps> = ({
         <div className="absolute top-20 left-0 right-0 mx-auto w-80 bg-red-500 text-white p-3 rounded-lg z-30 text-center shadow-lg">
           {error}
         </div>
+      )}
+
+      {/* Additional Directions Modal - shown when user reaches routing node for POI */}
+      {showAdditionalDirections && selectedDestination && (
+        <AdditionalDirections
+          destination={selectedDestination}
+          onClose={() => setShowAdditionalDirections(false)}
+          mobileMode={mobileMode}
+        />
       )}
     </div>
   );

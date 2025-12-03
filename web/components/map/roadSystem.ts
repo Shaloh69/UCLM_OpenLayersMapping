@@ -26,7 +26,42 @@ export interface RoadNode {
   description?: string;
   category?: string;
   imageUrl?: string;
+  nearest_node?: string; // ID of nearest road node (for POIs not on road network)
+  additionalDirections?: string; // Walking directions from nearest_node to this POI
 }
+
+/**
+ * Resolves the routing node ID for a given destination.
+ * If the destination has a nearest_node property (POI not on road network),
+ * returns that node ID. Otherwise, returns the destination's own ID.
+ *
+ * @param destination - The destination RoadNode
+ * @returns The node ID to use for routing
+ */
+export const resolveRoutingNode = (destination: RoadNode): string => {
+  // If destination is a POI with a nearest_node, route to that instead
+  if (destination.nearest_node && destination.nearest_node.trim() !== '') {
+    return destination.nearest_node;
+  }
+  // Otherwise, route directly to the destination
+  return destination.id;
+};
+
+/**
+ * Checks if a destination requires additional directions
+ * (i.e., it's a POI not directly on the road network)
+ *
+ * @param destination - The destination RoadNode
+ * @returns True if additional directions are needed
+ */
+export const requiresAdditionalDirections = (destination: RoadNode): boolean => {
+  return !!(
+    destination.nearest_node &&
+    destination.nearest_node.trim() !== '' &&
+    destination.additionalDirections &&
+    destination.additionalDirections.trim() !== ''
+  );
+};
 
 // Setup road system
 // Find the closest node to the given coordinates
@@ -86,6 +121,8 @@ export const findClosestNode = (
         description: properties.description,
         category: properties.category,
         imageUrl: properties.imageUrl,
+        nearest_node: properties.nearest_node,
+        additionalDirections: properties.additionalDirections,
       };
     }
   });

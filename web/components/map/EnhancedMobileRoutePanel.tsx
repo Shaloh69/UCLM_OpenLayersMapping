@@ -12,6 +12,7 @@ interface EnhancedMobileRoutePanelProps {
   };
   routeProgress?: RouteProgress | null;
   onClose?: () => void;
+  cameraFollowMode?: boolean; // New prop for camera follow indicator
 }
 
 const EnhancedMobileRoutePanel: React.FC<EnhancedMobileRoutePanelProps> = ({
@@ -20,6 +21,7 @@ const EnhancedMobileRoutePanel: React.FC<EnhancedMobileRoutePanelProps> = ({
   routeInfo,
   routeProgress,
   onClose,
+  cameraFollowMode = false,
 }) => {
   const [showDirections, setShowDirections] = useState(false);
   const [isPanelExpanded, setIsPanelExpanded] = useState(false);
@@ -137,6 +139,39 @@ const EnhancedMobileRoutePanel: React.FC<EnhancedMobileRoutePanelProps> = ({
                 </motion.span>
               )}
             </div>
+          </motion.div>
+        )}
+
+        {/* Camera Follow Indicator */}
+        {cameraFollowMode && !hasArrived && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-3 flex items-center gap-2 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg"
+          >
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+            <span className="text-xs font-medium text-blue-700">
+              Camera Following Your Position
+            </span>
+            <svg
+              className="w-4 h-4 text-blue-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              />
+            </svg>
           </motion.div>
         )}
 
