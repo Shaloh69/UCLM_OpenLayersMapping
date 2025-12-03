@@ -9,10 +9,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "First test point of interest marker",
-        "nearest_node": [
-          123.95598905893246,
-          10.327633134990137
-        ]
+        "nearest_node": "",
+        "additionalDirections": ""
       },
       "geometry": {
         "type": "Point",
@@ -30,10 +28,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Second test point of interest marker",
-        "nearest_node": [
-          123.95387758896055,
-          10.325673449314735
-        ]
+        "nearest_node": "",
+        "additionalDirections": ""
       },
       "geometry": {
         "coordinates": [
@@ -41,6 +37,500 @@
           10.325619570602143
         ],
         "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_elevator",
+        "name": "CBE ELEVATOR",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "CBE ELEVATOR",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955704,
+          10.327094
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_gate9_elevator",
+        "name": "CBE Gate 9 Elevator",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "CBE Gate 9 Elevator",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.956028,
+          10.327661
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_8",
+        "name": "GATE 8",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "GATE 8",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955668,
+          10.327015
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_9",
+        "name": "Gate 9",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Gate 9",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.956028,
+          10.327753
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_canteen",
+        "name": "CBE Canteen (Ground Floor)",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "CBE Canteen (Ground Floor)",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955409,
+          10.326770
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nsa_dorm_canteen",
+        "name": "NSA DORM and Canteen(Ground floor)",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "NSA DORM and Canteen(Ground floor)",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955090,
+          10.326573
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "guidance",
+        "name": "Guidance",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Guidance",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955145,
+          10.326631
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "me_tool_room",
+        "name": "ME TOOL ROOM AND LAB",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "ME TOOL ROOM AND LAB",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955247,
+          10.326984
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nsa_office",
+        "name": "NSA OFFICE",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "NSA OFFICE",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955049,
+          10.326450
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbt01_cbt02",
+        "name": "CBT01 &CBT02",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "CBT01 &CBT02",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955005,
+          10.326366
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "clinic",
+        "name": "CLINIC",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "CLINIC",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954810,
+          10.326186
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "chapel",
+        "name": "CHAPEL",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "CHAPEL",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954704,
+          10.326219
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "textbook_section",
+        "name": "Texbook Section",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Texbook Section",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954484,
+          10.326382
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "pe_faculty",
+        "name": "PE FACULTY",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "PE FACULTY",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954459,
+          10.326242
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "foodcourt",
+        "name": "FOODCOURT",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "FOODCOURT",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954397,
+          10.326139
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs_elevator_president",
+        "name": "Stairs, elevator, and President's office",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Stairs, elevator, and President's office",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954725,
+          10.326078
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "maritime_stairs",
+        "name": "Maritime Building Stairs",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Maritime Building Stairs",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954435,
+          10.325738
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "small_stairs_old",
+        "name": "Small stairs(old building)",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Small stairs(old building)",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953078,
+          10.325272
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "main_stairs_old",
+        "name": "Main Stairs (oldbuilding)",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Main Stairs (oldbuilding)",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953095,
+          10.325286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs_uro_old",
+        "name": "Stairs to URO(old building)",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Stairs to URO(old building)",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953219,
+          10.325009
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "annex1_stairs",
+        "name": "ANNEX 1 stairs",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "ANNEX 1 stairs",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953571,
+          10.325217
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "annex1_elevator",
+        "name": "Annex 1 elevator",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Annex 1 elevator",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953578,
+          10.325164
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "study_hall",
+        "name": "Study Hall",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Study Hall",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953520,
+          10.325306
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "canteen_annex1",
+        "name": "Canteen Annex 1",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Canteen Annex 1",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953497,
+          10.325097
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "prefect_discipline",
+        "name": "Prefect of Descipline",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Prefect of Descipline",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953343,
+          10.325268
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs_sao",
+        "name": "Stairs to SAO",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Stairs to SAO",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953350,
+          10.325340
+        ]
       }
     }
   ]
