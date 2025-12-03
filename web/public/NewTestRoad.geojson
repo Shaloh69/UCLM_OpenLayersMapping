@@ -481,7 +481,7 @@
         "type": "path",
         "name": "OldBuildingRD4",
         "from": "OldBuildingIntersection",
-        "to": "test_east"
+        "to": "IT_Gate2"
       },
       "geometry": {
         "coordinates": [
