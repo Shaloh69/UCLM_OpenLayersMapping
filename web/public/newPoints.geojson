@@ -249,8 +249,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Texbook Section",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "RD_TextbookSec",
+        "additionalDirections": "Go Forward to the Textbook Section"
       },
       "geometry": {
         "type": "Point",
