@@ -389,7 +389,7 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Stairs to URO(old building)",
-        "nearest_node": "",
+        "nearest_node": "RE_stairs_uro_old",
         "additionalDirections": ""
       },
       "geometry": {
