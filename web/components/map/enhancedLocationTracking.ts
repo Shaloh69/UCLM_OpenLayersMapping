@@ -133,6 +133,11 @@ export class EnhancedLocationTracker {
   private debounceTimer: number | null = null;
   private debounceDelay = 2000; // 2 seconds - prevents random updates, allows road highlighting to generate
 
+  // Camera Rotation Debouncer (prevents jittery compass rotation)
+  private targetHeading: number | null = null; // Debounced heading for smooth rotation
+  private rotationDebounceTimer: number | null = null;
+  private rotationDebounceDelay = 1500; // 1.5 seconds - prevents rapid compass changes
+
   // Route tracking
   private routePath: [number, number][] = [];
   private startPosition: [number, number] | null = null;
@@ -281,7 +286,7 @@ export class EnhancedLocationTracker {
     onPositionUpdate?: (position: UserPosition) => void,
     onRouteProgressUpdate?: (progress: RouteProgress) => void
   ): void {
-    console.log(`[GPS] 🚀 Starting GPS tracking with update interval: 0.5s (debounced to ${this.debounceDelay}ms for UI updates)`);
+    console.log(`[GPS] 🚀 Starting GPS tracking with update interval: 0.5s (UI updates debounced to ${this.debounceDelay}ms, rotation debounced to ${this.rotationDebounceDelay}ms)`);
     this.onPositionUpdate = onPositionUpdate;
     this.onRouteProgressUpdate = onRouteProgressUpdate;
 
@@ -316,10 +321,15 @@ export class EnhancedLocationTracker {
       this.animationFrameId = null;
     }
 
-    // Clear debounce timer
+    // Clear debounce timers
     if (this.debounceTimer !== null) {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = null;
+    }
+
+    if (this.rotationDebounceTimer !== null) {
+      clearTimeout(this.rotationDebounceTimer);
+      this.rotationDebounceTimer = null;
     }
   }
 
@@ -398,6 +408,31 @@ export class EnhancedLocationTracker {
       // Clear timer reference
       this.debounceTimer = null;
     }, this.debounceDelay);
+
+    // DEBOUNCED CAMERA ROTATION - Prevents jittery compass rotation from rapid heading changes
+    if (effectiveHeading !== null && effectiveHeading !== undefined) {
+      // Initialize targetHeading immediately on first position update (for instant rotation start)
+      if (this.targetHeading === null) {
+        this.targetHeading = effectiveHeading;
+        console.log(`[GPS] 🧭 Initial heading set: ${effectiveHeading.toFixed(1)}°`);
+      }
+
+      // Clear existing rotation debounce timer
+      if (this.rotationDebounceTimer !== null) {
+        clearTimeout(this.rotationDebounceTimer);
+      }
+
+      // Set new rotation debounce timer for subsequent updates
+      this.rotationDebounceTimer = window.setTimeout(() => {
+        console.log(`[GPS] 🧭 Debounced rotation update triggered (heading: ${effectiveHeading?.toFixed(1)}°, delay: ${this.rotationDebounceDelay}ms)`);
+
+        // Update target heading for smooth rotation animation
+        this.targetHeading = effectiveHeading;
+
+        // Clear timer reference
+        this.rotationDebounceTimer = null;
+      }, this.rotationDebounceDelay);
+    }
   }
 
   private handlePositionError(error: GeolocationPositionError): void {
@@ -472,13 +507,15 @@ export class EnhancedLocationTracker {
 
   private startAnimationLoop(): void {
     const animate = () => {
+      // Use debounced targetHeading instead of direct currentPosition.heading
+      // This prevents jittery compass rotation from rapid GPS heading updates
       if (
         this.options.rotateMap &&
-        this.currentPosition?.heading !== null &&
-        this.currentPosition?.heading !== undefined
+        this.targetHeading !== null &&
+        this.targetHeading !== undefined
       ) {
         // Smooth rotation interpolation
-        const targetRotation = -((this.currentPosition.heading * Math.PI) / 180);
+        const targetRotation = -((this.targetHeading * Math.PI) / 180);
         this.currentRotation = interpolateAngle(
           this.currentRotation,
           targetRotation,
@@ -626,6 +663,21 @@ export class EnhancedLocationTracker {
 
   public getDebounceDelay(): number {
     return this.debounceDelay;
+  }
+
+  /**
+   * Set the camera rotation debounce delay in milliseconds
+   * Higher values = less jittery rotation but slower response to direction changes
+   * Lower values = more responsive but may show compass jitter
+   * @param delayMs Rotation debounce delay in milliseconds (recommended: 1000-2000ms)
+   */
+  public setRotationDebounceDelay(delayMs: number): void {
+    this.rotationDebounceDelay = Math.max(500, delayMs); // Minimum 500ms
+    console.log(`[GPS] 🧭 Rotation debounce delay set to ${this.rotationDebounceDelay}ms`);
+  }
+
+  public getRotationDebounceDelay(): number {
+    return this.rotationDebounceDelay;
   }
 
   public getCurrentPosition(): UserPosition | null {
