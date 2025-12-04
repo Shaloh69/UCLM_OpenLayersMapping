@@ -392,16 +392,26 @@ export class EnhancedLocationTracker {
     };
 
     // ========== SNAP TO ROAD NODE ==========
-    // If nodes source is available, snap marker to nearest road node
+    // Snap marker to active route (if route exists)
+    // This keeps the marker ON the highlighted path, not on random roads
     let displayCoordinates: [number, number] = [longitude, latitude];
 
-    if (this.nodesSource) {
-      const snappedNode = this.findClosestNodeInternal(longitude, latitude);
-      if (snappedNode) {
-        displayCoordinates = snappedNode;
-        this.snappedPosition = snappedNode;
-        console.log(`[GPS] 📌 Snapped to node: ${displayCoordinates[1].toFixed(6)}, ${displayCoordinates[0].toFixed(6)}`);
+    if (this.routePath && this.routePath.length >= 2) {
+      // We have an active route - snap to it
+      const snappedPoint = this.findClosestPointOnRoute(longitude, latitude);
+      if (snappedPoint) {
+        displayCoordinates = snappedPoint;
+        this.snappedPosition = snappedPoint;
+        // Logging is done inside findClosestPointOnRoute
+      } else {
+        // Too far from route (>50m) or no route - show actual GPS
+        console.log(`[GPS] 📍 Using actual GPS position (not snapping)`);
+        this.snappedPosition = null;
       }
+    } else {
+      // No active route - show actual GPS position
+      console.log(`[GPS] 📍 No active route - using actual GPS position`);
+      this.snappedPosition = null;
     }
 
     // Update last valid position (this one passed all filters)
@@ -539,7 +549,101 @@ export class EnhancedLocationTracker {
     return R * c;
   }
 
-  // Find closest road node to given coordinates (internal method for snapping)
+  /**
+   * Find closest point ON THE ACTIVE ROUTE to the given GPS coordinates
+   * This projects the GPS position onto the nearest route segment to keep
+   * the marker on the highlighted path at all times.
+   */
+  private findClosestPointOnRoute(
+    longitude: number,
+    latitude: number
+  ): [number, number] | null {
+    // Only snap to route if we have an active route
+    if (!this.routePath || this.routePath.length < 2) {
+      return null; // No active route - don't snap
+    }
+
+    let closestPoint: [number, number] | null = null;
+    let minDistance = Infinity;
+
+    // Check each segment of the route path
+    for (let i = 0; i < this.routePath.length - 1; i++) {
+      const segmentStart = this.routePath[i];
+      const segmentEnd = this.routePath[i + 1];
+
+      // Project GPS position onto this line segment
+      const projectedPoint = this.projectPointOntoLineSegment(
+        [longitude, latitude],
+        segmentStart,
+        segmentEnd
+      );
+
+      // Calculate distance from GPS to projected point
+      const distance = calculateDistance(
+        [longitude, latitude],
+        projectedPoint
+      );
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestPoint = projectedPoint;
+      }
+    }
+
+    // Only snap if GPS is within 50m of the route
+    // If farther, user might be off-route - show actual GPS position
+    const MAX_SNAP_DISTANCE = 50; // meters
+    if (minDistance > MAX_SNAP_DISTANCE) {
+      console.log(`[GPS Snap] ⚠️ Too far from route (${minDistance.toFixed(1)}m) - showing actual GPS`);
+      return null;
+    }
+
+    if (closestPoint) {
+      console.log(`[GPS Snap] 📍 Snapped to route (distance: ${minDistance.toFixed(1)}m)`);
+    }
+
+    return closestPoint;
+  }
+
+  /**
+   * Project a point onto a line segment (closest point on the line)
+   * This ensures the marker stays ON the route line, not just near it
+   */
+  private projectPointOntoLineSegment(
+    point: [number, number],
+    lineStart: [number, number],
+    lineEnd: [number, number]
+  ): [number, number] {
+    const [px, py] = point;
+    const [ax, ay] = lineStart;
+    const [bx, by] = lineEnd;
+
+    // Vector from A to B
+    const abx = bx - ax;
+    const aby = by - ay;
+
+    // Vector from A to P
+    const apx = px - ax;
+    const apy = py - ay;
+
+    // Squared length of AB
+    const abSquared = abx * abx + aby * aby;
+
+    // Handle degenerate case (line segment is actually a point)
+    if (abSquared === 0) {
+      return lineStart;
+    }
+
+    // Project P onto AB: t = (AP · AB) / |AB|²
+    // t = 0 means point projects to A, t = 1 means point projects to B
+    const t = Math.max(0, Math.min(1, (apx * abx + apy * aby) / abSquared));
+
+    // Calculate projected point: A + t * AB
+    return [ax + t * abx, ay + t * aby];
+  }
+
+  // DEPRECATED: Old method that snapped to any road node
+  // Kept for backward compatibility but not used during navigation
   private findClosestNodeInternal(
     longitude: number,
     latitude: number
