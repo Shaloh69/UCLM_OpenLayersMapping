@@ -340,9 +340,9 @@ export const setupRoadSystem = (
           width = 3;
           break;
         case "path":
-          color = "#888888";
-          width = 2;
-          lineDash = [4, 4];
+          color = "#555555";  // Darker gray for better visibility
+          width = 4;          // Increased from 2 to 4 pixels
+          lineDash = [6, 3];  // More visible dash pattern
           break;
       }
 
