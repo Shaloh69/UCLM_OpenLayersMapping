@@ -170,9 +170,26 @@ export const findShortestPath = (
   // Add edges to the graph
   roadsSource.getFeatures().forEach((feature) => {
     const props = feature.getProperties();
+
+    // Debug logging for OldBuildingRD4
+    if (props.name === "OldBuildingRD4") {
+      console.log("🔍 [OldBuildingRD4] Found in roads:", {
+        name: props.name,
+        from: props.from,
+        to: props.to,
+        type: props.type,
+        hasGeometry: !!feature.getGeometry()
+      });
+    }
+
     if (props.from && props.to) {
       const geometry = feature.getGeometry();
-      if (!geometry) return;
+      if (!geometry) {
+        if (props.name === "OldBuildingRD4") {
+          console.error("🔍 [OldBuildingRD4] NO GEOMETRY!");
+        }
+        return;
+      }
 
       // Calculate road segment length
       let distance = 0;
@@ -188,12 +205,34 @@ export const findShortestPath = (
         }
       }
 
+      // Debug for OldBuildingRD4
+      if (props.name === "OldBuildingRD4") {
+        console.log("🔍 [OldBuildingRD4] Distance calculated:", distance);
+      }
+
       // Add to graph in both directions (assuming bidirectional roads)
       if (!graph[props.from]) graph[props.from] = {};
       if (!graph[props.to]) graph[props.to] = {};
 
       graph[props.from][props.to] = distance;
       graph[props.to][props.from] = distance;
+
+      // Debug for OldBuildingRD4
+      if (props.name === "OldBuildingRD4") {
+        console.log("🔍 [OldBuildingRD4] Added to graph:", {
+          from: props.from,
+          to: props.to,
+          distance: distance,
+          graphHasConnection: !!graph[props.from][props.to]
+        });
+      }
+    } else {
+      if (props.name === "OldBuildingRD4") {
+        console.error("🔍 [OldBuildingRD4] MISSING from/to:", {
+          from: props.from,
+          to: props.to
+        });
+      }
     }
 
     console.log("😊😊Graph structure:", JSON.stringify(graph));
