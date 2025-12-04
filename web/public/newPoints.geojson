@@ -149,7 +149,7 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "ME TOOL ROOM AND LAB",
-        "nearest_node": "",
+        "nearest_node": "RD_ToolRoomME",
         "additionalDirections": ""
       },
       "geometry": {
