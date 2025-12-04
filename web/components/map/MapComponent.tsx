@@ -140,25 +140,9 @@ const CampusMap: React.FC<MapProps> = ({
   const [userPosition, setUserPosition] = useState<UserPosition | null>(null);
   const [useEnhancedTracking, setUseEnhancedTracking] = useState<boolean>(true);
 
-
-  const {
-    qrCodeUrl,
-    showQRModal,
-    isGenerating,
-    error,
-    generateRouteQRCode,
-    closeQRModal,
-    resetKiosk,
-  } = useKioskRouteManager({
-    currentLocation,
-    selectedDestination,
-    userPosition,
-    routeInfo,
-    defaultStartLocation,
-  });
   // Map instance and source references
   const mapInstanceRef = useRef<Map | null>(null);
-  const vectorSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null); 
+  const vectorSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
   const pointsSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
   const drawInteractionRef = useRef<any>(null);
   const modifyInteractionRef = useRef<any>(null);
@@ -174,6 +158,24 @@ const CampusMap: React.FC<MapProps> = ({
   const activeRouteRoadsRef = useRef<Set<string>>(new Set());
   const lastRerouteTimeRef = useRef<number>(0);
   const isReroutingRef = useRef<boolean>(false);
+
+  // Kiosk QR code management hook - must come after activeRouteRoadsRef declaration
+  const {
+    qrCodeUrl,
+    showQRModal,
+    isGenerating,
+    error,
+    generateRouteQRCode,
+    closeQRModal,
+    resetKiosk,
+  } = useKioskRouteManager({
+    currentLocation,
+    selectedDestination,
+    userPosition,
+    routeInfo,
+    defaultStartLocation,
+    activeRouteRoads: activeRouteRoadsRef.current, // Include route roads for QR encoding
+  });
 
   // Store UI in refs to minimize re-renders
   const locationErrorRef = useRef<string | null>(null);
@@ -422,6 +424,41 @@ const CampusMap: React.FC<MapProps> = ({
     if (!nodesSourceRef.current) {
       console.error("Nodes source not initialized");
       return;
+    }
+
+    // CRITICAL: If route roads are provided from QR, apply them directly for immediate highlighting
+    // This allows the mobile to show highlighted roads without waiting for path calculation
+    if (routeData.routeRoads && routeData.routeRoads.length > 0) {
+      console.log(`[MOBILE] 🎯 Found ${routeData.routeRoads.length} pre-calculated route roads from QR code:`, routeData.routeRoads);
+      activeRouteRoadsRef.current = new Set(routeData.routeRoads);
+
+      // Force immediate road highlighting
+      if (roadsSourceRef.current && roadsLayerRef.current) {
+        const allRoads = roadsSourceRef.current.getFeatures();
+        console.log(`[MOBILE] Applying immediate highlighting to ${allRoads.length} road features`);
+
+        let highlightedCount = 0;
+        allRoads.forEach(feature => {
+          const roadName = feature.getProperties().name;
+          if (activeRouteRoadsRef.current.has(roadName)) {
+            highlightedCount++;
+            console.log(`[MOBILE] 🟢 Pre-highlighting road: "${roadName}"`);
+          }
+          feature.setStyle(undefined); // Clear style cache to force re-evaluation
+        });
+
+        console.log(`[MOBILE] ✅ Pre-highlighted ${highlightedCount} roads from QR data`);
+
+        // Force layer refresh
+        roadsLayerRef.current.setVisible(false);
+        roadsLayerRef.current.setVisible(true);
+        roadsLayerRef.current.changed();
+        roadsSourceRef.current.changed();
+
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.render();
+        }
+      }
     }
 
     // Find start and end nodes
@@ -737,6 +774,10 @@ const CampusMap: React.FC<MapProps> = ({
       // OpenLayers caches feature styles for performance, so we must manually clear them
 
       // Function to clear road style cache and force re-render
+      // ENHANCED: More retries and longer delays for mobile devices
+      const MAX_ROAD_RETRIES = mobileMode ? 15 : 5; // More retries on mobile
+      const BASE_RETRY_DELAY = mobileMode ? 400 : 300; // Longer base delay on mobile
+
       const clearRoadStyleCache = (retryCount = 0): Promise<void> => {
         return new Promise((resolve) => {
           if (!roadsSourceRef.current || !roadsLayerRef.current) {
@@ -746,20 +787,21 @@ const CampusMap: React.FC<MapProps> = ({
           }
 
           const allRoads = roadsSourceRef.current.getFeatures();
-          console.log(`[Road Highlighting] Attempt ${retryCount + 1}: Found ${allRoads.length} road features`);
+          console.log(`[Road Highlighting] Attempt ${retryCount + 1}/${MAX_ROAD_RETRIES}: Found ${allRoads.length} road features`);
           console.log(`[Road Highlighting] Active route roads: ${Array.from(activeRouteRoadsRef.current).join(', ')}`);
 
-          if (allRoads.length === 0 && retryCount < 5) {
+          if (allRoads.length === 0 && retryCount < MAX_ROAD_RETRIES) {
             // Roads not loaded yet, retry after a delay (increased retries for mobile)
-            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${300 * (retryCount + 1)}ms...`);
+            const delay = BASE_RETRY_DELAY * (retryCount + 1);
+            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${delay}ms... (attempt ${retryCount + 1}/${MAX_ROAD_RETRIES})`);
             setTimeout(() => {
               clearRoadStyleCache(retryCount + 1).then(resolve);
-            }, 300 * (retryCount + 1));
+            }, delay);
             return;
           }
 
           if (allRoads.length === 0) {
-            console.error('[Road Highlighting] ❌ Failed to load road features after 5 retries');
+            console.error(`[Road Highlighting] ❌ Failed to load road features after ${MAX_ROAD_RETRIES} retries`);
             resolve();
             return;
           }
@@ -1160,23 +1202,51 @@ const CampusMap: React.FC<MapProps> = ({
         console.log("Found route data:", routeData);
 
         // Wait for map and sources to be fully initialized
+        // CRITICAL FIX: Check actual feature count, not just source state
+        // Source state can be "ready" but features array can still be empty
+        let checkAttempts = 0;
+        const MAX_CHECK_ATTEMPTS = 30; // 30 attempts x 500ms = 15 seconds max wait
+
         const checkSourcesLoaded = () => {
-          if (
-            mapInstanceRef.current &&
-            roadsSourceRef.current &&
-            roadsSourceRef.current.getState() === "ready" &&
-            nodesSourceRef.current &&
-            nodesSourceRef.current.getState() === "ready"
-          ) {
-            console.log("Sources ready, processing route");
+          checkAttempts++;
+
+          const mapReady = !!mapInstanceRef.current;
+          const roadsReady = roadsSourceRef.current && roadsSourceRef.current.getState() === "ready";
+          const nodesReady = nodesSourceRef.current && nodesSourceRef.current.getState() === "ready";
+
+          // CRITICAL: Check actual feature count, not just state
+          const roadsCount = roadsSourceRef.current?.getFeatures().length || 0;
+          const nodesCount = nodesSourceRef.current?.getFeatures().length || 0;
+
+          console.log(`[Mobile Route] Check ${checkAttempts}/${MAX_CHECK_ATTEMPTS}:`, {
+            mapReady,
+            roadsReady,
+            nodesReady,
+            roadsCount,
+            nodesCount
+          });
+
+          // Need actual features loaded, not just source ready state
+          if (mapReady && roadsReady && nodesReady && roadsCount > 0 && nodesCount > 0) {
+            console.log(`[Mobile Route] ✅ All sources loaded with ${roadsCount} roads and ${nodesCount} nodes. Processing route...`);
             processRouteData(routeData);
+          } else if (checkAttempts < MAX_CHECK_ATTEMPTS) {
+            // Exponential backoff with cap at 1 second
+            const delay = Math.min(300 + (checkAttempts * 100), 1000);
+            console.log(`[Mobile Route] ⏳ Sources not fully loaded yet, retry in ${delay}ms...`);
+            setTimeout(checkSourcesLoaded, delay);
           } else {
-            console.log("Sources not ready yet, waiting...");
-            setTimeout(checkSourcesLoaded, 300);
+            console.error(`[Mobile Route] ❌ Failed to load sources after ${MAX_CHECK_ATTEMPTS} attempts`);
+            // Try processing anyway - maybe partial data is available
+            if (roadsCount > 0 || nodesCount > 0) {
+              console.log(`[Mobile Route] 🔄 Attempting route processing with partial data...`);
+              processRouteData(routeData);
+            }
           }
         };
 
-        checkSourcesLoaded();
+        // Start checking after initial delay to let resources begin loading
+        setTimeout(checkSourcesLoaded, 500);
       }
     }
   }, [effectiveSearchParams, mobileMode]);
@@ -1803,13 +1873,31 @@ const CampusMap: React.FC<MapProps> = ({
   const renderMobileUI = () => {
     if (!mobileMode) return null;
 
+    // Format distance for display
+    const formatDistance = (meters: number): string => {
+      if (meters < 1000) {
+        return `${Math.round(meters)}m`;
+      }
+      return `${(meters / 1000).toFixed(1)}km`;
+    };
+
+    // Format time for display
+    const formatTime = (minutes: number): string => {
+      if (minutes < 1) {
+        return '< 1 min';
+      }
+      const mins = Math.ceil(minutes);
+      return mins === 1 ? '1 min' : `${mins} mins`;
+    };
+
     return (
       <>
-        {/* Mobile Header */}
-        <div className="fixed top-0 left-0 right-0 bg-white p-3 shadow-md z-40">
-          <div className="flex items-center justify-between">
+        {/* Enhanced Mobile Header with Destination Info */}
+        <div className="fixed top-0 left-0 right-0 bg-white shadow-lg z-40">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between p-3 border-b border-gray-100">
             <button
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 active:scale-95 transition-all"
               onClick={() => router.back()}
             >
               <svg
@@ -1827,14 +1915,14 @@ const CampusMap: React.FC<MapProps> = ({
               </svg>
             </button>
 
-            <h1 className="text-lg font-bold text-gray-900">
+            <h1 className="text-lg font-bold text-gray-900 flex-1 text-center truncate px-2">
               {selectedDestination
-                ? `Navigate to ${selectedDestination.name}`
-                : "Campus Map"}
+                ? selectedDestination.name
+                : "Campus Navigation"}
             </h1>
 
             <button
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 active:scale-95 transition-all"
               onClick={() => {
                 if (mapInstanceRef.current && currentLocation) {
                   const coords = fromLonLat(currentLocation.coordinates);
@@ -1869,6 +1957,92 @@ const CampusMap: React.FC<MapProps> = ({
               </svg>
             </button>
           </div>
+
+          {/* Destination Info Card - Shows when navigating */}
+          {selectedDestination && (
+            <div className="px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50">
+              <div className="flex items-center gap-3">
+                {/* Destination Icon */}
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
+                  <svg
+                    className="w-6 h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+
+                {/* Destination Details */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">
+                      Navigating to
+                    </span>
+                    {selectedDestination.category && (
+                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
+                        {selectedDestination.category}
+                      </span>
+                    )}
+                  </div>
+                  <h2 className="text-base font-bold text-gray-900 truncate">
+                    {selectedDestination.name}
+                  </h2>
+                  {selectedDestination.description && (
+                    <p className="text-xs text-gray-600 truncate mt-0.5">
+                      {selectedDestination.description}
+                    </p>
+                  )}
+                </div>
+
+                {/* Distance & Time */}
+                {routeInfo && (
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-lg font-bold text-blue-600">
+                      {formatDistance(routeProgress?.distanceToDestination ?? routeInfo.distance)}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {formatTime(routeProgress?.estimatedTimeRemaining
+                        ? routeProgress.estimatedTimeRemaining / 60
+                        : routeInfo.estimatedTime)}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Progress Bar */}
+              {routeProgress && routeProgress.percentComplete > 0 && (
+                <div className="mt-3">
+                  <div className="h-1.5 bg-blue-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500"
+                      style={{ width: `${Math.min(100, routeProgress.percentComplete)}%` }}
+                    />
+                  </div>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-xs text-gray-500">
+                      {routeProgress.percentComplete.toFixed(0)}% complete
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {formatDistance(routeProgress.distanceTraveled)} traveled
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Floating Locate Button */}

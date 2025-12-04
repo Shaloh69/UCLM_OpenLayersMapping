@@ -18,6 +18,9 @@ export interface RouteData {
     estimatedTime: number;
     description?: string;
   };
+  // Route path for direct display on mobile without recalculation
+  routePath?: string[]; // Array of node IDs in the path order
+  routeRoads?: string[]; // Array of road names to highlight
   timestamp?: number;
   metadata?: {
     creator?: string;
@@ -116,7 +119,16 @@ export const generateRouteQR = async (
       params.set("campus", routeData.metadata.campusId);
     }
 
+    // CRITICAL: Include route roads for direct highlighting on mobile
+    // This allows mobile to highlight roads immediately without waiting for path calculation
+    if (routeData.routeRoads && routeData.routeRoads.length > 0) {
+      // Join road names with pipe separator (compact encoding)
+      params.set("roads", routeData.routeRoads.join("|"));
+      console.log('[QR] Including route roads:', routeData.routeRoads);
+    }
+
     const fullUrl = `${baseUrl}/route?${params.toString()}`;
+    console.log('[QR] Full URL length:', fullUrl.length, 'chars');
 
     // Set QR code options with defaults
     const {
@@ -324,6 +336,16 @@ export const parseRouteFromUrl = (
       };
     }
 
+    // CRITICAL: Parse route roads for direct highlighting on mobile
+    const roadsParam = urlParams.get("roads");
+    if (roadsParam) {
+      routeData.routeRoads = roadsParam.split("|").filter(r => r.trim() !== "");
+      console.log('[PHONE] Parsed route roads from QR:', routeData.routeRoads);
+      if (debugInfoRef?.current) {
+        debugInfoRef.current.push(`Route roads: ${routeData.routeRoads.length} roads`);
+      }
+    }
+
     return routeData;
   } catch (error) {
     console.error("Error parsing route data from URL:", error);
@@ -357,6 +379,7 @@ export const useKioskRouteManager = (options: {
     estimatedTime: number;
   };
   defaultStartLocation: RoadNode | null;
+  activeRouteRoads?: Set<string>; // Road names in active route for QR encoding
   onReset?: () => void;
 }) => {
   const {
@@ -365,6 +388,7 @@ export const useKioskRouteManager = (options: {
     userPosition, // GPS position for accurate route starting
     routeInfo,
     defaultStartLocation,
+    activeRouteRoads, // Include route roads in QR code
     onReset,
   } = options;
 
@@ -443,10 +467,14 @@ export const useKioskRouteManager = (options: {
           distance: routeInfo.distance,
           estimatedTime: routeInfo.estimatedTime,
         },
+        // CRITICAL: Include route roads for direct highlighting on mobile
+        // This allows mobile to show highlighted roads immediately without recalculation
+        routeRoads: activeRouteRoads ? Array.from(activeRouteRoads) : undefined,
         timestamp: Date.now(),
       };
 
       console.log('[KIOSK QR] Generating QR with GPS:', routeData.startGPS);
+      console.log('[KIOSK QR] Including route roads:', routeData.routeRoads);
 
       // Generate QR code
       const qrCode = await generateRouteQR(routeData, {
@@ -476,6 +504,7 @@ export const useKioskRouteManager = (options: {
     userPosition, // Include GPS position in dependencies
     routeInfo,
     defaultStartLocation,
+    activeRouteRoads, // Include route roads in dependencies
   ]);
 
   // Handle closing the QR modal
