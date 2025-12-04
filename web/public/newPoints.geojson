@@ -49,8 +49,8 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "GATE 8",
-        "nearest_node": "",
-        "additionalDirections": ""
+        "nearest_node": "RD_gate_8",
+        "additionalDirections": "Go forward for Gate 8"
       },
       "geometry": {
         "type": "Point",
