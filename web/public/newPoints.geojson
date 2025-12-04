@@ -489,7 +489,7 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Prefect of Descipline",
-        "nearest_node": "stairs_sao",
+        "nearest_node": "RD_SAOStairs",
         "additionalDirections": ""
       },
       "geometry": {
