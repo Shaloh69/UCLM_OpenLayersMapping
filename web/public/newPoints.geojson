@@ -608,7 +608,7 @@
         "isDestination": true,
         "category": "Gates",
         "description": "",
-        "nearest_node": "",
+        "nearest_node": "RD_Gate5",
         "additionalDirections": ""
       },
       "geometry": {
@@ -628,7 +628,7 @@
         "isDestination": true,
         "category": "Gates",
         "description": "",
-        "nearest_node": "",
+        "nearest_node": "RD_Gate6",
         "additionalDirections": ""
       },
       "geometry": {
