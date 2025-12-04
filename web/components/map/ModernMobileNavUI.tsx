@@ -33,7 +33,8 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
   onToggleCameraFollow,
   onClearRoute,
 }) => {
-  const [panelState, setPanelState] = useState<PanelState>('expanded');
+  // Default to minimized so progress info is always visible
+  const [panelState, setPanelState] = useState<PanelState>('minimized');
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
 
   // Format distance
