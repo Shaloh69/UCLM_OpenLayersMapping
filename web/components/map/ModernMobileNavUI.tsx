@@ -36,6 +36,7 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
   // Default to minimized so progress info is always visible
   const [panelState, setPanelState] = useState<PanelState>('minimized');
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
+  const [showEndRouteConfirm, setShowEndRouteConfirm] = useState(false);
 
   // Format distance
   const formatDistance = (meters: number): string => {
@@ -494,12 +495,7 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
           </button>
 
           <button
-            onClick={() => {
-              if (confirm('End navigation?')) {
-                onClearRoute();
-                setPanelState('hidden');
-              }
-            }}
+            onClick={() => setShowEndRouteConfirm(true)}
             className="py-3 px-4 bg-red-50 text-red-600 rounded-xl font-semibold
                        text-sm hover:bg-red-100 active:bg-red-200 transition-all
                        flex items-center justify-center gap-2"
@@ -538,6 +534,75 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
 
   return (
     <>
+      {/* END ROUTE CONFIRMATION MODAL - Custom mobile-friendly dialog */}
+      <AnimatePresence>
+        {showEndRouteConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center
+                       bg-black bg-opacity-50 backdrop-blur-sm px-4"
+            onClick={() => setShowEndRouteConfirm(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg
+                    className="w-8 h-8 text-red-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  End Navigation?
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  Are you sure you want to stop navigating to{' '}
+                  <span className="font-semibold">{destination.name}</span>?
+                </p>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowEndRouteConfirm(false)}
+                  className="flex-1 py-3 px-4 bg-gray-100 text-gray-700 rounded-xl
+                           font-semibold hover:bg-gray-200 active:scale-95 transition-all"
+                >
+                  Keep Going
+                </button>
+                <button
+                  onClick={() => {
+                    setShowEndRouteConfirm(false);
+                    onClearRoute();
+                    setPanelState('hidden');
+                  }}
+                  className="flex-1 py-3 px-4 bg-red-500 text-white rounded-xl
+                           font-semibold hover:bg-red-600 active:scale-95 transition-all"
+                >
+                  End Route
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* FULL-SCREEN ARRIVAL OVERLAY - IMPOSSIBLE TO MISS */}
       <AnimatePresence>
         {showArrivalOverlay && hasArrived && (

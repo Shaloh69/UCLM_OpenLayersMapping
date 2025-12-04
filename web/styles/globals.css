@@ -148,8 +148,8 @@
   }
 }
 
-const mobileStyles {
-  /* Mobile Specific Styles */
+/* Mobile Specific Styles */
+@layer components {
   .mobile-header {
     position: fixed;
     top: 0;

@@ -3,8 +3,8 @@
 import { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import Head from "next/head";
 import { parseRouteFromUrl } from "@/components/map/qrCodeUtils"; // Adjust this path as needed
+import { MobileErrorBoundary } from "@/components/ErrorBoundary";
 
 // Import map component dynamically to avoid SSR issues
 const MapComponent = dynamic(() => import("@/components/map/MapComponent"), {
@@ -152,15 +152,7 @@ function RouteContent() {
   if (error) return <ErrorScreen error={error} />;
 
   return (
-    <>
-      <Head>
-        <title>Campus Navigation</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-        />
-      </Head>
-
+    <MobileErrorBoundary>
       {readyToStart ? (
         <RouteReadyScreen startRoute={() => setReadyToStart(false)} />
       ) : (
@@ -168,7 +160,7 @@ function RouteContent() {
           <MapComponent routeData={routeData} mobileMode={true} debug={false} />
         </div>
       )}
-    </>
+    </MobileErrorBoundary>
   );
 }
 
