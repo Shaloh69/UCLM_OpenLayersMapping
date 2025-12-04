@@ -26,7 +26,7 @@
       "properties": {
         "id": "cbe_gate9_elevator",
         "name": "CBE Gate 9 Elevator",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Gate 9 Elevator",
         "nearest_node": "",
@@ -46,7 +46,7 @@
       "properties": {
         "id": "gate_8",
         "name": "GATE 8",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "GATE 8",
         "nearest_node": "",
@@ -66,7 +66,7 @@
       "properties": {
         "id": "gate_9",
         "name": "Gate 9",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "",
         "nearest_node": "RD_Gate9",
@@ -146,7 +146,7 @@
       "properties": {
         "id": "me_tool_room",
         "name": "ME TOOL ROOM AND LAB",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "ME TOOL ROOM AND LAB",
         "nearest_node": "",
@@ -206,7 +206,7 @@
       "properties": {
         "id": "clinic",
         "name": "CLINIC",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CLINIC",
         "nearest_node": "",
@@ -266,7 +266,7 @@
       "properties": {
         "id": "pe_faculty",
         "name": "PE FACULTY",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "PE FACULTY",
         "nearest_node": "",
@@ -625,7 +625,7 @@
       "properties": {
         "id": "gate_6",
         "name": "Gate 6",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "",
         "nearest_node": "",
