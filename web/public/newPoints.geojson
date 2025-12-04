@@ -349,7 +349,7 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Small stairs(old building)",
-        "nearest_node": "",
+        "nearest_node": "Stairs1OldRoadEnd",
         "additionalDirections": ""
       },
       "geometry": {
