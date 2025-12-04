@@ -5,7 +5,7 @@ These template files demonstrate the structure and required properties for custo
 ## Files
 
 1. **Buildings_Template.geojson** - Template for building polygons
-2. **RoadSystem_Template.geojson** - Template for navigation system (roads + nodes + POIs)
+2. **NewTestRoad_Template.geojson** - Template for navigation system (roads + nodes + POIs)
 3. **Points_Template.geojson** - Template for visual marker points (optional)
 
 ## How to Use
@@ -14,7 +14,7 @@ These template files demonstrate the structure and required properties for custo
 2. Press **Ctrl+Shift+C** to open the configuration panel
 3. Upload your custom GeoJSON files:
    - Buildings.geojson (required)
-   - RoadSystem.geojson (required)
+   - NewTestRoad.geojson (required)
    - Points.geojson (optional)
 4. Click "Save & Launch" to apply the configuration
 
@@ -46,9 +46,9 @@ The Buildings file contains polygons representing building footprints.
 }
 ```
 
-## RoadSystem GeoJSON Structure
+## NewTestRoad GeoJSON Structure
 
-The RoadSystem file contains all navigation-related features:
+The NewTestRoad file contains all navigation-related features:
 - **Points**: Destination nodes, gates, junctions, stairs, etc.
 - **LineStrings**: Road paths connecting nodes
 - **Polygons**: Road surfaces (optional)
@@ -135,7 +135,7 @@ For polygon coordinates, the first and last point must be identical to close the
 ## Troubleshooting
 
 ### Map doesn't load
-- Check that Buildings and RoadSystem files are valid JSON
+- Check that Buildings and NewTestRoad files are valid JSON
 - Verify all coordinates are in [longitude, latitude] format
 - Ensure polygons are properly closed (first point = last point)
 

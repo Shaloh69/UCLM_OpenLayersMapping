@@ -940,7 +940,7 @@ const CampusMap: React.FC<MapProps> = ({
 
           // Try to load custom files
           const buildingsData = await (window as any).electron.getCustomGeoJSON('Buildings.geojson');
-          const roadSystemData = await (window as any).electron.getCustomGeoJSON('RoadSystem.geojson');
+          const roadSystemData = await (window as any).electron.getCustomGeoJSON('NewTestRoad.geojson');
           const pointsData = await (window as any).electron.getCustomGeoJSON('Points.geojson');
 
           let hasCustomFiles = false;
@@ -955,7 +955,7 @@ const CampusMap: React.FC<MapProps> = ({
           }
 
           if (roadSystemData) {
-            console.log('Custom RoadSystem.geojson found');
+            console.log('Custom NewTestRoad.geojson found');
             const blob = new Blob([JSON.stringify(roadSystemData)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             setActualRoadsUrl(url);
