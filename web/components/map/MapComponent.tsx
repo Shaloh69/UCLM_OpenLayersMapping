@@ -308,16 +308,18 @@ const CampusMap: React.FC<MapProps> = ({
                 // Check if user has reached the routing node (nearest_node for POIs)
                 if (closestNode.id === routingNodeId) {
                   // User reached the routing node - show additional directions if needed
-                  if (requiresAdditionalDirections(destination)) {
+                  // Note: In mobile mode, ModernMobileNavUI already handles showing additional directions
+                  // based on distance. We only show the separate modal in desktop/kiosk mode.
+                  if (requiresAdditionalDirections(destination) && !mobileMode) {
                     console.log(
                       `[Navigation] Reached routing node "${routingNodeId}". Showing additional directions.`
                     );
                     setShowAdditionalDirections(true);
+                  }
 
-                    // Disable camera follow when destination reached
-                    if (mobileMode) {
-                      setCameraFollowMode(false);
-                    }
+                  // Disable camera follow when destination reached
+                  if (mobileMode) {
+                    setCameraFollowMode(false);
                   }
                 }
               }

@@ -62,7 +62,9 @@ const EnhancedMobileRoutePanel: React.FC<EnhancedMobileRoutePanelProps> = ({
   const displayTime = routeProgress?.estimatedTimeRemaining ?? (routeInfo?.estimatedTime ? routeInfo.estimatedTime * 60 : 0);
   const percentComplete = routeProgress?.percentComplete ?? 0;
 
-  // Arrival detection - consider arrived if within 20 meters
+  // Arrival detection: User has arrived when within 20 meters of destination
+  // This threshold accounts for GPS accuracy (typically 5-50m) and ensures
+  // the arrival message shows when user is genuinely near the destination
   const hasArrived = displayDistance < 20;
 
   const handleDrag = (_: any, info: PanInfo) => {
