@@ -828,7 +828,10 @@ const CampusMap: React.FC<MapProps> = ({
     if (enhancedTrackerRef.current) {
       enhancedTrackerRef.current.clearRoute();
     }
-  }, []);
+
+    // Also close QR modal if open
+    closeQRModal();
+  }, [closeQRModal]);
 
   // Toggle edit mode - memoized
   const toggleEditMode = useCallback(() => {
@@ -1562,37 +1565,7 @@ const CampusMap: React.FC<MapProps> = ({
     [currentLocation, locationPermissionRequested, defaultStartLocation]
   );
 
-  // Memoize destination selector button
-  const DestinationSelectorButton = useMemo(
-    () => (
-      <div className="absolute bottom-4 right-4 z-30">
-        <button
-          className="group bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-3xl hover:scale-105 focus:outline-none transition-all duration-300"
-          onClick={handleShowDestinationSelector}
-        >
-          <div className="flex items-center gap-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="group-hover:scale-110 transition-transform"
-            >
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            <span className="hidden sm:block font-bold text-lg">Find Location</span>
-          </div>
-        </button>
-      </div>
-    ),
-    [handleShowDestinationSelector]
-  );
+  // Destination selector button - removed, now integrated into footer
 
   // Memoize destination selector
   const DestinationSelectorComponent = useMemo(() => {
@@ -1879,22 +1852,22 @@ const CampusMap: React.FC<MapProps> = ({
       {!mobileMode && !showKioskWelcome && debug && EditControlsComponent}
       {!mobileMode && !showKioskWelcome && debug && CustomizationPanelComponent}
       {!mobileMode && !showKioskWelcome && NavigationStatusBar}
-      {!mobileMode && !showKioskWelcome && DestinationSelectorButton}
       {showDestinationSelector && !mobileMode && !showKioskWelcome && DestinationSelectorComponent}
 
       {/* Render mobile UI */}
       {mobileMode && renderMobileUI()}
 
-      {/* Desktop/Kiosk Route Footer - only show compact footer, not the old overlay */}
-      {!showKioskWelcome && !mobileMode && selectedDestination && (
+      {/* Desktop/Kiosk Route Footer - always show, with integrated destination selector */}
+      {!showKioskWelcome && !mobileMode && (
         <CompactRouteFooter
           destination={selectedDestination}
           currentLocation={currentLocation}
           routeInfo={routeInfo}
           qrCodeUrl={showQRModal ? qrCodeUrl : undefined}
-          onClose={closeQRModal}
+          onClose={clearRoute}
           onGenerateQR={generateRouteQRCode}
           isGeneratingQR={isGenerating}
+          onFindLocation={handleShowDestinationSelector}
         />
       )}
 

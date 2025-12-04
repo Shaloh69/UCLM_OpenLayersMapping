@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { RoadNode } from "./roadSystem";
 
 interface CompactRouteFooterProps {
-  destination: RoadNode;
-  currentLocation: RoadNode | null;
+  destination?: RoadNode | null;
+  currentLocation?: RoadNode | null;
   routeInfo?: {
     distance: number;
     estimatedTime: number;
@@ -13,6 +13,7 @@ interface CompactRouteFooterProps {
   onClose: () => void;
   onGenerateQR?: () => void;
   isGeneratingQR?: boolean;
+  onFindLocation: () => void;
 }
 
 const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
@@ -23,8 +24,47 @@ const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
   onClose,
   onGenerateQR,
   isGeneratingQR = false,
+  onFindLocation,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // If no destination, show compact "Find Location" button
+  if (!destination) {
+    return (
+      <motion.div
+        initial={{ y: "100%" }}
+        animate={{ y: 0 }}
+        exit={{ y: "100%" }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl z-50 rounded-t-2xl overflow-hidden"
+        style={{ boxShadow: "0 -4px 20px rgba(0, 0, 0, 0.15)" }}
+      >
+        <div className="px-6 py-4">
+          <button
+            onClick={onFindLocation}
+            className="w-full group bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white py-4 rounded-xl shadow-xl hover:shadow-2xl hover:scale-[1.02] focus:outline-none transition-all duration-300 flex items-center justify-center gap-3"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="group-hover:scale-110 transition-transform"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span className="font-bold text-lg">Find Location</span>
+          </button>
+        </div>
+      </motion.div>
+    );
+  }
 
   const formattedDistance = useMemo(() => {
     if (!routeInfo) return "Unknown";
