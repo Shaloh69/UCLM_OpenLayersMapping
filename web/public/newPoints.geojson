@@ -369,7 +369,7 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Main Stairs (oldbuilding)",
-        "nearest_node": "",
+        "nearest_node": "main_stairs_oldRoad_end",
         "additionalDirections": ""
       },
       "geometry": {
