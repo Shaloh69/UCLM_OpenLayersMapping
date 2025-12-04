@@ -69,7 +69,7 @@
         "isDestination": "true",
         "category": "Gates",
         "description": "",
-        "nearest_node": "",
+        "nearest_node": "RD_Gate9",
         "additionalDirections": ""
       },
       "geometry": {
