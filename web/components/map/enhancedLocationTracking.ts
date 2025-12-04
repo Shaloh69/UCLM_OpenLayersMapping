@@ -391,21 +391,22 @@ export class EnhancedLocationTracker {
       timestamp: Date.now(),
     };
 
-    // ========== SNAP TO ROAD NODE ==========
-    // Snap marker to active route (if route exists)
-    // This keeps the marker ON the highlighted path, not on random roads
+    // ========== SNAP TO ROUTE LINE ==========
+    // When route is active, ALWAYS snap marker to highlighted route
+    // Marker moves forward/backward along route based on GPS position
+    // This ensures marker is always rendered ON the highlighted road
     let displayCoordinates: [number, number] = [longitude, latitude];
 
     if (this.routePath && this.routePath.length >= 2) {
-      // We have an active route - snap to it
+      // We have an active route - ALWAYS snap to it
       const snappedPoint = this.findClosestPointOnRoute(longitude, latitude);
       if (snappedPoint) {
         displayCoordinates = snappedPoint;
         this.snappedPosition = snappedPoint;
         // Logging is done inside findClosestPointOnRoute
       } else {
-        // Too far from route (>50m) or no route - show actual GPS
-        console.log(`[GPS] 📍 Using actual GPS position (not snapping)`);
+        // Fallback to GPS (route might be invalid)
+        console.log(`[GPS] ⚠️ Could not snap to route - using actual GPS`);
         this.snappedPosition = null;
       }
     } else {
@@ -590,16 +591,15 @@ export class EnhancedLocationTracker {
       }
     }
 
-    // Only snap if GPS is within 50m of the route
-    // If farther, user might be off-route - show actual GPS position
-    const MAX_SNAP_DISTANCE = 50; // meters
-    if (minDistance > MAX_SNAP_DISTANCE) {
-      console.log(`[GPS Snap] ⚠️ Too far from route (${minDistance.toFixed(1)}m) - showing actual GPS`);
-      return null;
-    }
-
+    // ALWAYS snap when route is active (no distance limit)
+    // This keeps marker on highlighted road at all times, even if GPS drifts
+    // The marker will move forward/backward along the route based on GPS position
     if (closestPoint) {
-      console.log(`[GPS Snap] 📍 Snapped to route (distance: ${minDistance.toFixed(1)}m)`);
+      if (minDistance > 100) {
+        console.log(`[GPS Snap] ⚠️ GPS far from route (${minDistance.toFixed(1)}m) but still snapping to keep marker on road`);
+      } else {
+        console.log(`[GPS Snap] 📍 Snapped to route (distance: ${minDistance.toFixed(1)}m)`);
+      }
     }
 
     return closestPoint;
@@ -836,10 +836,12 @@ export class EnhancedLocationTracker {
     );
 
     // Debug logging for arrival detection
-    if (distanceToDestination < 50) { // Only log when getting close
+    if (distanceToDestination < 100) { // Log when getting close
       console.log(`[Arrival Detection] Distance to destination: ${distanceToDestination.toFixed(1)}m`);
-      if (distanceToDestination < 20) {
-        console.log(`[Arrival Detection] ✓ ARRIVED! Distance is ${distanceToDestination.toFixed(1)}m (< 20m threshold)`);
+      if (distanceToDestination < 40) {
+        console.log(`[Arrival Detection] ✓ ARRIVED! Distance is ${distanceToDestination.toFixed(1)}m (< 40m threshold)`);
+      } else if (distanceToDestination < 80) {
+        console.log(`[Arrival Detection] 👀 Almost there! ${distanceToDestination.toFixed(1)}m away`);
       }
     }
 
