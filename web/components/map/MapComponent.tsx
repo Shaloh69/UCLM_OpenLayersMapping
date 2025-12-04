@@ -135,6 +135,7 @@ const CampusMap: React.FC<MapProps> = ({
   const [actualRoadsUrl, setActualRoadsUrl] = useState<string>(`${roadsUrl}?v=${cacheBuster}`);
   const [actualNodesUrl, setActualNodesUrl] = useState<string>(`${nodesUrl}?v=${cacheBuster}`);
   const [customGeoJSONLoaded, setCustomGeoJSONLoaded] = useState<boolean>(false);
+  const [mapInitialized, setMapInitialized] = useState<boolean>(false); // Track when map is ready for GPS
 
   const [routeProgress, setRouteProgress] = useState<RouteProgress | null>(null);
   const [userPosition, setUserPosition] = useState<UserPosition | null>(null);
@@ -158,6 +159,25 @@ const CampusMap: React.FC<MapProps> = ({
   const activeRouteRoadsRef = useRef<Set<string>>(new Set());
   const lastRerouteTimeRef = useRef<number>(0);
   const isReroutingRef = useRef<boolean>(false);
+
+  // Refs to avoid stale closures in GPS callback
+  // These hold the latest values for use in the location tracking callback
+  const currentLocationRef = useRef<RoadNode | null>(null);
+  const selectedDestinationRef = useRef<RoadNode | null>(null);
+  const cameraFollowModeRef = useRef<boolean>(false);
+
+  // Keep refs in sync with state to avoid stale closures in callbacks
+  useEffect(() => {
+    currentLocationRef.current = currentLocation;
+  }, [currentLocation]);
+
+  useEffect(() => {
+    selectedDestinationRef.current = selectedDestination;
+  }, [selectedDestination]);
+
+  useEffect(() => {
+    cameraFollowModeRef.current = cameraFollowMode;
+  }, [cameraFollowMode]);
 
   // Kiosk QR code management hook - must come after activeRouteRoadsRef declaration
   const {
@@ -241,19 +261,21 @@ const CampusMap: React.FC<MapProps> = ({
       enhancedTrackerRef.current = tracker;
 
       // Start tracking with callbacks
+      // CRITICAL: Use refs (not state) to get latest values and avoid stale closures
       tracker.startTracking(
         (position: UserPosition) => {
           setUserPosition(position);
 
           // Auto-follow camera in mobile mode when navigating
-          if (mobileMode && cameraFollowMode && selectedDestination) {
+          // Use refs to get latest values
+          if (mobileMode && cameraFollowModeRef.current && selectedDestinationRef.current) {
             followUserPosition(position.coordinates);
           }
 
           // Store last position for comparison
           setLastUserPosition(position.coordinates);
 
-          // Update current location node
+          // Update current location node based on GPS position
           if (nodesSourceRef.current) {
             const closestNode = findClosestNode(
               position.coordinates[0],
@@ -261,21 +283,27 @@ const CampusMap: React.FC<MapProps> = ({
               nodesSourceRef.current
             );
 
+            // Use ref to check current location (not stale state)
+            const currentLoc = currentLocationRef.current;
             if (
               closestNode &&
-              (!currentLocation || closestNode.id !== currentLocation.id)
+              (!currentLoc || closestNode.id !== currentLoc.id)
             ) {
+              console.log(`[GPS] 📍 Location changed: ${currentLoc?.id || 'none'} → ${closestNode.id}`);
               setCurrentLocation(closestNode);
 
-              // If there's an active destination, update the route
-              if (selectedDestination) {
-                const routingNodeId = resolveRoutingNode(selectedDestination);
+              // If there's an active destination, update the route from new position
+              // Use ref to get latest destination
+              const destination = selectedDestinationRef.current;
+              if (destination) {
+                const routingNodeId = resolveRoutingNode(destination);
+                console.log(`[GPS] 🔄 Recalculating route: ${closestNode.id} → ${routingNodeId}`);
                 displayRoute(closestNode.id, routingNodeId);
 
                 // Check if user has reached the routing node (nearest_node for POIs)
                 if (closestNode.id === routingNodeId) {
                   // User reached the routing node - show additional directions if needed
-                  if (requiresAdditionalDirections(selectedDestination)) {
+                  if (requiresAdditionalDirections(destination)) {
                     console.log(
                       `[Navigation] Reached routing node "${routingNodeId}". Showing additional directions.`
                     );
@@ -295,7 +323,10 @@ const CampusMap: React.FC<MapProps> = ({
           setRouteProgress(progress);
 
           // Auto-reroute when off-route (with throttling)
-          if (progress.isOffRoute && selectedDestination && currentLocation) {
+          // Use refs to get latest values
+          const destination = selectedDestinationRef.current;
+          const currentLoc = currentLocationRef.current;
+          if (progress.isOffRoute && destination && currentLoc) {
             const now = Date.now();
             const timeSinceLastReroute = now - lastRerouteTimeRef.current;
             const MIN_REROUTE_INTERVAL = 10000; // 10 seconds minimum between reroutes
@@ -315,9 +346,11 @@ const CampusMap: React.FC<MapProps> = ({
 
               // Recalculate route from current location to destination
               setTimeout(() => {
-                if (currentLocation && selectedDestination) {
-                  const routingNodeId = resolveRoutingNode(selectedDestination);
-                  displayRoute(currentLocation.id, routingNodeId);
+                const dest = selectedDestinationRef.current;
+                const loc = currentLocationRef.current;
+                if (loc && dest) {
+                  const routingNodeId = resolveRoutingNode(dest);
+                  displayRoute(loc.id, routingNodeId);
                 }
                 isReroutingRef.current = false;
               }, 500); // Small delay to avoid blocking UI
@@ -537,6 +570,25 @@ const CampusMap: React.FC<MapProps> = ({
     if (mobileMode) {
       setCameraFollowMode(true);
       console.log('[MOBILE] Auto-enabled camera follow mode');
+
+      // CRITICAL: Start GPS tracking on mobile after route is processed
+      // This ensures the user's position is tracked and the route updates as they move
+      if (!locationTrackingEnabled && mapInstanceRef.current) {
+        console.log('[MOBILE] 📍 Starting GPS tracking for navigation...');
+        // Request permission if not already done, otherwise just start tracking
+        if (!locationPermissionRequested) {
+          requestLocationPermission();
+        } else {
+          // Permission already granted, just start tracking
+          const cleanup = initLocationTracking();
+          // Store cleanup for later
+          if (cleanup) {
+            console.log('[MOBILE] ✅ GPS tracking started for navigation');
+          }
+        }
+      } else if (locationTrackingEnabled) {
+        console.log('[MOBILE] GPS tracking already active');
+      }
     }
   };
 
@@ -1174,18 +1226,19 @@ const CampusMap: React.FC<MapProps> = ({
 
   // Auto-request GPS permission on mobile mode AND kiosk mode
   // KIOSK: GPS is needed to provide accurate starting location for navigation
+  // CRITICAL: Use mapInitialized state (not ref) to trigger effect when map is ready
   useEffect(() => {
-    // Request GPS for both mobile AND kiosk mode
-    if (!locationPermissionRequested && mapInstanceRef.current) {
+    // Request GPS for both mobile AND kiosk mode WHEN map is ready
+    if (!locationPermissionRequested && mapInitialized) {
       const mode = mobileMode ? 'MOBILE' : 'KIOSK';
-      console.log(`[${mode}] Auto-requesting GPS permission on load`);
-      // Small delay to ensure map is ready
+      console.log(`[${mode}] 📍 Auto-requesting GPS permission - map is ready`);
+      // Small delay to ensure map is fully ready
       const timer = setTimeout(() => {
         requestLocationPermission();
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [mobileMode, locationPermissionRequested, requestLocationPermission]);
+  }, [mobileMode, locationPermissionRequested, requestLocationPermission, mapInitialized]);
 
   useEffect(() => {
     if (effectiveSearchParams && mobileMode) {
@@ -1277,6 +1330,11 @@ const CampusMap: React.FC<MapProps> = ({
     mapInstanceRef.current = map;
     vectorSourceRef.current = vectorSource;
     pointsSourceRef.current = pointsSource;
+
+    // CRITICAL: Signal that map is ready for GPS tracking
+    // This triggers the auto-GPS-request effect
+    setMapInitialized(true);
+    console.log('[Map] ✅ Map initialized, GPS can now be requested');
 
     const { roadsLayer, roadsSource, nodesSource } = setupRoadSystem(
       actualRoadsUrl,

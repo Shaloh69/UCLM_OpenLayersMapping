@@ -132,6 +132,8 @@ export class EnhancedLocationTracker {
   // GPS Update Debouncer (prevents rapid updates, gives roads time to render)
   private debounceTimer: number | null = null;
   private debounceDelay = 2000; // 2 seconds - prevents random updates, allows road highlighting to generate
+  private lastUIUpdateTime: number = 0; // Track when last UI update happened
+  private minUpdateInterval = 1000; // Minimum 1 second between UI updates (marker always updates)
 
   // Camera Rotation Debouncer (prevents jittery compass rotation)
   private targetHeading: number | null = null; // Debounced heading for smooth rotation
@@ -371,18 +373,19 @@ export class EnhancedLocationTracker {
       this.startPosition = [longitude, latitude];
     }
 
-    // DEBOUNCED UPDATES - Prevents rapid UI updates and gives road highlighting time to generate
-    // Clear existing debounce timer
-    if (this.debounceTimer !== null) {
-      clearTimeout(this.debounceTimer);
-    }
+    // CRITICAL FIX: ALWAYS update the map marker position IMMEDIATELY
+    // The marker must move in real-time so the user sees their position updating
+    this.updateMapFeatures();
 
-    // Set new debounce timer
-    this.debounceTimer = window.setTimeout(() => {
-      console.log(`[GPS] ⏱️  Debounced update triggered (delay: ${this.debounceDelay}ms)`);
+    // Check if enough time has passed for full UI update (route progress, callbacks, etc.)
+    const now = Date.now();
+    const timeSinceLastUpdate = now - this.lastUIUpdateTime;
+    const shouldDoFullUpdate = timeSinceLastUpdate >= this.minUpdateInterval;
 
-      // Update map features
-      this.updateMapFeatures();
+    if (shouldDoFullUpdate) {
+      // Immediate full update (not debounced)
+      console.log(`[GPS] 📍 Full UI update (${timeSinceLastUpdate}ms since last)`);
+      this.lastUIUpdateTime = now;
 
       // Check boundary
       this.checkBoundary();
@@ -404,10 +407,37 @@ export class EnhancedLocationTracker {
       if (this.onPositionUpdate) {
         this.onPositionUpdate(newPosition);
       }
+    } else {
+      // DEBOUNCED heavy updates - route recalculation, etc.
+      // Clear existing debounce timer
+      if (this.debounceTimer !== null) {
+        clearTimeout(this.debounceTimer);
+      }
 
-      // Clear timer reference
-      this.debounceTimer = null;
-    }, this.debounceDelay);
+      // Set new debounce timer for heavy operations
+      this.debounceTimer = window.setTimeout(() => {
+        console.log(`[GPS] ⏱️  Debounced heavy update triggered`);
+
+        // Check boundary
+        this.checkBoundary();
+
+        // Calculate route progress
+        if (this.destinationPosition) {
+          const progress = this.calculateRouteProgress();
+          if (this.onRouteProgressUpdate) {
+            this.onRouteProgressUpdate(progress);
+          }
+        }
+
+        // Callback for heavy operations only
+        if (this.onPositionUpdate && this.currentPosition) {
+          this.onPositionUpdate(this.currentPosition);
+        }
+
+        this.lastUIUpdateTime = Date.now();
+        this.debounceTimer = null;
+      }, this.debounceDelay);
+    }
 
     // DEBOUNCED CAMERA ROTATION - Prevents jittery compass rotation from rapid heading changes
     if (effectiveHeading !== null && effectiveHeading !== undefined) {
