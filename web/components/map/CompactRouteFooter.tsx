@@ -28,6 +28,25 @@ const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // All hooks must be called before any conditional returns
+  const formattedDistance = useMemo(() => {
+    if (!routeInfo) return "Unknown";
+    return routeInfo.distance < 1000
+      ? `${Math.round(routeInfo.distance)}m`
+      : `${(routeInfo.distance / 1000).toFixed(2)}km`;
+  }, [routeInfo]);
+
+  const formattedTime = useMemo(() => {
+    if (!routeInfo) return "Unknown";
+    const minutes = Math.ceil(routeInfo.estimatedTime);
+    return minutes === 1 ? "1 min" : `${minutes} mins`;
+  }, [routeInfo]);
+
+  const calories = useMemo(() => {
+    if (!routeInfo) return 0;
+    return Math.round((routeInfo.distance / 1000) * 65);
+  }, [routeInfo]);
+
   // If no destination, show compact "Find Location" button
   if (!destination) {
     return (
@@ -65,24 +84,6 @@ const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
       </motion.div>
     );
   }
-
-  const formattedDistance = useMemo(() => {
-    if (!routeInfo) return "Unknown";
-    return routeInfo.distance < 1000
-      ? `${Math.round(routeInfo.distance)}m`
-      : `${(routeInfo.distance / 1000).toFixed(2)}km`;
-  }, [routeInfo]);
-
-  const formattedTime = useMemo(() => {
-    if (!routeInfo) return "Unknown";
-    const minutes = Math.ceil(routeInfo.estimatedTime);
-    return minutes === 1 ? "1 min" : `${minutes} mins`;
-  }, [routeInfo]);
-
-  const calories = useMemo(() => {
-    if (!routeInfo) return 0;
-    return Math.round((routeInfo.distance / 1000) * 65);
-  }, [routeInfo]);
 
   return (
     <AnimatePresence>
