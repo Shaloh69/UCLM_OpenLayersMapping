@@ -694,12 +694,14 @@ const CampusMap: React.FC<MapProps> = ({
       // CRITICAL: Force roads layer to re-style to show highlighted roads
       // This happens BEFORE the route overlay is created to ensure proper rendering order
       // OpenLayers caches feature styles for performance, so we must manually clear them
-      if (roadsLayerRef.current && roadsSourceRef.current) {
-        console.log('[Road Highlighting] Forcing roads layer to re-render...');
 
-        // Function to clear road style cache and force re-render
-        const clearRoadStyleCache = (retryCount = 0) => {
-          if (!roadsSourceRef.current || !roadsLayerRef.current) return;
+      // Function to clear road style cache and force re-render
+      const clearRoadStyleCache = (retryCount = 0): Promise<void> => {
+        return new Promise((resolve) => {
+          if (!roadsSourceRef.current || !roadsLayerRef.current) {
+            resolve();
+            return;
+          }
 
           const allRoads = roadsSourceRef.current.getFeatures();
           console.log(`[Road Highlighting] Attempt ${retryCount + 1}: Found ${allRoads.length} road features`);
@@ -707,12 +709,15 @@ const CampusMap: React.FC<MapProps> = ({
           if (allRoads.length === 0 && retryCount < 3) {
             // Roads not loaded yet, retry after a delay
             console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${200 * (retryCount + 1)}ms...`);
-            setTimeout(() => clearRoadStyleCache(retryCount + 1), 200 * (retryCount + 1));
+            setTimeout(() => {
+              clearRoadStyleCache(retryCount + 1).then(resolve);
+            }, 200 * (retryCount + 1));
             return;
           }
 
           if (allRoads.length === 0) {
             console.error('[Road Highlighting] ❌ Failed to load road features after 3 retries');
+            resolve();
             return;
           }
 
@@ -726,13 +731,33 @@ const CampusMap: React.FC<MapProps> = ({
           roadsLayerRef.current?.changed();
           roadsSourceRef.current?.changed();
 
-          console.log('[Road Highlighting] ✅ Roads will re-render with green highlights');
-        };
+          console.log('[Road Highlighting] ✅ Roads highlighted - now creating route overlay');
 
-        // Start with a small delay to let OpenLayers render roads initially
-        // This is especially important on mobile when loading from QR code
-        setTimeout(() => clearRoadStyleCache(0), 100);
-      }
+          // Small delay to ensure OpenLayers processes the style changes
+          setTimeout(() => resolve(), 50);
+        });
+      };
+
+      // Wait for road highlighting to complete, THEN create route overlay
+      const initializeRouteDisplay = async () => {
+        if (!roadsLayerRef.current || !roadsSourceRef.current) {
+          console.log('[Road Highlighting] Skipping - roads not initialized');
+          return;
+        }
+
+        console.log('[Road Highlighting] Starting road highlighting process...');
+
+        // Wait 100ms for initial render, then start retry mechanism
+        await new Promise(resolve => setTimeout(resolve, 100));
+        await clearRoadStyleCache(0);
+
+        console.log('[Road Highlighting] ✅✅✅ Road highlighting COMPLETE - proceeding with route overlay');
+        createRouteOverlay();
+      };
+
+      // Function to create the route overlay (orange/white line)
+      const createRouteOverlay = () => {
+        if (!mapInstanceRef.current) return;
 
       // Create a route source and layer
       const routeSource = new VectorSource({
@@ -834,6 +859,10 @@ const CampusMap: React.FC<MapProps> = ({
           enhancedTrackerRef.current.setRoute(routePath);
         }
       }
+      };
+
+      // Start the process: highlight roads FIRST, then create overlay
+      initializeRouteDisplay();
     },
     [mobileMode]
   );
