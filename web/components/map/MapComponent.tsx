@@ -661,6 +661,11 @@ const CampusMap: React.FC<MapProps> = ({
         // Clear active route roads
         activeRouteRoadsRef.current.clear();
         if (roadsLayerRef.current && roadsSourceRef.current) {
+          // Clear cached styles to remove any existing highlights
+          const allRoads = roadsSourceRef.current.getFeatures();
+          allRoads.forEach(feature => {
+            feature.setStyle(undefined);
+          });
           roadsLayerRef.current.changed();
           roadsSourceRef.current.changed();
         }
@@ -686,11 +691,25 @@ const CampusMap: React.FC<MapProps> = ({
       activeRouteRoadsRef.current = roadNames;
       console.log(`[Road Highlighting] Highlighted ${roadNames.size} roads:`, Array.from(roadNames));
 
-      // Force roads layer to re-style to show highlighted roads
+      // CRITICAL: Force roads layer to re-style to show highlighted roads
+      // This happens BEFORE the route overlay is created to ensure proper rendering order
+      // OpenLayers caches feature styles for performance, so we must manually clear them
       if (roadsLayerRef.current && roadsSourceRef.current) {
-        console.log('[Road Highlighting] Forcing roads layer to re-render');
+        console.log('[Road Highlighting] Forcing roads layer to re-render...');
+
+        // Step 1: Clear cached styles for ALL road features
+        // This forces OpenLayers to recalculate styles using the layer's style function
+        const allRoads = roadsSourceRef.current.getFeatures();
+        console.log(`[Road Highlighting] Clearing style cache for ${allRoads.length} road features`);
+        allRoads.forEach(feature => {
+          feature.setStyle(undefined); // undefined = use layer's style function
+        });
+
+        // Step 2: Mark layer and source as changed to trigger re-render
         roadsLayerRef.current.changed();
         roadsSourceRef.current.changed();
+
+        console.log('[Road Highlighting] ✅ Roads will re-render with green highlights');
       }
 
       // Create a route source and layer
@@ -813,6 +832,13 @@ const CampusMap: React.FC<MapProps> = ({
     activeRouteRoadsRef.current.clear();
     if (roadsLayerRef.current && roadsSourceRef.current) {
       console.log('[Road Highlighting] Clearing road highlights');
+
+      // Clear cached styles to force re-render without highlights
+      const allRoads = roadsSourceRef.current.getFeatures();
+      allRoads.forEach(feature => {
+        feature.setStyle(undefined); // Clear cached style
+      });
+
       roadsLayerRef.current.changed();
       roadsSourceRef.current.changed();
     }
