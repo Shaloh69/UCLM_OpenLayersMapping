@@ -129,6 +129,10 @@ export class EnhancedLocationTracker {
   private positionHistory: UserPosition[] = [];
   private maxHistoryLength = 10;
 
+  // GPS Update Debouncer (prevents rapid updates, gives roads time to render)
+  private debounceTimer: number | null = null;
+  private debounceDelay = 2000; // 2 seconds - prevents random updates, allows road highlighting to generate
+
   // Route tracking
   private routePath: [number, number][] = [];
   private startPosition: [number, number] | null = null;
@@ -277,7 +281,7 @@ export class EnhancedLocationTracker {
     onPositionUpdate?: (position: UserPosition) => void,
     onRouteProgressUpdate?: (progress: RouteProgress) => void
   ): void {
-    console.log(`[GPS] 🚀 Starting GPS tracking with update interval: 0.5s`);
+    console.log(`[GPS] 🚀 Starting GPS tracking with update interval: 0.5s (debounced to ${this.debounceDelay}ms for UI updates)`);
     this.onPositionUpdate = onPositionUpdate;
     this.onRouteProgressUpdate = onRouteProgressUpdate;
 
@@ -311,6 +315,12 @@ export class EnhancedLocationTracker {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
     }
+
+    // Clear debounce timer
+    if (this.debounceTimer !== null) {
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = null;
+    }
   }
 
   private handlePositionUpdate(geoPosition: GeolocationPosition): void {
@@ -337,7 +347,7 @@ export class EnhancedLocationTracker {
       timestamp: Date.now(),
     };
 
-    // Update position history
+    // Update position history (IMMEDIATE - no debounce)
     this.previousPosition = this.currentPosition;
     this.currentPosition = newPosition;
 
@@ -351,29 +361,43 @@ export class EnhancedLocationTracker {
       this.startPosition = [longitude, latitude];
     }
 
-    // Update map features
-    this.updateMapFeatures();
-
-    // Check boundary
-    this.checkBoundary();
-
-    // Auto-follow if enabled
-    if (this.options.autoFollow) {
-      this.centerMapOnUser();
+    // DEBOUNCED UPDATES - Prevents rapid UI updates and gives road highlighting time to generate
+    // Clear existing debounce timer
+    if (this.debounceTimer !== null) {
+      clearTimeout(this.debounceTimer);
     }
 
-    // Calculate route progress
-    if (this.destinationPosition) {
-      const progress = this.calculateRouteProgress();
-      if (this.onRouteProgressUpdate) {
-        this.onRouteProgressUpdate(progress);
+    // Set new debounce timer
+    this.debounceTimer = window.setTimeout(() => {
+      console.log(`[GPS] ⏱️  Debounced update triggered (delay: ${this.debounceDelay}ms)`);
+
+      // Update map features
+      this.updateMapFeatures();
+
+      // Check boundary
+      this.checkBoundary();
+
+      // Auto-follow if enabled
+      if (this.options.autoFollow) {
+        this.centerMapOnUser();
       }
-    }
 
-    // Callback
-    if (this.onPositionUpdate) {
-      this.onPositionUpdate(newPosition);
-    }
+      // Calculate route progress
+      if (this.destinationPosition) {
+        const progress = this.calculateRouteProgress();
+        if (this.onRouteProgressUpdate) {
+          this.onRouteProgressUpdate(progress);
+        }
+      }
+
+      // Callback
+      if (this.onPositionUpdate) {
+        this.onPositionUpdate(newPosition);
+      }
+
+      // Clear timer reference
+      this.debounceTimer = null;
+    }, this.debounceDelay);
   }
 
   private handlePositionError(error: GeolocationPositionError): void {
@@ -587,6 +611,21 @@ export class EnhancedLocationTracker {
 
   public getOptions(): LocationTrackingOptions {
     return { ...this.options };
+  }
+
+  /**
+   * Set the GPS update debounce delay in milliseconds
+   * Higher values = smoother experience, less CPU usage, more time for road rendering
+   * Lower values = more responsive but may cause rapid updates
+   * @param delayMs Debounce delay in milliseconds (recommended: 1500-3000ms)
+   */
+  public setDebounceDelay(delayMs: number): void {
+    this.debounceDelay = Math.max(500, delayMs); // Minimum 500ms
+    console.log(`[GPS] 🔧 Debounce delay set to ${this.debounceDelay}ms`);
+  }
+
+  public getDebounceDelay(): number {
+    return this.debounceDelay;
   }
 
   public getCurrentPosition(): UserPosition | null {
