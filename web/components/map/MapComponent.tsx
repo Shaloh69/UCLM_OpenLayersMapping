@@ -1059,7 +1059,23 @@ const CampusMap: React.FC<MapProps> = ({
         });
 
         if (routePath.length > 0) {
-          enhancedTrackerRef.current.setRoute(routePath);
+          // Get the actual destination coordinates (not routing node)
+          // This is critical for POIs with nearest_node - we want to measure
+          // distance to the actual POI location, not the routing node
+          const destinationCoords = selectedDestinationRef.current?.coordinates;
+
+          if (destinationCoords) {
+            console.log(`[Arrival Detection] Destination: ${selectedDestinationRef.current?.name}`);
+            console.log(`[Arrival Detection] Destination coords: [${destinationCoords[0].toFixed(6)}, ${destinationCoords[1].toFixed(6)}]`);
+            console.log(`[Arrival Detection] Route end coords: [${routePath[routePath.length - 1][0].toFixed(6)}, ${routePath[routePath.length - 1][1].toFixed(6)}]`);
+
+            if (selectedDestinationRef.current?.nearest_node) {
+              console.log(`[Arrival Detection] ⚠️ POI has nearest_node: ${selectedDestinationRef.current.nearest_node}`);
+              console.log(`[Arrival Detection] ✓ Using actual POI coordinates for arrival detection`);
+            }
+          }
+
+          enhancedTrackerRef.current.setRoute(routePath, destinationCoords);
         }
       }
       };

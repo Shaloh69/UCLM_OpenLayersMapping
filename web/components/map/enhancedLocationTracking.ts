@@ -681,11 +681,13 @@ export class EnhancedLocationTracker {
   // Route Management
   // =============================================
 
-  public setRoute(path: [number, number][]): void {
+  public setRoute(path: [number, number][], destinationCoords?: [number, number]): void {
     this.routePath = path;
 
     if (path.length > 0) {
-      this.destinationPosition = path[path.length - 1];
+      // Use provided destination coordinates if available (for POIs with nearest_node)
+      // Otherwise use the last point in the route path
+      this.destinationPosition = destinationCoords || path[path.length - 1];
 
       // Calculate total route distance
       this.totalRouteDistance = 0;
@@ -728,6 +730,14 @@ export class EnhancedLocationTracker {
       userCoords,
       this.destinationPosition
     );
+
+    // Debug logging for arrival detection
+    if (distanceToDestination < 50) { // Only log when getting close
+      console.log(`[Arrival Detection] Distance to destination: ${distanceToDestination.toFixed(1)}m`);
+      if (distanceToDestination < 20) {
+        console.log(`[Arrival Detection] ✓ ARRIVED! Distance is ${distanceToDestination.toFixed(1)}m (< 20m threshold)`);
+      }
+    }
 
     // Distance traveled (from start)
     const distanceTraveled = this.startPosition

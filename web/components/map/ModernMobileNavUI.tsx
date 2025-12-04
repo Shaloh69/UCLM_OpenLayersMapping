@@ -72,6 +72,9 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
   // the arrival message shows when user is genuinely near the destination
   const hasArrived = displayDistance < 20;
 
+  // Show "getting close" indicator when within 50m but not yet arrived
+  const isGettingClose = displayDistance >= 20 && displayDistance < 50;
+
   // Auto-show additional info on arrival
   useEffect(() => {
     if (hasArrived && destination.additionalDirections) {
@@ -224,6 +227,28 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
 
       {/* Content */}
       <div className="px-4 pb-6 max-h-[calc(80vh-3rem)] overflow-y-auto">
+        {/* Getting Close Indicator */}
+        {isGettingClose && !hasArrived && (
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="mb-4 p-4 bg-gradient-to-br from-yellow-50 to-amber-50
+                       border-2 border-yellow-400 rounded-2xl"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">👀</span>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-yellow-900">
+                  Almost There!
+                </h3>
+                <p className="text-sm text-yellow-700">
+                  Just {formatDistance(displayDistance)} away
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Arrival Celebration */}
         {hasArrived && (
           <motion.div
