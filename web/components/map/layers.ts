@@ -4,7 +4,7 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import { fromLonLat } from "ol/proj";
-import { Fill, Stroke, Style } from "ol/style";
+import { Fill, Stroke, Style, Text } from "ol/style";
 import { Feature } from "ol";
 import { Polygon } from "ol/geom";
 import { defaults as defaultControls } from "ol/control";
@@ -71,24 +71,70 @@ export const setupLayers = (
 
   const pointsLayer = new VectorLayer({
     source: pointsSource,
-    style: (feature) => {
+    style: (feature, resolution) => {
       const properties = feature.getProperties();
-      const color = properties["marker-color"] || "#ff0000";
+      const isDestination = properties.isDestination === true;
+
+      // Base marker styling
+      const color = properties["marker-color"] || "#3b82f6"; // Default blue
       const size =
         properties["marker-size"] === "large"
-          ? 10
+          ? 12
           : properties["marker-size"] === "medium"
-            ? 6
-            : 4;
+            ? 9
+            : 6;
 
-      return new Style({
+      // Enhanced marker with glow effect
+      const baseStyle = new Style({
+        image: new CircleStyle({
+          radius: size + 4, // Outer glow
+          fill: new Fill({
+            color: `rgba(59, 130, 246, 0.2)` // Blue glow
+          }),
+        }),
+        zIndex: isDestination ? 100 : 50,
+      });
+
+      const markerStyle = new Style({
         image: new CircleStyle({
           radius: size,
-          fill: new Fill({ color }),
-          stroke: new Stroke({ color: "black", width: 1 }),
+          fill: new Fill({
+            color: color
+          }),
+          stroke: new Stroke({
+            color: "#ffffff",
+            width: 2
+          }),
         }),
+        zIndex: isDestination ? 100 : 50,
       });
+
+      // Only show text labels for destinations when zoomed in enough
+      const showText = isDestination && resolution < 0.6; // Show at zoom level ~19+
+
+      if (showText && properties.name) {
+        const textStyle = new Style({
+          text: new Text({
+            text: properties.name,
+            font: 'bold 12px Inter, sans-serif',
+            fill: new Fill({ color: '#1f2937' }), // Dark gray text
+            stroke: new Stroke({
+              color: '#ffffff',
+              width: 3
+            }),
+            offsetY: -size - 8, // Position above marker
+            textAlign: 'center',
+            textBaseline: 'bottom',
+          }),
+          zIndex: isDestination ? 101 : 51,
+        });
+
+        return [baseStyle, markerStyle, textStyle];
+      }
+
+      return [baseStyle, markerStyle];
     },
+    zIndex: 10, // Above buildings but below roads
   });
 
   const vectorSource = new VectorSource({
