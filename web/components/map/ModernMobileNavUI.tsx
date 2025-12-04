@@ -68,13 +68,12 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
                      (routeInfo?.estimatedTime ? routeInfo.estimatedTime * 60 : 0);
   const percentComplete = routeProgress?.percentComplete ?? 0;
 
-  // Arrival detection: User has arrived when within 40 meters of destination
-  // Increased threshold to trigger earlier - accounts for GPS accuracy and
-  // ensures arrival message shows when user can visually see the destination
-  const hasArrived = displayDistance < 40;
+  // Arrival detection: User has arrived when within 70 meters of destination
+  // Large threshold to trigger early - ensures message shows well before reaching destination
+  const hasArrived = displayDistance < 70;
 
-  // Show "getting close" indicator when within 50-80m but not yet arrived
-  const isGettingClose = displayDistance >= 40 && displayDistance < 80;
+  // Show "getting close" indicator when within 70-120m but not yet arrived
+  const isGettingClose = displayDistance >= 70 && displayDistance < 120;
 
   // Auto-show additional info on arrival
   useEffect(() => {

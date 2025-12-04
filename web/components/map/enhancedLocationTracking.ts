@@ -836,11 +836,11 @@ export class EnhancedLocationTracker {
     );
 
     // Debug logging for arrival detection
-    if (distanceToDestination < 100) { // Log when getting close
+    if (distanceToDestination < 150) { // Log when getting close
       console.log(`[Arrival Detection] Distance to destination: ${distanceToDestination.toFixed(1)}m`);
-      if (distanceToDestination < 40) {
-        console.log(`[Arrival Detection] ✓ ARRIVED! Distance is ${distanceToDestination.toFixed(1)}m (< 40m threshold)`);
-      } else if (distanceToDestination < 80) {
+      if (distanceToDestination < 70) {
+        console.log(`[Arrival Detection] ✓ ARRIVED! Distance is ${distanceToDestination.toFixed(1)}m (< 70m threshold)`);
+      } else if (distanceToDestination < 120) {
         console.log(`[Arrival Detection] 👀 Almost there! ${distanceToDestination.toFixed(1)}m away`);
       }
     }
