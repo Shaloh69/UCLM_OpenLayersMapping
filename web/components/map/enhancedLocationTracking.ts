@@ -827,9 +827,13 @@ export class EnhancedLocationTracker {
       };
     }
 
-    const userCoords = this.currentPosition.coordinates;
+    // IMPORTANT: Use snapped position for distance calculation
+    // Since marker is displayed at snapped position (on route), distance should be
+    // calculated from where the marker is shown, not raw GPS position
+    const userCoords = this.snappedPosition || this.currentPosition.coordinates;
+    const rawGPSCoords = this.currentPosition.coordinates;
 
-    // Distance to destination
+    // Distance to destination FROM MARKER POSITION (snapped)
     const distanceToDestination = calculateDistance(
       userCoords,
       this.destinationPosition
@@ -837,17 +841,23 @@ export class EnhancedLocationTracker {
 
     // Debug logging for arrival detection
     if (distanceToDestination < 150) { // Log when getting close
-      console.log(`[Arrival Detection] Distance to destination: ${distanceToDestination.toFixed(1)}m`);
+      const positionType = this.snappedPosition ? 'marker (snapped)' : 'GPS';
+      console.log(`[Arrival Detection] Distance from ${positionType} to destination: ${distanceToDestination.toFixed(1)}m`);
       if (distanceToDestination < 70) {
-        console.log(`[Arrival Detection] ✓ ARRIVED! Distance is ${distanceToDestination.toFixed(1)}m (< 70m threshold)`);
+        console.log(`[Arrival Detection] ✓ ARRIVED! ${positionType} is ${distanceToDestination.toFixed(1)}m from destination (< 70m threshold)`);
       } else if (distanceToDestination < 120) {
-        console.log(`[Arrival Detection] 👀 Almost there! ${distanceToDestination.toFixed(1)}m away`);
+        console.log(`[Arrival Detection] 👀 Almost there! ${distanceToDestination.toFixed(1)}m away (measuring from ${positionType})`);
       }
     }
 
-    // Distance traveled (from start)
+    // Distance traveled (from start) - use marker position for consistency
     const distanceTraveled = this.startPosition
       ? calculateDistance(this.startPosition, userCoords)
+      : 0;
+
+    // Calculate distance from raw GPS to route (for off-route detection)
+    const distanceFromRoute = this.snappedPosition
+      ? calculateDistance(rawGPSCoords, this.snappedPosition)
       : 0;
 
     // Percent complete
@@ -861,7 +871,7 @@ export class EnhancedLocationTracker {
           )
         : 0;
 
-    // Find next waypoint
+    // Find next waypoint FROM MARKER POSITION
     let nextWaypoint: [number, number] | null = null;
     let minDistanceToWaypoint = Infinity;
 
@@ -873,25 +883,26 @@ export class EnhancedLocationTracker {
       }
     }
 
-    // Bearing to next waypoint
+    // Bearing to next waypoint FROM MARKER POSITION
     const bearingToNextWaypoint = nextWaypoint
       ? calculateBearing(userCoords, nextWaypoint)
       : null;
 
-    // Check if off route (more than 50m from any waypoint)
-    const isOffRoute = minDistanceToWaypoint > 50;
+    // Check if off route based on GPS distance from route
+    // If GPS is more than 50m from the snapped marker position, consider off-route
+    const isOffRoute = distanceFromRoute > 50;
 
     // Estimated time remaining (based on average walking speed 1.4 m/s)
     const walkingSpeed = this.currentPosition.speed || 1.4;
     const estimatedTimeRemaining = distanceToDestination / walkingSpeed;
 
     return {
-      distanceToDestination,
+      distanceToDestination, // From marker position to destination
       distanceTraveled,
       percentComplete,
       estimatedTimeRemaining,
       isOffRoute,
-      distanceFromRoute: minDistanceToWaypoint,
+      distanceFromRoute, // GPS distance from snapped marker position
       nextWaypoint,
       distanceToNextWaypoint: minDistanceToWaypoint,
       bearingToNextWaypoint,
