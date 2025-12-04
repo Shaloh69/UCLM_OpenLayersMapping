@@ -658,16 +658,25 @@ const CampusMap: React.FC<MapProps> = ({
         console.log("[displayRoute] No path found!");
         // Clear active route roads
         activeRouteRoadsRef.current.clear();
-        if (roadsLayerRef.current) {
+        if (roadsLayerRef.current && roadsSourceRef.current) {
           roadsLayerRef.current.changed();
+          roadsSourceRef.current.changed();
         }
         return;
       }
 
       // Extract road names from path features and update activeRouteRoadsRef
       const roadNames = new Set<string>();
-      pathFeatures.forEach(feature => {
-        const roadName = feature.get('name');
+      pathFeatures.forEach((feature, index) => {
+        const props = feature.getProperties();
+        const roadName = props.name;
+        console.log(`[Road Highlighting] Path feature ${index}:`, {
+          name: props.name,
+          from: props.from,
+          to: props.to,
+          type: props.type,
+          allProps: Object.keys(props)
+        });
         if (roadName) {
           roadNames.add(roadName);
         }
@@ -676,8 +685,10 @@ const CampusMap: React.FC<MapProps> = ({
       console.log(`[Road Highlighting] Highlighted ${roadNames.size} roads:`, Array.from(roadNames));
 
       // Force roads layer to re-style to show highlighted roads
-      if (roadsLayerRef.current) {
+      if (roadsLayerRef.current && roadsSourceRef.current) {
+        console.log('[Road Highlighting] Forcing roads layer to re-render');
         roadsLayerRef.current.changed();
+        roadsSourceRef.current.changed();
       }
 
       // Create a route source and layer
@@ -798,8 +809,10 @@ const CampusMap: React.FC<MapProps> = ({
 
     // Clear highlighted roads
     activeRouteRoadsRef.current.clear();
-    if (roadsLayerRef.current) {
+    if (roadsLayerRef.current && roadsSourceRef.current) {
+      console.log('[Road Highlighting] Clearing road highlights');
       roadsLayerRef.current.changed();
+      roadsSourceRef.current.changed();
     }
 
     setActiveRoute([]);
