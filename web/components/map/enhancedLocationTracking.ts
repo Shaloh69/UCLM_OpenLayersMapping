@@ -135,6 +135,13 @@ export class EnhancedLocationTracker {
   private lastUIUpdateTime: number = 0; // Track when last UI update happened
   private minUpdateInterval = 1000; // Minimum 1 second between UI updates (marker always updates)
 
+  // GPS NOISE FILTERING - Prevents random jumps in low signal areas
+  private minMovementThreshold = 5; // Minimum 5 meters movement before updating position
+  private maxAccuracyThreshold = 50; // Ignore GPS readings with accuracy > 50 meters
+  private lastValidPosition: UserPosition | null = null; // Last position that passed filtering
+  private snappedPosition: [number, number] | null = null; // Position snapped to nearest road node
+  private nodesSource: VectorSource | null = null; // Reference to nodes source for snapping
+
   // Camera Rotation Debouncer (prevents jittery compass rotation)
   private targetHeading: number | null = null; // Debounced heading for smooth rotation
   private rotationDebounceTimer: number | null = null;
@@ -163,12 +170,14 @@ export class EnhancedLocationTracker {
     options: Partial<LocationTrackingOptions>,
     locationErrorRef: MutableRefObject<string | null>,
     isOutsideSchoolRef: MutableRefObject<boolean>,
-    schoolBoundaryRef: MutableRefObject<Extent | null>
+    schoolBoundaryRef: MutableRefObject<Extent | null>,
+    nodesSource?: VectorSource // Optional nodes source for snapping marker to road nodes
   ) {
     this.map = map;
     this.locationErrorRef = locationErrorRef;
     this.isOutsideSchoolRef = isOutsideSchoolRef;
     this.schoolBoundaryRef = schoolBoundaryRef;
+    this.nodesSource = nodesSource || null;
 
     // Default options
     this.options = {
@@ -337,7 +346,30 @@ export class EnhancedLocationTracker {
 
   private handlePositionUpdate(geoPosition: GeolocationPosition): void {
     const { latitude, longitude, accuracy, heading, speed } = geoPosition.coords;
-    console.log(`[GPS] 📍 Position: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} | Accuracy: ${accuracy?.toFixed(1)}m | Speed: ${speed?.toFixed(2)}m/s`);
+    console.log(`[GPS] 📍 Raw Position: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} | Accuracy: ${accuracy?.toFixed(1)}m | Speed: ${speed?.toFixed(2)}m/s`);
+
+    // ========== GPS NOISE FILTERING ==========
+    // Filter out unreliable GPS readings in low signal areas
+
+    // 1. ACCURACY FILTER: Ignore readings with very poor accuracy
+    if (accuracy && accuracy > this.maxAccuracyThreshold) {
+      console.log(`[GPS] ⚠️ Ignoring position - accuracy ${accuracy.toFixed(0)}m > threshold ${this.maxAccuracyThreshold}m`);
+      return; // Skip this update entirely
+    }
+
+    // 2. DISTANCE FILTER: Only update if moved more than threshold
+    if (this.lastValidPosition) {
+      const distance = this.calculateMovementDistance(
+        this.lastValidPosition.coordinates,
+        [longitude, latitude]
+      );
+
+      if (distance < this.minMovementThreshold) {
+        console.log(`[GPS] ⏸️ Ignoring position - moved only ${distance.toFixed(1)}m < threshold ${this.minMovementThreshold}m`);
+        return; // Skip this update - not enough movement
+      }
+      console.log(`[GPS] ✅ Position accepted - moved ${distance.toFixed(1)}m (threshold: ${this.minMovementThreshold}m)`);
+    }
 
     // Calculate derived heading from movement if not provided by device
     let effectiveHeading = heading;
@@ -359,6 +391,22 @@ export class EnhancedLocationTracker {
       timestamp: Date.now(),
     };
 
+    // ========== SNAP TO ROAD NODE ==========
+    // If nodes source is available, snap marker to nearest road node
+    let displayCoordinates: [number, number] = [longitude, latitude];
+
+    if (this.nodesSource) {
+      const snappedNode = this.findClosestNodeInternal(longitude, latitude);
+      if (snappedNode) {
+        displayCoordinates = snappedNode;
+        this.snappedPosition = snappedNode;
+        console.log(`[GPS] 📌 Snapped to node: ${displayCoordinates[1].toFixed(6)}, ${displayCoordinates[0].toFixed(6)}`);
+      }
+    }
+
+    // Update last valid position (this one passed all filters)
+    this.lastValidPosition = newPosition;
+
     // Update position history (IMMEDIATE - no debounce)
     this.previousPosition = this.currentPosition;
     this.currentPosition = newPosition;
@@ -370,12 +418,13 @@ export class EnhancedLocationTracker {
 
     // Record start position if not set
     if (!this.startPosition) {
-      this.startPosition = [longitude, latitude];
+      this.startPosition = displayCoordinates;
     }
 
     // CRITICAL FIX: ALWAYS update the map marker position IMMEDIATELY
     // The marker must move in real-time so the user sees their position updating
-    this.updateMapFeatures();
+    // Use snapped coordinates for display
+    this.updateMapFeatures(displayCoordinates);
 
     // Check if enough time has passed for full UI update (route progress, callbacks, etc.)
     const now = Date.now();
@@ -470,10 +519,76 @@ export class EnhancedLocationTracker {
     this.locationErrorRef.current = errorMsg;
   }
 
-  private updateMapFeatures(): void {
+  // Calculate distance between two coordinates in meters (for movement filtering)
+  private calculateMovementDistance(
+    coord1: [number, number],
+    coord2: [number, number]
+  ): number {
+    // Use Haversine formula for accurate distance calculation
+    const R = 6371000; // Earth radius in meters
+    const lat1 = (coord1[1] * Math.PI) / 180;
+    const lat2 = (coord2[1] * Math.PI) / 180;
+    const dLat = lat2 - lat1;
+    const dLon = ((coord2[0] - coord1[0]) * Math.PI) / 180;
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
+  }
+
+  // Find closest road node to given coordinates (internal method for snapping)
+  private findClosestNodeInternal(
+    longitude: number,
+    latitude: number
+  ): [number, number] | null {
+    if (!this.nodesSource) return null;
+
+    const features = this.nodesSource.getFeatures();
+    if (features.length === 0) return null;
+
+    let closestCoords: [number, number] | null = null;
+    let minDistance = Infinity;
+
+    features.forEach((feature) => {
+      const geometry = feature.getGeometry();
+      if (!geometry) return;
+
+      let featureCoords: number[] = [0, 0];
+
+      if (geometry instanceof Point) {
+        featureCoords = geometry.getCoordinates();
+      } else {
+        return; // Skip non-point geometries
+      }
+
+      // Convert from EPSG:3857 to EPSG:4326
+      const geoCoords = toLonLat(featureCoords);
+
+      // Calculate distance
+      const distance = this.calculateMovementDistance(
+        [longitude, latitude],
+        geoCoords as [number, number]
+      );
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestCoords = geoCoords as [number, number];
+      }
+    });
+
+    return closestCoords;
+  }
+
+  // Update marker position with optional snapped coordinates
+  private updateMapFeatures(displayCoordinates?: [number, number]): void {
     if (!this.currentPosition) return;
 
-    const coords = fromLonLat(this.currentPosition.coordinates);
+    // Use provided display coordinates (snapped) or raw GPS coordinates
+    const coordsToUse = displayCoordinates || this.currentPosition.coordinates;
+    const coords = fromLonLat(coordsToUse);
     console.log(`[GPS] 🎯 Marker updated at: [${coords[0].toFixed(2)}, ${coords[1].toFixed(2)}]`);
 
     // Update position marker
@@ -710,12 +825,54 @@ export class EnhancedLocationTracker {
     return this.rotationDebounceDelay;
   }
 
+  /**
+   * Set the nodes source for snapping marker to road nodes
+   * When set, the marker will snap to the nearest road node instead of raw GPS position
+   * @param source VectorSource containing road node features
+   */
+  public setNodesSource(source: VectorSource | null): void {
+    this.nodesSource = source;
+    console.log(`[GPS] 📌 Nodes source ${source ? 'set for snapping' : 'cleared'}`);
+  }
+
+  /**
+   * Set minimum movement threshold in meters
+   * GPS updates with less movement than this will be ignored (reduces jitter)
+   * @param meters Minimum movement in meters (default: 5m)
+   */
+  public setMinMovementThreshold(meters: number): void {
+    this.minMovementThreshold = Math.max(1, meters);
+    console.log(`[GPS] 🔧 Min movement threshold set to ${this.minMovementThreshold}m`);
+  }
+
+  public getMinMovementThreshold(): number {
+    return this.minMovementThreshold;
+  }
+
+  /**
+   * Set maximum accuracy threshold in meters
+   * GPS readings with worse accuracy will be ignored (filters low-quality readings)
+   * @param meters Maximum acceptable accuracy in meters (default: 50m)
+   */
+  public setMaxAccuracyThreshold(meters: number): void {
+    this.maxAccuracyThreshold = Math.max(10, meters);
+    console.log(`[GPS] 🔧 Max accuracy threshold set to ${this.maxAccuracyThreshold}m`);
+  }
+
+  public getMaxAccuracyThreshold(): number {
+    return this.maxAccuracyThreshold;
+  }
+
   public getCurrentPosition(): UserPosition | null {
     return this.currentPosition;
   }
 
   public getPositionHistory(): UserPosition[] {
     return [...this.positionHistory];
+  }
+
+  public getSnappedPosition(): [number, number] | null {
+    return this.snappedPosition;
   }
 
   // =============================================
@@ -737,13 +894,15 @@ export const setupEnhancedLocationTracking = (
   options: Partial<LocationTrackingOptions>,
   locationErrorRef: MutableRefObject<string | null>,
   isOutsideSchoolRef: MutableRefObject<boolean>,
-  schoolBoundaryRef: MutableRefObject<Extent | null>
+  schoolBoundaryRef: MutableRefObject<Extent | null>,
+  nodesSource?: VectorSource // Optional: for snapping marker to road nodes
 ): EnhancedLocationTracker => {
   return new EnhancedLocationTracker(
     map,
     options,
     locationErrorRef,
     isOutsideSchoolRef,
-    schoolBoundaryRef
+    schoolBoundaryRef,
+    nodesSource
   );
 };

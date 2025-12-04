@@ -255,10 +255,15 @@ const CampusMap: React.FC<MapProps> = ({
         },
         locationErrorRef,
         isOutsideSchoolRef,
-        schoolBoundaryRef
+        schoolBoundaryRef,
+        nodesSourceRef.current || undefined // Pass nodes source for snapping to road nodes
       );
 
       enhancedTrackerRef.current = tracker;
+
+      // Configure GPS noise filtering thresholds
+      tracker.setMinMovementThreshold(5);  // Ignore movements less than 5 meters
+      tracker.setMaxAccuracyThreshold(50); // Ignore readings with accuracy > 50m
 
       // Start tracking with callbacks
       // CRITICAL: Use refs (not state) to get latest values and avoid stale closures
@@ -500,96 +505,138 @@ const CampusMap: React.FC<MapProps> = ({
 
     console.log(`[MOBILE] Processing route from ${startNodeId} to ${endNodeId}`);
 
-    // CRITICAL: If we have GPS coordinates from kiosk, use them to find the nearest node
-    // This ensures the route starts from where the user actually was (kiosk location)
-    if (routeData.startGPS && nodesSourceRef.current) {
-      console.log(`[MOBILE] Using GPS coordinates from kiosk: ${routeData.startGPS.longitude}, ${routeData.startGPS.latitude}`);
-      const gpsNode = findClosestNode(
-        routeData.startGPS.longitude,
-        routeData.startGPS.latitude,
-        nodesSourceRef.current
-      );
-      if (gpsNode) {
-        startNodeId = gpsNode.id;
-        console.log(`[MOBILE] Found closest node to GPS: ${gpsNode.name} (${gpsNode.id})`);
+    // CRITICAL FIX: On mobile, get the PHONE's current GPS position, not the kiosk's GPS from QR
+    // The route should start from where the USER is NOW, not where they scanned the QR
+    const getPhoneGPSAndStartRoute = () => {
+      if ('geolocation' in navigator) {
+        console.log(`[MOBILE] 📍 Getting phone's current GPS position...`);
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const phoneLon = position.coords.longitude;
+            const phoneLat = position.coords.latitude;
+            console.log(`[MOBILE] 📍 Phone GPS: ${phoneLat.toFixed(6)}, ${phoneLon.toFixed(6)} (accuracy: ${position.coords.accuracy?.toFixed(0)}m)`);
+
+            if (nodesSourceRef.current) {
+              const phoneNode = findClosestNode(phoneLon, phoneLat, nodesSourceRef.current);
+              if (phoneNode) {
+                startNodeId = phoneNode.id;
+                console.log(`[MOBILE] ✅ Route starting from phone's location: ${phoneNode.name} (${phoneNode.id})`);
+                continueRouteSetup(startNodeId);
+              } else {
+                console.warn(`[MOBILE] ⚠️ No node found near phone GPS, falling back to QR start node`);
+                useFallbackStart();
+              }
+            }
+          },
+          (error) => {
+            console.warn(`[MOBILE] ⚠️ Phone GPS error: ${error.message}, falling back to QR start`);
+            useFallbackStart();
+          },
+          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        );
+      } else {
+        console.warn(`[MOBILE] ⚠️ Geolocation not available, using QR start`);
+        useFallbackStart();
       }
-    }
-
-    const features = nodesSourceRef.current.getFeatures();
-
-    const startFeature = features.find((f) => f.get("id") === startNodeId);
-    const endFeature = features.find((f) => f.get("id") === endNodeId);
-
-    if (!startFeature || !endFeature) {
-      console.error("Could not find start or end node features");
-      return;
-    }
-
-    // Create node objects
-    const startNode: RoadNode = {
-      id: startFeature.get("id"),
-      name: routeData.startGPS ? "Current Location" : (startFeature.get("name") || "Start"),
-      isDestination: true,
-      coordinates: getFeatureCoordinates(startFeature),
-      category: startFeature.get("category"),
-      description: startFeature.get("description"),
-      imageUrl: startFeature.get("imageUrl"),
-      nearest_node: startFeature.get("nearest_node"),
-      additionalDirections: startFeature.get("additionalDirections"),
     };
 
-    const endNode: RoadNode = {
-      id: endFeature.get("id"),
-      name: endFeature.get("name") || "Destination",
-      isDestination: true,
-      coordinates: getFeatureCoordinates(endFeature),
-      category: endFeature.get("category"),
-      description: endFeature.get("description"),
-      imageUrl: endFeature.get("imageUrl"),
-      nearest_node: endFeature.get("nearest_node"),
-      additionalDirections: endFeature.get("additionalDirections"),
-    };
-
-    // Set nodes in state
-    setCurrentLocation(startNode);
-    setSelectedDestination(endNode);
-
-    // Find and display route - this triggers road highlighting
-    console.log(`[MOBILE] Displaying route: ${startNode.id} → ${endNode.id}`);
-    displayRoute(startNode.id, endNode.id);
-
-    // Set route UI to visible
-    setShowRouteOverlay(true);
-
-    // Set route info if available
-    if (routeData.routeInfo) {
-      setRouteInfo(routeData.routeInfo);
-    }
-
-    // Enable camera follow mode on mobile
-    if (mobileMode) {
-      setCameraFollowMode(true);
-      console.log('[MOBILE] Auto-enabled camera follow mode');
-
-      // CRITICAL: Start GPS tracking on mobile after route is processed
-      // This ensures the user's position is tracked and the route updates as they move
-      if (!locationTrackingEnabled && mapInstanceRef.current) {
-        console.log('[MOBILE] 📍 Starting GPS tracking for navigation...');
-        // Request permission if not already done, otherwise just start tracking
-        if (!locationPermissionRequested) {
-          requestLocationPermission();
-        } else {
-          // Permission already granted, just start tracking
-          const cleanup = initLocationTracking();
-          // Store cleanup for later
-          if (cleanup) {
-            console.log('[MOBILE] ✅ GPS tracking started for navigation');
-          }
+    // Fallback: Use kiosk GPS from QR code if phone GPS fails
+    const useFallbackStart = () => {
+      if (routeData.startGPS && nodesSourceRef.current) {
+        console.log(`[MOBILE] Using fallback GPS from QR: ${routeData.startGPS.longitude}, ${routeData.startGPS.latitude}`);
+        const gpsNode = findClosestNode(
+          routeData.startGPS.longitude,
+          routeData.startGPS.latitude,
+          nodesSourceRef.current
+        );
+        if (gpsNode) {
+          startNodeId = gpsNode.id;
+          console.log(`[MOBILE] Fallback start node: ${gpsNode.name} (${gpsNode.id})`);
         }
-      } else if (locationTrackingEnabled) {
-        console.log('[MOBILE] GPS tracking already active');
       }
-    }
+      continueRouteSetup(startNodeId);
+    };
+
+    // Continue setting up the route after determining start node
+    const continueRouteSetup = (finalStartNodeId: string) => {
+      const features = nodesSourceRef.current!.getFeatures();
+
+      const startFeature = features.find((f) => f.get("id") === finalStartNodeId);
+      const endFeature = features.find((f) => f.get("id") === endNodeId);
+
+      if (!startFeature || !endFeature) {
+        console.error("Could not find start or end node features");
+        return;
+      }
+
+      // Create node objects
+      const startNode: RoadNode = {
+        id: startFeature.get("id"),
+        name: "Current Location",
+        isDestination: true,
+        coordinates: getFeatureCoordinates(startFeature),
+        category: startFeature.get("category"),
+        description: startFeature.get("description"),
+        imageUrl: startFeature.get("imageUrl"),
+        nearest_node: startFeature.get("nearest_node"),
+        additionalDirections: startFeature.get("additionalDirections"),
+      };
+
+      const endNode: RoadNode = {
+        id: endFeature.get("id"),
+        name: endFeature.get("name") || "Destination",
+        isDestination: true,
+        coordinates: getFeatureCoordinates(endFeature),
+        category: endFeature.get("category"),
+        description: endFeature.get("description"),
+        imageUrl: endFeature.get("imageUrl"),
+        nearest_node: endFeature.get("nearest_node"),
+        additionalDirections: endFeature.get("additionalDirections"),
+      };
+
+      // Set nodes in state
+      setCurrentLocation(startNode);
+      setSelectedDestination(endNode);
+
+      // Find and display route - this triggers road highlighting
+      console.log(`[MOBILE] Displaying route: ${startNode.id} → ${endNode.id}`);
+      displayRoute(startNode.id, endNode.id);
+
+      // Set route UI to visible
+      setShowRouteOverlay(true);
+
+      // Set route info if available
+      if (routeData.routeInfo) {
+        setRouteInfo(routeData.routeInfo);
+      }
+
+      // Enable camera follow mode on mobile
+      if (mobileMode) {
+        setCameraFollowMode(true);
+        console.log('[MOBILE] Auto-enabled camera follow mode');
+
+        // CRITICAL: Start GPS tracking on mobile after route is processed
+        // This ensures the user's position is tracked and the route updates as they move
+        if (!locationTrackingEnabled && mapInstanceRef.current) {
+          console.log('[MOBILE] 📍 Starting GPS tracking for navigation...');
+          // Request permission if not already done, otherwise just start tracking
+          if (!locationPermissionRequested) {
+            requestLocationPermission();
+          } else {
+            // Permission already granted, just start tracking
+            const cleanup = initLocationTracking();
+            if (cleanup) {
+              console.log('[MOBILE] ✅ GPS tracking started for navigation');
+            }
+          }
+        } else if (locationTrackingEnabled) {
+          console.log('[MOBILE] GPS tracking already active');
+        }
+      }
+    };
+
+    // Start the GPS-based route initialization
+    getPhoneGPSAndStartRoute();
   };
 
   /**
