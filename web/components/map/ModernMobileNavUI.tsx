@@ -72,13 +72,31 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
   // Large threshold to trigger early - ensures message shows well before reaching destination
   const hasArrived = displayDistance < 70;
 
+  // Debug logging for arrival detection
+  useEffect(() => {
+    if (displayDistance > 0) {
+      console.log(`[UI] Distance to destination: ${displayDistance.toFixed(1)}m | Arrived: ${hasArrived}`);
+      if (displayDistance < 150) {
+        console.log(`[UI] 🎯 Getting close! ${displayDistance.toFixed(1)}m remaining`);
+      }
+      if (hasArrived) {
+        console.log(`[UI] 🎉 ARRIVAL DETECTED! Distance: ${displayDistance.toFixed(1)}m < 70m threshold`);
+      }
+    }
+  }, [displayDistance, hasArrived]);
+
   // Show "getting close" indicator when within 70-120m but not yet arrived
   const isGettingClose = displayDistance >= 70 && displayDistance < 120;
 
-  // Auto-show additional info on arrival
+  // Auto-expand panel and show additional info on arrival
   useEffect(() => {
-    if (hasArrived && destination.additionalDirections) {
-      setShowAdditionalInfo(true);
+    if (hasArrived) {
+      // CRITICAL: Auto-expand panel so user SEES the arrival celebration
+      setPanelState('expanded');
+
+      if (destination.additionalDirections) {
+        setShowAdditionalInfo(true);
+      }
     }
   }, [hasArrived, destination.additionalDirections]);
 
@@ -123,10 +141,45 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
       animate={{ y: 0 }}
       exit={{ y: 100 }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl z-50
-                 border-t-4 border-blue-500"
+      className={`fixed bottom-0 left-0 right-0 shadow-2xl z-50
+                 border-t-4 ${
+                   hasArrived
+                     ? 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-500'
+                     : 'bg-white border-blue-500'
+                 }`}
     >
       <div className="px-4 py-3">
+        {/* ARRIVAL CELEBRATION - ALWAYS VISIBLE IN MINIMIZED MODE */}
+        {hasArrived && (
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className="mb-3 p-4 bg-gradient-to-br from-green-400 to-emerald-500
+                       rounded-2xl shadow-lg cursor-pointer"
+            onClick={() => setPanelState('expanded')}
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-4xl animate-bounce">🎉</span>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-white">
+                  You've Arrived!
+                </h3>
+                <p className="text-sm text-green-50">
+                  Welcome to {destination.name}
+                </p>
+              </div>
+              <span className="text-3xl text-white">✓</span>
+            </div>
+            {destination.additionalDirections && (
+              <p className="text-xs text-green-50 mt-2 flex items-center gap-1">
+                <span>👆</span>
+                Tap to see walking directions
+              </p>
+            )}
+          </motion.div>
+        )}
+
         {/* Swipe indicator */}
         <div
           className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-3 cursor-pointer"
@@ -161,9 +214,11 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
               <p className="text-xs text-gray-500">{formatTime(displayTime)}</p>
             </div>
 
-            {/* Minimize Button */}
+            {/* Minimize Button - Changed to only minimize, NOT hide completely */}
+            {/* This ensures progress UI is ALWAYS visible during navigation */}
             <button
-              onClick={() => setPanelState('hidden')}
+              onClick={() => setPanelState('minimized')}
+              title="Minimize (progress stays visible)"
               className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center
                        hover:bg-gray-200 active:scale-95 transition-all"
             >
@@ -177,7 +232,7 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
+                  d="M19 9l-7 7-7-7"
                 />
               </svg>
             </button>
@@ -469,8 +524,90 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
     </motion.div>
   );
 
+  // Full-Screen Arrival Overlay (appears briefly on arrival for maximum visibility)
+  const [showArrivalOverlay, setShowArrivalOverlay] = useState(false);
+
+  // Show arrival overlay briefly when user arrives
+  useEffect(() => {
+    if (hasArrived && !showArrivalOverlay) {
+      setShowArrivalOverlay(true);
+      // Auto-hide after 3 seconds (panel remains expanded with full info)
+      setTimeout(() => setShowArrivalOverlay(false), 3000);
+    }
+  }, [hasArrived]);
+
   return (
     <>
+      {/* FULL-SCREEN ARRIVAL OVERLAY - IMPOSSIBLE TO MISS */}
+      <AnimatePresence>
+        {showArrivalOverlay && hasArrived && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center
+                       bg-black bg-opacity-50 backdrop-blur-sm"
+            onClick={() => setShowArrivalOverlay(false)}
+          >
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 50, opacity: 0 }}
+              className="mx-4 max-w-md w-full bg-gradient-to-br from-green-400 to-emerald-500
+                         rounded-3xl shadow-2xl p-8 text-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <motion.div
+                animate={{
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 10, -10, 0]
+                }}
+                transition={{
+                  duration: 0.5,
+                  repeat: Infinity,
+                  repeatDelay: 0.5
+                }}
+              >
+                <span className="text-8xl block mb-4">🎉</span>
+              </motion.div>
+
+              <h1 className="text-3xl font-bold text-white mb-2">
+                You've Arrived!
+              </h1>
+
+              <p className="text-xl text-green-50 mb-6">
+                Welcome to<br />
+                <span className="font-bold">{destination.name}</span>
+              </p>
+
+              {destination.additionalDirections && (
+                <div className="bg-white bg-opacity-20 rounded-2xl p-4 mb-4">
+                  <p className="text-sm text-white font-medium mb-2">
+                    📍 Walking Directions:
+                  </p>
+                  <p className="text-sm text-green-50">
+                    {destination.additionalDirections}
+                  </p>
+                </div>
+              )}
+
+              <button
+                onClick={() => setShowArrivalOverlay(false)}
+                className="w-full bg-white text-green-600 font-bold py-3 px-6 rounded-xl
+                         hover:bg-green-50 active:scale-95 transition-all shadow-lg"
+              >
+                Got it! ✓
+              </button>
+
+              <p className="text-xs text-green-100 mt-3">
+                Tap anywhere to dismiss
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <RestoreButton />
       <AnimatePresence mode="wait">
         {panelState === 'minimized' && <MinimizedBar key="minimized" />}
