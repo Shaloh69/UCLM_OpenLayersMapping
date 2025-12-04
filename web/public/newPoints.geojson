@@ -70,7 +70,7 @@
         "category": "Gates",
         "description": "",
         "nearest_node": "RD_Gate9",
-        "additionalDirections": ""
+        "additionalDirections": "Proceed straight ahead. Gate 9 will be visible on your right after 20 meters."
       },
       "geometry": {
         "type": "Point",
@@ -150,7 +150,7 @@
         "category": "Points of Interest",
         "description": "ME TOOL ROOM AND LAB",
         "nearest_node": "RD_ToolRoomME",
-        "additionalDirections": ""
+        "additionalDirections": "Walk straight ahead and enter through the main door. The tool room is on the left side."
       },
       "geometry": {
         "type": "Point",
@@ -350,7 +350,7 @@
         "category": "Points of Interest",
         "description": "Small stairs(old building)",
         "nearest_node": "Stairs1OldRoadEnd",
-        "additionalDirections": ""
+        "additionalDirections": "Turn left and you'll see the small staircase entrance on your right side next to the water fountain."
       },
       "geometry": {
         "type": "Point",
@@ -370,7 +370,7 @@
         "category": "Points of Interest",
         "description": "Main Stairs (oldbuilding)",
         "nearest_node": "main_stairs_oldRoad_end",
-        "additionalDirections": ""
+        "additionalDirections": "Continue forward through the hallway. The main staircase is straight ahead through the double doors."
       },
       "geometry": {
         "type": "Point",
@@ -390,7 +390,7 @@
         "category": "Points of Interest",
         "description": "Stairs to URO(old building)",
         "nearest_node": "RE_stairs_uro_old",
-        "additionalDirections": ""
+        "additionalDirections": "Walk towards the building entrance. Take the stairs on your right side to reach the URO office on the second floor."
       },
       "geometry": {
         "type": "Point",
@@ -490,7 +490,7 @@
         "category": "Points of Interest",
         "description": "Prefect of Descipline",
         "nearest_node": "RD_SAOStairs",
-        "additionalDirections": ""
+        "additionalDirections": "Take the stairs up to the second floor. Turn left and the office is the third door on your right."
       },
       "geometry": {
         "type": "Point",
@@ -609,7 +609,7 @@
         "category": "Gates",
         "description": "",
         "nearest_node": "RD_Gate5",
-        "additionalDirections": ""
+        "additionalDirections": "Continue forward about 15 meters. Gate 5 entrance is on your left."
       },
       "geometry": {
         "type": "Point",
@@ -629,7 +629,7 @@
         "category": "Gates",
         "description": "",
         "nearest_node": "RD_Gate6",
-        "additionalDirections": ""
+        "additionalDirections": "Walk forward and turn right. Gate 6 is approximately 10 meters ahead."
       },
       "geometry": {
         "type": "Point",

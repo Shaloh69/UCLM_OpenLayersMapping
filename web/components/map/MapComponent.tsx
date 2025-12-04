@@ -135,30 +135,15 @@ const CampusMap: React.FC<MapProps> = ({
   const [actualRoadsUrl, setActualRoadsUrl] = useState<string>(`${roadsUrl}?v=${cacheBuster}`);
   const [actualNodesUrl, setActualNodesUrl] = useState<string>(`${nodesUrl}?v=${cacheBuster}`);
   const [customGeoJSONLoaded, setCustomGeoJSONLoaded] = useState<boolean>(false);
+  const [mapInitialized, setMapInitialized] = useState<boolean>(false); // Track when map is ready for GPS
 
   const [routeProgress, setRouteProgress] = useState<RouteProgress | null>(null);
   const [userPosition, setUserPosition] = useState<UserPosition | null>(null);
   const [useEnhancedTracking, setUseEnhancedTracking] = useState<boolean>(true);
 
-
-  const {
-    qrCodeUrl,
-    showQRModal,
-    isGenerating,
-    error,
-    generateRouteQRCode,
-    closeQRModal,
-    resetKiosk,
-  } = useKioskRouteManager({
-    currentLocation,
-    selectedDestination,
-    userPosition,
-    routeInfo,
-    defaultStartLocation,
-  });
   // Map instance and source references
   const mapInstanceRef = useRef<Map | null>(null);
-  const vectorSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null); 
+  const vectorSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
   const pointsSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
   const drawInteractionRef = useRef<any>(null);
   const modifyInteractionRef = useRef<any>(null);
@@ -174,6 +159,43 @@ const CampusMap: React.FC<MapProps> = ({
   const activeRouteRoadsRef = useRef<Set<string>>(new Set());
   const lastRerouteTimeRef = useRef<number>(0);
   const isReroutingRef = useRef<boolean>(false);
+
+  // Refs to avoid stale closures in GPS callback
+  // These hold the latest values for use in the location tracking callback
+  const currentLocationRef = useRef<RoadNode | null>(null);
+  const selectedDestinationRef = useRef<RoadNode | null>(null);
+  const cameraFollowModeRef = useRef<boolean>(false);
+
+  // Keep refs in sync with state to avoid stale closures in callbacks
+  useEffect(() => {
+    currentLocationRef.current = currentLocation;
+  }, [currentLocation]);
+
+  useEffect(() => {
+    selectedDestinationRef.current = selectedDestination;
+  }, [selectedDestination]);
+
+  useEffect(() => {
+    cameraFollowModeRef.current = cameraFollowMode;
+  }, [cameraFollowMode]);
+
+  // Kiosk QR code management hook - must come after activeRouteRoadsRef declaration
+  const {
+    qrCodeUrl,
+    showQRModal,
+    isGenerating,
+    error,
+    generateRouteQRCode,
+    closeQRModal,
+    resetKiosk,
+  } = useKioskRouteManager({
+    currentLocation,
+    selectedDestination,
+    userPosition,
+    routeInfo,
+    defaultStartLocation,
+    activeRouteRoads: activeRouteRoadsRef.current, // Include route roads for QR encoding
+  });
 
   // Store UI in refs to minimize re-renders
   const locationErrorRef = useRef<string | null>(null);
@@ -233,25 +255,32 @@ const CampusMap: React.FC<MapProps> = ({
         },
         locationErrorRef,
         isOutsideSchoolRef,
-        schoolBoundaryRef
+        schoolBoundaryRef,
+        nodesSourceRef.current || undefined // Pass nodes source for snapping to road nodes
       );
 
       enhancedTrackerRef.current = tracker;
 
+      // Configure GPS noise filtering thresholds
+      tracker.setMinMovementThreshold(5);  // Ignore movements less than 5 meters
+      tracker.setMaxAccuracyThreshold(50); // Ignore readings with accuracy > 50m
+
       // Start tracking with callbacks
+      // CRITICAL: Use refs (not state) to get latest values and avoid stale closures
       tracker.startTracking(
         (position: UserPosition) => {
           setUserPosition(position);
 
           // Auto-follow camera in mobile mode when navigating
-          if (mobileMode && cameraFollowMode && selectedDestination) {
+          // Use refs to get latest values
+          if (mobileMode && cameraFollowModeRef.current && selectedDestinationRef.current) {
             followUserPosition(position.coordinates);
           }
 
           // Store last position for comparison
           setLastUserPosition(position.coordinates);
 
-          // Update current location node
+          // Update current location node based on GPS position
           if (nodesSourceRef.current) {
             const closestNode = findClosestNode(
               position.coordinates[0],
@@ -259,30 +288,38 @@ const CampusMap: React.FC<MapProps> = ({
               nodesSourceRef.current
             );
 
+            // Use ref to check current location (not stale state)
+            const currentLoc = currentLocationRef.current;
             if (
               closestNode &&
-              (!currentLocation || closestNode.id !== currentLocation.id)
+              (!currentLoc || closestNode.id !== currentLoc.id)
             ) {
+              console.log(`[GPS] 📍 Location changed: ${currentLoc?.id || 'none'} → ${closestNode.id}`);
               setCurrentLocation(closestNode);
 
-              // If there's an active destination, update the route
-              if (selectedDestination) {
-                const routingNodeId = resolveRoutingNode(selectedDestination);
+              // If there's an active destination, update the route from new position
+              // Use ref to get latest destination
+              const destination = selectedDestinationRef.current;
+              if (destination) {
+                const routingNodeId = resolveRoutingNode(destination);
+                console.log(`[GPS] 🔄 Recalculating route: ${closestNode.id} → ${routingNodeId}`);
                 displayRoute(closestNode.id, routingNodeId);
 
                 // Check if user has reached the routing node (nearest_node for POIs)
                 if (closestNode.id === routingNodeId) {
                   // User reached the routing node - show additional directions if needed
-                  if (requiresAdditionalDirections(selectedDestination)) {
+                  // Note: In mobile mode, ModernMobileNavUI already handles showing additional directions
+                  // based on distance. We only show the separate modal in desktop/kiosk mode.
+                  if (requiresAdditionalDirections(destination) && !mobileMode) {
                     console.log(
                       `[Navigation] Reached routing node "${routingNodeId}". Showing additional directions.`
                     );
                     setShowAdditionalDirections(true);
+                  }
 
-                    // Disable camera follow when destination reached
-                    if (mobileMode) {
-                      setCameraFollowMode(false);
-                    }
+                  // Disable camera follow when destination reached
+                  if (mobileMode) {
+                    setCameraFollowMode(false);
                   }
                 }
               }
@@ -293,7 +330,10 @@ const CampusMap: React.FC<MapProps> = ({
           setRouteProgress(progress);
 
           // Auto-reroute when off-route (with throttling)
-          if (progress.isOffRoute && selectedDestination && currentLocation) {
+          // Use refs to get latest values
+          const destination = selectedDestinationRef.current;
+          const currentLoc = currentLocationRef.current;
+          if (progress.isOffRoute && destination && currentLoc) {
             const now = Date.now();
             const timeSinceLastReroute = now - lastRerouteTimeRef.current;
             const MIN_REROUTE_INTERVAL = 10000; // 10 seconds minimum between reroutes
@@ -313,9 +353,11 @@ const CampusMap: React.FC<MapProps> = ({
 
               // Recalculate route from current location to destination
               setTimeout(() => {
-                if (currentLocation && selectedDestination) {
-                  const routingNodeId = resolveRoutingNode(selectedDestination);
-                  displayRoute(currentLocation.id, routingNodeId);
+                const dest = selectedDestinationRef.current;
+                const loc = currentLocationRef.current;
+                if (loc && dest) {
+                  const routingNodeId = resolveRoutingNode(dest);
+                  displayRoute(loc.id, routingNodeId);
                 }
                 isReroutingRef.current = false;
               }, 500); // Small delay to avoid blocking UI
@@ -416,7 +458,7 @@ const CampusMap: React.FC<MapProps> = ({
     return [0, 0] as [number, number]; // Default coordinates as tuple
   };
 
-  // Helper function to process the route data
+  // Helper function to process the route data from QR code
   const processRouteData = (routeData: RouteData) => {
     // Check if sources are available
     if (!nodesSourceRef.current) {
@@ -424,53 +466,179 @@ const CampusMap: React.FC<MapProps> = ({
       return;
     }
 
+    // CRITICAL: If route roads are provided from QR, apply them directly for immediate highlighting
+    // This allows the mobile to show highlighted roads without waiting for path calculation
+    if (routeData.routeRoads && routeData.routeRoads.length > 0) {
+      console.log(`[MOBILE] 🎯 Found ${routeData.routeRoads.length} pre-calculated route roads from QR code:`, routeData.routeRoads);
+      activeRouteRoadsRef.current = new Set(routeData.routeRoads);
+
+      // Force immediate road highlighting
+      if (roadsSourceRef.current && roadsLayerRef.current) {
+        const allRoads = roadsSourceRef.current.getFeatures();
+        console.log(`[MOBILE] Applying immediate highlighting to ${allRoads.length} road features`);
+
+        let highlightedCount = 0;
+        allRoads.forEach(feature => {
+          const roadName = feature.getProperties().name;
+          if (activeRouteRoadsRef.current.has(roadName)) {
+            highlightedCount++;
+            console.log(`[MOBILE] 🟢 Pre-highlighting road: "${roadName}"`);
+          }
+          feature.setStyle(undefined); // Clear style cache to force re-evaluation
+        });
+
+        console.log(`[MOBILE] ✅ Pre-highlighted ${highlightedCount} roads from QR data`);
+
+        // Force layer refresh
+        roadsLayerRef.current.setVisible(false);
+        roadsLayerRef.current.setVisible(true);
+        roadsLayerRef.current.changed();
+        roadsSourceRef.current.changed();
+
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.render();
+        }
+      }
+    }
+
     // Find start and end nodes
-    const startNodeId = routeData.startNodeId;
+    let startNodeId = routeData.startNodeId;
     const endNodeId = routeData.endNodeId;
 
-    console.log(`Processing route from ${startNodeId} to ${endNodeId}`);
+    console.log(`[MOBILE] Processing route from ${startNodeId} to ${endNodeId}`);
 
-    const features = nodesSourceRef.current.getFeatures();
+    // CRITICAL FIX: On mobile, get the PHONE's current GPS position, not the kiosk's GPS from QR
+    // The route should start from where the USER is NOW, not where they scanned the QR
+    const getPhoneGPSAndStartRoute = () => {
+      if ('geolocation' in navigator) {
+        console.log(`[MOBILE] 📍 Getting phone's current GPS position...`);
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const phoneLon = position.coords.longitude;
+            const phoneLat = position.coords.latitude;
+            console.log(`[MOBILE] 📍 Phone GPS: ${phoneLat.toFixed(6)}, ${phoneLon.toFixed(6)} (accuracy: ${position.coords.accuracy?.toFixed(0)}m)`);
 
-    const startFeature = features.find((f) => f.get("id") === startNodeId);
-    const endFeature = features.find((f) => f.get("id") === endNodeId);
-
-    if (!startFeature || !endFeature) {
-      console.error("Could not find start or end node features");
-      return;
-    }
-
-    // Create node objects
-    const startNode = {
-      id: startFeature.get("id"),
-      name: startFeature.get("name") || "Start",
-      isDestination: true,
-      coordinates: getFeatureCoordinates(startFeature),
-      category: startFeature.get("category"),
+            if (nodesSourceRef.current) {
+              const phoneNode = findClosestNode(phoneLon, phoneLat, nodesSourceRef.current);
+              if (phoneNode) {
+                startNodeId = phoneNode.id;
+                console.log(`[MOBILE] ✅ Route starting from phone's location: ${phoneNode.name} (${phoneNode.id})`);
+                continueRouteSetup(startNodeId);
+              } else {
+                console.warn(`[MOBILE] ⚠️ No node found near phone GPS, falling back to QR start node`);
+                useFallbackStart();
+              }
+            }
+          },
+          (error) => {
+            console.warn(`[MOBILE] ⚠️ Phone GPS error: ${error.message}, falling back to QR start`);
+            useFallbackStart();
+          },
+          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        );
+      } else {
+        console.warn(`[MOBILE] ⚠️ Geolocation not available, using QR start`);
+        useFallbackStart();
+      }
     };
 
-    const endNode = {
-      id: endFeature.get("id"),
-      name: endFeature.get("name") || "Destination",
-      isDestination: true,
-      coordinates: getFeatureCoordinates(endFeature),
-      category: endFeature.get("category"),
+    // Fallback: Use kiosk GPS from QR code if phone GPS fails
+    const useFallbackStart = () => {
+      if (routeData.startGPS && nodesSourceRef.current) {
+        console.log(`[MOBILE] Using fallback GPS from QR: ${routeData.startGPS.longitude}, ${routeData.startGPS.latitude}`);
+        const gpsNode = findClosestNode(
+          routeData.startGPS.longitude,
+          routeData.startGPS.latitude,
+          nodesSourceRef.current
+        );
+        if (gpsNode) {
+          startNodeId = gpsNode.id;
+          console.log(`[MOBILE] Fallback start node: ${gpsNode.name} (${gpsNode.id})`);
+        }
+      }
+      continueRouteSetup(startNodeId);
     };
 
-    // Set nodes in state
-    setCurrentLocation(startNode);
-    setSelectedDestination(endNode);
+    // Continue setting up the route after determining start node
+    const continueRouteSetup = (finalStartNodeId: string) => {
+      const features = nodesSourceRef.current!.getFeatures();
 
-    // Find and display route
-    displayRoute(startNode.id, endNode.id);
+      const startFeature = features.find((f) => f.get("id") === finalStartNodeId);
+      const endFeature = features.find((f) => f.get("id") === endNodeId);
 
-    // Set route UI to visible
-    setShowRouteOverlay(true);
+      if (!startFeature || !endFeature) {
+        console.error("Could not find start or end node features");
+        return;
+      }
 
-    // Set route info if available
-    if (routeData.routeInfo) {
-      setRouteInfo(routeData.routeInfo);
-    }
+      // Create node objects
+      const startNode: RoadNode = {
+        id: startFeature.get("id"),
+        name: "Current Location",
+        isDestination: true,
+        coordinates: getFeatureCoordinates(startFeature),
+        category: startFeature.get("category"),
+        description: startFeature.get("description"),
+        imageUrl: startFeature.get("imageUrl"),
+        nearest_node: startFeature.get("nearest_node"),
+        additionalDirections: startFeature.get("additionalDirections"),
+      };
+
+      const endNode: RoadNode = {
+        id: endFeature.get("id"),
+        name: endFeature.get("name") || "Destination",
+        isDestination: true,
+        coordinates: getFeatureCoordinates(endFeature),
+        category: endFeature.get("category"),
+        description: endFeature.get("description"),
+        imageUrl: endFeature.get("imageUrl"),
+        nearest_node: endFeature.get("nearest_node"),
+        additionalDirections: endFeature.get("additionalDirections"),
+      };
+
+      // Set nodes in state
+      setCurrentLocation(startNode);
+      setSelectedDestination(endNode);
+
+      // Find and display route - this triggers road highlighting
+      console.log(`[MOBILE] Displaying route: ${startNode.id} → ${endNode.id}`);
+      displayRoute(startNode.id, endNode.id);
+
+      // Set route UI to visible
+      setShowRouteOverlay(true);
+
+      // Set route info if available
+      if (routeData.routeInfo) {
+        setRouteInfo(routeData.routeInfo);
+      }
+
+      // Enable camera follow mode on mobile
+      if (mobileMode) {
+        setCameraFollowMode(true);
+        console.log('[MOBILE] Auto-enabled camera follow mode');
+
+        // CRITICAL: Start GPS tracking on mobile after route is processed
+        // This ensures the user's position is tracked and the route updates as they move
+        if (!locationTrackingEnabled && mapInstanceRef.current) {
+          console.log('[MOBILE] 📍 Starting GPS tracking for navigation...');
+          // Request permission if not already done, otherwise just start tracking
+          if (!locationPermissionRequested) {
+            requestLocationPermission();
+          } else {
+            // Permission already granted, just start tracking
+            const cleanup = initLocationTracking();
+            if (cleanup) {
+              console.log('[MOBILE] ✅ GPS tracking started for navigation');
+            }
+          }
+        } else if (locationTrackingEnabled) {
+          console.log('[MOBILE] GPS tracking already active');
+        }
+      }
+    };
+
+    // Start the GPS-based route initialization
+    getPhoneGPSAndStartRoute();
   };
 
   /**
@@ -564,9 +732,9 @@ const CampusMap: React.FC<MapProps> = ({
           return; // EXIT - don't use gate1 or any fallback
         }
       }
-      // ===== KIOSK MODE: GPS first, then gate1 fallback =====
+      // ===== KIOSK MODE: GPS ONLY - Use kiosk's current GPS location =====
       else {
-        // KIOSK: Try GPS first
+        // KIOSK: Primary source - Live GPS position (most accurate)
         if (userPosition && nodesSourceRef.current) {
           const closestNode = findClosestNode(
             userPosition.coordinates[0],
@@ -574,28 +742,39 @@ const CampusMap: React.FC<MapProps> = ({
             nodesSourceRef.current
           );
           if (closestNode) {
-            startNodeToUse = closestNode;
-            setCurrentLocation(closestNode);
-            console.log(`[KIOSK] Using GPS position: ${closestNode.name}`);
+            // Create a special "Current Location" node that represents the GPS position
+            // This is different from the actual node - it shows where the kiosk IS located
+            startNodeToUse = {
+              ...closestNode,
+              name: "Current Location", // Override name to show GPS-based location
+            };
+            setCurrentLocation(startNodeToUse);
+            console.log(`[KIOSK] Using GPS position (nearest node: ${closestNode.id}): Current Location`);
           }
         }
 
-        // KIOSK: Try cached location
+        // KIOSK: Secondary source - Cached GPS location
         if (!startNodeToUse && currentLocation) {
           startNodeToUse = currentLocation;
-          console.log(`[KIOSK] Using cached location: ${currentLocation.name}`);
+          console.log(`[KIOSK] Using cached GPS location: ${currentLocation.name}`);
         }
 
-        // KIOSK: Fallback to gate1 (last resort)
+        // KIOSK: Fallback to gate1 ONLY if GPS is completely unavailable
+        // This should rarely happen on a properly configured kiosk
         if (!startNodeToUse && defaultStartLocation) {
           startNodeToUse = defaultStartLocation;
-          console.log(`[KIOSK] Using fallback gate1: ${defaultStartLocation.name}`);
+          console.log(`[KIOSK] ⚠️ GPS unavailable - falling back to gate1: ${defaultStartLocation.name}`);
+          // Request GPS permission if not already requested
+          if (!locationPermissionRequested) {
+            console.log('[KIOSK] Requesting GPS permission for future routes...');
+            requestLocationPermission();
+          }
         }
 
         // KIOSK: Error if nothing available
         if (!startNodeToUse) {
           setLocationError(
-            "No starting point available. Please configure a default start location."
+            "No starting point available. Please enable GPS location services."
           );
           return;
         }
@@ -694,45 +873,94 @@ const CampusMap: React.FC<MapProps> = ({
       // CRITICAL: Force roads layer to re-style to show highlighted roads
       // This happens BEFORE the route overlay is created to ensure proper rendering order
       // OpenLayers caches feature styles for performance, so we must manually clear them
-      if (roadsLayerRef.current && roadsSourceRef.current) {
-        console.log('[Road Highlighting] Forcing roads layer to re-render...');
 
-        // Function to clear road style cache and force re-render
-        const clearRoadStyleCache = (retryCount = 0) => {
-          if (!roadsSourceRef.current || !roadsLayerRef.current) return;
+      // Function to clear road style cache and force re-render
+      // ENHANCED: More retries and longer delays for mobile devices
+      const MAX_ROAD_RETRIES = mobileMode ? 15 : 5; // More retries on mobile
+      const BASE_RETRY_DELAY = mobileMode ? 400 : 300; // Longer base delay on mobile
+
+      const clearRoadStyleCache = (retryCount = 0): Promise<void> => {
+        return new Promise((resolve) => {
+          if (!roadsSourceRef.current || !roadsLayerRef.current) {
+            console.warn('[Road Highlighting] ⚠️ Roads source or layer not available');
+            resolve();
+            return;
+          }
 
           const allRoads = roadsSourceRef.current.getFeatures();
-          console.log(`[Road Highlighting] Attempt ${retryCount + 1}: Found ${allRoads.length} road features`);
+          console.log(`[Road Highlighting] Attempt ${retryCount + 1}/${MAX_ROAD_RETRIES}: Found ${allRoads.length} road features`);
+          console.log(`[Road Highlighting] Active route roads: ${Array.from(activeRouteRoadsRef.current).join(', ')}`);
 
-          if (allRoads.length === 0 && retryCount < 3) {
-            // Roads not loaded yet, retry after a delay
-            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${200 * (retryCount + 1)}ms...`);
-            setTimeout(() => clearRoadStyleCache(retryCount + 1), 200 * (retryCount + 1));
+          if (allRoads.length === 0 && retryCount < MAX_ROAD_RETRIES) {
+            // Roads not loaded yet, retry after a delay (increased retries for mobile)
+            const delay = BASE_RETRY_DELAY * (retryCount + 1);
+            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${delay}ms... (attempt ${retryCount + 1}/${MAX_ROAD_RETRIES})`);
+            setTimeout(() => {
+              clearRoadStyleCache(retryCount + 1).then(resolve);
+            }, delay);
             return;
           }
 
           if (allRoads.length === 0) {
-            console.error('[Road Highlighting] ❌ Failed to load road features after 3 retries');
+            console.error(`[Road Highlighting] ❌ Failed to load road features after ${MAX_ROAD_RETRIES} retries`);
+            resolve();
             return;
           }
 
-          // Clear cached styles for ALL road features
+          // Clear cached styles for ALL road features to force style function re-evaluation
           console.log(`[Road Highlighting] Clearing style cache for ${allRoads.length} road features`);
+          let highlightedCount = 0;
           allRoads.forEach(feature => {
+            const roadName = feature.getProperties().name;
+            const willBeHighlighted = activeRouteRoadsRef.current.has(roadName);
+            if (willBeHighlighted) {
+              highlightedCount++;
+              console.log(`[Road Highlighting] 🟢 Will highlight: "${roadName}"`);
+            }
             feature.setStyle(undefined); // undefined = use layer's style function
           });
 
-          // Mark layer and source as changed to trigger re-render
-          roadsLayerRef.current?.changed();
-          roadsSourceRef.current?.changed();
+          console.log(`[Road Highlighting] 📊 ${highlightedCount} roads will be highlighted out of ${allRoads.length} total`);
 
-          console.log('[Road Highlighting] ✅ Roads will re-render with green highlights');
-        };
+          // CRITICAL: Force layer to re-render with new styles
+          // This is especially important on mobile where rendering can be delayed
+          roadsLayerRef.current.setVisible(false);
+          roadsLayerRef.current.setVisible(true);
+          roadsLayerRef.current.changed();
+          roadsSourceRef.current.changed();
 
-        // Start with a small delay to let OpenLayers render roads initially
-        // This is especially important on mobile when loading from QR code
-        setTimeout(() => clearRoadStyleCache(0), 100);
-      }
+          // Force map to render
+          if (mapInstanceRef.current) {
+            mapInstanceRef.current.render();
+          }
+
+          console.log('[Road Highlighting] ✅ Road styles refreshed - creating route overlay');
+
+          // Slightly longer delay for mobile devices
+          setTimeout(() => resolve(), mobileMode ? 150 : 50);
+        });
+      };
+
+      // Wait for road highlighting to complete, THEN create route overlay
+      const initializeRouteDisplay = async () => {
+        if (!roadsLayerRef.current || !roadsSourceRef.current) {
+          console.log('[Road Highlighting] Skipping - roads not initialized');
+          return;
+        }
+
+        console.log('[Road Highlighting] Starting road highlighting process...');
+
+        // Wait 100ms for initial render, then start retry mechanism
+        await new Promise(resolve => setTimeout(resolve, 100));
+        await clearRoadStyleCache(0);
+
+        console.log('[Road Highlighting] ✅✅✅ Road highlighting COMPLETE - proceeding with route overlay');
+        createRouteOverlay();
+      };
+
+      // Function to create the route overlay (orange/white line)
+      const createRouteOverlay = () => {
+        if (!mapInstanceRef.current) return;
 
       // Create a route source and layer
       const routeSource = new VectorSource({
@@ -831,9 +1059,29 @@ const CampusMap: React.FC<MapProps> = ({
         });
 
         if (routePath.length > 0) {
-          enhancedTrackerRef.current.setRoute(routePath);
+          // Get the actual destination coordinates (not routing node)
+          // This is critical for POIs with nearest_node - we want to measure
+          // distance to the actual POI location, not the routing node
+          const destinationCoords = selectedDestinationRef.current?.coordinates;
+
+          if (destinationCoords) {
+            console.log(`[Arrival Detection] Destination: ${selectedDestinationRef.current?.name}`);
+            console.log(`[Arrival Detection] Destination coords: [${destinationCoords[0].toFixed(6)}, ${destinationCoords[1].toFixed(6)}]`);
+            console.log(`[Arrival Detection] Route end coords: [${routePath[routePath.length - 1][0].toFixed(6)}, ${routePath[routePath.length - 1][1].toFixed(6)}]`);
+
+            if (selectedDestinationRef.current?.nearest_node) {
+              console.log(`[Arrival Detection] ⚠️ POI has nearest_node: ${selectedDestinationRef.current.nearest_node}`);
+              console.log(`[Arrival Detection] ✓ Using actual POI coordinates for arrival detection`);
+            }
+          }
+
+          enhancedTrackerRef.current.setRoute(routePath, destinationCoords);
         }
       }
+      };
+
+      // Start the process: highlight roads FIRST, then create overlay
+      initializeRouteDisplay();
     },
     [mobileMode]
   );
@@ -1041,17 +1289,21 @@ const CampusMap: React.FC<MapProps> = ({
     loadCustomGeoJSON();
   }, []);
 
-  // Auto-request GPS permission on mobile mode
+  // Auto-request GPS permission on mobile mode AND kiosk mode
+  // KIOSK: GPS is needed to provide accurate starting location for navigation
+  // CRITICAL: Use mapInitialized state (not ref) to trigger effect when map is ready
   useEffect(() => {
-    if (mobileMode && !locationPermissionRequested && mapInstanceRef.current) {
-      console.log('[MOBILE] Auto-requesting GPS permission on load');
-      // Small delay to ensure map is ready
+    // Request GPS for both mobile AND kiosk mode WHEN map is ready
+    if (!locationPermissionRequested && mapInitialized) {
+      const mode = mobileMode ? 'MOBILE' : 'KIOSK';
+      console.log(`[${mode}] 📍 Auto-requesting GPS permission - map is ready`);
+      // Small delay to ensure map is fully ready
       const timer = setTimeout(() => {
         requestLocationPermission();
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [mobileMode, locationPermissionRequested, requestLocationPermission]);
+  }, [mobileMode, locationPermissionRequested, requestLocationPermission, mapInitialized]);
 
   useEffect(() => {
     if (effectiveSearchParams && mobileMode) {
@@ -1068,23 +1320,51 @@ const CampusMap: React.FC<MapProps> = ({
         console.log("Found route data:", routeData);
 
         // Wait for map and sources to be fully initialized
+        // CRITICAL FIX: Check actual feature count, not just source state
+        // Source state can be "ready" but features array can still be empty
+        let checkAttempts = 0;
+        const MAX_CHECK_ATTEMPTS = 30; // 30 attempts x 500ms = 15 seconds max wait
+
         const checkSourcesLoaded = () => {
-          if (
-            mapInstanceRef.current &&
-            roadsSourceRef.current &&
-            roadsSourceRef.current.getState() === "ready" &&
-            nodesSourceRef.current &&
-            nodesSourceRef.current.getState() === "ready"
-          ) {
-            console.log("Sources ready, processing route");
+          checkAttempts++;
+
+          const mapReady = !!mapInstanceRef.current;
+          const roadsReady = roadsSourceRef.current && roadsSourceRef.current.getState() === "ready";
+          const nodesReady = nodesSourceRef.current && nodesSourceRef.current.getState() === "ready";
+
+          // CRITICAL: Check actual feature count, not just state
+          const roadsCount = roadsSourceRef.current?.getFeatures().length || 0;
+          const nodesCount = nodesSourceRef.current?.getFeatures().length || 0;
+
+          console.log(`[Mobile Route] Check ${checkAttempts}/${MAX_CHECK_ATTEMPTS}:`, {
+            mapReady,
+            roadsReady,
+            nodesReady,
+            roadsCount,
+            nodesCount
+          });
+
+          // Need actual features loaded, not just source ready state
+          if (mapReady && roadsReady && nodesReady && roadsCount > 0 && nodesCount > 0) {
+            console.log(`[Mobile Route] ✅ All sources loaded with ${roadsCount} roads and ${nodesCount} nodes. Processing route...`);
             processRouteData(routeData);
+          } else if (checkAttempts < MAX_CHECK_ATTEMPTS) {
+            // Exponential backoff with cap at 1 second
+            const delay = Math.min(300 + (checkAttempts * 100), 1000);
+            console.log(`[Mobile Route] ⏳ Sources not fully loaded yet, retry in ${delay}ms...`);
+            setTimeout(checkSourcesLoaded, delay);
           } else {
-            console.log("Sources not ready yet, waiting...");
-            setTimeout(checkSourcesLoaded, 300);
+            console.error(`[Mobile Route] ❌ Failed to load sources after ${MAX_CHECK_ATTEMPTS} attempts`);
+            // Try processing anyway - maybe partial data is available
+            if (roadsCount > 0 || nodesCount > 0) {
+              console.log(`[Mobile Route] 🔄 Attempting route processing with partial data...`);
+              processRouteData(routeData);
+            }
           }
         };
 
-        checkSourcesLoaded();
+        // Start checking after initial delay to let resources begin loading
+        setTimeout(checkSourcesLoaded, 500);
       }
     }
   }, [effectiveSearchParams, mobileMode]);
@@ -1115,6 +1395,11 @@ const CampusMap: React.FC<MapProps> = ({
     mapInstanceRef.current = map;
     vectorSourceRef.current = vectorSource;
     pointsSourceRef.current = pointsSource;
+
+    // CRITICAL: Signal that map is ready for GPS tracking
+    // This triggers the auto-GPS-request effect
+    setMapInitialized(true);
+    console.log('[Map] ✅ Map initialized, GPS can now be requested');
 
     const { roadsLayer, roadsSource, nodesSource } = setupRoadSystem(
       actualRoadsUrl,
@@ -1711,13 +1996,31 @@ const CampusMap: React.FC<MapProps> = ({
   const renderMobileUI = () => {
     if (!mobileMode) return null;
 
+    // Format distance for display
+    const formatDistance = (meters: number): string => {
+      if (meters < 1000) {
+        return `${Math.round(meters)}m`;
+      }
+      return `${(meters / 1000).toFixed(1)}km`;
+    };
+
+    // Format time for display
+    const formatTime = (minutes: number): string => {
+      if (minutes < 1) {
+        return '< 1 min';
+      }
+      const mins = Math.ceil(minutes);
+      return mins === 1 ? '1 min' : `${mins} mins`;
+    };
+
     return (
       <>
-        {/* Mobile Header */}
-        <div className="fixed top-0 left-0 right-0 bg-white p-3 shadow-md z-40">
-          <div className="flex items-center justify-between">
+        {/* Enhanced Mobile Header with Destination Info */}
+        <div className="fixed top-0 left-0 right-0 bg-white shadow-lg z-40">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between p-3 border-b border-gray-100">
             <button
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 active:scale-95 transition-all"
               onClick={() => router.back()}
             >
               <svg
@@ -1735,14 +2038,14 @@ const CampusMap: React.FC<MapProps> = ({
               </svg>
             </button>
 
-            <h1 className="text-lg font-bold text-gray-900">
+            <h1 className="text-lg font-bold text-gray-900 flex-1 text-center truncate px-2">
               {selectedDestination
-                ? `Navigate to ${selectedDestination.name}`
-                : "Campus Map"}
+                ? selectedDestination.name
+                : "Campus Navigation"}
             </h1>
 
             <button
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 active:scale-95 transition-all"
               onClick={() => {
                 if (mapInstanceRef.current && currentLocation) {
                   const coords = fromLonLat(currentLocation.coordinates);
@@ -1777,6 +2080,92 @@ const CampusMap: React.FC<MapProps> = ({
               </svg>
             </button>
           </div>
+
+          {/* Destination Info Card - Shows when navigating */}
+          {selectedDestination && (
+            <div className="px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50">
+              <div className="flex items-center gap-3">
+                {/* Destination Icon */}
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
+                  <svg
+                    className="w-6 h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+
+                {/* Destination Details */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">
+                      Navigating to
+                    </span>
+                    {selectedDestination.category && (
+                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
+                        {selectedDestination.category}
+                      </span>
+                    )}
+                  </div>
+                  <h2 className="text-base font-bold text-gray-900 truncate">
+                    {selectedDestination.name}
+                  </h2>
+                  {selectedDestination.description && (
+                    <p className="text-xs text-gray-600 truncate mt-0.5">
+                      {selectedDestination.description}
+                    </p>
+                  )}
+                </div>
+
+                {/* Distance & Time */}
+                {routeInfo && (
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-lg font-bold text-blue-600">
+                      {formatDistance(routeProgress?.distanceToDestination ?? routeInfo.distance)}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {formatTime(routeProgress?.estimatedTimeRemaining
+                        ? routeProgress.estimatedTimeRemaining / 60
+                        : routeInfo.estimatedTime)}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Progress Bar */}
+              {routeProgress && routeProgress.percentComplete > 0 && (
+                <div className="mt-3">
+                  <div className="h-1.5 bg-blue-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500"
+                      style={{ width: `${Math.min(100, routeProgress.percentComplete)}%` }}
+                    />
+                  </div>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-xs text-gray-500">
+                      {routeProgress.percentComplete.toFixed(0)}% complete
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {formatDistance(routeProgress.distanceTraveled)} traveled
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Floating Locate Button */}
