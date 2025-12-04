@@ -171,6 +171,20 @@ export const findShortestPath = (
   const roadFeatures = roadsSource.getFeatures();
   console.log(`🛣️  Processing ${roadFeatures.length} road features from roadsSource`);
 
+  // Count actual roads vs all features
+  const actualRoads = roadFeatures.filter(f => {
+    const p = f.getProperties();
+    return p.from && p.to;
+  });
+  console.log(`🛣️  Actual roads with from/to: ${actualRoads.length}`);
+  console.log(`🛣️  Other features (nodes, etc): ${roadFeatures.length - actualRoads.length}`);
+
+  // List first 10 road names
+  console.log(`🛣️  First 10 roads:`, actualRoads.slice(0, 10).map((f, i) => {
+    const p = f.getProperties();
+    return `${i+1}. ${p.name} (${p.from} → ${p.to})`;
+  }));
+
   let oldBuildingRD4Found = false;
   roadFeatures.forEach((feature, index) => {
     const props = feature.getProperties();
@@ -356,6 +370,10 @@ export const setupRoadSystem = (
   nodesUrl: string,
   activeRouteRoadsRef?: React.MutableRefObject<Set<string>>
 ) => {
+  console.log(`🔧 setupRoadSystem called with:`);
+  console.log(`  roadsUrl: ${roadsUrl}`);
+  console.log(`  nodesUrl: ${nodesUrl}`);
+
   // Create source for roads
   const roadsSource = new VectorSource({
     url: roadsUrl,
@@ -428,6 +446,23 @@ export const setupRoadSystem = (
   // Load initial roads data
   roadsSource.on("featuresloadend", () => {
     const features = roadsSource.getFeatures();
+    console.log(`✅ roadsSource loaded ${features.length} features`);
+
+    const roads = features.filter(f => {
+      const p = f.getProperties();
+      return p.from && p.to;
+    });
+    console.log(`✅ Found ${roads.length} actual road segments`);
+
+    // Check for OldBuildingRD4
+    const rd4 = roads.find(f => f.getProperties().name === 'OldBuildingRD4');
+    console.log(`✅ OldBuildingRD4 in loaded features: ${rd4 ? 'YES ✓' : 'NO ✗'}`);
+
+    // List first 5 roads
+    console.log(`✅ First 5 roads loaded:`, roads.slice(0, 5).map(f => {
+      const p = f.getProperties();
+      return `${p.name} (${p.from} → ${p.to})`;
+    }));
   });
 
   // Handle potential errors loading roads
