@@ -697,19 +697,41 @@ const CampusMap: React.FC<MapProps> = ({
       if (roadsLayerRef.current && roadsSourceRef.current) {
         console.log('[Road Highlighting] Forcing roads layer to re-render...');
 
-        // Step 1: Clear cached styles for ALL road features
-        // This forces OpenLayers to recalculate styles using the layer's style function
-        const allRoads = roadsSourceRef.current.getFeatures();
-        console.log(`[Road Highlighting] Clearing style cache for ${allRoads.length} road features`);
-        allRoads.forEach(feature => {
-          feature.setStyle(undefined); // undefined = use layer's style function
-        });
+        // Function to clear road style cache and force re-render
+        const clearRoadStyleCache = (retryCount = 0) => {
+          if (!roadsSourceRef.current || !roadsLayerRef.current) return;
 
-        // Step 2: Mark layer and source as changed to trigger re-render
-        roadsLayerRef.current.changed();
-        roadsSourceRef.current.changed();
+          const allRoads = roadsSourceRef.current.getFeatures();
+          console.log(`[Road Highlighting] Attempt ${retryCount + 1}: Found ${allRoads.length} road features`);
 
-        console.log('[Road Highlighting] ✅ Roads will re-render with green highlights');
+          if (allRoads.length === 0 && retryCount < 3) {
+            // Roads not loaded yet, retry after a delay
+            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${200 * (retryCount + 1)}ms...`);
+            setTimeout(() => clearRoadStyleCache(retryCount + 1), 200 * (retryCount + 1));
+            return;
+          }
+
+          if (allRoads.length === 0) {
+            console.error('[Road Highlighting] ❌ Failed to load road features after 3 retries');
+            return;
+          }
+
+          // Clear cached styles for ALL road features
+          console.log(`[Road Highlighting] Clearing style cache for ${allRoads.length} road features`);
+          allRoads.forEach(feature => {
+            feature.setStyle(undefined); // undefined = use layer's style function
+          });
+
+          // Mark layer and source as changed to trigger re-render
+          roadsLayerRef.current?.changed();
+          roadsSourceRef.current?.changed();
+
+          console.log('[Road Highlighting] ✅ Roads will re-render with green highlights');
+        };
+
+        // Start with a small delay to let OpenLayers render roads initially
+        // This is especially important on mobile when loading from QR code
+        setTimeout(() => clearRoadStyleCache(0), 100);
       }
 
       // Create a route source and layer
