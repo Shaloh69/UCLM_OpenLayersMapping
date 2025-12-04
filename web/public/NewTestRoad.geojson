@@ -1086,8 +1086,10 @@
       "type": "Feature",
       "properties": {
         "id": "RD_Gate9",
-        "name": "RD_Gate9",
-        "isDestination": false
+        "name": "Gate 9",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "Gate 9"
       },
       "geometry": {
         "coordinates": [
