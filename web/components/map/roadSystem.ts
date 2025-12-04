@@ -168,12 +168,17 @@ export const findShortestPath = (
   });
 
   // Add edges to the graph
-  roadsSource.getFeatures().forEach((feature) => {
+  const roadFeatures = roadsSource.getFeatures();
+  console.log(`🛣️  Processing ${roadFeatures.length} road features from roadsSource`);
+
+  let oldBuildingRD4Found = false;
+  roadFeatures.forEach((feature, index) => {
     const props = feature.getProperties();
 
     // Debug logging for OldBuildingRD4
     if (props.name === "OldBuildingRD4") {
-      console.log("🔍 [OldBuildingRD4] Found in roads:", {
+      oldBuildingRD4Found = true;
+      console.log("🔍 [OldBuildingRD4] Found in roads at index", index, ":", {
         name: props.name,
         from: props.from,
         to: props.to,
@@ -234,11 +239,22 @@ export const findShortestPath = (
         });
       }
     }
-
-    console.log("😊😊Graph structure:", JSON.stringify(graph));
-    console.log("Looking for path between:", startNodeId, "and", endNodeId);
-    console.log("Nodes available:", Object.keys(graph));
   });
+
+  // Debug logging AFTER all roads have been processed
+  console.log(`🛣️  OldBuildingRD4 was ${oldBuildingRD4Found ? 'FOUND ✓' : 'NOT FOUND ✗'} in road features`);
+  console.log("😊😊 Graph structure built:");
+  console.log("  Total nodes in graph:", Object.keys(graph).length);
+  console.log("  Looking for path between:", startNodeId, "and", endNodeId);
+  console.log("  Nodes available:", Object.keys(graph));
+  console.log("  OldBuildingIntersection connections:", graph["OldBuildingIntersection"]);
+  console.log("  IT_Gate2 connections:", graph["IT_Gate2"]);
+
+  // Check if the connection exists
+  const hasConnection = graph["OldBuildingIntersection"]?.["IT_Gate2"] !== undefined;
+  console.log(`  Connection OldBuildingIntersection → IT_Gate2: ${hasConnection ? 'EXISTS ✓' : 'MISSING ✗'}`);
+
+  console.log("  Full graph structure:", JSON.stringify(graph, null, 2));
 
   // Check if both nodes exist in the graph
   if (!graph[startNodeId] || !graph[endNodeId]) {
