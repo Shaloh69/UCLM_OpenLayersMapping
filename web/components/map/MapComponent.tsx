@@ -416,7 +416,7 @@ const CampusMap: React.FC<MapProps> = ({
     return [0, 0] as [number, number]; // Default coordinates as tuple
   };
 
-  // Helper function to process the route data
+  // Helper function to process the route data from QR code
   const processRouteData = (routeData: RouteData) => {
     // Check if sources are available
     if (!nodesSourceRef.current) {
@@ -425,10 +425,25 @@ const CampusMap: React.FC<MapProps> = ({
     }
 
     // Find start and end nodes
-    const startNodeId = routeData.startNodeId;
+    let startNodeId = routeData.startNodeId;
     const endNodeId = routeData.endNodeId;
 
-    console.log(`Processing route from ${startNodeId} to ${endNodeId}`);
+    console.log(`[MOBILE] Processing route from ${startNodeId} to ${endNodeId}`);
+
+    // CRITICAL: If we have GPS coordinates from kiosk, use them to find the nearest node
+    // This ensures the route starts from where the user actually was (kiosk location)
+    if (routeData.startGPS && nodesSourceRef.current) {
+      console.log(`[MOBILE] Using GPS coordinates from kiosk: ${routeData.startGPS.longitude}, ${routeData.startGPS.latitude}`);
+      const gpsNode = findClosestNode(
+        routeData.startGPS.longitude,
+        routeData.startGPS.latitude,
+        nodesSourceRef.current
+      );
+      if (gpsNode) {
+        startNodeId = gpsNode.id;
+        console.log(`[MOBILE] Found closest node to GPS: ${gpsNode.name} (${gpsNode.id})`);
+      }
+    }
 
     const features = nodesSourceRef.current.getFeatures();
 
@@ -441,27 +456,36 @@ const CampusMap: React.FC<MapProps> = ({
     }
 
     // Create node objects
-    const startNode = {
+    const startNode: RoadNode = {
       id: startFeature.get("id"),
-      name: startFeature.get("name") || "Start",
+      name: routeData.startGPS ? "Current Location" : (startFeature.get("name") || "Start"),
       isDestination: true,
       coordinates: getFeatureCoordinates(startFeature),
       category: startFeature.get("category"),
+      description: startFeature.get("description"),
+      imageUrl: startFeature.get("imageUrl"),
+      nearest_node: startFeature.get("nearest_node"),
+      additionalDirections: startFeature.get("additionalDirections"),
     };
 
-    const endNode = {
+    const endNode: RoadNode = {
       id: endFeature.get("id"),
       name: endFeature.get("name") || "Destination",
       isDestination: true,
       coordinates: getFeatureCoordinates(endFeature),
       category: endFeature.get("category"),
+      description: endFeature.get("description"),
+      imageUrl: endFeature.get("imageUrl"),
+      nearest_node: endFeature.get("nearest_node"),
+      additionalDirections: endFeature.get("additionalDirections"),
     };
 
     // Set nodes in state
     setCurrentLocation(startNode);
     setSelectedDestination(endNode);
 
-    // Find and display route
+    // Find and display route - this triggers road highlighting
+    console.log(`[MOBILE] Displaying route: ${startNode.id} → ${endNode.id}`);
     displayRoute(startNode.id, endNode.id);
 
     // Set route UI to visible
@@ -470,6 +494,12 @@ const CampusMap: React.FC<MapProps> = ({
     // Set route info if available
     if (routeData.routeInfo) {
       setRouteInfo(routeData.routeInfo);
+    }
+
+    // Enable camera follow mode on mobile
+    if (mobileMode) {
+      setCameraFollowMode(true);
+      console.log('[MOBILE] Auto-enabled camera follow mode');
     }
   };
 
@@ -564,9 +594,9 @@ const CampusMap: React.FC<MapProps> = ({
           return; // EXIT - don't use gate1 or any fallback
         }
       }
-      // ===== KIOSK MODE: GPS first, then gate1 fallback =====
+      // ===== KIOSK MODE: GPS ONLY - Use kiosk's current GPS location =====
       else {
-        // KIOSK: Try GPS first
+        // KIOSK: Primary source - Live GPS position (most accurate)
         if (userPosition && nodesSourceRef.current) {
           const closestNode = findClosestNode(
             userPosition.coordinates[0],
@@ -574,28 +604,39 @@ const CampusMap: React.FC<MapProps> = ({
             nodesSourceRef.current
           );
           if (closestNode) {
-            startNodeToUse = closestNode;
-            setCurrentLocation(closestNode);
-            console.log(`[KIOSK] Using GPS position: ${closestNode.name}`);
+            // Create a special "Current Location" node that represents the GPS position
+            // This is different from the actual node - it shows where the kiosk IS located
+            startNodeToUse = {
+              ...closestNode,
+              name: "Current Location", // Override name to show GPS-based location
+            };
+            setCurrentLocation(startNodeToUse);
+            console.log(`[KIOSK] Using GPS position (nearest node: ${closestNode.id}): Current Location`);
           }
         }
 
-        // KIOSK: Try cached location
+        // KIOSK: Secondary source - Cached GPS location
         if (!startNodeToUse && currentLocation) {
           startNodeToUse = currentLocation;
-          console.log(`[KIOSK] Using cached location: ${currentLocation.name}`);
+          console.log(`[KIOSK] Using cached GPS location: ${currentLocation.name}`);
         }
 
-        // KIOSK: Fallback to gate1 (last resort)
+        // KIOSK: Fallback to gate1 ONLY if GPS is completely unavailable
+        // This should rarely happen on a properly configured kiosk
         if (!startNodeToUse && defaultStartLocation) {
           startNodeToUse = defaultStartLocation;
-          console.log(`[KIOSK] Using fallback gate1: ${defaultStartLocation.name}`);
+          console.log(`[KIOSK] ⚠️ GPS unavailable - falling back to gate1: ${defaultStartLocation.name}`);
+          // Request GPS permission if not already requested
+          if (!locationPermissionRequested) {
+            console.log('[KIOSK] Requesting GPS permission for future routes...');
+            requestLocationPermission();
+          }
         }
 
         // KIOSK: Error if nothing available
         if (!startNodeToUse) {
           setLocationError(
-            "No starting point available. Please configure a default start location."
+            "No starting point available. Please enable GPS location services."
           );
           return;
         }
@@ -699,42 +740,61 @@ const CampusMap: React.FC<MapProps> = ({
       const clearRoadStyleCache = (retryCount = 0): Promise<void> => {
         return new Promise((resolve) => {
           if (!roadsSourceRef.current || !roadsLayerRef.current) {
+            console.warn('[Road Highlighting] ⚠️ Roads source or layer not available');
             resolve();
             return;
           }
 
           const allRoads = roadsSourceRef.current.getFeatures();
           console.log(`[Road Highlighting] Attempt ${retryCount + 1}: Found ${allRoads.length} road features`);
+          console.log(`[Road Highlighting] Active route roads: ${Array.from(activeRouteRoadsRef.current).join(', ')}`);
 
-          if (allRoads.length === 0 && retryCount < 3) {
-            // Roads not loaded yet, retry after a delay
-            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${200 * (retryCount + 1)}ms...`);
+          if (allRoads.length === 0 && retryCount < 5) {
+            // Roads not loaded yet, retry after a delay (increased retries for mobile)
+            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${300 * (retryCount + 1)}ms...`);
             setTimeout(() => {
               clearRoadStyleCache(retryCount + 1).then(resolve);
-            }, 200 * (retryCount + 1));
+            }, 300 * (retryCount + 1));
             return;
           }
 
           if (allRoads.length === 0) {
-            console.error('[Road Highlighting] ❌ Failed to load road features after 3 retries');
+            console.error('[Road Highlighting] ❌ Failed to load road features after 5 retries');
             resolve();
             return;
           }
 
-          // Clear cached styles for ALL road features
+          // Clear cached styles for ALL road features to force style function re-evaluation
           console.log(`[Road Highlighting] Clearing style cache for ${allRoads.length} road features`);
+          let highlightedCount = 0;
           allRoads.forEach(feature => {
+            const roadName = feature.getProperties().name;
+            const willBeHighlighted = activeRouteRoadsRef.current.has(roadName);
+            if (willBeHighlighted) {
+              highlightedCount++;
+              console.log(`[Road Highlighting] 🟢 Will highlight: "${roadName}"`);
+            }
             feature.setStyle(undefined); // undefined = use layer's style function
           });
 
-          // Mark layer and source as changed to trigger re-render
-          roadsLayerRef.current?.changed();
-          roadsSourceRef.current?.changed();
+          console.log(`[Road Highlighting] 📊 ${highlightedCount} roads will be highlighted out of ${allRoads.length} total`);
 
-          console.log('[Road Highlighting] ✅ Roads highlighted - now creating route overlay');
+          // CRITICAL: Force layer to re-render with new styles
+          // This is especially important on mobile where rendering can be delayed
+          roadsLayerRef.current.setVisible(false);
+          roadsLayerRef.current.setVisible(true);
+          roadsLayerRef.current.changed();
+          roadsSourceRef.current.changed();
 
-          // Small delay to ensure OpenLayers processes the style changes
-          setTimeout(() => resolve(), 50);
+          // Force map to render
+          if (mapInstanceRef.current) {
+            mapInstanceRef.current.render();
+          }
+
+          console.log('[Road Highlighting] ✅ Road styles refreshed - creating route overlay');
+
+          // Slightly longer delay for mobile devices
+          setTimeout(() => resolve(), mobileMode ? 150 : 50);
         });
       };
 
@@ -1070,10 +1130,13 @@ const CampusMap: React.FC<MapProps> = ({
     loadCustomGeoJSON();
   }, []);
 
-  // Auto-request GPS permission on mobile mode
+  // Auto-request GPS permission on mobile mode AND kiosk mode
+  // KIOSK: GPS is needed to provide accurate starting location for navigation
   useEffect(() => {
-    if (mobileMode && !locationPermissionRequested && mapInstanceRef.current) {
-      console.log('[MOBILE] Auto-requesting GPS permission on load');
+    // Request GPS for both mobile AND kiosk mode
+    if (!locationPermissionRequested && mapInstanceRef.current) {
+      const mode = mobileMode ? 'MOBILE' : 'KIOSK';
+      console.log(`[${mode}] Auto-requesting GPS permission on load`);
       // Small delay to ensure map is ready
       const timer = setTimeout(() => {
         requestLocationPermission();

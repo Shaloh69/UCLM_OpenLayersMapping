@@ -261,8 +261,11 @@ export const generateRouteQR = async (
 // =============================================
 
 // Parse route data from URL parameters
+// Optional debugInfoRef and useDebug parameters for compatibility with route page
 export const parseRouteFromUrl = (
   urlParams: URLSearchParams,
+  debugInfoRef?: MutableRefObject<string[]>,
+  useDebug?: boolean
 ): RouteData | null => {
   try {
     const startNodeId = urlParams.get("startNode");
@@ -272,10 +275,14 @@ export const parseRouteFromUrl = (
 
     if (!startNodeId || !endNodeId) {
       console.warn("Missing required route parameters in URL");
+      if (debugInfoRef?.current) {
+        debugInfoRef.current.push("Missing startNode or endNode");
+      }
       return null;
     }
 
-    // CRITICAL: Parse GPS coordinates from kiosk
+    // CRITICAL: Parse GPS coordinates from kiosk for accurate mobile navigation
+    // These coordinates represent where the user was when they scanned the QR
     const startGPS =
       startLon && startLat
         ? {
@@ -285,11 +292,14 @@ export const parseRouteFromUrl = (
         : undefined;
 
     console.log('[PHONE] Parsed GPS from QR:', startGPS);
+    if (debugInfoRef?.current) {
+      debugInfoRef.current.push(`GPS from kiosk: ${startGPS ? `${startGPS.latitude}, ${startGPS.longitude}` : 'none'}`);
+    }
 
     const routeData: RouteData = {
       startNodeId,
       endNodeId,
-      startGPS, // ← GPS coordinates from kiosk
+      startGPS, // ← GPS coordinates from kiosk for accurate starting point
       timestamp: Date.now(),
     };
 
@@ -317,6 +327,9 @@ export const parseRouteFromUrl = (
     return routeData;
   } catch (error) {
     console.error("Error parsing route data from URL:", error);
+    if (debugInfoRef?.current) {
+      debugInfoRef.current.push(`Parse error: ${error}`);
+    }
     return null;
   }
 };
@@ -325,10 +338,20 @@ export const parseRouteFromUrl = (
 // Kiosk Route Management
 // =============================================
 
+// UserPosition interface for GPS coordinates (imported from enhancedLocationTracking)
+interface UserPosition {
+  coordinates: [number, number]; // [longitude, latitude]
+  accuracy: number;
+  heading: number | null;
+  speed: number | null;
+  timestamp: number;
+}
+
 // This merged hook combines QR generation with kiosk state management
 export const useKioskRouteManager = (options: {
   currentLocation: RoadNode | null;
   selectedDestination: RoadNode | null;
+  userPosition?: UserPosition | null; // GPS position from kiosk
   routeInfo?: {
     distance: number;
     estimatedTime: number;
@@ -339,6 +362,7 @@ export const useKioskRouteManager = (options: {
   const {
     currentLocation,
     selectedDestination,
+    userPosition, // GPS position for accurate route starting
     routeInfo,
     defaultStartLocation,
     onReset,
@@ -398,16 +422,31 @@ export const useKioskRouteManager = (options: {
         throw new Error("Missing route information");
       }
 
-      // Create route data object
+      // Create route data object with GPS coordinates from kiosk
+      // GPS coordinates allow the mobile user to start navigation from the kiosk's actual location
       const routeData: RouteData = {
         startNodeId,
         endNodeId: selectedDestination.id,
+        // CRITICAL: Include kiosk GPS position so mobile starts from correct location
+        startGPS: userPosition
+          ? {
+              longitude: userPosition.coordinates[0],
+              latitude: userPosition.coordinates[1],
+            }
+          : currentLocation
+            ? {
+                longitude: currentLocation.coordinates[0],
+                latitude: currentLocation.coordinates[1],
+              }
+            : undefined,
         routeInfo: {
           distance: routeInfo.distance,
           estimatedTime: routeInfo.estimatedTime,
         },
         timestamp: Date.now(),
       };
+
+      console.log('[KIOSK QR] Generating QR with GPS:', routeData.startGPS);
 
       // Generate QR code
       const qrCode = await generateRouteQR(routeData, {
@@ -434,6 +473,7 @@ export const useKioskRouteManager = (options: {
   }, [
     currentLocation,
     selectedDestination,
+    userPosition, // Include GPS position in dependencies
     routeInfo,
     defaultStartLocation,
   ]);
