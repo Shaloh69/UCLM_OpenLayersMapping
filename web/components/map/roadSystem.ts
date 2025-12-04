@@ -298,7 +298,8 @@ export const findShortestPath = (
 
 export const setupRoadSystem = (
   roadsUrl: string,
-  nodesUrl: string
+  nodesUrl: string,
+  activeRouteRoadsRef?: React.MutableRefObject<Set<string>>
 ) => {
   // Create source for roads
   const roadsSource = new VectorSource({
@@ -324,26 +325,38 @@ export const setupRoadSystem = (
     style: (feature) => {
       const properties = feature.getProperties();
       const roadType = properties.type || "secondary";
+      const roadName = properties.name;
+
+      // Check if this road is part of the active route
+      const isInActiveRoute = activeRouteRoadsRef?.current?.has(roadName) || false;
 
       // Different styling based on road type
       let color = "#555555";
       let width = 3;
       let lineDash: number[] = [];
 
-      switch (roadType) {
-        case "main":
-          color = "#333333";
-          width = 5;
-          break;
-        case "secondary":
-          color = "#666666";
-          width = 3;
-          break;
-        case "path":
-          color = "#888888";
-          width = 2;
-          lineDash = [4, 4];
-          break;
+      // If road is in active route, use highlighted colors
+      if (isInActiveRoute) {
+        color = "#4CAF50";  // Bright green for highlighted roads
+        width = width + 2;  // Make highlighted roads thicker
+        lineDash = [];      // No dashes for active roads
+      } else {
+        // Normal styling based on road type
+        switch (roadType) {
+          case "main":
+            color = "#333333";
+            width = 5;
+            break;
+          case "secondary":
+            color = "#666666";
+            width = 3;
+            break;
+          case "path":
+            color = "#555555";  // Darker gray for better visibility
+            width = 4;          // Increased from 2 to 4 pixels
+            lineDash = [6, 3];  // More visible dash pattern
+            break;
+        }
       }
 
       return new Style({

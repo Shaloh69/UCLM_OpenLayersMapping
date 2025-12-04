@@ -165,9 +165,13 @@ const CampusMap: React.FC<MapProps> = ({
   // Road system references
   const roadsSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
   const nodesSourceRef = useRef<VectorSource<Feature<Geometry>> | null>(null);
+  const roadsLayerRef = useRef<VectorLayer<VectorSource<Feature<Geometry>>> | null>(null);
   const routeLayerRef = useRef<VectorLayer<
     VectorSource<Feature<Geometry>>
   > | null>(null);
+  const activeRouteRoadsRef = useRef<Set<string>>(new Set());
+  const lastRerouteTimeRef = useRef<number>(0);
+  const isReroutingRef = useRef<boolean>(false);
 
   // Store UI in refs to minimize re-renders
   const locationErrorRef = useRef<string | null>(null);
@@ -285,6 +289,36 @@ const CampusMap: React.FC<MapProps> = ({
         },
         (progress: RouteProgress) => {
           setRouteProgress(progress);
+
+          // Auto-reroute when off-route (with throttling)
+          if (progress.isOffRoute && selectedDestination && currentLocation) {
+            const now = Date.now();
+            const timeSinceLastReroute = now - lastRerouteTimeRef.current;
+            const MIN_REROUTE_INTERVAL = 10000; // 10 seconds minimum between reroutes
+
+            // Only reroute if:
+            // 1. User is more than 50m off route
+            // 2. At least 10 seconds have passed since last reroute
+            // 3. Not currently rerouting
+            if (
+              progress.distanceFromRoute > 50 &&
+              timeSinceLastReroute > MIN_REROUTE_INTERVAL &&
+              !isReroutingRef.current
+            ) {
+              console.log(`[Auto-Reroute] User is ${progress.distanceFromRoute.toFixed(0)}m off route. Recalculating...`);
+              isReroutingRef.current = true;
+              lastRerouteTimeRef.current = now;
+
+              // Recalculate route from current location to destination
+              setTimeout(() => {
+                if (currentLocation && selectedDestination) {
+                  const routingNodeId = resolveRoutingNode(selectedDestination);
+                  displayRoute(currentLocation.id, routingNodeId);
+                }
+                isReroutingRef.current = false;
+              }, 500); // Small delay to avoid blocking UI
+            }
+          }
         }
       );
 
@@ -622,7 +656,28 @@ const CampusMap: React.FC<MapProps> = ({
 
       if (pathFeatures.length === 0) {
         console.log("[displayRoute] No path found!");
+        // Clear active route roads
+        activeRouteRoadsRef.current.clear();
+        if (roadsLayerRef.current) {
+          roadsLayerRef.current.changed();
+        }
         return;
+      }
+
+      // Extract road names from path features and update activeRouteRoadsRef
+      const roadNames = new Set<string>();
+      pathFeatures.forEach(feature => {
+        const roadName = feature.get('name');
+        if (roadName) {
+          roadNames.add(roadName);
+        }
+      });
+      activeRouteRoadsRef.current = roadNames;
+      console.log(`[Road Highlighting] Highlighted ${roadNames.size} roads:`, Array.from(roadNames));
+
+      // Force roads layer to re-style to show highlighted roads
+      if (roadsLayerRef.current) {
+        roadsLayerRef.current.changed();
       }
 
       // Create a route source and layer
@@ -739,6 +794,12 @@ const CampusMap: React.FC<MapProps> = ({
     if (routeLayerRef.current && mapInstanceRef.current) {
       mapInstanceRef.current.removeLayer(routeLayerRef.current);
       routeLayerRef.current = null;
+    }
+
+    // Clear highlighted roads
+    activeRouteRoadsRef.current.clear();
+    if (roadsLayerRef.current) {
+      roadsLayerRef.current.changed();
     }
 
     setActiveRoute([]);
@@ -991,7 +1052,8 @@ const CampusMap: React.FC<MapProps> = ({
 
     const { roadsLayer, roadsSource, nodesSource } = setupRoadSystem(
       actualRoadsUrl,
-      actualNodesUrl
+      actualNodesUrl,
+      activeRouteRoadsRef
     );
 
     // Add road layer to map
@@ -1000,6 +1062,7 @@ const CampusMap: React.FC<MapProps> = ({
     // Store road system refs
     roadsSourceRef.current = roadsSource;
     nodesSourceRef.current = nodesSource;
+    roadsLayerRef.current = roadsLayer;
 
     // Define a function to process features to avoid code duplication
     const processFeatures = (features: Feature<Geometry>[]) => {
