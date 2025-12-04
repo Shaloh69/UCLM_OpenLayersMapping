@@ -9,7 +9,7 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE ELEVATOR",
-        "nearest_node": "",
+        "nearest_node": "RD_cbe_elevator",
         "additionalDirections": ""
       },
       "geometry": {
@@ -29,7 +29,7 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Gate 9 Elevator",
-        "nearest_node": "",
+        "nearest_node": "cbe_gate9_elevator",
         "additionalDirections": ""
       },
       "geometry": {
@@ -89,7 +89,7 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Canteen (Ground Floor)",
-        "nearest_node": "",
+        "nearest_node": "RD_CBECanteen",
         "additionalDirections": ""
       },
       "geometry": {
@@ -109,7 +109,7 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "NSA DORM and Canteen(Ground floor)",
-        "nearest_node": "",
+        "nearest_node": "RD_nsa_dorm_canteen",
         "additionalDirections": ""
       },
       "geometry": {
@@ -129,7 +129,7 @@
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Guidance",
-        "nearest_node": "",
+        "nearest_node": "RD_GUIDANCE",
         "additionalDirections": ""
       },
       "geometry": {
