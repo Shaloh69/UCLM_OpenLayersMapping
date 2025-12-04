@@ -447,6 +447,7 @@ export const setupRoadSystem = (
   roadsSource.on("featuresloadend", () => {
     const features = roadsSource.getFeatures();
     console.log(`✅ roadsSource loaded ${features.length} features`);
+    console.log(`📍 roadsSource URL: ${roadsUrl}`);
 
     const roads = features.filter(f => {
       const p = f.getProperties();
@@ -457,6 +458,20 @@ export const setupRoadSystem = (
     // Check for OldBuildingRD4
     const rd4 = roads.find(f => f.getProperties().name === 'OldBuildingRD4');
     console.log(`✅ OldBuildingRD4 in loaded features: ${rd4 ? 'YES ✓' : 'NO ✗'}`);
+
+    if (rd4) {
+      const props = rd4.getProperties();
+      console.log(`✅ OldBuildingRD4 details:`, {
+        name: props.name,
+        from: props.from,
+        to: props.to,
+        type: props.type,
+        hasGeometry: !!rd4.getGeometry()
+      });
+    } else {
+      // List all road names to help debug
+      console.log(`🔍 All road names:`, roads.map(f => f.getProperties().name));
+    }
 
     // List first 5 roads
     console.log(`✅ First 5 roads loaded:`, roads.slice(0, 5).map(f => {

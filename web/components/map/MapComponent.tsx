@@ -128,10 +128,12 @@ const CampusMap: React.FC<MapProps> = ({
   const [lastUserPosition, setLastUserPosition] = useState<[number, number] | null>(null);
 
   // State for custom GeoJSON URLs (from Electron config)
-  const [actualMapUrl, setActualMapUrl] = useState<string>(mapUrl);
-  const [actualPointsUrl, setActualPointsUrl] = useState<string>(pointsUrl);
-  const [actualRoadsUrl, setActualRoadsUrl] = useState<string>(roadsUrl);
-  const [actualNodesUrl, setActualNodesUrl] = useState<string>(nodesUrl);
+  // Add cache-busting timestamp to force reload of GeoJSON files
+  const cacheBuster = Date.now();
+  const [actualMapUrl, setActualMapUrl] = useState<string>(`${mapUrl}?v=${cacheBuster}`);
+  const [actualPointsUrl, setActualPointsUrl] = useState<string>(`${pointsUrl}?v=${cacheBuster}`);
+  const [actualRoadsUrl, setActualRoadsUrl] = useState<string>(`${roadsUrl}?v=${cacheBuster}`);
+  const [actualNodesUrl, setActualNodesUrl] = useState<string>(`${nodesUrl}?v=${cacheBuster}`);
   const [customGeoJSONLoaded, setCustomGeoJSONLoaded] = useState<boolean>(false);
 
   const [routeProgress, setRouteProgress] = useState<RouteProgress | null>(null);
