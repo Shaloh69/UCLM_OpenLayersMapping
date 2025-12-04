@@ -1231,46 +1231,14 @@ const CampusMap: React.FC<MapProps> = ({
         });
     };
 
-    // Handle feature loaded event
-    const handleFeaturesLoaded = () => {
-      const features = nodesSource.getFeatures();
-      processFeatures(features);
-    };
-
-    // Register event for future loads
-    nodesSource.on("featuresloadend", handleFeaturesLoaded);
-
-    // Also check if features are already loaded
-    if (nodesSource.getState() === "ready") {
-      const features = nodesSource.getFeatures();
-      processFeatures(features);
-    } else {
-      // If no features are available yet, try loading directly after a short delay
-      const checkFeaturesTimer = setTimeout(() => {
-        const features = nodesSource.getFeatures();
-        if (features.length > 0) {
-          processFeatures(features);
-        } else {
-          loadDestinationsDirectly();
-        }
-      }, 500);
-
-      // Clean up timer in component cleanup
-      updatePositionTimeoutRef.current = checkFeaturesTimer;
-    }
-
-    // Force a refresh/reload of the nodes source
-    try {
-      nodesSource.refresh();
-    } catch (e) {
-      console.error("Error refreshing source:", e);
-    }
-
-    // Also load destinations from pointsSource (newPoints.geojson)
-    pointsSource.on("featuresloadend", () => {
-      console.log("[Destinations] Loading from pointsSource");
+    // Function to combine and load destinations from both sources
+    const loadCombinedDestinations = () => {
+      console.log("[Destinations] Loading combined destinations");
       const pointFeatures = pointsSource.getFeatures();
       const nodeFeatures = nodesSource.getFeatures();
+
+      console.log(`[Destinations] pointsSource has ${pointFeatures.length} features`);
+      console.log(`[Destinations] nodesSource has ${nodeFeatures.length} features`);
 
       // Combine features from both sources
       const allFeatures = [...pointFeatures, ...nodeFeatures];
@@ -1319,7 +1287,11 @@ const CampusMap: React.FC<MapProps> = ({
         }
         processPendingRoute(combinedDestinations, mainGate);
       }
-    });
+    };
+
+    // Load destinations when EITHER source finishes loading
+    pointsSource.on("featuresloadend", loadCombinedDestinations);
+    nodesSource.on("featuresloadend", loadCombinedDestinations);
 
     // REMOVED: Duplicate nodesSource.on("featuresloadend") event listener
     // The pointsSource listener above already correctly combines destinations from both sources
