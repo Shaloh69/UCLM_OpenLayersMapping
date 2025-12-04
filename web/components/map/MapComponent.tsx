@@ -1031,6 +1031,8 @@ const CampusMap: React.FC<MapProps> = ({
               description: props.description,
               category: props.category || "General",
               imageUrl: props.imageUrl,
+              nearest_node: props.nearest_node,
+              additionalDirections: props.additionalDirections,
             };
 
             // Find and set main gate as default starting point
@@ -1122,6 +1124,8 @@ const CampusMap: React.FC<MapProps> = ({
                 description: feature.properties.description,
                 category: feature.properties.category || "General",
                 imageUrl: feature.properties.imageUrl,
+                nearest_node: feature.properties.nearest_node,
+                additionalDirections: feature.properties.additionalDirections,
               };
 
               // Find and set main gate as default starting point
@@ -1185,6 +1189,62 @@ const CampusMap: React.FC<MapProps> = ({
     } catch (e) {
       console.error("Error refreshing source:", e);
     }
+
+    // Also load destinations from pointsSource (newPoints.geojson)
+    pointsSource.on("featuresloadend", () => {
+      console.log("[Destinations] Loading from pointsSource");
+      const pointFeatures = pointsSource.getFeatures();
+      const nodeFeatures = nodesSource.getFeatures();
+
+      // Combine features from both sources
+      const allFeatures = [...pointFeatures, ...nodeFeatures];
+      const combinedDestinations: RoadNode[] = [];
+      let mainGate: RoadNode | null = null;
+
+      allFeatures.forEach((feature: Feature<Geometry>) => {
+        const props = feature.getProperties();
+        const geometry = feature.getGeometry();
+
+        if (props.isDestination && geometry) {
+          if (geometry instanceof Point) {
+            const coords = geometry.getCoordinates();
+            const geoCoords = toLonLat(coords);
+
+            const node: RoadNode = {
+              id:
+                props.id ||
+                `node-${Math.random().toString(36).substring(2, 9)}`,
+              name: props.name || "Unnamed Location",
+              isDestination: !!props.isDestination,
+              coordinates: geoCoords as [number, number],
+              description: props.description,
+              category: props.category || "General",
+              imageUrl: props.imageUrl,
+              nearest_node: props.nearest_node,
+              additionalDirections: props.additionalDirections,
+            };
+
+            // Find main gate
+            if (props.category === "Gates" && props.id === "gate1") {
+              mainGate = node;
+            }
+
+            combinedDestinations.push(node);
+          }
+        }
+      });
+
+      console.log(`[Destinations] Loaded ${combinedDestinations.length} destinations from both sources`);
+
+      if (combinedDestinations.length > 0) {
+        setDestinations(combinedDestinations);
+        if (mainGate) {
+          setDefaultStartLocation(mainGate);
+        }
+        processPendingRoute(combinedDestinations, mainGate);
+      }
+    });
+
     // Load destinations from nodes source
     nodesSource.on("featuresloadend", () => {
       const features = nodesSource.getFeatures();
@@ -1217,6 +1277,8 @@ const CampusMap: React.FC<MapProps> = ({
               description: props.description,
               category: props.category || "General",
               imageUrl: props.imageUrl,
+              nearest_node: props.nearest_node,
+              additionalDirections: props.additionalDirections,
             };
 
             // Find and set main gate as default starting point
