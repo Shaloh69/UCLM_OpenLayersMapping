@@ -274,10 +274,32 @@ const CampusMap: React.FC<MapProps> = ({
       tracker.setMinMovementThreshold(5);  // Ignore movements less than 5 meters
       tracker.setMaxAccuracyThreshold(50); // Ignore readings with accuracy > 50m
 
+      // =============================================
+      // GPS TIMEOUT PROTECTION
+      // Prevents loading screen from hanging forever if GPS never arrives
+      // =============================================
+      const GPS_TIMEOUT_MS = 20000; // 20 seconds max wait for GPS
+      const gpsTimeoutId = setTimeout(() => {
+        if (!gpsReadyCalledRef.current && onGpsReady) {
+          console.warn('[MapComponent] ⚠️ GPS timeout after 20s - calling onGpsReady anyway');
+          gpsReadyCalledRef.current = true;
+          onGpsReady();
+        }
+        // Also trigger marker snapped if route exists but no GPS yet
+        if (!markerSnappedCalledRef.current && onMarkerSnapped) {
+          console.warn('[MapComponent] ⚠️ GPS timeout - calling onMarkerSnapped with route start position');
+          markerSnappedCalledRef.current = true;
+          onMarkerSnapped();
+        }
+      }, GPS_TIMEOUT_MS);
+
       // Start tracking with callbacks
       // CRITICAL: Use refs (not state) to get latest values and avoid stale closures
       tracker.startTracking(
         (position: UserPosition) => {
+          // Clear GPS timeout since we got a position
+          clearTimeout(gpsTimeoutId);
+
           setUserPosition(position);
 
           // Call onGpsReady callback on first successful GPS update
@@ -287,10 +309,13 @@ const CampusMap: React.FC<MapProps> = ({
             onGpsReady();
           }
 
-          // Check if marker was snapped to route (tracker has snapped position)
+          // Check if marker was snapped to route OR if we have a position on route
+          // Call callback after first GPS update when route exists
           if (!markerSnappedCalledRef.current && onMarkerSnapped) {
             const snappedPos = tracker.getSnappedPosition();
-            if (snappedPos) {
+            const hasRoute = tracker.getRoutePath && tracker.getRoutePath().length >= 2;
+            // Call callback if either snapped OR if we have GPS with active route
+            if (snappedPos || hasRoute) {
               markerSnappedCalledRef.current = true;
               console.log('[MapComponent] ✅ Marker snapped callback triggered');
               onMarkerSnapped();
@@ -873,6 +898,19 @@ const CampusMap: React.FC<MapProps> = ({
           });
           roadsLayerRef.current.changed();
           roadsSourceRef.current.changed();
+        }
+
+        // CRITICAL: Still call onRouteCalculated to prevent loading screen hang
+        // This indicates route calculation completed (even if no path found)
+        if (onRouteCalculated) {
+          console.warn('[displayRoute] ⚠️ No path found but calling onRouteCalculated to prevent hang');
+          onRouteCalculated();
+        }
+        // Also call onMarkerSnapped since we can't snap without a route
+        if (!markerSnappedCalledRef.current && onMarkerSnapped) {
+          console.warn('[displayRoute] ⚠️ No route - calling onMarkerSnapped anyway');
+          markerSnappedCalledRef.current = true;
+          onMarkerSnapped();
         }
         return;
       }

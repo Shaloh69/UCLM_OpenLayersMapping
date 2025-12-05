@@ -859,17 +859,51 @@ export class EnhancedLocationTracker {
   // =============================================
 
   public setRoute(path: [number, number][], destinationCoords?: [number, number]): void {
-    this.routePath = path;
+    // =============================================
+    // VALIDATE ROUTE PATH
+    // Ensure no NaN or invalid coordinates
+    // =============================================
+    const validPath = path.filter(([lon, lat]) => {
+      const isValid = !isNaN(lon) && !isNaN(lat) &&
+                      isFinite(lon) && isFinite(lat) &&
+                      lon >= -180 && lon <= 180 &&
+                      lat >= -90 && lat <= 90;
+      if (!isValid) {
+        console.warn(`[ROUTE] ⚠️ Filtering invalid coordinate: [${lon}, ${lat}]`);
+      }
+      return isValid;
+    });
 
-    if (path.length > 0) {
+    if (validPath.length < path.length) {
+      console.warn(`[ROUTE] ⚠️ Filtered ${path.length - validPath.length} invalid coordinates from route`);
+    }
+
+    if (validPath.length < 2) {
+      console.error(`[ROUTE] ❌ Route too short after validation (${validPath.length} points). Cannot set route.`);
+      return;
+    }
+
+    this.routePath = validPath;
+
+    if (validPath.length > 0) {
+      // Validate destination coordinates
+      let validDestination = destinationCoords;
+      if (destinationCoords) {
+        const [dLon, dLat] = destinationCoords;
+        if (isNaN(dLon) || isNaN(dLat) || !isFinite(dLon) || !isFinite(dLat)) {
+          console.warn(`[ROUTE] ⚠️ Invalid destination coords, using route end instead`);
+          validDestination = validPath[validPath.length - 1];
+        }
+      }
+
       // Use provided destination coordinates if available (for POIs with nearest_node)
       // Otherwise use the last point in the route path
-      this.destinationPosition = destinationCoords || path[path.length - 1];
+      this.destinationPosition = validDestination || validPath[validPath.length - 1];
 
       // Calculate total route distance
       this.totalRouteDistance = 0;
-      for (let i = 0; i < path.length - 1; i++) {
-        this.totalRouteDistance += calculateDistance(path[i], path[i + 1]);
+      for (let i = 0; i < validPath.length - 1; i++) {
+        this.totalRouteDistance += calculateDistance(validPath[i], validPath[i + 1]);
       }
 
       // CRITICAL: Force initial snap to route start if we have a current position
@@ -880,8 +914,8 @@ export class EnhancedLocationTracker {
       } else {
         // No GPS yet - set initial snapped position to route start
         console.log('[ROUTE] 🎯 Route set - setting initial marker at route start (no GPS yet)');
-        this.snappedPosition = path[0];
-        this.updateMapFeatures(path[0]);
+        this.snappedPosition = validPath[0];
+        this.updateMapFeatures(validPath[0]);
       }
     }
   }
@@ -1120,6 +1154,10 @@ export class EnhancedLocationTracker {
 
   public getSnappedPosition(): [number, number] | null {
     return this.snappedPosition;
+  }
+
+  public getRoutePath(): [number, number][] {
+    return this.routePath;
   }
 
   // =============================================

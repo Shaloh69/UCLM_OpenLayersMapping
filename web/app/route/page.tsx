@@ -227,6 +227,7 @@ function RouteContent() {
   const [error, setError] = useState<string | null>(null);
   const [routeData, setRouteData] = useState<any>(null);
   const [navigationStarted, setNavigationStarted] = useState(false);
+  const [initializationTimedOut, setInitializationTimedOut] = useState(false);
   const [currentStep, setCurrentStep] = useState("Initializing...");
 
   // Navigation readiness tracking
@@ -240,8 +241,38 @@ function RouteContent() {
 
   const debugInfoRef = useRef<string[]>([]);
 
-  // Check if all steps are complete
-  const isFullyReady = Object.values(readiness).every(Boolean);
+  // Check if all steps are complete OR if timeout occurred
+  const isFullyReady = Object.values(readiness).every(Boolean) || initializationTimedOut;
+
+  // =============================================
+  // OVERALL INITIALIZATION TIMEOUT
+  // Final safety net - prevents loading screen from hanging forever
+  // If not ready after 30 seconds, force proceed anyway
+  // =============================================
+  useEffect(() => {
+    const INITIALIZATION_TIMEOUT_MS = 30000; // 30 seconds max wait
+
+    const timeoutId = setTimeout(() => {
+      if (!Object.values(readiness).every(Boolean)) {
+        console.warn('[Route Page] ⚠️ Initialization timeout after 30s - forcing ready state');
+        console.warn('[Route Page] Incomplete steps:',
+          Object.entries(readiness)
+            .filter(([_, ready]) => !ready)
+            .map(([step]) => step)
+            .join(', ')
+        );
+        setInitializationTimedOut(true);
+        setCurrentStep('Ready (some steps skipped)');
+      }
+    }, INITIALIZATION_TIMEOUT_MS);
+
+    // Clear timeout if fully ready before timeout
+    if (Object.values(readiness).every(Boolean)) {
+      clearTimeout(timeoutId);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [readiness]);
 
   // Update readiness state helper
   const updateReadiness = useCallback((key: keyof NavigationReadiness, value: boolean) => {
