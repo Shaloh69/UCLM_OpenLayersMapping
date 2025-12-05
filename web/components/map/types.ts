@@ -22,6 +22,11 @@ export interface MapProps {
   mobileMode?: boolean;
   kioskId?: string;
   searchParams?: ReadonlyURLSearchParams;
+  // Readiness callbacks for mobile navigation loading screen
+  onMapReady?: () => void;
+  onGpsReady?: () => void;
+  onRouteCalculated?: () => void;
+  onMarkerSnapped?: () => void;
 }
 
 export interface EditControlsProps {

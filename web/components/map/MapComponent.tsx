@@ -78,6 +78,11 @@ const CampusMap: React.FC<MapProps> = ({
   mobileMode = false,
   debug = false,
   searchParams,
+  // Readiness callbacks for mobile navigation loading screen
+  onMapReady,
+  onGpsReady,
+  onRouteCalculated,
+  onMarkerSnapped,
 }) => {
   const routerSearchParams = useSearchParams();
   const effectiveSearchParams = searchParams || routerSearchParams;
@@ -140,6 +145,10 @@ const CampusMap: React.FC<MapProps> = ({
   const [routeProgress, setRouteProgress] = useState<RouteProgress | null>(null);
   const [userPosition, setUserPosition] = useState<UserPosition | null>(null);
   const [useEnhancedTracking, setUseEnhancedTracking] = useState<boolean>(true);
+
+  // Refs to track readiness callbacks (prevent multiple calls)
+  const gpsReadyCalledRef = useRef<boolean>(false);
+  const markerSnappedCalledRef = useRef<boolean>(false);
 
   // Map instance and source references
   const mapInstanceRef = useRef<Map | null>(null);
@@ -270,6 +279,23 @@ const CampusMap: React.FC<MapProps> = ({
       tracker.startTracking(
         (position: UserPosition) => {
           setUserPosition(position);
+
+          // Call onGpsReady callback on first successful GPS update
+          if (!gpsReadyCalledRef.current && onGpsReady) {
+            gpsReadyCalledRef.current = true;
+            console.log('[MapComponent] 📡 GPS ready callback triggered');
+            onGpsReady();
+          }
+
+          // Check if marker was snapped to route (tracker has snapped position)
+          if (!markerSnappedCalledRef.current && onMarkerSnapped) {
+            const snappedPos = tracker.getSnappedPosition();
+            if (snappedPos) {
+              markerSnappedCalledRef.current = true;
+              console.log('[MapComponent] ✅ Marker snapped callback triggered');
+              onMarkerSnapped();
+            }
+          }
 
           // Auto-follow camera in mobile mode when navigating
           // Use refs to get latest values
@@ -1042,6 +1068,11 @@ const CampusMap: React.FC<MapProps> = ({
       setActiveRoute(pathFeatures);
       setShowRouteOverlay(true);
 
+      // Call onRouteCalculated callback for mobile navigation loading screen
+      if (onRouteCalculated) {
+        onRouteCalculated();
+      }
+
       // Set route path for enhanced tracking
       if (enhancedTrackerRef.current && mobileMode) {
         // Extract route coordinates from path features
@@ -1400,6 +1431,11 @@ const CampusMap: React.FC<MapProps> = ({
     // This triggers the auto-GPS-request effect
     setMapInitialized(true);
     console.log('[Map] ✅ Map initialized, GPS can now be requested');
+
+    // Call onMapReady callback for mobile navigation loading screen
+    if (onMapReady) {
+      onMapReady();
+    }
 
     const { roadsLayer, roadsSource, nodesSource } = setupRoadSystem(
       actualRoadsUrl,

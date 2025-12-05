@@ -400,7 +400,8 @@ export class EnhancedLocationTracker {
 
     // =============================================
     // PHASE 3: DETERMINE RENDER COORDINATES
-    // CRITICAL: When route exists, ONLY render on road
+    // CRITICAL: When route exists, marker MUST ALWAYS be on road
+    // NEVER show marker at raw GPS position when route is active
     // =============================================
 
     const hasActiveRoute = this.routePath && this.routePath.length >= 2;
@@ -408,9 +409,10 @@ export class EnhancedLocationTracker {
 
     if (hasActiveRoute) {
       // ========== ROUTE MODE: MANDATORY ROAD-ONLY RENDERING ==========
-      console.log(`[RENDER] 🛣️  Route active - MANDATORY road snap`);
+      // The marker MUST stay on the highlighted road at ALL times
+      console.log(`[RENDER] 🛣️  Route active - MANDATORY road snap (NO GPS FALLBACK)`);
 
-      // ALWAYS snap to route - NO EXCEPTIONS, NO GPS FALLBACK
+      // ALWAYS snap to route - NO EXCEPTIONS, NO GPS FALLBACK EVER
       const snappedPoint = this.findClosestPointOnRoute(longitude, latitude);
 
       if (snappedPoint) {
@@ -420,18 +422,26 @@ export class EnhancedLocationTracker {
         console.log(`[RENDER] ✅ Snap successful - marker ON ROAD at [${snappedPoint[0].toFixed(6)}, ${snappedPoint[1].toFixed(6)}]`);
       } else {
         // FAILURE: Cannot snap to route
-        // CRITICAL: DO NOT render marker off-road
-        // Use last valid snapped position if available, otherwise skip render
+        // CRITICAL: NEVER show marker off-road
+        // Priority 1: Use last valid snapped position
+        // Priority 2: Use route start point
+        // Priority 3: Skip render entirely (marker stays invisible)
         if (this.snappedPosition) {
           finalRenderCoordinates = this.snappedPosition;
-          console.log(`[RENDER] ⚠️ Snap failed - using LAST VALID snapped position (keeping marker on road)`);
+          console.log(`[RENDER] ⚠️ Snap failed - keeping marker at LAST SNAPPED position on road`);
+        } else if (this.routePath.length > 0) {
+          // Use route start as fallback - marker MUST be on road
+          finalRenderCoordinates = this.routePath[0];
+          this.snappedPosition = this.routePath[0];
+          console.log(`[RENDER] ⚠️ Snap failed, no previous snap - placing marker at ROUTE START`);
         } else {
-          console.log(`[RENDER] ❌ Snap failed and no previous snap - SKIPPING RENDER to prevent off-road marker`);
+          console.log(`[RENDER] ❌ Cannot render - no route available. SKIPPING to prevent off-road marker`);
           return; // Skip entire render cycle - DO NOT show marker off-road
         }
       }
     } else {
       // ========== FREE MODE: No route - show actual GPS ==========
+      // Only in free mode (no navigation) do we show actual GPS position
       console.log(`[RENDER] 📍 No route - showing actual GPS position`);
       finalRenderCoordinates = [longitude, latitude];
       this.snappedPosition = null;
@@ -861,6 +871,53 @@ export class EnhancedLocationTracker {
       for (let i = 0; i < path.length - 1; i++) {
         this.totalRouteDistance += calculateDistance(path[i], path[i + 1]);
       }
+
+      // CRITICAL: Force initial snap to route start if we have a current position
+      // This ensures the marker is on the road from the very beginning
+      if (this.currentPosition) {
+        console.log('[ROUTE] 🎯 Route set - forcing initial marker snap to route');
+        this.forceSnapToRoute();
+      } else {
+        // No GPS yet - set initial snapped position to route start
+        console.log('[ROUTE] 🎯 Route set - setting initial marker at route start (no GPS yet)');
+        this.snappedPosition = path[0];
+        this.updateMapFeatures(path[0]);
+      }
+    }
+  }
+
+  /**
+   * Force snap the current GPS position to the route
+   * This is used when route is first set to ensure marker is on road from the start
+   */
+  public forceSnapToRoute(): void {
+    if (!this.routePath || this.routePath.length < 2) {
+      console.log('[SNAP] ❌ Cannot force snap - no route set');
+      return;
+    }
+
+    // If we have a current GPS position, snap it to the route
+    if (this.currentPosition) {
+      const snappedPoint = this.findClosestPointOnRoute(
+        this.currentPosition.coordinates[0],
+        this.currentPosition.coordinates[1]
+      );
+
+      if (snappedPoint) {
+        this.snappedPosition = snappedPoint;
+        console.log(`[SNAP] ✅ Force snapped to route at [${snappedPoint[0].toFixed(6)}, ${snappedPoint[1].toFixed(6)}]`);
+        this.updateMapFeatures(snappedPoint);
+      } else {
+        // Fallback to route start if snap fails
+        this.snappedPosition = this.routePath[0];
+        console.log(`[SNAP] ⚠️ Force snap failed - using route start`);
+        this.updateMapFeatures(this.routePath[0]);
+      }
+    } else {
+      // No GPS position - use route start
+      this.snappedPosition = this.routePath[0];
+      console.log(`[SNAP] 📍 No GPS - marker at route start`);
+      this.updateMapFeatures(this.routePath[0]);
     }
   }
 
