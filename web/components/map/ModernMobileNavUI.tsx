@@ -4,7 +4,7 @@
  * Prevents bugs where modals disappear permanently
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RoadNode } from './roadSystem';
 import { RouteProgress } from './enhancedLocationTracking';
@@ -38,6 +38,11 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
   const [showEndRouteConfirm, setShowEndRouteConfirm] = useState(false);
 
+  // PRIORITY 1: Multi-criteria arrival detection state
+  const [lastCloseTime, setLastCloseTime] = useState<number | null>(null);
+  const [proximityTimer, setProximityTimer] = useState<number>(0);
+  const [lastUpdateTime, setLastUpdateTime] = useState<number>(Date.now());
+
   // Format distance
   const formatDistance = (meters: number): string => {
     if (meters < 1000) {
@@ -69,22 +74,84 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
                      (routeInfo?.estimatedTime ? routeInfo.estimatedTime * 60 : 0);
   const percentComplete = routeProgress?.percentComplete ?? 0;
 
-  // Arrival detection: User has arrived when within 70 meters of destination
-  // Large threshold to trigger early - ensures message shows well before reaching destination
-  const hasArrived = displayDistance < 70;
+  // Track last update time for staleness detection
+  useEffect(() => {
+    if (displayDistance > 0) {
+      setLastUpdateTime(Date.now());
+    }
+  }, [displayDistance]);
+
+  // Calculate staleness indicator
+  const secondsSinceUpdate = Math.floor((Date.now() - lastUpdateTime) / 1000);
+  const isStale = secondsSinceUpdate > 10;
+
+  // PRIORITY 1: Track time spent near destination for failsafe arrival detection
+  useEffect(() => {
+    if (displayDistance < 100 && displayDistance > 0) {
+      // User is within 100m of destination - start/continue proximity timer
+      if (lastCloseTime === null) {
+        setLastCloseTime(Date.now());
+        console.log('[Arrival Failsafe] 📍 User entered 100m proximity zone - starting timer');
+      }
+      const elapsed = Math.floor((Date.now() - (lastCloseTime || Date.now())) / 1000);
+      setProximityTimer(elapsed);
+
+      if (elapsed > 0 && elapsed % 5 === 0) { // Log every 5 seconds
+        console.log(`[Arrival Failsafe] ⏱️  User has been within 100m for ${elapsed}s`);
+      }
+    } else {
+      // User is far from destination - reset timer
+      if (lastCloseTime !== null) {
+        console.log('[Arrival Failsafe] 📍 User exited 100m proximity zone - resetting timer');
+      }
+      setLastCloseTime(null);
+      setProximityTimer(0);
+    }
+  }, [displayDistance, lastCloseTime]);
+
+  // PRIORITY 1: Multi-criteria arrival detection with failsafes
+  // Triggers on ANY of these conditions:
+  // 1. Primary: Within 70m of destination
+  // 2. Failsafe A: Within 100m for 30+ seconds (user stopped moving)
+  // 3. Failsafe B: Route 95%+ complete (GPS inaccurate but route nearly done)
+  const hasArrived = useMemo(() => {
+    const isVeryClose = displayDistance < 70; // Primary detection
+    const isCloseEnough = displayDistance < 100;
+    const hasBeenCloseForAWhile = proximityTimer >= 30; // 30 seconds failsafe
+    const isAlmostComplete = percentComplete >= 95; // 95% completion failsafe
+
+    const arrivalCriteria = {
+      distance: isVeryClose,
+      proximity: isCloseEnough && hasBeenCloseForAWhile,
+      completion: isAlmostComplete,
+    };
+
+    const arrived = isVeryClose || (isCloseEnough && hasBeenCloseForAWhile) || isAlmostComplete;
+
+    // Enhanced logging with criteria breakdown
+    if (displayDistance > 0 && displayDistance < 150) {
+      const criteriaStatus = `Distance: ${isVeryClose ? '✓' : '✗'} (${displayDistance.toFixed(1)}m < 70m) | ` +
+                            `Proximity: ${arrivalCriteria.proximity ? '✓' : '✗'} (${isCloseEnough ? 'in range' : 'out of range'}, ${proximityTimer}s/30s) | ` +
+                            `Completion: ${arrivalCriteria.completion ? '✓' : '✗'} (${percentComplete.toFixed(1)}%/95%)`;
+      console.log(`[Arrival Detection] ${criteriaStatus}`);
+    }
+
+    if (arrived) {
+      const triggeredBy = isVeryClose ? 'Distance < 70m' :
+                         arrivalCriteria.proximity ? `Proximity (${proximityTimer}s at < 100m)` :
+                         'Route completion (95%+)';
+      console.log(`[Arrival Detection] 🎉 ARRIVAL DETECTED! Triggered by: ${triggeredBy}`);
+    }
+
+    return arrived;
+  }, [displayDistance, proximityTimer, percentComplete]);
 
   // Debug logging for arrival detection
   useEffect(() => {
-    if (displayDistance > 0) {
-      console.log(`[UI] Distance to destination: ${displayDistance.toFixed(1)}m | Arrived: ${hasArrived}`);
-      if (displayDistance < 150) {
-        console.log(`[UI] 🎯 Getting close! ${displayDistance.toFixed(1)}m remaining`);
-      }
-      if (hasArrived) {
-        console.log(`[UI] 🎉 ARRIVAL DETECTED! Distance: ${displayDistance.toFixed(1)}m < 70m threshold`);
-      }
+    if (displayDistance > 0 && displayDistance < 150) {
+      console.log(`[UI] Distance to destination: ${displayDistance.toFixed(1)}m | Arrived: ${hasArrived} | Update age: ${secondsSinceUpdate}s`);
     }
-  }, [displayDistance, hasArrived]);
+  }, [displayDistance, hasArrived, secondsSinceUpdate]);
 
   // Show "getting close" indicator when within 70-120m but not yet arrived
   const isGettingClose = displayDistance >= 70 && displayDistance < 120;

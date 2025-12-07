@@ -153,6 +153,10 @@ export class EnhancedLocationTracker {
   private destinationPosition: [number, number] | null = null;
   private totalRouteDistance: number = 0;
 
+  // PRIORITY 3: Periodic force update near destination
+  private forceUpdateInterval: number | null = null;
+  private forceUpdateIntervalMs = 5000; // 5 seconds - force recalculation when close to destination
+
   // Animation
   private animationFrameId: number | null = null;
   private targetRotation: number = 0;
@@ -317,6 +321,10 @@ export class EnhancedLocationTracker {
       }
     );
 
+    // PRIORITY 3: Start periodic force update interval for near-destination scenarios
+    // This ensures distance calculations continue even if GPS is stationary or inaccurate
+    this.startForceUpdateInterval();
+
     // Start animation loop
     this.startAnimationLoop();
   }
@@ -342,6 +350,9 @@ export class EnhancedLocationTracker {
       clearTimeout(this.rotationDebounceTimer);
       this.rotationDebounceTimer = null;
     }
+
+    // PRIORITY 3: Stop force update interval
+    this.stopForceUpdateInterval();
   }
 
   private handlePositionUpdate(geoPosition: GeolocationPosition): void {
@@ -366,11 +377,37 @@ export class EnhancedLocationTracker {
         [longitude, latitude]
       );
 
-      if (distance < this.minMovementThreshold) {
-        console.log(`[GPS] ❌ REJECTED - Insufficient movement: ${distance.toFixed(1)}m < ${this.minMovementThreshold}m threshold`);
+      // PRIORITY 2: Dynamic movement threshold based on distance to destination
+      // When close to destination, use lower threshold for higher sensitivity
+      // When far away, use normal threshold to reduce GPS jitter
+      let dynamicThreshold = this.minMovementThreshold; // Default: 5m
+
+      if (this.destinationPosition) {
+        const distToDestination = this.calculateMovementDistance(
+          [longitude, latitude],
+          this.destinationPosition
+        );
+
+        // Dynamic threshold calculation:
+        // < 150m from destination: 2m threshold (high sensitivity for arrival detection)
+        // 150m-500m: 3m threshold (moderate sensitivity)
+        // > 500m: 5m threshold (normal, reduces jitter)
+        if (distToDestination < 150) {
+          dynamicThreshold = 2;
+        } else if (distToDestination < 500) {
+          dynamicThreshold = 3;
+        }
+
+        if (distToDestination < 200) {
+          console.log(`[GPS Dynamic Threshold] 🎯 ${distToDestination.toFixed(0)}m from destination - using ${dynamicThreshold}m movement threshold`);
+        }
+      }
+
+      if (distance < dynamicThreshold) {
+        console.log(`[GPS] ❌ REJECTED - Insufficient movement: ${distance.toFixed(1)}m < ${dynamicThreshold.toFixed(1)}m threshold (dynamic)`);
         return; // Skip entire render cycle
       }
-      console.log(`[GPS] ✅ ACCEPTED - Movement: ${distance.toFixed(1)}m (threshold: ${this.minMovementThreshold}m)`);
+      console.log(`[GPS] ✅ ACCEPTED - Movement: ${distance.toFixed(1)}m (threshold: ${dynamicThreshold}m)`);
     }
 
     // =============================================
@@ -852,6 +889,61 @@ export class EnhancedLocationTracker {
     };
 
     animate();
+  }
+
+  // =============================================
+  // PRIORITY 3: Force Update System
+  // Guarantees distance calculations even when GPS is poor or stationary
+  // =============================================
+
+  /**
+   * Start periodic force updates when close to destination
+   * This ensures arrival detection works even with poor GPS or stationary user
+   */
+  private startForceUpdateInterval(): void {
+    // Clear any existing interval first
+    this.stopForceUpdateInterval();
+
+    console.log(`[Force Update] 🔄 Starting periodic force updates every ${this.forceUpdateIntervalMs}ms`);
+
+    this.forceUpdateInterval = window.setInterval(() => {
+      // Only force update when we have both position and destination
+      if (!this.currentPosition || !this.destinationPosition) {
+        return;
+      }
+
+      // Calculate current distance to destination
+      const userCoords = this.snappedPosition || this.currentPosition.coordinates;
+      const distToDestination = calculateDistance(userCoords, this.destinationPosition);
+
+      // Only force update when within 150m of destination (critical zone for arrival detection)
+      if (distToDestination < 150) {
+        console.log(`[Force Update] 🎯 Forcing route progress update at ${distToDestination.toFixed(1)}m from destination`);
+
+        // Force recalculation of route progress
+        const progress = this.calculateRouteProgress();
+
+        // Trigger callback to update UI
+        if (this.onRouteProgressUpdate) {
+          this.onRouteProgressUpdate(progress);
+          console.log(`[Force Update] ✅ Progress updated - Distance: ${progress.distanceToDestination.toFixed(1)}m, Complete: ${progress.percentComplete.toFixed(1)}%`);
+        }
+      } else if (distToDestination < 300) {
+        // Log less frequently when farther away
+        console.log(`[Force Update] 📍 ${distToDestination.toFixed(0)}m from destination (force updates active < 150m)`);
+      }
+    }, this.forceUpdateIntervalMs);
+  }
+
+  /**
+   * Stop periodic force updates
+   */
+  private stopForceUpdateInterval(): void {
+    if (this.forceUpdateInterval !== null) {
+      console.log('[Force Update] 🛑 Stopping periodic force updates');
+      clearInterval(this.forceUpdateInterval);
+      this.forceUpdateInterval = null;
+    }
   }
 
   // =============================================
