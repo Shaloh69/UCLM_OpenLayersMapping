@@ -37,10 +37,10 @@ const AdditionalDirections: React.FC<AdditionalDirectionsProps> = ({
         padding: '24px',
         maxWidth: mobileMode ? 'calc(100% - 40px)' : '480px',
         width: mobileMode ? 'calc(100% - 40px)' : 'auto',
-        zIndex: 2000,
         border: '2px solid #4CAF50',
         animation: 'slideUp 0.3s ease-out',
       }}
+      className="z-[60]"
     >
       {/* Header */}
       <div
