@@ -3950,6 +3950,262 @@
         "type": "LineString"
       },
       "id": 1100
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_CLINIC",
+        "name": "RD_CLINIC",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95480475263412,
+          10.32619328472714
+        ],
+        "type": "Point"
+      },
+      "id": 60
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_PE_FACULTY",
+        "name": "RD_PE_FACULTY",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95446654110418,
+          10.326243942894195
+        ],
+        "type": "Point"
+      },
+      "id": 54
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Gate1_RoadEnd",
+        "name": "Gate1_RoadEnd",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95305706561953,
+          10.325073770725623
+        ],
+        "type": "Point"
+      },
+      "id": 29
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_gate_7",
+        "name": "RD_gate_7",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95518649651348,
+          10.326449560592536
+        ],
+        "type": "Point"
+      },
+      "id": 155
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_UCLM_POOL",
+        "name": "RD_UCLM_POOL",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95457408662799,
+          10.326841385488407
+        ],
+        "type": "Point"
+      },
+      "id": 135
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_Seamanship_Lab",
+        "name": "RD_Seamanship_Lab",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95449592227737,
+          10.326746180513993
+        ],
+        "type": "Point"
+      },
+      "id": 137
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_MACHINE_SHOP",
+        "name": "RD_MACHINE_SHOP",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9548126439538,
+          10.326975448175347
+        ],
+        "type": "Point"
+      },
+      "id": 139
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_COVERED_COURT",
+        "name": "RD_COVERED_COURT",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9548525159936,
+          10.326532189636936
+        ],
+        "type": "Point"
+      },
+      "id": 140
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ANNEX2_STAIRS1",
+        "name": "RD_ANNEX2_STAIRS1",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95355661811783,
+          10.325418573635858
+        ],
+        "type": "Point"
+      },
+      "id": 142
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_SOCIAL_HALL",
+        "name": "RD_SOCIAL_HALL",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95362055136587,
+          10.325559874342062
+        ],
+        "type": "Point"
+      },
+      "id": 145
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ROBOTICS_LAB",
+        "name": "RD_ROBOTICS_LAB",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95386751001894,
+          10.3257521459238
+        ],
+        "type": "Point"
+      },
+      "id": 147
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ANNEX2_STAIRS2",
+        "name": "RD_ANNEX2_STAIRS2",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.954058065357,
+          10.325792507717168
+        ],
+        "type": "Point"
+      },
+      "id": 149
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_CASHIER_ACC_RECORDS",
+        "name": "RD_CASHIER_ACC_RECORDS",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95409802852896,
+          10.325268848159013
+        ],
+        "type": "Point"
+      },
+      "id": 151
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_EDP_SECTION",
+        "name": "RD_EDP_SECTION",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95425395432142,
+          10.325377075658452
+        ],
+        "type": "Point"
+      },
+      "id": 153
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_BASICED_BLDG",
+        "name": "RD_BASICED_BLDG",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95398115945761,
+          10.325474913786707
+        ],
+        "type": "Point"
+      },
+      "id": 153
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_prefect_discipline",
+        "name": "RD_prefect_discipline",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95322304219309,
+          10.325317455934524
+        ],
+        "type": "Point"
+      },
+      "id": 166
     }
   ]
 }
