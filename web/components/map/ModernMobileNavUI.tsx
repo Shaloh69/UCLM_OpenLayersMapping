@@ -33,7 +33,8 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
   onToggleCameraFollow,
   onClearRoute,
 }) => {
-  // Default to minimized so progress info is always visible
+  // Default to minimized so progress info is always visible during navigation
+  // NEVER set to 'hidden' to ensure footer is always accessible
   const [panelState, setPanelState] = useState<PanelState>('minimized');
   const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
   const [showEndRouteConfirm, setShowEndRouteConfirm] = useState(false);
@@ -160,6 +161,15 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
 
   // Show "getting close" indicator when within 70-120m but not yet arrived
   const isGettingClose = displayDistance >= 70 && displayDistance < 120;
+
+  // CRITICAL: Ensure footer is ALWAYS visible during navigation
+  // Reset from 'hidden' to 'minimized' if panel somehow gets hidden
+  useEffect(() => {
+    if (panelState === 'hidden') {
+      console.warn('[ModernMobileNavUI] Panel was hidden during active navigation - forcing to minimized state');
+      setPanelState('minimized');
+    }
+  }, [panelState]);
 
   // Auto-expand panel and show additional info on arrival
   useEffect(() => {
@@ -688,7 +698,7 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
                   onClick={() => {
                     setShowEndRouteConfirm(false);
                     onClearRoute();
-                    setPanelState('hidden');
+                    // Don't hide panel - component will unmount when route clears
                   }}
                   className="flex-1 py-3 px-4 bg-red-500 text-white rounded-xl
                            font-semibold hover:bg-red-600 active:scale-95 transition-all"
