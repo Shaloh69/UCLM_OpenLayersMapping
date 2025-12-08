@@ -153,6 +153,10 @@ export class EnhancedLocationTracker {
   private destinationPosition: [number, number] | null = null;
   private totalRouteDistance: number = 0;
 
+  // Dynamic road highlighting - maps route segment indices to road names
+  private routeSegmentRoads: string[] = [];
+  private currentRoad: string | null = null;
+
   // PRIORITY 3: Periodic force update near destination
   private forceUpdateInterval: number | null = null;
   private forceUpdateIntervalMs = 5000; // 5 seconds - force recalculation when close to destination
@@ -165,6 +169,7 @@ export class EnhancedLocationTracker {
   // Callbacks
   private onPositionUpdate?: (position: UserPosition) => void;
   private onRouteProgressUpdate?: (progress: RouteProgress) => void;
+  private onCurrentRoadChange?: (roadName: string | null) => void;
   private locationErrorRef: MutableRefObject<string | null>;
   private isOutsideSchoolRef: MutableRefObject<boolean>;
   private schoolBoundaryRef: MutableRefObject<Extent | null>;
@@ -299,11 +304,13 @@ export class EnhancedLocationTracker {
 
   public startTracking(
     onPositionUpdate?: (position: UserPosition) => void,
-    onRouteProgressUpdate?: (progress: RouteProgress) => void
+    onRouteProgressUpdate?: (progress: RouteProgress) => void,
+    onCurrentRoadChange?: (roadName: string | null) => void
   ): void {
     console.log(`[GPS] 🚀 Starting GPS tracking with update interval: 0.5s (UI updates debounced to ${this.debounceDelay}ms, rotation debounced to ${this.rotationDebounceDelay}ms)`);
     this.onPositionUpdate = onPositionUpdate;
     this.onRouteProgressUpdate = onRouteProgressUpdate;
+    this.onCurrentRoadChange = onCurrentRoadChange;
 
     if (this.watchId !== null) {
       console.log(`[GPS] ⚠️ GPS tracking already active (watchId: ${this.watchId})`);
@@ -739,6 +746,26 @@ export class EnhancedLocationTracker {
       console.log(`[SNAP] ✅ Good snap: ${minDistance.toFixed(1)}m (segment ${closestSegmentIndex})`);
     }
 
+    // =============================================
+    // DYNAMIC ROAD HIGHLIGHTING
+    // Update current road based on snapped segment
+    // =============================================
+    if (this.routeSegmentRoads.length > 0 && closestSegmentIndex >= 0 && closestSegmentIndex < this.routeSegmentRoads.length) {
+      const roadName = this.routeSegmentRoads[closestSegmentIndex];
+
+      // Only trigger callback if road has changed
+      if (roadName !== this.currentRoad) {
+        const previousRoad = this.currentRoad;
+        this.currentRoad = roadName;
+
+        console.log(`[Dynamic Roads] 🔴 Road changed: "${previousRoad || 'none'}" → "${roadName}" (segment ${closestSegmentIndex})`);
+
+        if (this.onCurrentRoadChange) {
+          this.onCurrentRoadChange(roadName);
+        }
+      }
+    }
+
     // GUARANTEE: closestPoint is ALWAYS on the route when we reach here
     return closestPoint;
   }
@@ -1020,7 +1047,11 @@ export class EnhancedLocationTracker {
   // Route Management
   // =============================================
 
-  public setRoute(path: [number, number][], destinationCoords?: [number, number]): void {
+  public setRoute(
+    path: [number, number][],
+    destinationCoords?: [number, number],
+    segmentRoads?: string[]
+  ): void {
     // =============================================
     // VALIDATE ROUTE PATH
     // Ensure no NaN or invalid coordinates
@@ -1046,6 +1077,10 @@ export class EnhancedLocationTracker {
     }
 
     this.routePath = validPath;
+    this.routeSegmentRoads = segmentRoads || [];
+    this.currentRoad = null; // Reset current road when new route is set
+
+    console.log(`[Dynamic Roads] Route set with ${this.routeSegmentRoads.length} road segment mappings`);
 
     if (validPath.length > 0) {
       // Validate destination coordinates

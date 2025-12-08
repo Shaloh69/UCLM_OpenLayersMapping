@@ -242,6 +242,35 @@ const CampusMap: React.FC<MapProps> = ({
     );
   }, []);
 
+  // =============================================
+  // Dynamic Road Highlighting Helper
+  // Updates which road is highlighted as user moves
+  // =============================================
+  const updateDynamicRoadHighlighting = useCallback((roadName: string | null) => {
+    if (!roadsLayerRef.current || !roadsSourceRef.current) {
+      console.warn('[Dynamic Roads] ⚠️ Roads layer not available');
+      return;
+    }
+
+    // Update activeRouteRoadsRef to only contain current road
+    if (roadName) {
+      activeRouteRoadsRef.current = new Set([roadName]);
+    } else {
+      activeRouteRoadsRef.current.clear();
+    }
+
+    console.log(`[Dynamic Roads] 🔴 Updating highlight to: "${roadName || 'none'}"`);
+
+    // Force road layer to re-render with new highlighting
+    const allRoads = roadsSourceRef.current.getFeatures();
+    allRoads.forEach(feature => {
+      feature.setStyle(undefined); // Clear cached style, force re-evaluation
+    });
+
+    // Trigger visual update
+    roadsLayerRef.current.changed();
+  }, []);
+
   const initLocationTracking = useCallback(() => {
     if (!mapInstanceRef.current) return undefined;
 
@@ -414,6 +443,10 @@ const CampusMap: React.FC<MapProps> = ({
               }, 500); // Small delay to avoid blocking UI
             }
           }
+        },
+        (roadName: string | null) => {
+          // Dynamic road highlighting callback
+          updateDynamicRoadHighlighting(roadName);
         }
       );
 
@@ -496,7 +529,7 @@ const CampusMap: React.FC<MapProps> = ({
       };
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentLocation, selectedDestination, mobileMode, useEnhancedTracking]);
+  }, [currentLocation, selectedDestination, mobileMode, useEnhancedTracking, updateDynamicRoadHighlighting]);
 
   const getFeatureCoordinates = (feature: Feature<Geometry>) => {
     const geometry = feature.getGeometry();
@@ -1174,16 +1207,21 @@ const CampusMap: React.FC<MapProps> = ({
 
       // Set route path for enhanced tracking
       if (enhancedTrackerRef.current && mobileMode) {
-        // Extract route coordinates from path features
+        // Extract route coordinates from path features AND build road mapping
         const routePath: [number, number][] = [];
+        const routeRoadNames: string[] = []; // Maps each coordinate to its road name
+
         pathFeatures.forEach((feature) => {
           const geometry = feature.getGeometry();
+          const roadName = feature.getProperties().name || "Unknown Road";
+
           if (geometry && geometry.getType() === "LineString") {
             const lineString = geometry as import("ol/geom/LineString").default;
             const coords = lineString.getCoordinates();
             coords.forEach((coord) => {
               const geoCoord = toLonLat(coord);
               routePath.push([geoCoord[0], geoCoord[1]]);
+              routeRoadNames.push(roadName); // Associate this coordinate with its road
             });
           }
         });
@@ -1192,6 +1230,35 @@ const CampusMap: React.FC<MapProps> = ({
           // PRIORITY 1: Densify route path for smooth snapping
           // Adds intermediate points between sparse segments to prevent "floating marker" visual issue
           const densifiedPath = densifyRoutePath(routePath);
+
+          // Build road segment mapping for densified path
+          // Each segment (i to i+1) needs a road name
+          const segmentRoads: string[] = [];
+
+          for (let i = 0; i < densifiedPath.length - 1; i++) {
+            // Find which original segment this densified point belongs to
+            const point = densifiedPath[i];
+            let closestOriginalIndex = 0;
+            let minDist = Infinity;
+
+            // Find closest original route point to determine road name
+            for (let j = 0; j < routePath.length; j++) {
+              const dist = Math.sqrt(
+                Math.pow(point[0] - routePath[j][0], 2) +
+                Math.pow(point[1] - routePath[j][1], 2)
+              );
+              if (dist < minDist) {
+                minDist = dist;
+                closestOriginalIndex = j;
+              }
+            }
+
+            // Use the road name from the closest original point
+            const roadName = routeRoadNames[closestOriginalIndex] || "Unknown Road";
+            segmentRoads.push(roadName);
+          }
+
+          console.log(`[Dynamic Roads] Built ${segmentRoads.length} segment-to-road mappings for ${densifiedPath.length} points`);
 
           // Get the actual destination coordinates (not routing node)
           // This is critical for POIs with nearest_node - we want to measure
@@ -1209,7 +1276,8 @@ const CampusMap: React.FC<MapProps> = ({
             }
           }
 
-          enhancedTrackerRef.current.setRoute(densifiedPath, destinationCoords);
+          // Pass densified path AND segment road mapping
+          enhancedTrackerRef.current.setRoute(densifiedPath, destinationCoords, segmentRoads);
         }
       }
       };
