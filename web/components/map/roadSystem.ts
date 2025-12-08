@@ -405,7 +405,7 @@ export const setupRoadSystem = (
 
       // Debug logging for highlighted roads
       if (isInActiveRoute) {
-        console.log(`[Road Style] 🟢 Highlighting road: "${roadName}" (type: ${roadType})`);
+        console.log(`[Road Style] 🔴 Highlighting road: "${roadName}" (type: ${roadType})`);
       }
 
       // Different styling based on road type
@@ -415,7 +415,7 @@ export const setupRoadSystem = (
 
       // If road is in active route, use highlighted colors
       if (isInActiveRoute) {
-        color = "#4CAF50";  // Bright green for highlighted roads
+        color = "#EF4444";  // Bright red for highlighted roads
         width = width + 2;  // Make highlighted roads thicker
         lineDash = [];      // No dashes for active roads
       } else {
