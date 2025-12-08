@@ -55,8 +55,8 @@ const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl z-50 rounded-t-2xl overflow-hidden"
-        style={{ boxShadow: "0 -4px 20px rgba(0, 0, 0, 0.15)" }}
+        style={{ boxShadow: "0 -4px 20px rgba(0, 0, 0, 0.15)", zIndex: 'var(--z-panels)' }}
+        className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-2xl overflow-hidden safe-area-inset-bottom"
       >
         <div className="px-6 py-4">
           <button
@@ -92,20 +92,20 @@ const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl z-50 rounded-t-2xl overflow-hidden"
-        style={{ boxShadow: "0 -4px 20px rgba(0, 0, 0, 0.15)" }}
+        style={{ boxShadow: "0 -4px 20px rgba(0, 0, 0, 0.15)", zIndex: 'var(--z-panels)' }}
+        className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-2xl overflow-hidden safe-area-inset-bottom"
       >
         {/* Collapsed View */}
         <div className="relative">
-          {/* Drag Handle */}
+          {/* Drag Handle - Touch-optimized with 44px minimum tap target */}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="w-full py-2 flex justify-center items-center bg-gradient-to-b from-gray-100 to-white cursor-pointer hover:bg-gray-50 transition-colors"
+            className="w-full touch-target-drag-handle bg-gradient-to-b from-gray-100 to-white hover:bg-gray-50 transition-colors"
           >
             <motion.div
               animate={{ rotate: isExpanded ? 180 : 0 }}
               transition={{ duration: 0.3 }}
-              className="w-10 h-1 bg-gray-300 rounded-full"
+              className="w-10 h-1.5 bg-gray-300 rounded-full"
             />
           </button>
 
@@ -178,7 +178,7 @@ const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
               transition={{ duration: 0.3 }}
               className="border-t border-gray-200 overflow-hidden"
             >
-              <div className="p-4 max-h-[60vh] overflow-y-auto">
+              <div className="p-4 max-h-[60dvh] overflow-y-auto custom-scrollbar landscape-compact">
                 {/* Route Details */}
                 <div className="mb-4">
                   <h4 className="text-sm font-semibold text-gray-700 mb-3">

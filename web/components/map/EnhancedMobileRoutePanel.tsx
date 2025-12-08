@@ -88,13 +88,14 @@ const EnhancedMobileRoutePanel: React.FC<EnhancedMobileRoutePanelProps> = ({
       animate={{ y: 0 }}
       exit={{ y: "100%" }}
       transition={{ type: "spring", damping: 30, stiffness: 300 }}
-      className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl z-50 rounded-t-3xl max-h-[85vh] overflow-hidden"
       style={{
         boxShadow: "0 -10px 40px rgba(0, 0, 0, 0.2)",
+        zIndex: 'var(--z-panels)',
       }}
+      className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-3xl max-h-[85dvh] overflow-hidden safe-area-inset-bottom landscape-compact"
     >
-      {/* Drag Handle */}
-      <div className="w-full flex justify-center py-3 cursor-grab active:cursor-grabbing bg-gradient-to-b from-gray-50 to-white">
+      {/* Drag Handle - Touch-optimized with 44px minimum tap target */}
+      <div className="w-full touch-target-drag-handle bg-gradient-to-b from-gray-50 to-white">
         <motion.div
           animate={{ scaleX: dragY > 0 ? 1.5 : 1 }}
           className="w-12 h-1.5 bg-gray-300 rounded-full"
@@ -102,7 +103,7 @@ const EnhancedMobileRoutePanel: React.FC<EnhancedMobileRoutePanelProps> = ({
       </div>
 
       {/* Main Content */}
-      <div className="px-4 pb-4 max-h-[calc(85vh-3rem)] overflow-y-auto">
+      <div className="px-4 pb-4 max-h-[calc(85dvh-3rem)] overflow-y-auto custom-scrollbar landscape-minimize-padding">
         {/* Progress Bar */}
         {routeProgress && (
           <motion.div

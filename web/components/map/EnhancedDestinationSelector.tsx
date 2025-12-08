@@ -96,14 +96,15 @@ const EnhancedDestinationSelector: React.FC<EnhancedDestinationSelectorProps> = 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      style={{ zIndex: 'var(--z-modal)' }}
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 safe-area-inset-top safe-area-inset-bottom"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        className="w-full max-w-7xl max-h-[90vh] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+        className="w-full max-w-7xl max-h-[90dvh] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col landscape-compact"
       >
         {/* Header */}
         <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 p-6 sm:p-8 relative overflow-hidden">

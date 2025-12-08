@@ -24,8 +24,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  // Allow zoom for accessibility compliance with WCAG 2.1
+  // Users with vision impairments may need to zoom
+  maximumScale: 5,
+  userScalable: true,
+  // Ensure viewport-fit=cover for safe area support on notched devices
+  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },

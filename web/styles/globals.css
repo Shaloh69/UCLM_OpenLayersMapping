@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Custom Properties - Z-Index Management System */
+:root {
+  /* Z-index hierarchy - organized from lowest to highest */
+  --z-base: 0;
+  --z-map-controls: 10;
+  --z-map-overlays: 20;
+  --z-route-overlay: 30;
+  --z-header: 40;
+  --z-panels: 50;
+  --z-additional-directions: 60;
+  --z-loader: 100;
+  --z-modal: 1000;
+  --z-arrival-overlay: 2000;
+  --z-critical-modal: 3000;
+
+  /* Safe area insets for iPhone notch/home indicator */
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+}
+
 /* Glassmorphism and Modern UI Enhancements */
 @layer utilities {
   /* Glassmorphism effect */
@@ -72,6 +94,66 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-image: linear-gradient(to right, var(--tw-gradient-stops));
+  }
+
+  /* Touch-optimized drag handles - minimum 44px tap target */
+  .touch-target-drag-handle {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .touch-target-drag-handle:active {
+    cursor: grabbing;
+  }
+
+  /* Safe area utilities for iPhone notch/home indicator */
+  .safe-area-inset-top {
+    padding-top: var(--safe-area-inset-top);
+  }
+
+  .safe-area-inset-bottom {
+    padding-bottom: var(--safe-area-inset-bottom);
+  }
+
+  .safe-area-inset-left {
+    padding-left: var(--safe-area-inset-left);
+  }
+
+  .safe-area-inset-right {
+    padding-right: var(--safe-area-inset-right);
+  }
+
+  /* Responsive text sizes for small screens */
+  @media (max-width: 360px) {
+    .responsive-text-sm {
+      font-size: 0.75rem;
+    }
+    .responsive-text-base {
+      font-size: 0.875rem;
+    }
+    .responsive-text-lg {
+      font-size: 1rem;
+    }
+  }
+
+  /* Landscape mode optimizations for mobile */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .landscape-compact {
+      max-height: 85dvh;
+      overflow-y: auto;
+    }
+    .landscape-hidden {
+      display: none;
+    }
+    .landscape-minimize-padding {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
   }
 }
 
@@ -157,9 +239,10 @@
     right: 0;
     background: rgba(255, 255, 255, 0.95);
     padding: 0.75rem;
+    padding-top: calc(0.75rem + var(--safe-area-inset-top));
     border-bottom: 1px solid #e5e7eb;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    z-index: 40;
+    z-index: var(--z-header);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
@@ -228,11 +311,12 @@
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
-    z-index: 40;
+    z-index: var(--z-panels);
     transition: transform 0.3s ease-out;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    max-height: 70vh;
+    max-height: 70dvh;
+    padding-bottom: var(--safe-area-inset-bottom);
     display: flex;
     flex-direction: column;
   }
@@ -360,7 +444,7 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 30;
+    z-index: var(--z-route-overlay);
     border: 1px solid #e5e7eb;
     color: #4b5563;
   }

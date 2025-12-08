@@ -193,10 +193,11 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
           exit={{ scale: 0, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
           onClick={() => setPanelState('minimized')}
-          className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50
+          style={{ zIndex: 'var(--z-panels)' }}
+          className="fixed bottom-4 left-1/2 transform -translate-x-1/2
                      bg-blue-600 text-white px-6 py-3 rounded-full shadow-2xl
                      flex items-center gap-2 hover:bg-blue-700 active:scale-95
-                     transition-all"
+                     transition-all safe-area-inset-bottom"
         >
           <svg
             className="w-5 h-5"
@@ -224,8 +225,9 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
       animate={{ y: 0 }}
       exit={{ y: 100 }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className={`fixed bottom-0 left-0 right-0 shadow-2xl z-50
-                 border-t-4 ${
+      style={{ zIndex: 'var(--z-panels)' }}
+      className={`fixed bottom-0 left-0 right-0 shadow-2xl
+                 border-t-4 safe-area-inset-bottom landscape-compact ${
                    hasArrived
                      ? 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-500'
                      : 'bg-white border-blue-500'
@@ -289,11 +291,13 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
           </motion.div>
         )}
 
-        {/* Swipe indicator */}
+        {/* Swipe indicator - Touch-optimized with 44px minimum tap target */}
         <div
-          className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-3 cursor-pointer"
+          className="touch-target-drag-handle w-full mb-2"
           onClick={() => setPanelState('expanded')}
-        />
+        >
+          <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto" />
+        </div>
 
         <div className="flex items-center justify-between">
           {/* Left: Destination Info */}
@@ -305,9 +309,9 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
               <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                 <span className="text-xl">📍</span>
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <p className="text-xs text-gray-500 font-medium">Navigating to</p>
-                <p className="text-sm font-bold text-gray-900 truncate max-w-[180px]">
+                <p className="text-sm font-bold text-gray-900 truncate responsive-text-base">
                   {destination.name}
                 </p>
               </div>
@@ -378,19 +382,20 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
       animate={{ y: 0 }}
       exit={{ y: '100%' }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl z-50
-                 rounded-t-3xl max-h-[80vh] overflow-hidden"
+      style={{ zIndex: 'var(--z-panels)' }}
+      className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl
+                 rounded-t-3xl max-h-[80dvh] overflow-hidden safe-area-inset-bottom landscape-compact"
     >
-      {/* Drag Handle */}
+      {/* Drag Handle - Touch-optimized with 44px minimum tap target */}
       <div
-        className="w-full flex justify-center py-3 cursor-pointer bg-gray-50"
+        className="w-full touch-target-drag-handle bg-gray-50"
         onClick={() => setPanelState('minimized')}
       >
         <div className="w-12 h-1.5 bg-gray-300 rounded-full" />
       </div>
 
       {/* Content */}
-      <div className="px-4 pb-6 max-h-[calc(80vh-3rem)] overflow-y-auto">
+      <div className="px-4 pb-6 max-h-[calc(80dvh-3rem)] overflow-y-auto custom-scrollbar landscape-minimize-padding">
         {/* Getting Close Indicator */}
         {isGettingClose && !hasArrived && (
           <motion.div
@@ -649,7 +654,8 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[10000] flex items-center justify-center
+            style={{ zIndex: 'var(--z-critical-modal)' }}
+            className="fixed inset-0 flex items-center justify-center
                        bg-black bg-opacity-50 backdrop-blur-sm px-4"
             onClick={() => setShowEndRouteConfirm(false)}
           >
@@ -719,7 +725,8 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center
+            style={{ zIndex: 'var(--z-arrival-overlay)' }}
+            className="fixed inset-0 flex items-center justify-center
                        bg-black bg-opacity-50 backdrop-blur-sm"
             onClick={() => setShowArrivalOverlay(false)}
           >

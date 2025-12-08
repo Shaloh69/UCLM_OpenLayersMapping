@@ -188,7 +188,7 @@ const DestinationSelector: React.FC<DestinationSelectorProps> = ({
   }, [destinationsByCategory, onSelect]);
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 w-80 max-h-[70vh] overflow-y-auto">
+    <div className="bg-white rounded-lg shadow-lg p-4 w-80 max-h-[70dvh] overflow-y-auto custom-scrollbar landscape-compact">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-bold">Select Destination</h2>
         <button className="text-gray-500 hover:text-gray-700" onClick={onClose}>

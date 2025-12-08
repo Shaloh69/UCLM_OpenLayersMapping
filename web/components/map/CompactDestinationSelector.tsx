@@ -72,14 +72,15 @@ const CompactDestinationSelector: React.FC<
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 flex items-start justify-center pt-4 px-4"
+      style={{ zIndex: 'var(--z-modal)' }}
+      className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-start justify-center pt-4 px-4 safe-area-inset-top"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
         initial={{ scale: 0.95, opacity: 0, y: -20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: -20 }}
-        className="w-full max-w-2xl max-h-[85vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+        className="w-full max-w-2xl max-h-[85dvh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col landscape-compact"
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-3 flex items-center justify-between">
