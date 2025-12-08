@@ -855,6 +855,67 @@ const CampusMap: React.FC<MapProps> = ({
     [currentLocation, userPosition, locationPermissionRequested, requestLocationPermission, mobileMode, defaultStartLocation, toggleCameraFollow]
   );
 
+  // PRIORITY 1: Route Densification Helper
+  // Adds intermediate points between sparse route segments for smooth marker snapping
+  // This prevents the visual "floating marker" issue when route has long straight segments
+  const densifyRoutePath = useCallback((path: [number, number][]): [number, number][] => {
+    const MAX_SEGMENT_LENGTH = 20; // meters - segments longer than this will be interpolated
+    const densified: [number, number][] = [];
+
+    // Helper function to calculate distance between two coordinates
+    const calcDistance = (p1: [number, number], p2: [number, number]): number => {
+      const R = 6371000; // Earth radius in meters
+      const lat1 = (p1[1] * Math.PI) / 180;
+      const lat2 = (p2[1] * Math.PI) / 180;
+      const dLat = lat2 - lat1;
+      const dLon = ((p2[0] - p1[0]) * Math.PI) / 180;
+
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      return R * c;
+    };
+
+    for (let i = 0; i < path.length - 1; i++) {
+      const start = path[i];
+      const end = path[i + 1];
+
+      // Always include the start point
+      densified.push(start);
+
+      // Calculate segment length
+      const distance = calcDistance(start, end);
+
+      // If segment is longer than threshold, add intermediate points
+      if (distance > MAX_SEGMENT_LENGTH) {
+        // Calculate number of intermediate points needed
+        const numSegments = Math.ceil(distance / MAX_SEGMENT_LENGTH);
+
+        // Add intermediate points using linear interpolation
+        for (let j = 1; j < numSegments; j++) {
+          const t = j / numSegments;
+          const interpolated: [number, number] = [
+            start[0] + (end[0] - start[0]) * t,
+            start[1] + (end[1] - start[1]) * t,
+          ];
+          densified.push(interpolated);
+        }
+      }
+    }
+
+    // Add the final point
+    densified.push(path[path.length - 1]);
+
+    const increase = ((densified.length / path.length - 1) * 100).toFixed(1);
+    console.log(
+      `[Route Densification] Original: ${path.length} points → Densified: ${densified.length} points (+${increase}% for smooth snapping)`
+    );
+
+    return densified;
+  }, []);
+
   // Display route between two nodes
   const displayRoute = useCallback(
     (startNodeId: string, endNodeId: string) => {
@@ -1128,6 +1189,10 @@ const CampusMap: React.FC<MapProps> = ({
         });
 
         if (routePath.length > 0) {
+          // PRIORITY 1: Densify route path for smooth snapping
+          // Adds intermediate points between sparse segments to prevent "floating marker" visual issue
+          const densifiedPath = densifyRoutePath(routePath);
+
           // Get the actual destination coordinates (not routing node)
           // This is critical for POIs with nearest_node - we want to measure
           // distance to the actual POI location, not the routing node
@@ -1136,7 +1201,7 @@ const CampusMap: React.FC<MapProps> = ({
           if (destinationCoords) {
             console.log(`[Arrival Detection] Destination: ${selectedDestinationRef.current?.name}`);
             console.log(`[Arrival Detection] Destination coords: [${destinationCoords[0].toFixed(6)}, ${destinationCoords[1].toFixed(6)}]`);
-            console.log(`[Arrival Detection] Route end coords: [${routePath[routePath.length - 1][0].toFixed(6)}, ${routePath[routePath.length - 1][1].toFixed(6)}]`);
+            console.log(`[Arrival Detection] Route end coords: [${densifiedPath[densifiedPath.length - 1][0].toFixed(6)}, ${densifiedPath[densifiedPath.length - 1][1].toFixed(6)}]`);
 
             if (selectedDestinationRef.current?.nearest_node) {
               console.log(`[Arrival Detection] ⚠️ POI has nearest_node: ${selectedDestinationRef.current.nearest_node}`);
@@ -1144,7 +1209,7 @@ const CampusMap: React.FC<MapProps> = ({
             }
           }
 
-          enhancedTrackerRef.current.setRoute(routePath, destinationCoords);
+          enhancedTrackerRef.current.setRoute(densifiedPath, destinationCoords);
         }
       }
       };

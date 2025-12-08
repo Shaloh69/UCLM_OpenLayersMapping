@@ -74,6 +74,11 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
                      (routeInfo?.estimatedTime ? routeInfo.estimatedTime * 60 : 0);
   const percentComplete = routeProgress?.percentComplete ?? 0;
 
+  // PRIORITY 4: Snap distance indicator - shows when GPS is far from route
+  const snapDistance = routeProgress?.distanceFromRoute ?? 0;
+  const isOffRoute = snapDistance > 50; // More than 50m from route
+  const isNearlyOffRoute = snapDistance > 25 && snapDistance <= 50;
+
   // Track last update time for staleness detection
   useEffect(() => {
     if (displayDistance > 0) {
@@ -245,6 +250,32 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
                 Tap to see walking directions
               </p>
             )}
+          </motion.div>
+        )}
+
+        {/* PRIORITY 4: Snap Distance Warning - Shows when GPS is far from route */}
+        {!hasArrived && snapDistance > 10 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className={`mb-3 px-3 py-2 rounded-lg flex items-center gap-2 text-xs ${
+              isOffRoute
+                ? 'bg-red-50 border border-red-200 text-red-700'
+                : isNearlyOffRoute
+                ? 'bg-yellow-50 border border-yellow-200 text-yellow-700'
+                : 'bg-blue-50 border border-blue-200 text-blue-700'
+            }`}
+          >
+            <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+            <div className="flex-1">
+              <span className="font-semibold">
+                {isOffRoute ? 'Off route' : isNearlyOffRoute ? 'Drifting from route' : 'GPS adjusting'}
+              </span>
+              <span className="ml-1">• {snapDistance.toFixed(0)}m from path</span>
+            </div>
           </motion.div>
         )}
 

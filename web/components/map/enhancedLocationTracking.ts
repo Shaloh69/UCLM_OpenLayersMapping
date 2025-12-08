@@ -361,16 +361,19 @@ export class EnhancedLocationTracker {
 
     // =============================================
     // PHASE 1: PRE-RENDER VALIDATION
-    // Validate GPS quality BEFORE any processing
+    // PRIORITY 5: Split validation - track quality but continue to snap marker
     // =============================================
 
-    // 1.1 ACCURACY FILTER: Reject poor quality GPS readings
+    // 1.1 ACCURACY FILTER: Check GPS quality but don't reject immediately
+    let isHighQualityGPS = true;
     if (accuracy && accuracy > this.maxAccuracyThreshold) {
-      console.log(`[GPS] ❌ REJECTED - Poor accuracy: ${accuracy.toFixed(0)}m > ${this.maxAccuracyThreshold}m threshold`);
-      return; // Skip entire render cycle
+      console.log(`[GPS] ⚠️ Low accuracy: ${accuracy.toFixed(0)}m > ${this.maxAccuracyThreshold}m (will snap but skip heavy UI updates)`);
+      isHighQualityGPS = false;
+      // PRIORITY 5: Don't return here - continue to snap marker
     }
 
-    // 1.2 MOVEMENT FILTER: Only process if user actually moved
+    // 1.2 MOVEMENT FILTER: Check movement but don't reject immediately
+    let hasMovedSignificantly = true;
     if (this.lastValidPosition) {
       const distance = this.calculateMovementDistance(
         this.lastValidPosition.coordinates,
@@ -404,10 +407,12 @@ export class EnhancedLocationTracker {
       }
 
       if (distance < dynamicThreshold) {
-        console.log(`[GPS] ❌ REJECTED - Insufficient movement: ${distance.toFixed(1)}m < ${dynamicThreshold.toFixed(1)}m threshold (dynamic)`);
-        return; // Skip entire render cycle
+        console.log(`[GPS] ⚠️ Small movement: ${distance.toFixed(1)}m < ${dynamicThreshold.toFixed(1)}m (will snap but skip heavy UI updates)`);
+        hasMovedSignificantly = false;
+        // PRIORITY 5: Don't return here - continue to snap marker
+      } else {
+        console.log(`[GPS] ✅ Good movement: ${distance.toFixed(1)}m (threshold: ${dynamicThreshold}m)`);
       }
-      console.log(`[GPS] ✅ ACCEPTED - Movement: ${distance.toFixed(1)}m (threshold: ${dynamicThreshold}m)`);
     }
 
     // =============================================
@@ -511,9 +516,16 @@ export class EnhancedLocationTracker {
     console.log(`[RENDER] 🎯 Rendering marker at: [${finalRenderCoordinates[0].toFixed(6)}, ${finalRenderCoordinates[1].toFixed(6)}]`);
     this.updateMapFeatures(finalRenderCoordinates);
 
+    // PRIORITY 5: Early exit for low-quality GPS - marker was snapped, but skip heavy updates
+    // This allows the marker to update smoothly even with poor GPS or minimal movement
+    if (!isHighQualityGPS || !hasMovedSignificantly) {
+      console.log(`[GPS] ⏭️  Marker snapped successfully, but skipping heavy UI updates (${!isHighQualityGPS ? 'low accuracy' : 'small movement'})`);
+      return; // Marker is now on-road, but skip expensive route progress calculations
+    }
+
     // =============================================
-    // PHASE 6: POST-RENDER UPDATES
-    // Update UI, route progress, callbacks
+    // PHASE 6: POST-RENDER UPDATES (HIGH QUALITY GPS ONLY)
+    // Update UI, route progress, callbacks - only for high-quality GPS readings
     // =============================================
 
     const now = Date.now();
@@ -642,17 +654,38 @@ export class EnhancedLocationTracker {
     let minDistance = Infinity;
     let closestSegmentIndex = -1;
 
-    // ROBUST SEARCH: Check EVERY segment of the route
+    // PRIORITY 3: ENHANCED ROBUST SEARCH - Check EVERY segment with comprehensive validation
+    let validSegmentCount = 0;
+    let skippedSegmentCount = 0;
+
     for (let i = 0; i < this.routePath.length - 1; i++) {
       const segmentStart = this.routePath[i];
       const segmentEnd = this.routePath[i + 1];
 
-      // Validate segment coordinates
-      if (!segmentStart || !segmentEnd ||
-          segmentStart.length !== 2 || segmentEnd.length !== 2) {
-        console.log(`[SNAP] ⚠️ Invalid segment ${i} - skipping`);
+      // ENHANCED VALIDATION: Comprehensive coordinate checks
+      const isValidSegment =
+        segmentStart && segmentEnd &&
+        segmentStart.length === 2 && segmentEnd.length === 2 &&
+        !isNaN(segmentStart[0]) && !isNaN(segmentStart[1]) &&
+        !isNaN(segmentEnd[0]) && !isNaN(segmentEnd[1]) &&
+        isFinite(segmentStart[0]) && isFinite(segmentStart[1]) &&
+        isFinite(segmentEnd[0]) && isFinite(segmentEnd[1]);
+
+      if (!isValidSegment) {
+        skippedSegmentCount++;
+        console.warn(`[SNAP] ⚠️ Invalid segment ${i}: Start=[${segmentStart}], End=[${segmentEnd}] - SKIPPING`);
         continue;
       }
+
+      // Check for degenerate segment (zero length or too short)
+      const segmentLength = this.calculateMovementDistance(segmentStart, segmentEnd);
+      if (segmentLength < 0.1) { // Less than 10cm
+        skippedSegmentCount++;
+        console.warn(`[SNAP] ⚠️ Degenerate segment ${i} (length: ${segmentLength.toFixed(3)}m) - SKIPPING`);
+        continue;
+      }
+
+      validSegmentCount++;
 
       // Project GPS position onto this line segment
       const projectedPoint = this.projectPointOntoLineSegment(
@@ -674,10 +707,27 @@ export class EnhancedLocationTracker {
       }
     }
 
-    // VALIDATION: Ensure we found a valid snap point
+    console.log(`[SNAP] Segment validation: ${validSegmentCount} valid, ${skippedSegmentCount} skipped out of ${this.routePath.length - 1} total`);
+
+    // PRIORITY 3: EMERGENCY FALLBACK - If ALL segments were invalid, use closest route node
     if (!closestPoint) {
-      console.log(`[SNAP] ❌ CRITICAL: Failed to find snap point despite having ${this.routePath.length} route points`);
-      return null;
+      console.error(`[SNAP] ❌ CRITICAL: No valid segments found! All ${this.routePath.length - 1} segments were invalid.`);
+      console.log(`[SNAP] 🆘 Emergency fallback: Finding closest route node instead of projected point`);
+
+      // Find closest route node (guaranteed to be valid since route was validated on setRoute)
+      let closestNode: [number, number] = this.routePath[0];
+      let minNodeDistance = Infinity;
+
+      this.routePath.forEach((node, idx) => {
+        const dist = this.calculateMovementDistance([longitude, latitude], node);
+        if (dist < minNodeDistance) {
+          minNodeDistance = dist;
+          closestNode = node;
+        }
+      });
+
+      console.warn(`[SNAP] 🆘 Emergency fallback complete: Using closest route node at ${minNodeDistance.toFixed(1)}m (node-based, not projected)`);
+      return closestNode; // Guaranteed to be on-road (an actual route node)
     }
 
     // SUCCESS: Marker will render on road
@@ -850,7 +900,16 @@ export class EnhancedLocationTracker {
     if (!this.currentPosition) return;
 
     const view = this.map.getView();
-    const coords = fromLonLat(this.currentPosition.coordinates);
+
+    // PRIORITY 2: Use snapped position for camera centering during navigation
+    // This keeps the camera perfectly centered on the marker (on-road) instead of raw GPS (possibly off-road)
+    // Prevents visual "drift" where camera is slightly off from where marker is displayed
+    const hasActiveRoute = this.routePath && this.routePath.length >= 2;
+    const displayCoords = hasActiveRoute && this.snappedPosition
+      ? this.snappedPosition  // Use snapped position during navigation (marker location)
+      : this.currentPosition.coordinates; // Use raw GPS when no route
+
+    const coords = fromLonLat(displayCoords);
 
     if (this.options.smoothAnimation) {
       view.animate({
@@ -861,6 +920,17 @@ export class EnhancedLocationTracker {
     } else {
       view.setCenter(coords);
       view.setZoom(this.options.zoomLevel);
+    }
+
+    // Log when using snapped position for debugging
+    if (hasActiveRoute && this.snappedPosition) {
+      const offset = this.calculateMovementDistance(
+        this.currentPosition.coordinates,
+        this.snappedPosition
+      );
+      if (offset > 5) { // Only log if offset is significant (> 5m)
+        console.log(`[Camera] Centering on SNAPPED position (${offset.toFixed(1)}m from raw GPS) for on-road alignment`);
+      }
     }
   }
 
