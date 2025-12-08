@@ -1,0 +1,2927 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_elevator",
+        "name": "CBE ELEVATOR",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CBE ELEVATOR",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955704,
+          10.327094
+        ]
+      },
+      "id": 0
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_gate9_elevator",
+        "name": "CBE Gate 9 Elevator",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CBE Gate 9 Elevator",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.956028,
+          10.327661
+        ]
+      },
+      "id": 1
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_8",
+        "name": "GATE 8",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "UCLM Gate 8",
+        "nearest_node": "RD_gate_8",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955668,
+          10.327015
+        ]
+      },
+      "id": 2
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_9",
+        "name": "Gate 9",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "UCLM Gate 9 ",
+        "nearest_node": "RD_Gate9",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95601430391741,
+          10.327708383097956
+        ]
+      },
+      "id": 3
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nsa_office",
+        "name": "NSA OFFICE",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "NSA OFFICE",
+        "nearest_node": "RD_NSAOFFICE",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955049,
+          10.32645
+        ]
+      },
+      "id": 4
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbt01_cbt02",
+        "name": "CBT01 &CBT02",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CBT01 &CBT02",
+        "nearest_node": "RD_Cb1Cb2",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955005,
+          10.326366
+        ]
+      },
+      "id": 5
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "clinic",
+        "name": "CLINIC",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CLINIC",
+        "nearest_node": "RD_CLINIC",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95481,
+          10.326186
+        ]
+      },
+      "id": 6
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "chapel",
+        "name": "CHAPEL",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CHAPEL",
+        "nearest_node": "RD_Chapel",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954704,
+          10.326219
+        ]
+      },
+      "id": 7
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "textbook_section",
+        "name": "Texbook Section",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Textbook Section",
+        "nearest_node": "RD_TextbookSec",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954484,
+          10.326382
+        ]
+      },
+      "id": 8
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "pe_faculty",
+        "name": "PE FACULTY",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "PE FACULTY",
+        "nearest_node": "RD_PE_FACULTY",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954459,
+          10.326242
+        ]
+      },
+      "id": 9
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "foodcourt",
+        "name": "FOODCOURT",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "FOODCOURT",
+        "nearest_node": "RD_foodcourt",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954397,
+          10.326139
+        ]
+      },
+      "id": 10
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs_elevator_president",
+        "name": "Stairs, elevator, and President's office",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Stairs, elevator, and President's office",
+        "nearest_node": "IT_Yesser",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954725,
+          10.326078
+        ]
+      },
+      "id": 11
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "maritime_stairs",
+        "name": "Maritime Building Stairs",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Maritime Building Stairs",
+        "nearest_node": "IT_yes",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954435,
+          10.325738
+        ]
+      },
+      "id": 12
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "small_stairs_old",
+        "name": "Small stairs(old building)",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Mezzanine Stairs (Old Building)",
+        "nearest_node": "Stairs1OldRoadEnd",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953078,
+          10.325272
+        ]
+      },
+      "id": 13
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "main_stairs_old",
+        "name": "Main Stairs (oldbuilding)",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Main Stairs (Old Building)",
+        "nearest_node": "main_stairs_oldRoad_end",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953095,
+          10.325286
+        ]
+      },
+      "id": 14
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs_uro_old",
+        "name": "Stairs to URO(old building)",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Stairs to URO (Old Building)",
+        "nearest_node": "RE_stairs_uro_old",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953219,
+          10.325009
+        ]
+      },
+      "id": 15
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "annex1_stairs",
+        "name": "ANNEX 1 stairs",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "ANNEX 1 Stairs",
+        "nearest_node": "RD_AnnexStairs",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953571,
+          10.325217
+        ]
+      },
+      "id": 16
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "annex1_elevator",
+        "name": "Annex 1 elevator",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Annex 1 elevator",
+        "nearest_node": "RD_ANNEXElevatorr",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953578,
+          10.325164
+        ]
+      },
+      "id": 17
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "study_hall",
+        "name": "Study Hall",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Study Hall",
+        "nearest_node": "RD_StudyHall",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95352,
+          10.325306
+        ]
+      },
+      "id": 18
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "canteen_annex1",
+        "name": "Canteen Annex 1",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Canteen Annex 1",
+        "nearest_node": "RD_AnnexCanteen",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953497,
+          10.325097
+        ]
+      },
+      "id": 19
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs_sao",
+        "name": "Stairs to SAO",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Stairs to SAO",
+        "nearest_node": "RD_SAOStairs",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95335,
+          10.32534
+        ]
+      },
+      "id": 21
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_1",
+        "name": "Gate 1",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "UCLM Gate 1",
+        "nearest_node": "Gate1_RoadEnd",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95304889265816,
+          10.325069490572119
+        ]
+      },
+      "id": 22
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_2",
+        "name": "Gate 2",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "UCLM Gate 2",
+        "nearest_node": "RD_Gate2",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95324804319557,
+          10.325374535347564
+        ]
+      },
+      "id": 23
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_3",
+        "name": "Gate 3",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "UCLM Gate 3",
+        "nearest_node": "RD_Gate3",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95329860032285,
+          10.325405949068255
+        ]
+      },
+      "id": 24
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_4",
+        "name": "Gate 4",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "UCLM Gate 4",
+        "nearest_node": "RD_Gate4",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.9537337637567,
+          10.325700272543187
+        ]
+      },
+      "id": 25
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_5",
+        "name": "Gate 5",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "UCLM Gate 5",
+        "nearest_node": "RD_Gate5",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.9539442753603,
+          10.32495861020341
+        ]
+      },
+      "id": 26
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_6",
+        "name": "Gate 6",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "UCLM Gate 6",
+        "nearest_node": "RD_Gate6",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95446220889471,
+          10.325597525000873
+        ]
+      },
+      "id": 27
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_7",
+        "name": "Gate 7",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "UCLM Gate 7",
+        "nearest_node": "RD_gate_7",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95520327445519,
+          10.326436677143334
+        ]
+      },
+      "id": 27
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Gate1_RoadEnd",
+        "name": "Gate1_RoadEnd",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95305706561953,
+          10.325073770725623
+        ],
+        "type": "Point"
+      },
+      "id": 29
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "isDestination": false,
+        "name": "OldBuildingIntersection",
+        "id": "OldBuildingIntersection"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95313204819536,
+          10.32516479983093
+        ],
+        "type": "Point"
+      },
+      "id": 31
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RE_stairs_uro_old",
+        "name": "RE_stairs_uro_old",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.9532116113329,
+          10.325019962010131
+        ],
+        "type": "Point"
+      },
+      "id": 33
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Stairs1OldRoadEnd",
+        "name": "Stairs1OldRoadEnd",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95308141248864,
+          10.325263690450527
+        ],
+        "type": "Point"
+      },
+      "id": 35
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "Intersection to East",
+        "from": "Stairs1OldRoadEnd",
+        "to": "main_stairs_oldRoad_end"
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            123.95308141248864,
+            10.325263690450527
+          ],
+          [
+            123.95308400938222,
+            10.325265321293855
+          ],
+          [
+            123.95308669159238,
+            10.325266970527096
+          ],
+          [
+            123.95309037962971,
+            10.32526845483801
+          ],
+          [
+            123.95309289420032,
+            10.325270433918362
+          ],
+          [
+            123.95309607932404,
+            10.325272742844646
+          ],
+          [
+            123.95309825861813,
+            10.325275051770902
+          ],
+          [
+            123.95309842625761,
+            10.325276865927663
+          ],
+          [
+            123.95309959972195,
+            10.325278845007986
+          ],
+          [
+            123.95309892917129,
+            10.32528049424117
+          ],
+          [
+            123.95309825861813,
+            10.325282308397888
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 42
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "main_stairs_oldRoad_end",
+        "name": "main_stairs_oldRoad_end",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95309825861813,
+          10.325282308397888
+        ],
+        "type": "Point"
+      },
+      "id": 37
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_Gate2",
+        "name": "IT_Gate2",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95327310988188,
+          10.325334838377273
+        ],
+        "type": "Point"
+      },
+      "id": 39
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "isDestination": "false",
+        "name": "IT_Gate3",
+        "id": "IT_Gate3"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95331368661522,
+          10.325383889407732
+        ],
+        "type": "Point"
+      },
+      "id": 44
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_Gate3",
+        "name": "RD_Gate3",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95330132624571,
+          10.32540375038154
+        ],
+        "type": "Point"
+      },
+      "id": 41
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "isDestination": "false",
+        "name": "RD_Gate2",
+        "id": "RD_Gate2"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9532499502617,
+          10.325370849107642
+        ],
+        "type": "Point"
+      },
+      "id": 42
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_SAOStairs",
+        "name": "RD_SAOStairs",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95334614194422,
+          10.325345776255304
+        ],
+        "type": "Point"
+      },
+      "id": 43
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_AnnexStairs",
+        "name": "RD_AnnexStairs",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95355748640623,
+          10.325225941431839
+        ],
+        "type": "Point"
+      },
+      "id": 43
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ANNEXElevatorr",
+        "name": "RD_ANNEXElevatorr",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95356236605687,
+          10.325173934600528
+        ],
+        "type": "Point"
+      },
+      "id": 44
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_AnnexCanteen",
+        "name": "RD_AnnexCanteen",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95350299698015,
+          10.325115526918509
+        ],
+        "type": "Point"
+      },
+      "id": 46
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_4",
+        "name": "IT_4",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95378786950721,
+          10.32561942877895
+        ],
+        "type": "Point"
+      },
+      "id": 47
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_Gate4",
+        "name": "RD_Gate4",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95374360933306,
+          10.325690520004997
+        ],
+        "type": "Point"
+      },
+      "id": 48
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_StudyHall",
+        "name": "RD_StudyHall",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95350538947463,
+          10.325305916243124
+        ],
+        "type": "Point"
+      },
+      "id": 49
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_2",
+        "name": "IT_2",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9535385457346,
+          10.325154250094599
+        ],
+        "type": "Point"
+      },
+      "id": 49
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_Gate6",
+        "name": "RD_Gate6",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95444743565503,
+          10.325607547169696
+        ],
+        "type": "Point"
+      },
+      "id": 51
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_6",
+        "name": "IT_6",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95441443126265,
+          10.325635378500621
+        ],
+        "type": "Point"
+      },
+      "id": 56
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_yes",
+        "name": "IT_yes",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9544274933466,
+          10.32574153870722
+        ],
+        "type": "Point"
+      },
+      "id": 52
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_PE_FACULTY",
+        "name": "RD_PE_FACULTY",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95446654110418,
+          10.326243942894195
+        ],
+        "type": "Point"
+      },
+      "id": 54
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_TextbookSec",
+        "name": "RD_TextbookSec",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95448755172976,
+          10.326373411608216
+        ],
+        "type": "Point"
+      },
+      "id": 55
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_9",
+        "name": "IT_9",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95450103283287,
+          10.326340603763441
+        ],
+        "type": "Point"
+      },
+      "id": 56
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_Chapel",
+        "name": "RD_Chapel",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95468978740695,
+          10.326204658954794
+        ],
+        "type": "Point"
+      },
+      "id": 57
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_11",
+        "name": "IT_11",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95475880342565,
+          10.326129574126057
+        ],
+        "type": "Point"
+      },
+      "id": 58
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_Yesser",
+        "name": "IT_Yesser",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95471654775253,
+          10.32608434132068
+        ],
+        "type": "Point"
+      },
+      "id": 58
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_CLINIC",
+        "name": "RD_CLINIC",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95480475263412,
+          10.32619328472714
+        ],
+        "type": "Point"
+      },
+      "id": 60
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_NSAOFFICE",
+        "name": "RD_NSAOFFICE",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9550365758933,
+          10.326456559653067
+        ],
+        "type": "Point"
+      },
+      "id": 61
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_14",
+        "name": "IT_14",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95479661095584,
+          10.326744736877117
+        ],
+        "type": "Point"
+      },
+      "id": 62
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_12",
+        "name": "IT_12",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9550637582779,
+          10.326519601327973
+        ],
+        "type": "Point"
+      },
+      "id": 62
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_gate_8",
+        "name": "RD_gate_8",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95564476849847,
+          10.327035068177494
+        ],
+        "type": "Point"
+      },
+      "id": 64
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_15",
+        "name": "IT_15",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95555764857153,
+          10.327087281478029
+        ],
+        "type": "Point"
+      },
+      "id": 65
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_cbe_elevator",
+        "name": "RD_cbe_elevator",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95566780020448,
+          10.32710304398239
+        ],
+        "type": "Point"
+      },
+      "id": 65
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_16",
+        "name": "IT_16",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95561272438704,
+          10.327149346333925
+        ],
+        "type": "Point"
+      },
+      "id": 67
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_Gate9",
+        "name": "RD_Gate9",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95599465561816,
+          10.327697136842986
+        ],
+        "type": "Point"
+      },
+      "id": 68
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_1",
+        "name": "IT_1",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95340847994436,
+          10.325393840192461
+        ],
+        "type": "Point"
+      },
+      "id": 78
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_Gate5",
+        "name": "RD_Gate5",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95392083649193,
+          10.324974928962973
+        ],
+        "type": "Point"
+      },
+      "id": 70
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_3",
+        "name": "IT_3",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95379791942679,
+          10.325076577451625
+        ],
+        "type": "Point"
+      },
+      "id": 80
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_7",
+        "name": "IT_7",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95440319849183,
+          10.32573356996248
+        ],
+        "type": "Point"
+      },
+      "id": 72
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_5",
+        "name": "IT_5",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95427654757606,
+          10.32579625187985
+        ],
+        "type": "Point"
+      },
+      "id": 72
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_foodcourt",
+        "name": "RD_foodcourt",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95437399885344,
+          10.326147032585496
+        ],
+        "type": "Point"
+      },
+      "id": 74
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_8",
+        "name": "IT_8",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95432104702252,
+          10.32616536214347
+        ],
+        "type": "Point"
+      },
+      "id": 75
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_Cb1Cb2",
+        "name": "RD_Cb1Cb2",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95499655272198,
+          10.326373497579894
+        ],
+        "type": "Point"
+      },
+      "id": 76
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_10",
+        "name": "IT_10",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95463257910842,
+          10.32624518243611
+        ],
+        "type": "Point"
+      },
+      "id": 77
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "IT_13",
+        "name": "IT_13",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95492956541818,
+          10.32660356257577
+        ],
+        "type": "Point"
+      },
+      "id": 79
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "path",
+        "name": "RD_28",
+        "from": "IT_9",
+        "to": "RD_TextbookSec"
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            123.95450143425228,
+            10.326340739038287
+          ],
+          [
+            123.95449377072106,
+            10.32635404386619
+          ],
+          [
+            123.95449151674165,
+            10.326363357245711
+          ],
+          [
+            123.9544870087829,
+            10.326373557612982
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 112
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_CBECanteen",
+        "name": "RD_CBECanteen",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95547982000528,
+          10.326936898288679
+        ],
+        "type": "Point"
+      },
+      "id": 126
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_canteen",
+        "name": "CBE Canteen (Ground Floor)",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CBE Canteen (Ground Floor)",
+        "nearest_node": "RD_CBECanteen",
+        "additionalDirection": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95550172206549,
+          10.326926593007343
+        ],
+        "type": "Point"
+      },
+      "id": 127
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ToolRoomME",
+        "name": "RD_ToolRoomRD_ToolRoomME",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95544642478546,
+          10.32686383726238
+        ],
+        "type": "Point"
+      },
+      "id": 128
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "me_tool_room",
+        "name": "ME TOOL ROOM AND LAB",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "ME TOOL ROOM AND LAB",
+        "nearest_node": "RD_ToolRoomME",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95546135031731,
+          10.326859518510915
+        ],
+        "type": "Point"
+      },
+      "id": 129
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_GUIDANCE",
+        "name": "RD_GUIDANCE",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95526641634683,
+          10.326652585031752
+        ],
+        "type": "Point"
+      },
+      "id": 129
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "guidance",
+        "name": "Guidance",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Guidance Office",
+        "nearest_node": "RD_GUIDANCE",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.9552423783029,
+          10.326669867157989
+        ],
+        "type": "Point"
+      },
+      "id": 130
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_nsa_dorm_canteen",
+        "name": "RD_nsa_dorm_canteen",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9551047999422,
+          10.326669304461106
+        ],
+        "type": "Point"
+      },
+      "id": 132
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nsa_dorm_canteen",
+        "name": "NSA DORM and Canteen(Ground floor)",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "NSA DORM and Canteen(Ground floor)",
+        "nearest_node": "RD_nsa_dorm_canteen",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95508308596834,
+          10.326688722637513
+        ],
+        "type": "Point"
+      },
+      "id": 133
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "UCLM_POOL",
+        "name": "UCLM_POOL",
+        "category": "Points of Interest",
+        "description": "UC POOL",
+        "nearest_node": "RD_UCLM_POOL",
+        "isDestination": "true",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95454593819045,
+          10.326856385574487
+        ],
+        "type": "Point"
+      },
+      "id": 134
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_UCLM_POOL",
+        "name": "RD_UCLM_POOL",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95457408662799,
+          10.326841385488407
+        ],
+        "type": "Point"
+      },
+      "id": 135
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Seamanship_Lab",
+        "name": "Seamanship_Lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Seamanship Laboratory",
+        "nearest_node": "RD_Seamanship_Lab",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95446212713045,
+          10.326746180521411
+        ],
+        "type": "Point"
+      },
+      "id": 136
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_Seamanship_Lab",
+        "name": "RD_Seamanship_Lab",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95449592227737,
+          10.326746180513993
+        ],
+        "type": "Point"
+      },
+      "id": 137
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "MACHINE_SHOP",
+        "name": "MACHINE_SHOP",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM Machine Shop",
+        "nearest_node": "RD_MACHINE_SHOP",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95482650863107,
+          10.326993350778935
+        ],
+        "type": "Point"
+      },
+      "id": 138
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_MACHINE_SHOP",
+        "name": "RD_MACHINE_SHOP",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9548126439538,
+          10.326975448175347
+        ],
+        "type": "Point"
+      },
+      "id": 139
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_COVERED_COURT",
+        "name": "RD_COVERED_COURT",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9548525159936,
+          10.326532189636936
+        ],
+        "type": "Point"
+      },
+      "id": 140
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "COVERED_COURT",
+        "name": "COVERED_COURT",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM Covered Court",
+        "nearest_node": "RD_COVERED_COURT",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95483605169028,
+          10.326519402044298
+        ],
+        "type": "Point"
+      },
+      "id": 141
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ANNEX2_STAIRS1",
+        "name": "ANNEX2_STAIRS1",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Annex 2 Entrance 1",
+        "nearest_node": "RD_ANNEX2_STAIRS1",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95354564036938,
+          10.325426050538695
+        ],
+        "type": "Point"
+      },
+      "id": 142
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ANNEX2_STAIRS1",
+        "name": "RD_ANNEX2_STAIRS1",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95355661811783,
+          10.325418573635858
+        ],
+        "type": "Point"
+      },
+      "id": 142
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "SOCIAL_HALL",
+        "name": "SOCIAL_HALL",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM Social Hall",
+        "nearest_node": "RD_SOCIAL_HALL",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95361132228186,
+          10.325567138038352
+        ],
+        "type": "Point"
+      },
+      "id": 144
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_SOCIAL_HALL",
+        "name": "RD_SOCIAL_HALL",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95362055136587,
+          10.325559874342062
+        ],
+        "type": "Point"
+      },
+      "id": 145
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ROBOTICS_LAB",
+        "name": "ROBOTICS_LAB",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Robotics Lab",
+        "nearest_node": "RD_ROBOTICS_LAB",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95385883864907,
+          10.325756411390387
+        ],
+        "type": "Point"
+      },
+      "id": 146
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ROBOTICS_LAB",
+        "name": "RD_ROBOTICS_LAB",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95386751001894,
+          10.3257521459238
+        ],
+        "type": "Point"
+      },
+      "id": 147
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ANNEX2_STAIRS2",
+        "name": "ANNEX2_STAIRS2",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Annex 2 Entrance 2",
+        "nearest_node": "RD_ANNEX2_STAIRS2",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95404567675837,
+          10.325798280959333
+        ],
+        "type": "Point"
+      },
+      "id": 148
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ANNEX2_STAIRS2",
+        "name": "RD_ANNEX2_STAIRS2",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.954058065357,
+          10.325792507717168
+        ],
+        "type": "Point"
+      },
+      "id": 149
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "CASHIER_ACC_RECORDS",
+        "name": "CASHIER_ACC_RECORDS",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Cashier, Accounting, Records",
+        "nearest_node": "RD_CASHIER_ACC_RECORDS",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.9541267265273,
+          10.325238732674151
+        ],
+        "type": "Point"
+      },
+      "id": 150
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_CASHIER_ACC_RECORDS",
+        "name": "RD_CASHIER_ACC_RECORDS",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95409802852896,
+          10.325268848159013
+        ],
+        "type": "Point"
+      },
+      "id": 151
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "EDP_SECTION",
+        "name": "EDP_SECTION",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "EDP Section",
+        "nearest_node": "RD_EDP_SECTION",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95427404291934,
+          10.32534884240151
+        ],
+        "type": "Point"
+      },
+      "id": 152
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_EDP_SECTION",
+        "name": "RD_EDP_SECTION",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95425395432142,
+          10.325377075658452
+        ],
+        "type": "Point"
+      },
+      "id": 153
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_BASICED_BLDG",
+        "name": "RD_BASICED_BLDG",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95398115945761,
+          10.325474913786707
+        ],
+        "type": "Point"
+      },
+      "id": 153
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "BASICED_BLDG",
+        "name": "BASICED_BLDG",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Basic Education Building",
+        "nearest_node": "RD_BASICED_BLDG",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95400029145776,
+          10.325510675897718
+        ],
+        "type": "Point"
+      },
+      "id": 155
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_gate_7",
+        "name": "RD_gate_7",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95518649651348,
+          10.326449560592536
+        ],
+        "type": "Point"
+      },
+      "id": 155
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "CADS_OFFICE",
+        "name": "CADS_OFFICE",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM CADS Office (Campus Director)",
+        "nearest_node": "RE_stairs_uro_old",
+        "additionalDescription": "Go upstairs until 4th Floor then the first room that you see on the left is the CADS Office"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95320913317721,
+          10.325005694659083
+        ],
+        "type": "Point"
+      },
+      "id": 157
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "URO",
+        "name": "URO",
+        "isDestination": "true",
+        "description": "UCLM University Research Office",
+        "category": "Points of Interest",
+        "nearest_node": "RE_stairs_uro_old",
+        "additionalDescription": "Go upstairs and then turn right, go all the way to the end."
+      },
+      "geometry": {
+        "coordinates": [
+          123.95321753451947,
+          10.32500113596285
+        ],
+        "type": "Point"
+      },
+      "id": 158
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "anatomy_lab",
+        "name": "anatomy_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Anatomy Laboratory",
+        "nearest_node": "RE_stairs_uro_old",
+        "additionalDescription": "Go upstairs up to 4th Floor and then the 2nd room from there is Anatomy Lab"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95322509384977,
+          10.325002002800801
+        ],
+        "type": "Point"
+      },
+      "id": 159
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "kitchen_lab1",
+        "name": "kitchen_lab1",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Kitchen Laboratory 1",
+        "nearest_node": "RE_stairs_uro_old",
+        "additionalDescription": "Go upstairs up to 4th Floor and then go right"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95322873845305,
+          10.325013020175149
+        ],
+        "type": "Point"
+      },
+      "id": 160
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nursing_faculty_room",
+        "name": "nursing_faculty_room",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Nursing Faculty Room",
+        "nearest_node": "main_stairs_oldRoad_end",
+        "additionalDescription": "Go upstairs up to 3rd Floor go left and then the 1st room is the Nursing Faculty Room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95310076315894,
+          10.325293356134083
+        ],
+        "type": "Point"
+      },
+      "id": 161
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "uc_resto",
+        "name": "uc_resto",
+        "isDestination": "true",
+        "category": "Points of Interest ",
+        "description": "UCLM Mini Resto",
+        "nearest_node": "main_stairs_oldRoad_end",
+        "additionalDescription": "Go upstairs up to 4th Floor go left and then the 1st room is that room."
+      },
+      "geometry": {
+        "coordinates": [
+          123.95309460101026,
+          10.32529714762434
+        ],
+        "type": "Point"
+      },
+      "id": 162
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "coop_office",
+        "name": "coop_office",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM Coop Office",
+        "nearest_node": "Stairs1OldRoadEnd",
+        "additionalDescription": "Go upstairs and then the end room is that room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95307364983881,
+          10.325275080392274
+        ],
+        "type": "Point"
+      },
+      "id": 163
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "yearbook_office",
+        "name": "yearbook_office",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM Yearbook Office",
+        "nearest_node": "Stairs1OldRoadEnd",
+        "additionalDescription": "Go upstairs and then the room after the Multimedia Room is that room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95307084275782,
+          10.325272080846958
+        ],
+        "type": "Point"
+      },
+      "id": 164
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "prefect_discipline",
+        "name": "prefect_discipline",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Prefect of Discipline",
+        "nearest_node": "RD_prefect_discipline",
+        "additionalDescription": ""
+      },
+      "geometry": {
+        "coordinates": [
+          123.95321117648484,
+          10.325309092069674
+        ],
+        "type": "Point"
+      },
+      "id": 164
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_prefect_discipline",
+        "name": "RD_prefect_discipline",
+        "isDestination": "false"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95322304219309,
+          10.325317455934524
+        ],
+        "type": "Point"
+      },
+      "id": 166
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sao_office",
+        "name": "sao_office",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM Student's Affair Office",
+        "nearest_node": "RD_AnnexStairs",
+        "additionalDescription": "Go upstairs and then turn right, go to the far end and turn left for the room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95356745038714,
+          10.325235250185898
+        ],
+        "type": "Point"
+      },
+      "id": 166
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "uccp_office",
+        "name": "uccp_office",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCCP Office",
+        "nearest_node": "RD_AnnexStairs",
+        "additionalDescription": "Go upstairs, turn right and the room is at the far end of the hallway"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95357362480837,
+          10.325231558312979
+        ],
+        "type": "Point"
+      },
+      "id": 167
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "uc_hotel",
+        "name": "uc_hotel",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM Hotel",
+        "nearest_node": "RD_AnnexStairs",
+        "additionalDescription": "Go upstairs until 4th Floor and then turn right, go by the end of the hallway"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95356877625568,
+          10.32523092670948
+        ],
+        "type": "Point"
+      },
+      "id": 168
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "avr",
+        "name": "avr",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Audio Visual Room",
+        "nearest_node": "RD_AnnexStairs",
+        "additionalDescription": "Go upstairs until the 2nd floor and then turn right, the room ahead is the AVR"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95358179610133,
+          10.32522954107948
+        ],
+        "type": "Point"
+      },
+      "id": 169
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "function_hall",
+        "name": "function_hall",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Function Hall",
+        "nearest_node": "RD_AnnexStairs",
+        "additionalDescription": "Go upstairs until the 2nd floor and then the room on the left is that room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95357783867303,
+          10.325227922247393
+        ],
+        "type": "Point"
+      },
+      "id": 170
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "kitchen_lab2",
+        "name": "kitchen_lab2",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Kitchen Laboratory 2",
+        "nearest_node": "RD_AnnexStairs",
+        "additionalDescription": "Go upstairs until 4th Floor and then turn right walk across the hallways till you see the room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9535814114164,
+          10.325224153808264
+        ],
+        "type": "Point"
+      },
+      "id": 171
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "uc_travel_and_tours",
+        "name": "uc_travel_and_tours",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UC Travel and Tours",
+        "nearest_node": "RD_AnnexStairs",
+        "additionalDescription": "Go upstairs until the 4th floor, turn right and then go to the left hallway. The first room is the room you're looking for."
+      },
+      "geometry": {
+        "coordinates": [
+          123.95359030927182,
+          10.32522754819503
+        ],
+        "type": "Point"
+      },
+      "id": 172
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "chtm_faculty",
+        "name": "chtm_faculty",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CHTM Faculty Room and Dean's Office",
+        "nearest_node": "RD_AnnexStairs",
+        "additionalDescription": "Go upstairs up to 4th Floor, turn right, and then go to left hallway, next to UC Travel and Tours"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95358872476993,
+          10.325221397904969
+        ],
+        "type": "Point"
+      },
+      "id": 173
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "shs_faculty",
+        "name": "shs_faculty",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "SHS Faculty Room",
+        "nearest_node": "RD_ANNEX2_STAIRS1",
+        "additionalDescription": "Go upstairs up to 4th Floor, go left across the hallway until you find the room."
+      },
+      "geometry": {
+        "coordinates": [
+          123.95357766500598,
+          10.325413068462169
+        ],
+        "type": "Point"
+      },
+      "id": 174
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "rooftop_canteen",
+        "name": "rooftop_canteen",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM Rooftop Canteen",
+        "nearest_node": "RD_ANNEX2_STAIRS1",
+        "additionalDescription": "Go upstairs up to the end, go left, go straight across the hallway to find the rooftop canteen."
+      },
+      "geometry": {
+        "coordinates": [
+          123.95356809116674,
+          10.325412667217066
+        ],
+        "type": "Point"
+      },
+      "id": 175
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "basic_ed_guidance_office",
+        "name": "basic_ed_guidance_office",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Basic Ed. Guidance Office",
+        "nearest_node": "RD_BASICED_BLDG",
+        "additionalDescription": "Go upstairs up to 2nd floor and then turn left and go straight ahead to the end for the room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95395543651813,
+          10.325477653233705
+        ],
+        "type": "Point"
+      },
+      "id": 176
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hs_library",
+        "name": "hs_library",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "High School Library",
+        "nearest_node": "RD_BASICED_BLDG",
+        "additionalDescription": "Go upstairs up to 3rd Floor turn left, go by the center of the building for the room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95396633108282,
+          10.325460200031017
+        ],
+        "type": "Point"
+      },
+      "id": 177
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "elem_library",
+        "name": "elem_library",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Elementary Library",
+        "nearest_node": "RD_BASICED_BLDG",
+        "additionalDescription": "Go upstairs up to 3rd Floor, turn left, go by the center of the building"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95398897568413,
+          10.32545804135917
+        ],
+        "type": "Point"
+      },
+      "id": 178
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hs_comp_lab",
+        "name": "hs_comp_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "High School Computer Laboratory",
+        "nearest_node": "RD_BASICED_BLDG",
+        "additionalDescription": "Go upstairs up to 4th Floor, turn left and then go by the center of the building for the room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95394257331515,
+          10.325458567351802
+        ],
+        "type": "Point"
+      },
+      "id": 179
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hs_faculty",
+        "name": "hs_faculty",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "High School Faculty Room",
+        "nearest_node": "RD_BASICED_BLDG",
+        "additionalDescription": "Go upstairs up to 4th Floor, turn left, go across the center hallway to the end for the room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95397274966115,
+          10.325448153883187
+        ],
+        "type": "Point"
+      },
+      "id": 180
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "auditorium_basiced",
+        "name": "auditorium_basiced",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM Auditorium",
+        "nearest_node": "RD_BASICED_BLDG",
+        "additionalDescription": "Go upstairs up to the highest level and then go by the center of the building"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95394616362756,
+          10.325437129349396
+        ],
+        "type": "Point"
+      },
+      "id": 181
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "elem_comp_lab",
+        "name": "elem_comp_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Elementary Computer Laboratory",
+        "nearest_node": "RD_BASICED_BLDG",
+        "additionalDescription": "Go upstairs up to 4th Floor, turn left, go by the center of the building"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95392494731908,
+          10.325460376647683
+        ],
+        "type": "Point"
+      },
+      "id": 183
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "new_library",
+        "name": "new_library",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Nursing & Crim Library",
+        "nearest_node": "IT_yes",
+        "additionalDescription": "Go upstairs up to 2nd floor, turn right, first room is the room you're looking for"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9544360676199,
+          10.325749808770269
+        ],
+        "type": "Point"
+      },
+      "id": 183
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "marine_library",
+        "name": "marine_library",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Maritime Library",
+        "nearest_node": "IT_Yesser",
+        "additionalDescription": "Go upstairs up to 2nd Floor, turn left, the library on the right is the room you're looking for"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95471727339805,
+          10.32607935736253
+        ],
+        "type": "Point"
+      },
+      "id": 184
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "uc_library",
+        "name": "uc_library",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "UCLM Library",
+        "nearest_node": "IT_Yesser",
+        "additionalDescription": "Go upstairs up to 2nd Floor, turn left, the library on the left is the one you're looking for"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95472804476526,
+          10.326091853190832
+        ],
+        "type": "Point"
+      },
+      "id": 185
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "marine_office",
+        "name": "marine_office",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Maritime Transportation Office",
+        "nearest_node": "IT_Yesser",
+        "additionalDescription": "Go upstairs up to 3rd floor, go left, one of the two rooms is what you're looking for"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9547185134955,
+          10.326075101188195
+        ],
+        "type": "Point"
+      },
+      "id": 186
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "marine_faculty",
+        "name": "marine_faculty",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Maritime Faculty Room",
+        "nearest_node": "IT_Yesser",
+        "additionalDescription": "Go upstairs up to 3rd Floor, turn left, one of the two rooms is what you're looking for"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95473244626237,
+          10.326089306046427
+        ],
+        "type": "Point"
+      },
+      "id": 187
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "c5_lab",
+        "name": "c5_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "C5 Computer Laboratory",
+        "nearest_node": "IT_Yesser",
+        "additionalDescription": "Go upstairs up to 5th Floor, then go right by the end of the building"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9547252200021,
+          10.326088166307514
+        ],
+        "type": "Point"
+      },
+      "id": 188
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "maritime_avr",
+        "name": "maritime_avr",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Maritime AVR",
+        "nearest_node": "IT_Yesser",
+        "additionalDescription": "Go upstairs all the way to the top, go left and left and the biggest room is the Maritime AVR"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9547297489604,
+          10.326085441760057
+        ],
+        "type": "Point"
+      },
+      "id": 189
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cba_comp_lab",
+        "name": "cba_comp_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CBA Computer Laboratory",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 2nd Floor, go right and take a few stepsd"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95569648351511,
+          10.327082227194637
+        ],
+        "type": "Point"
+      },
+      "id": 190
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cba_faculty",
+        "name": "cba_faculty",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CBA Faculty Room",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 3rd Floor, go take a right and take few steps"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95571044819388,
+          10.327084785749975
+        ],
+        "type": "Point"
+      },
+      "id": 191
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_function_hall",
+        "name": "cbe_function_hall",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CBE Function Hall",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 4th Floor, take a right and take a few steps ahead"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9557237999997,
+          10.327099540600244
+        ],
+        "type": "Point"
+      },
+      "id": 192
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "customs_faculty",
+        "name": "customs_faculty",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Customs' Faculty Room",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the elevator to 3rd Floor, then take right and take a few steps"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95571518870958,
+          10.32711503744855
+        ],
+        "type": "Point"
+      },
+      "id": 193
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "custom_dean_office",
+        "name": "custom_dean_office",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Customs' Dean's Office",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 3rd Floor, take right and take a few steps"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9556991152071,
+          10.327073134381635
+        ],
+        "type": "Point"
+      },
+      "id": 194
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ai_lab",
+        "name": "ai_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "AInnovation Laboratory",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, go all the way to the end of the hallway and then turn left, the room will be ahead of you"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95571169457986,
+          10.327076039479337
+        ],
+        "type": "Point"
+      },
+      "id": 195
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "educ_faculty_dean",
+        "name": "educ_faculty_dean",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Education Faculty Room and Dean's Office",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 4th Floor, take a left and take a few steps ahead"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9557259212524,
+          10.327090444138435
+        ],
+        "type": "Point"
+      },
+      "id": 196
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_review",
+        "name": "cbe_review",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CBE Review Room",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, go all the way to the end of the hallway and the room on the right will be it"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95574018522939,
+          10.327104568787846
+        ],
+        "type": "Point"
+      },
+      "id": 197
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ee_lab",
+        "name": "ee_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "EE Laboratory",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, 3rd to the last room is it"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9557282887294,
+          10.327083811952392
+        ],
+        "type": "Point"
+      },
+      "id": 198
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "engr_faculty",
+        "name": "engr_faculty",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Engineering Faculty and Dean's Office",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 9th Floor, take a left and then a few steps ahead and it will be the room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95574241064537,
+          10.327095889738644
+        ],
+        "type": "Point"
+      },
+      "id": 199
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ece_lab",
+        "name": "ece_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "ECE Laboratory",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 9th Floor, take a right, go all the way to the 2nd to the last room and that's it"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9557074459268,
+          10.327066906730224
+        ],
+        "type": "Point"
+      },
+      "id": 200
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "engr_toolroom",
+        "name": "engr_toolroom",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Engineering Toolroom",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, 2 rooms ahead and that would be the Engr. Toolroom"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95572207686058,
+          10.327071684808317
+        ],
+        "type": "Point"
+      },
+      "id": 201
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cpe_lab",
+        "name": "cpe_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CPE Laboratory",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right and the first room you see will be it"
+      },
+      "geometry": {
+        "coordinates": [
+          123.9557362615011,
+          10.32708259675313
+        ],
+        "type": "Point"
+      },
+      "id": 202
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "css_lab",
+        "name": "css_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CSS Laboratory",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 9th Floor, take a left, go all the way to the end, the room on it is the one you're looking for"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95574956683703,
+          10.327090393301347
+        ],
+        "type": "Point"
+      },
+      "id": 203
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "fab_lab",
+        "name": "fab_lab",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Fabrication Laboratory",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right and the 2nd room ahead is the Fab Lab"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95573152660472,
+          10.327075830035838
+        ],
+        "type": "Point"
+      },
+      "id": 204
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ec_office",
+        "name": "ec_office",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "Engineering Council Office",
+        "nearest_node": "RD_cbe_elevator",
+        "additionalDescription": "Ride the Elevator to 10th Floor, take a right and take a few steps ahead to find the room"
+      },
+      "geometry": {
+        "coordinates": [
+          123.95574417382568,
+          10.327085131851021
+        ],
+        "type": "Point"
+      },
+      "id": 205
+    }
+  ]
+}
