@@ -530,8 +530,11 @@ const CampusMap: React.FC<MapProps> = ({
         }
       };
     }
+  // CRITICAL: Only re-run when mobileMode or useEnhancedTracking changes
+  // Do NOT include currentLocation or selectedDestination - they change frequently
+  // and would cause multiple trackers to be created!
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentLocation, selectedDestination, mobileMode, useEnhancedTracking, updateDynamicRoadHighlighting]);
+  }, [mobileMode, useEnhancedTracking]);
 
   const getFeatureCoordinates = (feature: Feature<Geometry>) => {
     const geometry = feature.getGeometry();
@@ -776,6 +779,12 @@ const CampusMap: React.FC<MapProps> = ({
     },
     [userPosition, followUserPosition]
   );
+
+  // Stable callback for toggling camera follow without parameters
+  // Prevents re-creating function on every render
+  const handleToggleCameraFollow = useCallback(() => {
+    toggleCameraFollow(!cameraFollowMode);
+  }, [cameraFollowMode, toggleCameraFollow]);
 
   // Update feature property
   const updateFeatureProperty = useCallback(
@@ -2329,7 +2338,7 @@ const CampusMap: React.FC<MapProps> = ({
             routeInfo={routeInfo}
             routeProgress={routeProgress}
             cameraFollowMode={cameraFollowMode}
-            onToggleCameraFollow={() => toggleCameraFollow(!cameraFollowMode)}
+            onToggleCameraFollow={handleToggleCameraFollow}
             onClearRoute={clearRoute}
           />
         )}

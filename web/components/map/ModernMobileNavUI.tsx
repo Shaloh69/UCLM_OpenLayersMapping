@@ -803,4 +803,36 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
   );
 };
 
-export default ModernMobileNavUI;
+// Memoize component to prevent unnecessary re-renders
+// Only re-render when props actually change meaningfully
+export default React.memo(ModernMobileNavUI, (prevProps, nextProps) => {
+  // Always re-render if destination changes
+  if (prevProps.destination.id !== nextProps.destination.id) return false;
+
+  // Always re-render if currentLocation changes
+  if (prevProps.currentLocation?.id !== nextProps.currentLocation?.id) return false;
+
+  // Always re-render if camera follow mode changes
+  if (prevProps.cameraFollowMode !== nextProps.cameraFollowMode) return false;
+
+  // Always re-render if callbacks change (shouldn't happen with useCallback)
+  if (prevProps.onToggleCameraFollow !== nextProps.onToggleCameraFollow) return false;
+  if (prevProps.onClearRoute !== nextProps.onClearRoute) return false;
+
+  // For routeProgress, only re-render if distance changed by more than 2m
+  // This prevents re-animating on every tiny GPS update
+  const prevDistance = prevProps.routeProgress?.distanceToDestination ?? prevProps.routeInfo?.distance ?? 0;
+  const nextDistance = nextProps.routeProgress?.distanceToDestination ?? nextProps.routeInfo?.distance ?? 0;
+  const distanceChanged = Math.abs(prevDistance - nextDistance) > 2;
+
+  // For routeProgress, only re-render if percent changed by more than 1%
+  const prevPercent = prevProps.routeProgress?.percentComplete ?? 0;
+  const nextPercent = nextProps.routeProgress?.percentComplete ?? 0;
+  const percentChanged = Math.abs(prevPercent - nextPercent) > 1;
+
+  // Re-render if distance or percent changed significantly
+  if (distanceChanged || percentChanged) return false;
+
+  // Otherwise, prevent re-render (return true = props are equal, don't re-render)
+  return true;
+});
