@@ -140,6 +140,7 @@ export class EnhancedLocationTracker {
   private maxAccuracyThreshold = 50; // Ignore GPS readings with accuracy > 50 meters
   private lastValidPosition: UserPosition | null = null; // Last position that passed filtering
   private snappedPosition: [number, number] | null = null; // Position snapped to nearest road node
+  private lastSnappedPosition: [number, number] | null = null; // Last snapped position for movement comparison
   private nodesSource: VectorSource | null = null; // Reference to nodes source for snapping
 
   // Camera Rotation Debouncer (prevents jittery compass rotation)
@@ -358,6 +359,9 @@ export class EnhancedLocationTracker {
       this.rotationDebounceTimer = null;
     }
 
+    // Reset position tracking
+    this.lastSnappedPosition = null;
+
     // PRIORITY 3: Stop force update interval
     this.stopForceUpdateInterval();
   }
@@ -367,59 +371,15 @@ export class EnhancedLocationTracker {
     console.log(`[GPS] 📍 Raw GPS: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} | Accuracy: ${accuracy?.toFixed(1)}m`);
 
     // =============================================
-    // PHASE 1: PRE-RENDER VALIDATION
-    // PRIORITY 5: Split validation - track quality but continue to snap marker
+    // PHASE 1: ACCURACY VALIDATION
+    // Check GPS quality but continue to process
     // =============================================
 
-    // 1.1 ACCURACY FILTER: Check GPS quality but don't reject immediately
     let isHighQualityGPS = true;
     if (accuracy && accuracy > this.maxAccuracyThreshold) {
       console.log(`[GPS] ⚠️ Low accuracy: ${accuracy.toFixed(0)}m > ${this.maxAccuracyThreshold}m (will snap but skip heavy UI updates)`);
       isHighQualityGPS = false;
-      // PRIORITY 5: Don't return here - continue to snap marker
-    }
-
-    // 1.2 MOVEMENT FILTER: Check movement but don't reject immediately
-    let hasMovedSignificantly = true;
-    if (this.lastValidPosition) {
-      const distance = this.calculateMovementDistance(
-        this.lastValidPosition.coordinates,
-        [longitude, latitude]
-      );
-
-      // PRIORITY 2: Dynamic movement threshold based on distance to destination
-      // When close to destination, use lower threshold for higher sensitivity
-      // When far away, use normal threshold to reduce GPS jitter
-      let dynamicThreshold = this.minMovementThreshold; // Default: 5m
-
-      if (this.destinationPosition) {
-        const distToDestination = this.calculateMovementDistance(
-          [longitude, latitude],
-          this.destinationPosition
-        );
-
-        // Dynamic threshold calculation:
-        // < 150m from destination: 2m threshold (high sensitivity for arrival detection)
-        // 150m-500m: 3m threshold (moderate sensitivity)
-        // > 500m: 5m threshold (normal, reduces jitter)
-        if (distToDestination < 150) {
-          dynamicThreshold = 2;
-        } else if (distToDestination < 500) {
-          dynamicThreshold = 3;
-        }
-
-        if (distToDestination < 200) {
-          console.log(`[GPS Dynamic Threshold] 🎯 ${distToDestination.toFixed(0)}m from destination - using ${dynamicThreshold}m movement threshold`);
-        }
-      }
-
-      if (distance < dynamicThreshold) {
-        console.log(`[GPS] ⚠️ Small movement: ${distance.toFixed(1)}m < ${dynamicThreshold.toFixed(1)}m (will snap but skip heavy UI updates)`);
-        hasMovedSignificantly = false;
-        // PRIORITY 5: Don't return here - continue to snap marker
-      } else {
-        console.log(`[GPS] ✅ Good movement: ${distance.toFixed(1)}m (threshold: ${dynamicThreshold}m)`);
-      }
+      // Continue to snap marker even with low accuracy
     }
 
     // =============================================
@@ -448,9 +408,9 @@ export class EnhancedLocationTracker {
     };
 
     // =============================================
-    // PHASE 3: DETERMINE RENDER COORDINATES
-    // CRITICAL: When route exists, marker MUST ALWAYS be on road
-    // NEVER show marker at raw GPS position when route is active
+    // PHASE 3: SNAP TO ROUTE (IF ACTIVE)
+    // CRITICAL: Snap BEFORE checking movement
+    // This allows us to compare snapped positions, not raw GPS
     // =============================================
 
     const hasActiveRoute = this.routePath && this.routePath.length >= 2;
@@ -459,7 +419,7 @@ export class EnhancedLocationTracker {
     if (hasActiveRoute) {
       // ========== ROUTE MODE: MANDATORY ROAD-ONLY RENDERING ==========
       // The marker MUST stay on the highlighted road at ALL times
-      console.log(`[RENDER] 🛣️  Route active - MANDATORY road snap (NO GPS FALLBACK)`);
+      console.log(`[SNAP] 🛣️  Route active - snapping to road BEFORE movement check`);
 
       // ALWAYS snap to route - NO EXCEPTIONS, NO GPS FALLBACK EVER
       const snappedPoint = this.findClosestPointOnRoute(longitude, latitude);
@@ -468,7 +428,7 @@ export class EnhancedLocationTracker {
         // SUCCESS: Marker will render ON the road
         finalRenderCoordinates = snappedPoint;
         this.snappedPosition = snappedPoint;
-        console.log(`[RENDER] ✅ Snap successful - marker ON ROAD at [${snappedPoint[0].toFixed(6)}, ${snappedPoint[1].toFixed(6)}]`);
+        console.log(`[SNAP] ✅ Snap successful - marker ON ROAD at [${snappedPoint[0].toFixed(6)}, ${snappedPoint[1].toFixed(6)}]`);
       } else {
         // FAILURE: Cannot snap to route
         // CRITICAL: NEVER show marker off-road
@@ -477,33 +437,101 @@ export class EnhancedLocationTracker {
         // Priority 3: Skip render entirely (marker stays invisible)
         if (this.snappedPosition) {
           finalRenderCoordinates = this.snappedPosition;
-          console.log(`[RENDER] ⚠️ Snap failed - keeping marker at LAST SNAPPED position on road`);
+          console.log(`[SNAP] ⚠️ Snap failed - keeping marker at LAST SNAPPED position on road`);
         } else if (this.routePath.length > 0) {
           // Use route start as fallback - marker MUST be on road
           finalRenderCoordinates = this.routePath[0];
           this.snappedPosition = this.routePath[0];
-          console.log(`[RENDER] ⚠️ Snap failed, no previous snap - placing marker at ROUTE START`);
+          console.log(`[SNAP] ⚠️ Snap failed, no previous snap - placing marker at ROUTE START`);
         } else {
-          console.log(`[RENDER] ❌ Cannot render - no route available. SKIPPING to prevent off-road marker`);
+          console.log(`[SNAP] ❌ Cannot render - no route available. SKIPPING to prevent off-road marker`);
           return; // Skip entire render cycle - DO NOT show marker off-road
         }
       }
     } else {
       // ========== FREE MODE: No route - show actual GPS ==========
       // Only in free mode (no navigation) do we show actual GPS position
-      console.log(`[RENDER] 📍 No route - showing actual GPS position`);
+      console.log(`[SNAP] 📍 No route - showing actual GPS position`);
       finalRenderCoordinates = [longitude, latitude];
       this.snappedPosition = null;
     }
 
     // =============================================
-    // PHASE 4: UPDATE STATE
+    // PHASE 4: MOVEMENT FILTER (ON SNAPPED POSITION)
+    // NOW we check movement using snapped positions
+    // This is more meaningful than comparing raw GPS
+    // =============================================
+
+    let hasMovedSignificantly = true;
+
+    if (this.lastSnappedPosition && hasActiveRoute) {
+      // Compare snapped positions (more accurate than raw GPS)
+      const snappedDistance = this.calculateMovementDistance(
+        this.lastSnappedPosition,
+        finalRenderCoordinates
+      );
+
+      // PRIORITY 2: Dynamic movement threshold based on distance to destination
+      // When close to destination, use lower threshold for higher sensitivity
+      // When far away, use normal threshold to reduce GPS jitter
+      let dynamicThreshold = this.minMovementThreshold; // Default: 5m
+
+      if (this.destinationPosition) {
+        const distToDestination = this.calculateMovementDistance(
+          finalRenderCoordinates,
+          this.destinationPosition
+        );
+
+        // Dynamic threshold calculation:
+        // < 150m from destination: 2m threshold (high sensitivity for arrival detection)
+        // 150m-500m: 3m threshold (moderate sensitivity)
+        // > 500m: 5m threshold (normal, reduces jitter)
+        if (distToDestination < 150) {
+          dynamicThreshold = 2;
+        } else if (distToDestination < 500) {
+          dynamicThreshold = 3;
+        }
+
+        if (distToDestination < 200) {
+          console.log(`[Movement Filter] 🎯 ${distToDestination.toFixed(0)}m from destination - using ${dynamicThreshold}m threshold`);
+        }
+      }
+
+      if (snappedDistance < dynamicThreshold) {
+        console.log(`[Movement Filter] ⚠️ Small snapped movement: ${snappedDistance.toFixed(1)}m < ${dynamicThreshold.toFixed(1)}m (will render but skip heavy UI updates)`);
+        hasMovedSignificantly = false;
+        // Continue to render marker, but skip heavy UI updates
+      } else {
+        console.log(`[Movement Filter] ✅ Good snapped movement: ${snappedDistance.toFixed(1)}m (threshold: ${dynamicThreshold}m)`);
+      }
+    } else if (this.lastValidPosition && !hasActiveRoute) {
+      // Free mode: compare raw GPS positions
+      const rawDistance = this.calculateMovementDistance(
+        this.lastValidPosition.coordinates,
+        [longitude, latitude]
+      );
+
+      if (rawDistance < this.minMovementThreshold) {
+        console.log(`[Movement Filter] ⚠️ Small raw GPS movement: ${rawDistance.toFixed(1)}m < ${this.minMovementThreshold}m`);
+        hasMovedSignificantly = false;
+      } else {
+        console.log(`[Movement Filter] ✅ Good raw GPS movement: ${rawDistance.toFixed(1)}m`);
+      }
+    }
+
+    // =============================================
+    // PHASE 5: UPDATE STATE
     // All checks passed - update internal state
     // =============================================
 
     this.lastValidPosition = newPosition;
     this.previousPosition = this.currentPosition;
     this.currentPosition = newPosition;
+
+    // Update last snapped position for next movement comparison
+    if (hasActiveRoute && this.snappedPosition) {
+      this.lastSnappedPosition = [...this.snappedPosition] as [number, number];
+    }
 
     this.positionHistory.push(newPosition);
     if (this.positionHistory.length > this.maxHistoryLength) {
@@ -516,22 +544,22 @@ export class EnhancedLocationTracker {
     }
 
     // =============================================
-    // PHASE 5: RENDER MARKER
+    // PHASE 6: RENDER MARKER
     // GUARANTEED: finalRenderCoordinates is ALWAYS on road when route exists
     // =============================================
 
     console.log(`[RENDER] 🎯 Rendering marker at: [${finalRenderCoordinates[0].toFixed(6)}, ${finalRenderCoordinates[1].toFixed(6)}]`);
     this.updateMapFeatures(finalRenderCoordinates);
 
-    // PRIORITY 5: Early exit for low-quality GPS - marker was snapped, but skip heavy updates
+    // Early exit for low-quality GPS - marker was snapped, but skip heavy updates
     // This allows the marker to update smoothly even with poor GPS or minimal movement
     if (!isHighQualityGPS || !hasMovedSignificantly) {
-      console.log(`[GPS] ⏭️  Marker snapped successfully, but skipping heavy UI updates (${!isHighQualityGPS ? 'low accuracy' : 'small movement'})`);
+      console.log(`[GPS] ⏭️  Marker snapped successfully, but skipping heavy UI updates (${!isHighQualityGPS ? 'low accuracy' : 'small snapped movement'})`);
       return; // Marker is now on-road, but skip expensive route progress calculations
     }
 
     // =============================================
-    // PHASE 6: POST-RENDER UPDATES (HIGH QUALITY GPS ONLY)
+    // PHASE 7: POST-RENDER UPDATES (HIGH QUALITY GPS ONLY)
     // Update UI, route progress, callbacks - only for high-quality GPS readings
     // =============================================
 
