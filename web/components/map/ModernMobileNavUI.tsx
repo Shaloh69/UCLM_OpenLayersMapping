@@ -93,22 +93,22 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
 
   // PRIORITY 1: Track time spent near destination for failsafe arrival detection
   useEffect(() => {
-    if (displayDistance < 100 && displayDistance > 0) {
-      // User is within 100m of destination - start/continue proximity timer
+    if (displayDistance < 50 && displayDistance > 0) {
+      // User is within 50m of destination - start/continue proximity timer
       if (lastCloseTime === null) {
         setLastCloseTime(Date.now());
-        console.log('[Arrival Failsafe] 📍 User entered 100m proximity zone - starting timer');
+        console.log('[Arrival Failsafe] 📍 User entered 50m proximity zone - starting timer');
       }
       const elapsed = Math.floor((Date.now() - (lastCloseTime || Date.now())) / 1000);
       setProximityTimer(elapsed);
 
       if (elapsed > 0 && elapsed % 5 === 0) { // Log every 5 seconds
-        console.log(`[Arrival Failsafe] ⏱️  User has been within 100m for ${elapsed}s`);
+        console.log(`[Arrival Failsafe] ⏱️  User has been within 50m for ${elapsed}s`);
       }
     } else {
       // User is far from destination - reset timer
       if (lastCloseTime !== null) {
-        console.log('[Arrival Failsafe] 📍 User exited 100m proximity zone - resetting timer');
+        console.log('[Arrival Failsafe] 📍 User exited 50m proximity zone - resetting timer');
       }
       setLastCloseTime(null);
       setProximityTimer(0);
@@ -117,14 +117,12 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
 
   // PRIORITY 1: Multi-criteria arrival detection with failsafes
   // Triggers on ANY of these conditions:
-  // 1. Primary: Within 15m of destination AND traveled at least 20m
-  // 2. Failsafe A: Within 100m for 30+ seconds (user stopped moving)
-  // 3. Failsafe B: Route 95%+ complete (GPS inaccurate but route nearly done)
+  // 1. Primary: Within 3m of destination AND traveled at least 20m
+  // 2. Failsafe: Within 50m for 30+ seconds (user stopped moving near destination)
   const hasArrived = useMemo(() => {
-    const isVeryClose = displayDistance < 15; // Primary detection
-    const isCloseEnough = displayDistance < 100;
+    const isVeryClose = displayDistance < 3; // Primary detection - very precise
+    const isNearDestination = displayDistance < 50; // Failsafe for poor GPS
     const hasBeenCloseForAWhile = proximityTimer >= 30; // 30 seconds failsafe
-    const isAlmostComplete = percentComplete >= 95; // 95% completion failsafe
 
     // Prevent immediate arrival when starting near destination
     const distanceTraveled = routeProgress?.distanceTraveled ?? 0;
@@ -133,25 +131,22 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
 
     const arrivalCriteria = {
       distance: isVeryClose && hasStartedJourney,
-      proximity: isCloseEnough && hasBeenCloseForAWhile && hasStartedJourney,
-      completion: isAlmostComplete,
+      proximity: isNearDestination && hasBeenCloseForAWhile && hasStartedJourney,
     };
 
-    const arrived = arrivalCriteria.distance || arrivalCriteria.proximity || arrivalCriteria.completion;
+    const arrived = arrivalCriteria.distance || arrivalCriteria.proximity;
 
     // Enhanced logging with criteria breakdown
     if (displayDistance > 0 && displayDistance < 150) {
-      const criteriaStatus = `Distance: ${isVeryClose ? '✓' : '✗'} (${displayDistance.toFixed(1)}m < 15m) | ` +
+      const criteriaStatus = `Distance: ${isVeryClose ? '✓' : '✗'} (${displayDistance.toFixed(1)}m < 3m) | ` +
                             `Progress: ${hasStartedJourney ? '✓' : '✗'} (${distanceTraveled.toFixed(1)}m / 20m) | ` +
-                            `Proximity: ${arrivalCriteria.proximity ? '✓' : '✗'} (${isCloseEnough ? 'in range' : 'out of range'}, ${proximityTimer}s/30s) | ` +
-                            `Completion: ${arrivalCriteria.completion ? '✓' : '✗'} (${percentComplete.toFixed(1)}%/95%)`;
+                            `Proximity: ${arrivalCriteria.proximity ? '✓' : '✗'} (${isNearDestination ? 'in range' : 'out of range'}, ${proximityTimer}s/30s)`;
       console.log(`[Arrival Detection] ${criteriaStatus}`);
     }
 
     if (arrived) {
-      const triggeredBy = arrivalCriteria.distance ? `Distance < 15m (traveled ${distanceTraveled.toFixed(1)}m)` :
-                         arrivalCriteria.proximity ? `Proximity (${proximityTimer}s at < 100m, traveled ${distanceTraveled.toFixed(1)}m)` :
-                         'Route completion (95%+)';
+      const triggeredBy = arrivalCriteria.distance ? `Distance < 3m (traveled ${distanceTraveled.toFixed(1)}m)` :
+                         `Proximity (${proximityTimer}s at < 50m, traveled ${distanceTraveled.toFixed(1)}m)`;
       console.log(`[Arrival Detection] 🎉 ARRIVAL DETECTED! Triggered by: ${triggeredBy}`);
     }
 
@@ -165,8 +160,8 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
     }
   }, [displayDistance, hasArrived, secondsSinceUpdate]);
 
-  // Show "getting close" indicator when within 15-50m but not yet arrived
-  const isGettingClose = displayDistance >= 15 && displayDistance < 50;
+  // Show "getting close" indicator when within 3-50m but not yet arrived
+  const isGettingClose = displayDistance >= 3 && displayDistance < 50;
 
   // CRITICAL: Ensure footer is ALWAYS visible during navigation
   // Reset from 'hidden' to 'minimized' if panel somehow gets hidden
