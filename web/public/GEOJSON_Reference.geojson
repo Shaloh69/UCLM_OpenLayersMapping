@@ -279,7 +279,7 @@
           10.325272
         ]
       },
-      "id": "small_stairs_old"
+      "id": 13
     },
     {
       "type": "Feature",
@@ -299,7 +299,7 @@
           10.325286
         ]
       },
-      "id": "main_stairs_old"
+      "id": 14
     },
     {
       "type": "Feature",
@@ -319,7 +319,7 @@
           10.325009
         ]
       },
-      "id": "stairs_uro_old"
+      "id": 15
     },
     {
       "type": "Feature",
@@ -1936,7 +1936,8 @@
         "category": "Points of Interest",
         "description": "UCLM CADS Office (Campus Director)",
         "nearest_node": "RE_stairs_uro_old",
-        "additionalDescription": "Go upstairs until 4th Floor then the first room that you see on the left is the CADS Office"
+        "additionalDescription": "Go upstairs until 4th Floor then the first room that you see on the left is the CADS Office",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -1945,7 +1946,7 @@
         ],
         "type": "Point"
       },
-      "id": "CADS_OFFICE"
+      "id": 106
     },
     {
       "type": "Feature",
@@ -1956,7 +1957,8 @@
         "description": "UCLM University Research Office",
         "category": "Points of Interest",
         "nearest_node": "RE_stairs_uro_old",
-        "additionalDescription": "Go upstairs and then turn right, go all the way to the end."
+        "additionalDescription": "Go upstairs and then turn right, go all the way to the end.",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -1965,7 +1967,7 @@
         ],
         "type": "Point"
       },
-      "id": "URO"
+      "id": 107
     },
     {
       "type": "Feature",
@@ -1976,7 +1978,8 @@
         "category": "Points of Interest",
         "description": "Anatomy Laboratory",
         "nearest_node": "RE_stairs_uro_old",
-        "additionalDescription": "Go upstairs up to 4th Floor and then the 2nd room from there is Anatomy Lab"
+        "additionalDescription": "Go upstairs up to 4th Floor and then the 2nd room from there is Anatomy Lab",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -1985,7 +1988,7 @@
         ],
         "type": "Point"
       },
-      "id": "anatomy_lab"
+      "id": 108
     },
     {
       "type": "Feature",
@@ -1996,7 +1999,8 @@
         "category": "Points of Interest",
         "description": "Kitchen Laboratory 1",
         "nearest_node": "RE_stairs_uro_old",
-        "additionalDescription": "Go upstairs up to 4th Floor and then go right"
+        "additionalDescription": "Go upstairs up to 4th Floor and then go right",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2005,7 +2009,7 @@
         ],
         "type": "Point"
       },
-      "id": "kitchen_lab1"
+      "id": 109
     },
     {
       "type": "Feature",
@@ -2016,7 +2020,8 @@
         "category": "Points of Interest",
         "description": "Nursing Faculty Room",
         "nearest_node": "main_stairs_oldRoad_end",
-        "additionalDescription": "Go upstairs up to 3rd Floor go left and then the 1st room is the Nursing Faculty Room"
+        "additionalDescription": "Go upstairs up to 3rd Floor go left and then the 1st room is the Nursing Faculty Room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2025,7 +2030,7 @@
         ],
         "type": "Point"
       },
-      "id": "nursing_faculty_room"
+      "id": 110
     },
     {
       "type": "Feature",
@@ -2036,7 +2041,8 @@
         "category": "Points of Interest ",
         "description": "UCLM Mini Resto",
         "nearest_node": "main_stairs_oldRoad_end",
-        "additionalDescription": "Go upstairs up to 4th Floor go left and then the 1st room is that room."
+        "additionalDescription": "Go upstairs up to 4th Floor go left and then the 1st room is that room.",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2045,7 +2051,7 @@
         ],
         "type": "Point"
       },
-      "id": "uc_resto"
+      "id": 111
     },
     {
       "type": "Feature",
@@ -2056,7 +2062,8 @@
         "category": "Points of Interest",
         "description": "UCLM Coop Office",
         "nearest_node": "Stairs1OldRoadEnd",
-        "additionalDescription": "Go upstairs and then the end room is that room"
+        "additionalDescription": "Go upstairs and then the end room is that room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2065,7 +2072,7 @@
         ],
         "type": "Point"
       },
-      "id": "coop_office"
+      "id": 112
     },
     {
       "type": "Feature",
@@ -2076,7 +2083,8 @@
         "category": "Points of Interest",
         "description": "UCLM Yearbook Office",
         "nearest_node": "Stairs1OldRoadEnd",
-        "additionalDescription": "Go upstairs and then the room after the Multimedia Room is that room"
+        "additionalDescription": "Go upstairs and then the room after the Multimedia Room is that room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2085,7 +2093,7 @@
         ],
         "type": "Point"
       },
-      "id": "yearbook_office"
+      "id": 113
     },
     {
       "type": "Feature",
