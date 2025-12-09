@@ -76,10 +76,12 @@ export const calculateBearing = (
 };
 
 // Calculate distance between two geographic coordinates (in meters)
+// CRITICAL: getDistance expects EPSG:4326 (lon/lat), NOT EPSG:3857 (Web Mercator)
 export const calculateDistance = (
   coord1: [number, number],
   coord2: [number, number]
 ): number => {
+  // Do NOT convert to Web Mercator - getDistance calculates spherical distance on lon/lat
   return getDistance(coord1, coord2);
 };
 
