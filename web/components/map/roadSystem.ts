@@ -28,6 +28,7 @@ export interface RoadNode {
   imageUrl?: string;
   nearest_node?: string; // ID of nearest road node (for POIs not on road network)
   additionalDirections?: string; // Walking directions from nearest_node to this POI
+  isHidable?: boolean; // If true, marker and name won't show on map but point is still selectable as destination
 }
 
 /**

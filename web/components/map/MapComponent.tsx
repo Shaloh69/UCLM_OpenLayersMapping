@@ -668,6 +668,7 @@ const CampusMap: React.FC<MapProps> = ({
         imageUrl: startFeature.get("imageUrl"),
         nearest_node: startFeature.get("nearest_node"),
         additionalDirections: startFeature.get("additionalDirections"),
+        isHidable: startFeature.get("isHidable"),
       };
 
       const endNode: RoadNode = {
@@ -680,6 +681,7 @@ const CampusMap: React.FC<MapProps> = ({
         imageUrl: endFeature.get("imageUrl"),
         nearest_node: endFeature.get("nearest_node"),
         additionalDirections: endFeature.get("additionalDirections"),
+        isHidable: endFeature.get("isHidable"),
       };
 
       // Set nodes in state
@@ -1659,6 +1661,7 @@ const CampusMap: React.FC<MapProps> = ({
               imageUrl: props.imageUrl,
               nearest_node: props.nearest_node,
               additionalDirections: props.additionalDirections,
+              isHidable: props.isHidable,
             };
 
             // Find and set main gate as default starting point
@@ -1754,6 +1757,7 @@ const CampusMap: React.FC<MapProps> = ({
                 imageUrl: feature.properties.imageUrl,
                 nearest_node: feature.properties.nearest_node,
                 additionalDirections: feature.properties.additionalDirections,
+                isHidable: feature.properties.isHidable,
               };
 
               // Find and set main gate as default starting point
@@ -1818,6 +1822,7 @@ const CampusMap: React.FC<MapProps> = ({
               imageUrl: props.imageUrl,
               nearest_node: props.nearest_node,
               additionalDirections: props.additionalDirections,
+              isHidable: props.isHidable,
             };
 
             // Find main gate

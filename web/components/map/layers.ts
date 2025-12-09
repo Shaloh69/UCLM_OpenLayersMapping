@@ -74,6 +74,12 @@ export const setupLayers = (
     style: (feature, resolution) => {
       const properties = feature.getProperties();
       const isDestination = properties.isDestination === true;
+      const isHidable = properties.isHidable === true;
+
+      // If point is hidable, don't render marker or text
+      if (isHidable) {
+        return null; // Return null to hide the feature
+      }
 
       // Base marker styling
       const color = properties["marker-color"] || "#3b82f6"; // Default blue
