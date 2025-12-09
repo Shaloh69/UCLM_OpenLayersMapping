@@ -1650,7 +1650,7 @@ const CampusMap: React.FC<MapProps> = ({
             };
 
             // Find and set main gate as default starting point
-            if (props.category === "Gates" && props.id === "gate1") {
+            if (props.category === "Gates" && props.id === "gate_1") {
               mainGate = node;
             }
 
@@ -1745,7 +1745,7 @@ const CampusMap: React.FC<MapProps> = ({
               // Find and set main gate as default starting point
               if (
                 feature.properties.category === "Gates" &&
-                feature.properties.id === "gate1"
+                feature.properties.id === "gate_1"
               ) {
                 mainGate = node;
               }
@@ -1807,7 +1807,7 @@ const CampusMap: React.FC<MapProps> = ({
             };
 
             // Find main gate
-            if (props.category === "Gates" && props.id === "gate1") {
+            if (props.category === "Gates" && props.id === "gate_1") {
               mainGate = node;
             }
 
