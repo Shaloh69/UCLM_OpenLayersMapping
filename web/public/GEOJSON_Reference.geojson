@@ -2044,7 +2044,7 @@
         "id": "uc_resto",
         "name": "UC Resto",
         "isDestination": true,
-        "category": "Points of Interest ",
+        "category": "Points of Interest",
         "description": "UCLM Mini Resto",
         "nearest_node": "main_stairs_oldRoad_end",
         "additionalDescription": "Go upstairs up to 4th Floor go left and then the 1st room is that room.",

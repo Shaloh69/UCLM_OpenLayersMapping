@@ -2171,11 +2171,7 @@ const CampusMap: React.FC<MapProps> = ({
             onClose={handleCloseDestinationSelector}
             categories={[
               "Gates",
-              "Main Buildings",
-              "Maritime",
-              "Business",
-              "Facilities",
-              "Sports Facilities",
+              "Points of Interest",
             ]}
           />
         );
@@ -2189,11 +2185,7 @@ const CampusMap: React.FC<MapProps> = ({
             onClose={handleCloseDestinationSelector}
             categories={[
               "Gates",
-              "Main Buildings",
-              "Maritime",
-              "Business",
-              "Facilities",
-              "Sports Facilities",
+              "Points of Interest",
             ]}
           />
         </div>
