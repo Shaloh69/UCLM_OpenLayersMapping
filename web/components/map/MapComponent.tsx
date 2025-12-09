@@ -436,8 +436,9 @@ const CampusMap: React.FC<MapProps> = ({
                 const dest = selectedDestinationRef.current;
                 const loc = currentLocationRef.current;
                 if (loc && dest) {
-                  const routingNodeId = resolveRoutingNode(dest);
-                  displayRoute(loc.id, routingNodeId);
+                  const startRoutingNodeId = resolveRoutingNode(loc);
+                  const endRoutingNodeId = resolveRoutingNode(dest);
+                  displayRoute(startRoutingNodeId, endRoutingNodeId);
                 }
                 isReroutingRef.current = false;
               }, 500); // Small delay to avoid blocking UI
@@ -507,7 +508,8 @@ const CampusMap: React.FC<MapProps> = ({
 
           // If there's an active destination, update the route
           if (selectedDestination) {
-            displayRoute(closestNode.id, selectedDestination.id);
+            const endRoutingNodeId = resolveRoutingNode(selectedDestination);
+            displayRoute(closestNode.id, endRoutingNodeId);
           }
         }
       };
@@ -684,9 +686,11 @@ const CampusMap: React.FC<MapProps> = ({
       setCurrentLocation(startNode);
       setSelectedDestination(endNode);
 
-      // Find and display route - this triggers road highlighting
-      console.log(`[MOBILE] Displaying route: ${startNode.id} → ${endNode.id}`);
-      displayRoute(startNode.id, endNode.id);
+      // Find and display route - resolve routing nodes for POIs
+      const startRoutingNodeId = resolveRoutingNode(startNode);
+      const endRoutingNodeId = resolveRoutingNode(endNode);
+      console.log(`[MOBILE] Displaying route: ${startRoutingNodeId} → ${endRoutingNodeId}`);
+      displayRoute(startRoutingNodeId, endRoutingNodeId);
 
       // Set route UI to visible
       setShowRouteOverlay(true);
@@ -866,14 +870,21 @@ const CampusMap: React.FC<MapProps> = ({
 
       // Calculate route from the determined start point
       if (startNodeToUse) {
-        // Resolve the actual routing node (handles POIs with nearest_node)
-        const routingNodeId = resolveRoutingNode(destination);
-        displayRoute(startNodeToUse.id, routingNodeId);
+        // Resolve the actual routing nodes (handles POIs with nearest_node)
+        const startRoutingNodeId = resolveRoutingNode(startNodeToUse);
+        const endRoutingNodeId = resolveRoutingNode(destination);
 
-        // Log if routing to nearest node instead of actual destination
-        if (routingNodeId !== destination.id) {
+        displayRoute(startRoutingNodeId, endRoutingNodeId);
+
+        // Log if routing to nearest nodes instead of actual POIs
+        if (startRoutingNodeId !== startNodeToUse.id) {
           console.log(
-            `[Route] Routing to nearest node "${routingNodeId}" for POI "${destination.name}"`
+            `[Route] Routing from nearest node "${startRoutingNodeId}" for start "${startNodeToUse.name}"`
+          );
+        }
+        if (endRoutingNodeId !== destination.id) {
+          console.log(
+            `[Route] Routing to nearest node "${endRoutingNodeId}" for POI "${destination.name}"`
           );
         }
 
@@ -1699,8 +1710,10 @@ const CampusMap: React.FC<MapProps> = ({
             setCurrentLocation(startNode);
             setSelectedDestination(endNode);
 
-            // Display the route
-            displayRoute(startNode.id, endNode.id);
+            // Display the route - resolve routing nodes for POIs
+            const startRoutingNodeId = resolveRoutingNode(startNode);
+            const endRoutingNodeId = resolveRoutingNode(endNode);
+            displayRoute(startRoutingNodeId, endRoutingNodeId);
 
             // If route info was provided, use it
             if (routeData.routeInfo) {
