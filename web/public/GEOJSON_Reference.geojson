@@ -165,7 +165,7 @@
       "type": "Feature",
       "properties": {
         "id": "textbook_section",
-        "name": "Texbook Section",
+        "name": "Textbook Section",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Textbook Section",
