@@ -1116,19 +1116,56 @@ export class EnhancedLocationTracker {
         const [dLon, dLat] = destinationCoords;
         if (isNaN(dLon) || isNaN(dLat) || !isFinite(dLon) || !isFinite(dLat)) {
           console.warn(`[ROUTE] ⚠️ Invalid destination coords, using route end instead`);
-          validDestination = validPath[validPath.length - 1];
+          validDestination = undefined;
+        }
+      }
+
+      // CRITICAL FIX: If destination coords differ from route end, extend the route
+      // This ensures the marker can snap all the way to the actual destination
+      const routeEnd = validPath[validPath.length - 1];
+      if (validDestination) {
+        const distanceToActualDestination = calculateDistance(routeEnd, validDestination);
+
+        if (distanceToActualDestination > 5) { // More than 5m difference
+          console.log(`[ROUTE] ⚠️ Route end is ${distanceToActualDestination.toFixed(1)}m from actual destination`);
+          console.log(`[ROUTE] 📍 Route end: [${routeEnd[0].toFixed(6)}, ${routeEnd[1].toFixed(6)}]`);
+          console.log(`[ROUTE] 🎯 Actual dest: [${validDestination[0].toFixed(6)}, ${validDestination[1].toFixed(6)}]`);
+          console.log(`[ROUTE] ✓ Extending route to include actual destination point`);
+
+          // Add the actual destination as the final point in the route
+          this.routePath = [...validPath, validDestination];
+
+          // Add road name for the final segment (use last road name)
+          if (this.routeSegmentRoads.length > 0) {
+            const lastRoad = this.routeSegmentRoads[this.routeSegmentRoads.length - 1];
+            this.routeSegmentRoads = [...this.routeSegmentRoads, lastRoad];
+          }
         }
       }
 
       // Use provided destination coordinates if available (for POIs with nearest_node)
-      // Otherwise use the last point in the route path
-      this.destinationPosition = validDestination || validPath[validPath.length - 1];
+      // Otherwise use the last point in the route path (which may have been extended above)
+      this.destinationPosition = validDestination || this.routePath[this.routePath.length - 1];
+
+      console.log(`[ROUTE] 🎯 Final destination set to: [${this.destinationPosition[0].toFixed(6)}, ${this.destinationPosition[1].toFixed(6)}]`);
+      console.log(`[ROUTE] 🛣️  Route path has ${this.routePath.length} points`);
+
+      // Verify final point matches destination
+      const finalPoint = this.routePath[this.routePath.length - 1];
+      const finalDistance = calculateDistance(finalPoint, this.destinationPosition);
+      if (finalDistance < 1) {
+        console.log(`[ROUTE] ✅ Route final point matches destination (${finalDistance.toFixed(1)}m apart)`);
+      } else {
+        console.warn(`[ROUTE] ⚠️ Route final point is ${finalDistance.toFixed(1)}m from destination!`);
+      }
 
       // Calculate total route distance
       this.totalRouteDistance = 0;
-      for (let i = 0; i < validPath.length - 1; i++) {
-        this.totalRouteDistance += calculateDistance(validPath[i], validPath[i + 1]);
+      for (let i = 0; i < this.routePath.length - 1; i++) {
+        this.totalRouteDistance += calculateDistance(this.routePath[i], this.routePath[i + 1]);
       }
+
+      console.log(`[ROUTE] 📏 Total route distance: ${this.totalRouteDistance.toFixed(1)}m`);
 
       // CRITICAL: Force initial snap to route start if we have a current position
       // This ensures the marker is on the road from the very beginning
