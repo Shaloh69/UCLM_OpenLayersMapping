@@ -240,7 +240,8 @@ const CampusMap: React.FC<MapProps> = ({
         );
       }
     );
-  }, [initLocationTracking]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // initLocationTracking is defined later in the file, but stable via useCallback
 
   // =============================================
   // Dynamic Road Highlighting Helper
