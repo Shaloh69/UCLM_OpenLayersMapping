@@ -239,7 +239,7 @@
           10.326078
         ]
       },
-      "id": "stairs_elevator_president"
+      "id": 11
     },
     {
       "type": "Feature",
@@ -591,7 +591,7 @@
         ],
         "type": "Point"
       },
-      "id": "OldBuildingIntersection"
+      "id": 29
     },
     {
       "type": "Feature",
@@ -714,7 +714,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_Gate2"
+      "id": 34
     },
     {
       "type": "Feature",
@@ -730,7 +730,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_Gate3"
+      "id": 35
     },
     {
       "type": "Feature",
@@ -794,7 +794,7 @@
         ],
         "type": "Point"
       },
-      "id": "RD_AnnexStairs"
+      "id": 39
     },
     {
       "type": "Feature",
@@ -810,7 +810,7 @@
         ],
         "type": "Point"
       },
-      "id": "RD_ANNEXElevatorr"
+      "id": 40
     },
     {
       "type": "Feature",
@@ -874,7 +874,7 @@
         ],
         "type": "Point"
       },
-      "id": "RD_StudyHall"
+      "id": 44
     },
     {
       "type": "Feature",
@@ -890,7 +890,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_2"
+      "id": 45
     },
     {
       "type": "Feature",
@@ -938,7 +938,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_yes"
+      "id": 48
     },
     {
       "type": "Feature",
@@ -954,7 +954,7 @@
         ],
         "type": "Point"
       },
-      "id": "RD_PE_FACULTY"
+      "id": 49
     },
     {
       "type": "Feature",
@@ -986,7 +986,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_9"
+      "id": 51
     },
     {
       "type": "Feature",
@@ -1002,7 +1002,7 @@
         ],
         "type": "Point"
       },
-      "id": "RD_Chapel"
+      "id": 52
     },
     {
       "type": "Feature",
@@ -1018,7 +1018,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_11"
+      "id": 53
     },
     {
       "type": "Feature",
@@ -1034,7 +1034,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_Yesser"
+      "id": 54
     },
     {
       "type": "Feature",
@@ -1098,7 +1098,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_12"
+      "id": 58
     },
     {
       "type": "Feature",
@@ -1194,7 +1194,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_1"
+      "id": 64
     },
     {
       "type": "Feature",
@@ -1226,7 +1226,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_3"
+      "id": 66
     },
     {
       "type": "Feature",
@@ -1242,7 +1242,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_7"
+      "id": 67
     },
     {
       "type": "Feature",
@@ -1258,7 +1258,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_5"
+      "id": 68
     },
     {
       "type": "Feature",
@@ -1290,7 +1290,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_8"
+      "id": 70
     },
     {
       "type": "Feature",
@@ -1322,7 +1322,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_10"
+      "id": 72
     },
     {
       "type": "Feature",
@@ -1338,7 +1338,7 @@
         ],
         "type": "Point"
       },
-      "id": "IT_13"
+      "id": 73
     },
     {
       "type": "Feature",
@@ -1457,7 +1457,7 @@
         ],
         "type": "Point"
       },
-      "id": "RD_GUIDANCE"
+      "id": 79
     },
     {
       "type": "Feature",
@@ -1637,7 +1637,7 @@
         ],
         "type": "Point"
       },
-      "id": "RD_COVERED_COURT"
+      "id": 89
     },
     {
       "type": "Feature",
@@ -1837,7 +1837,7 @@
         ],
         "type": "Point"
       },
-      "id": "RD_CASHIER_ACC_RECORDS"
+      "id": 100
     },
     {
       "type": "Feature",
@@ -1873,7 +1873,7 @@
         ],
         "type": "Point"
       },
-      "id": "RD_EDP_SECTION"
+      "id": 102
     },
     {
       "type": "Feature",
@@ -1889,7 +1889,7 @@
         ],
         "type": "Point"
       },
-      "id": "RD_BASICED_BLDG"
+      "id": 103
     },
     {
       "type": "Feature",
@@ -1909,7 +1909,7 @@
         ],
         "type": "Point"
       },
-      "id": "BASICED_BLDG"
+      "id": 104
     },
     {
       "type": "Feature",
@@ -2401,7 +2401,7 @@
         ],
         "type": "Point"
       },
-      "id": "hs_comp_lab"
+      "id": 129
     },
     {
       "type": "Feature",
@@ -2461,7 +2461,7 @@
         ],
         "type": "Point"
       },
-      "id": "elem_comp_lab"
+      "id": 132
     },
     {
       "type": "Feature",
@@ -2501,7 +2501,7 @@
         ],
         "type": "Point"
       },
-      "id": "marine_library"
+      "id": 134
     },
     {
       "type": "Feature",
@@ -2521,7 +2521,7 @@
         ],
         "type": "Point"
       },
-      "id": "uc_library"
+      "id": 135
     },
     {
       "type": "Feature",
@@ -2541,7 +2541,7 @@
         ],
         "type": "Point"
       },
-      "id": "marine_office"
+      "id": 136
     },
     {
       "type": "Feature",
@@ -2581,7 +2581,7 @@
         ],
         "type": "Point"
       },
-      "id": "c5_lab"
+      "id": 138
     },
     {
       "type": "Feature",
@@ -3069,7 +3069,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_159"
+      "id": 159
     },
     {
       "type": "Feature",
@@ -3122,7 +3122,7 @@
       "properties": {
         "type": "path",
         "name": "RD6",
-        "from": "OldBuildingIntersection",
+        "from": "IT_Gate2",
         "to": "IT_Gate3"
       },
       "geometry": {
@@ -3158,7 +3158,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_162"
+      "id": 162
     },
     {
       "type": "Feature",
@@ -3227,7 +3227,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_165"
+      "id": 165
     },
     {
       "type": "Feature",
@@ -3293,7 +3293,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_167"
+      "id": 167
     },
     {
       "type": "Feature",
@@ -3316,7 +3316,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_168"
+      "id": 168
     },
     {
       "type": "Feature",
@@ -3339,7 +3339,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_169"
+      "id": 169
     },
     {
       "type": "Feature",
@@ -3362,7 +3362,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_170"
+      "id": 170
     },
     {
       "type": "Feature",
@@ -3424,7 +3424,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_172"
+      "id": 172
     },
     {
       "type": "Feature",
@@ -3470,7 +3470,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_174"
+      "id": 174
     },
     {
       "type": "Feature",
@@ -3493,7 +3493,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_175"
+      "id": 175
     },
     {
       "type": "Feature",
@@ -3501,7 +3501,7 @@
         "type": "path",
         "name": "RD31",
         "from": "RD_EDP_SECTION",
-        "to": "BASICED_BLDG"
+        "to": "RD_BASICED_BLDG"
       },
       "geometry": {
         "coordinates": [
@@ -3516,14 +3516,14 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_176"
+      "id": 176
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
         "name": "RD32",
-        "from": "BASICED_BLDG",
+        "from": "RD_BASICED_BLDG",
         "to": "IT_6"
       },
       "geometry": {
@@ -3575,7 +3575,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_177"
+      "id": 177
     },
     {
       "type": "Feature",
@@ -3854,7 +3854,7 @@
         "type": "path",
         "name": "RD22",
         "from": "IT_5",
-        "to": "IT_Gate2"
+        "to": "IT_7"
       },
       "geometry": {
         "coordinates": [
@@ -3869,7 +3869,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_187"
+      "id": 187
     },
     {
       "type": "Feature",
@@ -3892,7 +3892,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_188"
+      "id": 188
     },
     {
       "type": "Feature",
@@ -3931,7 +3931,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_189"
+      "id": 189
     },
     {
       "type": "Feature",
@@ -4030,8 +4030,8 @@
       "properties": {
         "type": "path",
         "name": "RD55",
-        "from": "IT_12",
-        "to": "IT_Gate2"
+        "from": "RD_NSAOFFICE",
+        "to": "IT_12"
       },
       "geometry": {
         "coordinates": [
@@ -4046,7 +4046,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_194"
+      "id": 194
     },
     {
       "type": "Feature",
@@ -4127,7 +4127,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_197"
+      "id": 197
     },
     {
       "type": "Feature",
@@ -4201,7 +4201,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_199"
+      "id": 199
     },
     {
       "type": "Feature",
@@ -4263,7 +4263,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_201"
+      "id": 201
     },
     {
       "type": "Feature",
@@ -4286,7 +4286,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_202"
+      "id": 202
     },
     {
       "type": "Feature",
@@ -4309,7 +4309,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_203"
+      "id": 203
     },
     {
       "type": "Feature",
@@ -4332,7 +4332,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_204"
+      "id": 204
     },
     {
       "type": "Feature",
@@ -4355,7 +4355,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_205"
+      "id": 205
     },
     {
       "type": "Feature",
@@ -4386,7 +4386,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_206"
+      "id": 206
     },
     {
       "type": "Feature",
@@ -4409,7 +4409,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_207"
+      "id": 207
     },
     {
       "type": "Feature",
@@ -4563,8 +4563,8 @@
       "properties": {
         "type": "path",
         "name": "RD60",
-        "from": "RD_ToolRoomRD_ToolRoomME",
-        "to": "IT_Gate2"
+        "from": "RD_GUIDANCE",
+        "to": "RD_ToolRoomME"
       },
       "geometry": {
         "coordinates": [
@@ -4586,7 +4586,7 @@
       "properties": {
         "type": "path",
         "name": "RD61",
-        "from": "RD_ToolRoomRD_ToolRoomME",
+        "from": "RD_ToolRoomME",
         "to": "RD_CBECanteen"
       },
       "geometry": {
@@ -4752,7 +4752,7 @@
         "type": "path",
         "name": "RD47",
         "from": "IT_12",
-        "to": "IT_13"
+        "to": "IT_12"
       },
       "geometry": {
         "coordinates": [
@@ -4767,7 +4767,7 @@
         ],
         "type": "LineString"
       },
-      "id": "LineString_221"
+      "id": 221
     }
   ]
 }
