@@ -117,9 +117,8 @@ export class EnhancedLocationTracker {
   private map: Map;
   private options: LocationTrackingOptions;
   // Feature references
-  private userPositionFeature: Feature;
+  private markerFeature: Feature; // Single marker that's always snapped to road
   private accuracyFeature: Feature;
-  private directionArrowFeature: Feature;
   private userPositionLayer: VectorLayer<VectorSource>;
 
   // Position tracking
@@ -202,10 +201,10 @@ export class EnhancedLocationTracker {
       ...options,
     };
 
-    // Initialize features
-    this.userPositionFeature = new Feature({
+    // Initialize features - ONLY ONE marker feature to prevent dual markers
+    this.markerFeature = new Feature({
       geometry: new Point(fromLonLat([0, 0])),
-      name: "userPosition",
+      name: "marker",
     });
 
     this.accuracyFeature = new Feature({
@@ -213,20 +212,12 @@ export class EnhancedLocationTracker {
       name: "accuracy",
     });
 
-    // Create direction arrow using SVG data URL
-    const arrowSvg = this.createDirectionArrowSVG();
-    this.directionArrowFeature = new Feature({
-      geometry: new Point(fromLonLat([0, 0])),
-      name: "directionArrow",
-    });
-
-    // Create layer with styled features
+    // Create layer with styled features - only one marker in the array
     this.userPositionLayer = new VectorLayer({
       source: new VectorSource({
         features: [
           this.accuracyFeature,
-          this.userPositionFeature,
-          this.directionArrowFeature,
+          this.markerFeature, // Single marker feature
         ],
       }),
       style: (feature) => this.getFeatureStyle(feature),
@@ -268,20 +259,26 @@ export class EnhancedLocationTracker {
   private getFeatureStyle(feature: Feature): Style {
     const name = feature.get("name");
 
-    // CRITICAL: Only show directionArrow when we have heading data AND are moving
-    // Otherwise show the simpler userPosition marker to avoid duplicate markers
-    const hasValidHeading = this.currentPosition?.heading !== null &&
-                           this.currentPosition?.heading !== undefined;
-    const isMoving = (this.currentPosition?.speed ?? 0) > 0.5; // Moving > 0.5 m/s
+    if (name === "marker") {
+      // SINGLE MARKER - always shown, style changes based on movement state
+      const hasValidHeading = this.currentPosition?.heading !== null &&
+                             this.currentPosition?.heading !== undefined;
+      const isMoving = (this.currentPosition?.speed ?? 0) > 0.5; // Moving > 0.5 m/s
 
-    if (name === "userPosition") {
-      // Only show position dot when NOT showing direction arrow
-      // This prevents dual markers (one with arrow, one without)
+      // When moving with valid heading: show direction arrow
       if (this.options.showDirectionArrow && hasValidHeading && isMoving) {
-        return new Style(); // Hide - direction arrow will show instead
+        const rotation = this.currentPosition!.heading!;
+        return new Style({
+          image: new Icon({
+            src: this.createDirectionArrowSVG(),
+            scale: 0.8,
+            rotation: (rotation * Math.PI) / 180, // Convert to radians
+            rotateWithView: false, // We handle rotation ourselves
+          }),
+        });
       }
 
-      // Show pulsing user position dot when stationary or no heading
+      // When stationary or no heading: show simple blue dot
       return new Style({
         image: new CircleStyle({
           radius: 10,
@@ -292,22 +289,6 @@ export class EnhancedLocationTracker {
     } else if (name === "accuracy") {
       // Hide accuracy circle entirely
       return new Style();
-    } else if (name === "directionArrow" && this.options.showDirectionArrow) {
-      // Only show direction arrow when we have valid heading AND are moving
-      if (!hasValidHeading || !isMoving) {
-        return new Style(); // Hide when stationary/no heading
-      }
-
-      // Direction arrow - shows movement direction
-      const rotation = this.currentPosition!.heading!;
-      return new Style({
-        image: new Icon({
-          src: this.createDirectionArrowSVG(),
-          scale: 0.8,
-          rotation: (rotation * Math.PI) / 180, // Convert to radians
-          rotateWithView: false, // We handle rotation ourselves
-        }),
-      });
     }
 
     return new Style();
@@ -945,18 +926,15 @@ export class EnhancedLocationTracker {
     const isSnapped = this.snappedPosition !== null;
     const positionType = hasActiveRoute && isSnapped ? "ON ROAD (snapped)" : "GPS (free)";
 
-    console.log(`[RENDER] 🎯 Marker rendered at [${coordsToUse[0].toFixed(6)}, ${coordsToUse[1].toFixed(6)}] - ${positionType}`);
+    console.log(`[RENDER] 🎯 Single marker rendered at [${coordsToUse[0].toFixed(6)}, ${coordsToUse[1].toFixed(6)}] - ${positionType}`);
 
-    // Update position marker
-    this.userPositionFeature.setGeometry(new Point(coords));
+    // Update the single marker position
+    this.markerFeature.setGeometry(new Point(coords));
 
-    // Update accuracy circle
+    // Update accuracy circle (hidden but still tracked)
     this.accuracyFeature.setGeometry(
       new CircleGeometry(coords, this.currentPosition.accuracy)
     );
-
-    // Update direction arrow
-    this.directionArrowFeature.setGeometry(new Point(coords));
 
     // Refresh styles to update display
     this.userPositionLayer.changed();
