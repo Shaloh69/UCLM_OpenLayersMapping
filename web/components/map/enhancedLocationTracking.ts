@@ -152,6 +152,7 @@ export class EnhancedLocationTracker {
   private startPosition: [number, number] | null = null;
   private destinationPosition: [number, number] | null = null;
   private totalRouteDistance: number = 0;
+  private lastRouteProgress: RouteProgress | null = null;
 
   // Dynamic road highlighting - maps route segment indices to road names
   private routeSegmentRoads: string[] = [];
@@ -578,6 +579,7 @@ export class EnhancedLocationTracker {
 
     if (this.destinationPosition) {
       const progress = this.calculateRouteProgress();
+      this.lastRouteProgress = progress; // Store for camera rotation
       if (this.onRouteProgressUpdate) {
         this.onRouteProgressUpdate(progress);
       }
@@ -1006,15 +1008,34 @@ export class EnhancedLocationTracker {
   }
 
   private startAnimationLoop(): void {
+    let lastLoggedBearing: number | null = null;
+
     const animate = () => {
       if (this.options.rotateMap) {
         let bearingToUse: number | null = null;
 
-        // ALWAYS point towards destination when navigating
+        // Point towards NEXT WAYPOINT on route when navigating (not final destination)
+        // This makes the camera follow the road/path instead of pointing straight at the end
         if (this.currentPosition && this.destinationPosition) {
-          // Calculate bearing from current position to destination
-          const userCoords = this.snappedPosition || this.currentPosition.coordinates;
-          bearingToUse = calculateBearing(userCoords, this.destinationPosition);
+          // Use bearing to next waypoint from route progress (follows the route turns)
+          if (this.lastRouteProgress && this.lastRouteProgress.bearingToNextWaypoint !== null) {
+            bearingToUse = this.lastRouteProgress.bearingToNextWaypoint;
+
+            // Only log when bearing changes significantly (> 5 degrees)
+            if (lastLoggedBearing === null || Math.abs(bearingToUse - lastLoggedBearing) > 5) {
+              console.log(`[Camera] 🧭 Rotating towards next waypoint: ${bearingToUse.toFixed(1)}°`);
+              lastLoggedBearing = bearingToUse;
+            }
+          } else {
+            // Fallback: point directly to destination if no route progress available
+            const userCoords = this.snappedPosition || this.currentPosition.coordinates;
+            bearingToUse = calculateBearing(userCoords, this.destinationPosition);
+
+            if (lastLoggedBearing === null || Math.abs(bearingToUse - lastLoggedBearing) > 5) {
+              console.log(`[Camera] 🧭 Rotating towards destination (no waypoint): ${bearingToUse.toFixed(1)}°`);
+              lastLoggedBearing = bearingToUse;
+            }
+          }
 
           // Smooth rotation interpolation
           const targetRotation = -((bearingToUse * Math.PI) / 180);
@@ -1066,6 +1087,7 @@ export class EnhancedLocationTracker {
 
         // Force recalculation of route progress
         const progress = this.calculateRouteProgress();
+        this.lastRouteProgress = progress; // Store for camera rotation
 
         // Trigger callback to update UI
         if (this.onRouteProgressUpdate) {
@@ -1317,16 +1339,44 @@ export class EnhancedLocationTracker {
           )
         : 0;
 
-    // Find next waypoint FROM MARKER POSITION
+    // Find next waypoint AHEAD on route (not just closest)
+    // This is critical for camera rotation to face along the route direction
     let nextWaypoint: [number, number] | null = null;
     let minDistanceToWaypoint = Infinity;
 
-    for (const waypoint of this.routePath) {
-      const dist = calculateDistance(userCoords, waypoint);
-      if (dist < minDistanceToWaypoint) {
-        minDistanceToWaypoint = dist;
-        nextWaypoint = waypoint;
+    // First, find the closest waypoint index on the route
+    let closestWaypointIndex = 0;
+    let minDistToAny = Infinity;
+    for (let i = 0; i < this.routePath.length; i++) {
+      const dist = calculateDistance(userCoords, this.routePath[i]);
+      if (dist < minDistToAny) {
+        minDistToAny = dist;
+        closestWaypointIndex = i;
       }
+    }
+
+    // Look ahead for the next waypoint (skip current, use next one)
+    // If we're on the last waypoint, use the destination
+    const LOOK_AHEAD_DISTANCE = 15; // meters - how far ahead to look for next waypoint
+
+    for (let i = closestWaypointIndex; i < this.routePath.length; i++) {
+      const waypoint = this.routePath[i];
+      const dist = calculateDistance(userCoords, waypoint);
+
+      // Find first waypoint that's ahead (more than 10m away)
+      if (dist > 10 && dist > minDistToAny) {
+        nextWaypoint = waypoint;
+        minDistanceToWaypoint = dist;
+        console.log(`[Route Progress] Next waypoint ahead: ${dist.toFixed(1)}m away (index ${i}/${this.routePath.length})`);
+        break;
+      }
+    }
+
+    // If no waypoint found ahead, use destination
+    if (!nextWaypoint && this.destinationPosition) {
+      nextWaypoint = this.destinationPosition;
+      minDistanceToWaypoint = distanceToDestination;
+      console.log(`[Route Progress] No waypoint ahead, using destination: ${minDistanceToWaypoint.toFixed(1)}m away`);
     }
 
     // Bearing to next waypoint FROM MARKER POSITION
