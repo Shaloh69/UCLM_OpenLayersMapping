@@ -268,8 +268,20 @@ export class EnhancedLocationTracker {
   private getFeatureStyle(feature: Feature): Style {
     const name = feature.get("name");
 
+    // CRITICAL: Only show directionArrow when we have heading data AND are moving
+    // Otherwise show the simpler userPosition marker to avoid duplicate markers
+    const hasValidHeading = this.currentPosition?.heading !== null &&
+                           this.currentPosition?.heading !== undefined;
+    const isMoving = (this.currentPosition?.speed ?? 0) > 0.5; // Moving > 0.5 m/s
+
     if (name === "userPosition") {
-      // Pulsing user position dot
+      // Only show position dot when NOT showing direction arrow
+      // This prevents dual markers (one with arrow, one without)
+      if (this.options.showDirectionArrow && hasValidHeading && isMoving) {
+        return new Style(); // Hide - direction arrow will show instead
+      }
+
+      // Show pulsing user position dot when stationary or no heading
       return new Style({
         image: new CircleStyle({
           radius: 10,
@@ -278,14 +290,30 @@ export class EnhancedLocationTracker {
         }),
       });
     } else if (name === "accuracy" && this.options.showAccuracyCircle) {
-      // Accuracy circle
+      // Accuracy circle - make it more visible when GPS is poor
+      const accuracy = this.currentPosition?.accuracy ?? 50;
+      const isLowAccuracy = accuracy > this.maxAccuracyThreshold;
+
       return new Style({
-        fill: new Fill({ color: "rgba(59, 130, 246, 0.1)" }),
-        stroke: new Stroke({ color: "#3B82F6", width: 1.5, lineDash: [5, 5] }),
+        fill: new Fill({
+          color: isLowAccuracy
+            ? "rgba(239, 68, 68, 0.1)"  // Red tint for low accuracy
+            : "rgba(59, 130, 246, 0.1)" // Blue for good accuracy
+        }),
+        stroke: new Stroke({
+          color: isLowAccuracy ? "#EF4444" : "#3B82F6",
+          width: isLowAccuracy ? 2 : 1.5,
+          lineDash: [5, 5]
+        }),
       });
     } else if (name === "directionArrow" && this.options.showDirectionArrow) {
-      // Direction arrow
-      const rotation = this.currentPosition?.heading || 0;
+      // Only show direction arrow when we have valid heading AND are moving
+      if (!hasValidHeading || !isMoving) {
+        return new Style(); // Hide when stationary/no heading
+      }
+
+      // Direction arrow - shows movement direction
+      const rotation = this.currentPosition!.heading!;
       return new Style({
         image: new Icon({
           src: this.createDirectionArrowSVG(),
@@ -1268,13 +1296,13 @@ export class EnhancedLocationTracker {
       // Only trigger arrival if user has traveled at least 20m from start
       // This prevents immediate arrival when scanning QR near destination
       const minProgressBeforeArrival = 20; // meters
-      if (distanceToDestination < 70) {
+      if (distanceToDestination < 15) {
         if (distanceTraveled >= minProgressBeforeArrival) {
-          console.log(`[Arrival Detection] ✓ ARRIVED! ${positionType} is ${distanceToDestination.toFixed(1)}m from destination (< 70m threshold, traveled ${distanceTraveled.toFixed(1)}m)`);
+          console.log(`[Arrival Detection] ✓ ARRIVED! ${positionType} is ${distanceToDestination.toFixed(1)}m from destination (< 15m threshold, traveled ${distanceTraveled.toFixed(1)}m)`);
         } else {
           console.log(`[Arrival Detection] ⏸️ At destination but not enough progress (${distanceTraveled.toFixed(1)}m < ${minProgressBeforeArrival}m) - waiting for user to start journey`);
         }
-      } else if (distanceToDestination < 120) {
+      } else if (distanceToDestination < 50) {
         console.log(`[Arrival Detection] 👀 Almost there! ${distanceToDestination.toFixed(1)}m away (measuring from ${positionType})`);
       }
     }
