@@ -455,6 +455,8 @@ export const setupRoadSystem = (
           width: width,
           lineDash: lineDash,
         }),
+        // Highlighted roads should render above points layer (zIndex 10)
+        zIndex: isInActiveRoute ? 15 : 5,
       });
     },
     zIndex: 5, // Place below points but above polygon areas
