@@ -3122,7 +3122,7 @@
       "properties": {
         "type": "path",
         "name": "RD6",
-        "from": "OldBuildingIntersection",
+        "from": "IT_Gate2",
         "to": "IT_Gate3"
       },
       "geometry": {
@@ -3854,7 +3854,7 @@
         "type": "path",
         "name": "RD22",
         "from": "IT_5",
-        "to": "IT_Gate2"
+        "to": "IT_7"
       },
       "geometry": {
         "coordinates": [
@@ -4030,8 +4030,8 @@
       "properties": {
         "type": "path",
         "name": "RD55",
-        "from": "IT_12",
-        "to": "IT_Gate2"
+        "from": "RD_NSAOFFICE",
+        "to": "IT_12"
       },
       "geometry": {
         "coordinates": [
@@ -4077,7 +4077,7 @@
         "type": "path",
         "name": "RD57",
         "from": "IT_12",
-        "to": "IT_Gate2"
+        "to": "RD_nsa_dorm_canteen"
       },
       "geometry": {
         "coordinates": [
@@ -4563,8 +4563,8 @@
       "properties": {
         "type": "path",
         "name": "RD60",
-        "from": "RD_ToolRoomRD_ToolRoomME",
-        "to": "IT_Gate2"
+        "from": "RD_GUIDANCE",
+        "to": "RD_ToolRoomME"
       },
       "geometry": {
         "coordinates": [
