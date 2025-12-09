@@ -4563,7 +4563,7 @@
       "properties": {
         "type": "path",
         "name": "RD60",
-        "from": "RD_ToolRoomRD_ToolRoomME",
+        "from": "RD_ToolRoomME",
         "to": "IT_Gate2"
       },
       "geometry": {
@@ -4586,7 +4586,7 @@
       "properties": {
         "type": "path",
         "name": "RD61",
-        "from": "RD_ToolRoomRD_ToolRoomME",
+        "from": "RD_ToolRoomME",
         "to": "RD_CBECanteen"
       },
       "geometry": {
