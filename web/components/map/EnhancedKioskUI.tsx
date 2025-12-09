@@ -189,18 +189,6 @@ const EnhancedKioskUI: React.FC<EnhancedKioskUIProps> = ({
               ))}
             </motion.div>
           </motion.div>
-
-          {/* Instructions */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-            className="mt-12 text-center"
-          >
-            <p className="text-white/60 text-sm sm:text-base md:text-lg">
-              Touch anywhere on the screen to begin your journey
-            </p>
-          </motion.div>
         </div>
 
         {/* Bottom Wave Decoration */}
