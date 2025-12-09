@@ -68,9 +68,9 @@ import GeoJSON from "ol/format/GeoJSON";
 
 const CampusMap: React.FC<MapProps> = ({
   mapUrl = "/UCLM_Buildings.geojson",
-  pointsUrl = "/newPoints.geojson",       // Updated to use new GeoJSON
-  roadsUrl = "/NewTestRoad.geojson",      // Updated to use new GeoJSON
-  nodesUrl = "/NewTestRoad.geojson",      // Updated to use new GeoJSON (nodes from roads)
+  pointsUrl = "/GEOJSON_Reference.geojson",       // Using unified GeoJSON reference file
+  roadsUrl = "/GEOJSON_Reference.geojson",        // Using unified GeoJSON reference file
+  nodesUrl = "/GEOJSON_Reference.geojson",        // Using unified GeoJSON reference file
   backdropColor = "#f7f2e4",
   initialZoom = 15,
   centerCoordinates = [123.9545, 10.3265],
@@ -1443,8 +1443,7 @@ const CampusMap: React.FC<MapProps> = ({
 
           // Try to load custom files
           const buildingsData = await (window as any).electron.getCustomGeoJSON('Buildings.geojson');
-          const roadSystemData = await (window as any).electron.getCustomGeoJSON('NewTestRoad.geojson');
-          const pointsData = await (window as any).electron.getCustomGeoJSON('Points.geojson');
+          const referenceData = await (window as any).electron.getCustomGeoJSON('GEOJSON_Reference.geojson');
 
           let hasCustomFiles = false;
 
@@ -1457,20 +1456,14 @@ const CampusMap: React.FC<MapProps> = ({
             hasCustomFiles = true;
           }
 
-          if (roadSystemData) {
-            console.log('Custom NewTestRoad.geojson found');
-            const blob = new Blob([JSON.stringify(roadSystemData)], { type: 'application/json' });
+          if (referenceData) {
+            console.log('Custom GEOJSON_Reference.geojson found');
+            const blob = new Blob([JSON.stringify(referenceData)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
-            setActualRoadsUrl(url);
-            setActualNodesUrl(url); // Both use the same file
-            hasCustomFiles = true;
-          }
-
-          if (pointsData) {
-            console.log('Custom Points.geojson found');
-            const blob = new Blob([JSON.stringify(pointsData)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
+            // Use the unified reference file for points, roads, and nodes
             setActualPointsUrl(url);
+            setActualRoadsUrl(url);
+            setActualNodesUrl(url);
             hasCustomFiles = true;
           }
 

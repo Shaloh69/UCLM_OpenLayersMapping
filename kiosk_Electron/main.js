@@ -18,8 +18,7 @@ try {
 // Paths for custom GeoJSON files
 const customFilesDir = path.join(__dirname, "custom_geojson");
 const buildingsFilePath = path.join(customFilesDir, "Buildings.geojson");
-const roadSystemFilePath = path.join(customFilesDir, "RoadSystem.geojson");
-const pointsFilePath = path.join(customFilesDir, "Points.geojson");
+const referenceFilePath = path.join(customFilesDir, "GEOJSON_Reference.geojson");
 
 // Ensure custom files directory exists
 if (!fs.existsSync(customFilesDir)) {
@@ -158,13 +157,9 @@ ipcMain.handle("save-config", async (event, config) => {
       savedConfig.hasCustomFiles = true;
     }
 
-    if (config.roadSystemFile) {
-      fs.writeFileSync(roadSystemFilePath, JSON.stringify(config.roadSystemFile, null, 2));
+    if (config.referenceFile) {
+      fs.writeFileSync(referenceFilePath, JSON.stringify(config.referenceFile, null, 2));
       savedConfig.hasCustomFiles = true;
-    }
-
-    if (config.pointsFile) {
-      fs.writeFileSync(pointsFilePath, JSON.stringify(config.pointsFile, null, 2));
     }
 
     fs.writeFileSync("./config.json", JSON.stringify(savedConfig, null, 2));
@@ -195,11 +190,8 @@ ipcMain.handle("get-custom-geojson", async (event, filename) => {
       case "Buildings.geojson":
         filePath = buildingsFilePath;
         break;
-      case "RoadSystem.geojson":
-        filePath = roadSystemFilePath;
-        break;
-      case "Points.geojson":
-        filePath = pointsFilePath;
+      case "GEOJSON_Reference.geojson":
+        filePath = referenceFilePath;
         break;
       default:
         return null;

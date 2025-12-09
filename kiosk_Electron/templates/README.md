@@ -5,8 +5,7 @@ These template files demonstrate the structure and required properties for custo
 ## Files
 
 1. **Buildings_Template.geojson** - Template for building polygons
-2. **NewTestRoad_Template.geojson** - Template for navigation system (roads + nodes + POIs)
-3. **Points_Template.geojson** - Template for visual marker points (optional)
+2. **GEOJSON_Reference_Template.geojson** - **UNIFIED template for navigation system** (roads + nodes + POIs)
 
 ## How to Use
 
@@ -14,9 +13,10 @@ These template files demonstrate the structure and required properties for custo
 2. Press **Ctrl+Shift+C** to open the configuration panel
 3. Upload your custom GeoJSON files:
    - Buildings.geojson (required)
-   - NewTestRoad.geojson (required)
-   - Points.geojson (optional)
+   - GEOJSON_Reference.geojson (required - replaces old NewTestRoad.geojson and Points.geojson)
 4. Click "Save & Launch" to apply the configuration
+
+**Note:** The system now uses a single unified GeoJSON file (GEOJSON_Reference.geojson) that contains both navigation data and point features. This simplifies configuration and ensures consistency.
 
 ## Buildings GeoJSON Structure
 
@@ -46,12 +46,11 @@ The Buildings file contains polygons representing building footprints.
 }
 ```
 
-## NewTestRoad GeoJSON Structure
+## GEOJSON_Reference GeoJSON Structure
 
-The NewTestRoad file contains all navigation-related features:
+The GEOJSON_Reference file is a unified GeoJSON FeatureCollection containing all navigation-related features:
 - **Points**: Destination nodes, gates, junctions, stairs, etc.
 - **LineStrings**: Road paths connecting nodes
-- **Polygons**: Road surfaces (optional)
 
 ### Point Features (Destinations)
 
@@ -64,6 +63,8 @@ The NewTestRoad file contains all navigation-related features:
 **Optional Properties:**
 - `description`: Additional info
 - `imageUrl`: Image for the location
+- `nearest_node`: ID of nearest road node (for POIs not directly on road network)
+- `additionalDirections`: Walking directions from nearest_node to this POI
 
 **Categories:**
 - Gates
@@ -91,25 +92,12 @@ Junction nodes are waypoints for pathfinding.
 Roads connect nodes and are used for route calculation.
 
 **Required Properties:**
+- `name`: Road segment identifier (e.g., "RD1", "RD47")
 - `from`: ID of starting node
 - `to`: ID of ending node
 - `type`: "main", "secondary", or "path"
 
-### Polygon Features (Road Surfaces)
-
-Optional polygons for visualizing road surfaces.
-
-**Properties:**
-- `id`: Identifier (e.g., "road1")
-
-## Points GeoJSON Structure (Optional)
-
-The Points file contains visual markers for decoration.
-
-### Properties:
-- `marker-color`: Marker color (hex)
-- `marker-size`: "small", "medium", or "large"
-- `marker-symbol`: Icon type
+**Note:** All Point and LineString features are now combined in a single GEOJSON_Reference.geojson file. The system automatically filters features by geometry type.
 
 ## Coordinate System
 
@@ -135,9 +123,9 @@ For polygon coordinates, the first and last point must be identical to close the
 ## Troubleshooting
 
 ### Map doesn't load
-- Check that Buildings and NewTestRoad files are valid JSON
+- Check that Buildings and GEOJSON_Reference files are valid JSON
 - Verify all coordinates are in [longitude, latitude] format
-- Ensure polygons are properly closed (first point = last point)
+- Ensure building polygons are properly closed (first point = last point)
 
 ### Navigation doesn't work
 - Verify `isDestination: true` is set on destination nodes
@@ -168,4 +156,4 @@ For more information, see:
 - Original UCLM files in `/public/` - Real-world examples
 
 ## Last Updated
-November 30, 2025
+December 9, 2025 - Updated to use unified GEOJSON_Reference.geojson file
