@@ -1908,7 +1908,7 @@ const CampusMap: React.FC<MapProps> = ({
         }
 
         if (extent && extent.every((v) => isFinite(v))) {
-          const paddingFactor = 1.5;
+          const paddingFactor = 3.0; // Increased from 1.5 to 3.0 for more scrolling room
           const centerPoint = [
             (extent[0] + extent[2]) / 2,
             (extent[1] + extent[3]) / 2,
