@@ -8,6 +8,7 @@ import { Style, Stroke } from "ol/style";
 import { MutableRefObject } from "react";
 import Point from "ol/geom/Point";
 import { Geometry } from "ol/geom";
+import { getDistance } from "ol/sphere";
 
 export interface Road {
   id: string;
@@ -106,10 +107,9 @@ export const findClosestNode = (
     // Convert from EPSG:3857 to EPSG:4326
     const geoCoords = toLonLat(coordinates);
 
-    // Calculate distance (simple Euclidean for now)
-    const dx = longitude - geoCoords[0];
-    const dy = latitude - geoCoords[1];
-    const distance = Math.sqrt(dx * dx + dy * dy);
+    // Calculate spherical distance using haversine formula
+    // getDistance expects lon/lat coordinates and returns meters
+    const distance = getDistance([longitude, latitude], geoCoords);
 
     if (distance < minDistance) {
       minDistance = distance;
