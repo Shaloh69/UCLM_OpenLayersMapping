@@ -222,6 +222,7 @@ const CampusMap: React.FC<MapProps> = ({
   // Enhanced location tracking
   const enhancedTrackerRef = useRef<EnhancedLocationTracker | null>(null);
   const locationTrackingCleanupRef = useRef<(() => void) | null>(null);
+  const roadSystemCleanupRef = useRef<(() => void) | null>(null);
 
   const requestLocationPermission = useCallback(() => {
     setLocationPermissionRequested(true);
@@ -1650,7 +1651,7 @@ const CampusMap: React.FC<MapProps> = ({
       onMapReady();
     }
 
-    const { roadsLayer, roadsSource, nodesSource } = setupRoadSystem(
+    const { roadsLayer, roadsSource, nodesSource, cleanup } = setupRoadSystem(
       actualRoadsUrl,
       actualNodesUrl,
       activeRouteRoadsRef
@@ -1663,6 +1664,7 @@ const CampusMap: React.FC<MapProps> = ({
     roadsSourceRef.current = roadsSource;
     nodesSourceRef.current = nodesSource;
     roadsLayerRef.current = roadsLayer;
+    roadSystemCleanupRef.current = cleanup; // Store cleanup function for later
 
     // Define a function to process features to avoid code duplication
     const processFeatures = (features: Feature<Geometry>[]) => {
@@ -2023,6 +2025,14 @@ const CampusMap: React.FC<MapProps> = ({
 
     return () => {
       clearInterval(uiUpdateInterval);
+
+      // Cleanup road system event listeners
+      if (roadSystemCleanupRef.current) {
+        console.log('[Component Cleanup] 🧹 Cleaning up road system');
+        roadSystemCleanupRef.current();
+        roadSystemCleanupRef.current = null;
+      }
+
       // Cleanup location tracking
       if (locationTrackingCleanupRef.current) {
         console.log('[Component Cleanup] 🧹 Cleaning up location tracking');
