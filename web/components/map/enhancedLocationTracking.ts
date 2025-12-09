@@ -80,9 +80,7 @@ export const calculateDistance = (
   coord1: [number, number],
   coord2: [number, number]
 ): number => {
-  const point1 = fromLonLat(coord1);
-  const point2 = fromLonLat(coord2);
-  return getDistance(point1, point2);
+  return getDistance(coord1, coord2);
 };
 
 // Smooth angle interpolation (handles wrapping)
