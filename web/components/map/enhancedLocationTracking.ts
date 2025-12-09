@@ -551,11 +551,25 @@ export class EnhancedLocationTracker {
     console.log(`[RENDER] 🎯 Rendering marker at: [${finalRenderCoordinates[0].toFixed(6)}, ${finalRenderCoordinates[1].toFixed(6)}]`);
     this.updateMapFeatures(finalRenderCoordinates);
 
-    // Early exit for low-quality GPS - marker was snapped, but skip heavy updates
+    // =============================================
+    // PHASE 6.5: ALWAYS CHECK ARRIVAL (CRITICAL)
+    // Route progress MUST be calculated on EVERY marker update for arrival detection
+    // This ensures we never miss when user arrives at destination
+    // =============================================
+
+    if (this.destinationPosition) {
+      const progress = this.calculateRouteProgress();
+      if (this.onRouteProgressUpdate) {
+        this.onRouteProgressUpdate(progress);
+      }
+      console.log(`[Arrival Check] ✓ Distance to destination: ${progress.distanceToDestination.toFixed(1)}m (checked on every marker update)`);
+    }
+
+    // Early exit for low-quality GPS - marker was snapped and arrival checked, but skip other heavy updates
     // This allows the marker to update smoothly even with poor GPS or minimal movement
     if (!isHighQualityGPS || !hasMovedSignificantly) {
-      console.log(`[GPS] ⏭️  Marker snapped successfully, but skipping heavy UI updates (${!isHighQualityGPS ? 'low accuracy' : 'small snapped movement'})`);
-      return; // Marker is now on-road, but skip expensive route progress calculations
+      console.log(`[GPS] ⏭️  Marker rendered and arrival checked, but skipping other UI updates (${!isHighQualityGPS ? 'low accuracy' : 'small snapped movement'})`);
+      return; // Skip expensive boundary checks, camera centering, etc.
     }
 
     // =============================================
@@ -568,7 +582,7 @@ export class EnhancedLocationTracker {
     const shouldDoFullUpdate = timeSinceLastUpdate >= this.minUpdateInterval;
 
     if (shouldDoFullUpdate) {
-      // Immediate full update
+      // Immediate full update (route progress already calculated above)
       console.log(`[GPS] 📊 Full UI update (${timeSinceLastUpdate}ms since last)`);
       this.lastUIUpdateTime = now;
 
@@ -580,20 +594,12 @@ export class EnhancedLocationTracker {
         this.centerMapOnUser();
       }
 
-      // Calculate route progress
-      if (this.destinationPosition) {
-        const progress = this.calculateRouteProgress();
-        if (this.onRouteProgressUpdate) {
-          this.onRouteProgressUpdate(progress);
-        }
-      }
-
       // Callback
       if (this.onPositionUpdate) {
         this.onPositionUpdate(newPosition);
       }
     } else {
-      // DEBOUNCED heavy updates
+      // DEBOUNCED heavy updates (route progress already calculated above)
       if (this.debounceTimer !== null) {
         clearTimeout(this.debounceTimer);
       }
@@ -602,13 +608,6 @@ export class EnhancedLocationTracker {
         console.log(`[GPS] ⏱️  Debounced update triggered`);
 
         this.checkBoundary();
-
-        if (this.destinationPosition) {
-          const progress = this.calculateRouteProgress();
-          if (this.onRouteProgressUpdate) {
-            this.onRouteProgressUpdate(progress);
-          }
-        }
 
         if (this.onPositionUpdate && this.currentPosition) {
           this.onPositionUpdate(this.currentPosition);
