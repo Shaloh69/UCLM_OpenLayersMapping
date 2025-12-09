@@ -1254,6 +1254,12 @@ export class EnhancedLocationTracker {
       this.destinationPosition
     );
 
+    // Distance traveled (from start) - use marker position for consistency
+    // MUST calculate this BEFORE logging to avoid undefined variable
+    const distanceTraveled = this.startPosition
+      ? calculateDistance(this.startPosition, userCoords)
+      : 0;
+
     // Debug logging for arrival detection
     if (distanceToDestination < 150) { // Log when getting close
       const positionType = this.snappedPosition ? 'marker (snapped)' : 'GPS';
@@ -1272,11 +1278,6 @@ export class EnhancedLocationTracker {
         console.log(`[Arrival Detection] 👀 Almost there! ${distanceToDestination.toFixed(1)}m away (measuring from ${positionType})`);
       }
     }
-
-    // Distance traveled (from start) - use marker position for consistency
-    const distanceTraveled = this.startPosition
-      ? calculateDistance(this.startPosition, userCoords)
-      : 0;
 
     // Calculate distance from raw GPS to route (for off-route detection)
     const distanceFromRoute = this.snappedPosition
