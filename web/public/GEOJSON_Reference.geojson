@@ -3154,7 +3154,7 @@
       "properties": {
         "type": "path",
         "name": "RD7",
-        "from": "OldBuildingIntersection",
+        "from": "IT_Gate2",
         "to": "RD_Gate2"
       },
       "geometry": {
