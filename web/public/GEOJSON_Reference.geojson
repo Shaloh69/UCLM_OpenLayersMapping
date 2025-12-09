@@ -2175,12 +2175,13 @@
       "type": "Feature",
       "properties": {
         "id": "uc_hotel",
-        "name": "uc_hotel",
+        "name": "UC Hotel",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Hotel",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs until 4th Floor and then turn right, go by the end of the hallway"
+        "additionalDescription": "Go upstairs until 4th Floor and then turn right, go by the end of the hallway",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2275,12 +2276,13 @@
       "type": "Feature",
       "properties": {
         "id": "chtm_faculty",
-        "name": "chtm_faculty",
+        "name": "CHTM Faculty",
         "isDestination": true,
         "category": "Points of Interest",
-        "description": "CHTM Faculty Room and Dean's Office",
+        "description": "CHTM Faculty",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs up to 4th Floor, turn right, and then go to left hallway, next to UC Travel and Tours"
+        "additionalDescription": "Go upstairs up to 4th Floor, turn right, and then go to left hallway, next to UC Travel and Tours",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
