@@ -1257,9 +1257,17 @@ export class EnhancedLocationTracker {
     // Debug logging for arrival detection
     if (distanceToDestination < 150) { // Log when getting close
       const positionType = this.snappedPosition ? 'marker (snapped)' : 'GPS';
-      console.log(`[Arrival Detection] Distance from ${positionType} to destination: ${distanceToDestination.toFixed(1)}m`);
+      console.log(`[Arrival Detection] Distance from ${positionType} to destination: ${distanceToDestination.toFixed(1)}m | Traveled: ${distanceTraveled.toFixed(1)}m`);
+
+      // Only trigger arrival if user has traveled at least 20m from start
+      // This prevents immediate arrival when scanning QR near destination
+      const minProgressBeforeArrival = 20; // meters
       if (distanceToDestination < 70) {
-        console.log(`[Arrival Detection] ✓ ARRIVED! ${positionType} is ${distanceToDestination.toFixed(1)}m from destination (< 70m threshold)`);
+        if (distanceTraveled >= minProgressBeforeArrival) {
+          console.log(`[Arrival Detection] ✓ ARRIVED! ${positionType} is ${distanceToDestination.toFixed(1)}m from destination (< 70m threshold, traveled ${distanceTraveled.toFixed(1)}m)`);
+        } else {
+          console.log(`[Arrival Detection] ⏸️ At destination but not enough progress (${distanceTraveled.toFixed(1)}m < ${minProgressBeforeArrival}m) - waiting for user to start journey`);
+        }
       } else if (distanceToDestination < 120) {
         console.log(`[Arrival Detection] 👀 Almost there! ${distanceToDestination.toFixed(1)}m away (measuring from ${positionType})`);
       }

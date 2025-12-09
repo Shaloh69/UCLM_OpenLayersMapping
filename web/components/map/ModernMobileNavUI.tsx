@@ -117,7 +117,7 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
 
   // PRIORITY 1: Multi-criteria arrival detection with failsafes
   // Triggers on ANY of these conditions:
-  // 1. Primary: Within 70m of destination
+  // 1. Primary: Within 70m of destination AND traveled at least 20m
   // 2. Failsafe A: Within 100m for 30+ seconds (user stopped moving)
   // 3. Failsafe B: Route 95%+ complete (GPS inaccurate but route nearly done)
   const hasArrived = useMemo(() => {
@@ -126,31 +126,37 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
     const hasBeenCloseForAWhile = proximityTimer >= 30; // 30 seconds failsafe
     const isAlmostComplete = percentComplete >= 95; // 95% completion failsafe
 
+    // Prevent immediate arrival when starting near destination
+    const distanceTraveled = routeProgress?.distanceTraveled ?? 0;
+    const minProgressBeforeArrival = 20; // meters - must travel at least 20m before arrival can trigger
+    const hasStartedJourney = distanceTraveled >= minProgressBeforeArrival;
+
     const arrivalCriteria = {
-      distance: isVeryClose,
-      proximity: isCloseEnough && hasBeenCloseForAWhile,
+      distance: isVeryClose && hasStartedJourney,
+      proximity: isCloseEnough && hasBeenCloseForAWhile && hasStartedJourney,
       completion: isAlmostComplete,
     };
 
-    const arrived = isVeryClose || (isCloseEnough && hasBeenCloseForAWhile) || isAlmostComplete;
+    const arrived = arrivalCriteria.distance || arrivalCriteria.proximity || arrivalCriteria.completion;
 
     // Enhanced logging with criteria breakdown
     if (displayDistance > 0 && displayDistance < 150) {
       const criteriaStatus = `Distance: ${isVeryClose ? '✓' : '✗'} (${displayDistance.toFixed(1)}m < 70m) | ` +
+                            `Progress: ${hasStartedJourney ? '✓' : '✗'} (${distanceTraveled.toFixed(1)}m / 20m) | ` +
                             `Proximity: ${arrivalCriteria.proximity ? '✓' : '✗'} (${isCloseEnough ? 'in range' : 'out of range'}, ${proximityTimer}s/30s) | ` +
                             `Completion: ${arrivalCriteria.completion ? '✓' : '✗'} (${percentComplete.toFixed(1)}%/95%)`;
       console.log(`[Arrival Detection] ${criteriaStatus}`);
     }
 
     if (arrived) {
-      const triggeredBy = isVeryClose ? 'Distance < 70m' :
-                         arrivalCriteria.proximity ? `Proximity (${proximityTimer}s at < 100m)` :
+      const triggeredBy = arrivalCriteria.distance ? `Distance < 70m (traveled ${distanceTraveled.toFixed(1)}m)` :
+                         arrivalCriteria.proximity ? `Proximity (${proximityTimer}s at < 100m, traveled ${distanceTraveled.toFixed(1)}m)` :
                          'Route completion (95%+)';
       console.log(`[Arrival Detection] 🎉 ARRIVAL DETECTED! Triggered by: ${triggeredBy}`);
     }
 
     return arrived;
-  }, [displayDistance, proximityTimer, percentComplete]);
+  }, [displayDistance, proximityTimer, percentComplete, routeProgress]);
 
   // Debug logging for arrival detection
   useEffect(() => {
