@@ -1284,14 +1284,16 @@ export class EnhancedLocationTracker {
       // Only trigger arrival if user has traveled at least 20m from start
       // This prevents immediate arrival when scanning QR near destination
       const minProgressBeforeArrival = 20; // meters
-      if (distanceToDestination < 15) {
+      if (distanceToDestination < 3) {
         if (distanceTraveled >= minProgressBeforeArrival) {
-          console.log(`[Arrival Detection] ✓ ARRIVED! ${positionType} is ${distanceToDestination.toFixed(1)}m from destination (< 15m threshold, traveled ${distanceTraveled.toFixed(1)}m)`);
+          console.log(`[Arrival Detection] ✓ ARRIVED! ${positionType} is ${distanceToDestination.toFixed(1)}m from destination (< 3m threshold, traveled ${distanceTraveled.toFixed(1)}m)`);
         } else {
           console.log(`[Arrival Detection] ⏸️ At destination but not enough progress (${distanceTraveled.toFixed(1)}m < ${minProgressBeforeArrival}m) - waiting for user to start journey`);
         }
+      } else if (distanceToDestination < 10) {
+        console.log(`[Arrival Detection] 👀 Very close! ${distanceToDestination.toFixed(1)}m away (measuring from ${positionType})`);
       } else if (distanceToDestination < 50) {
-        console.log(`[Arrival Detection] 👀 Almost there! ${distanceToDestination.toFixed(1)}m away (measuring from ${positionType})`);
+        console.log(`[Arrival Detection] 🚶 Getting close: ${distanceToDestination.toFixed(1)}m away (measuring from ${positionType})`);
       }
     }
 
