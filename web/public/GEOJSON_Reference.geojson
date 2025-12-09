@@ -6,7 +6,7 @@
       "properties": {
         "id": "cbe_elevator",
         "name": "CBE ELEVATOR",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE ELEVATOR",
         "nearest_node": "RD_cbe_elevator",
@@ -26,7 +26,7 @@
       "properties": {
         "id": "cbe_gate9_elevator",
         "name": "CBE Gate 9 Elevator",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Gate 9 Elevator",
         "nearest_node": "",
@@ -46,7 +46,7 @@
       "properties": {
         "id": "gate_8",
         "name": "GATE 8",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "UCLM Gate 8",
         "nearest_node": "RD_gate_8",
@@ -66,7 +66,7 @@
       "properties": {
         "id": "gate_9",
         "name": "Gate 9",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "UCLM Gate 9 ",
         "nearest_node": "RD_Gate9",
@@ -86,7 +86,7 @@
       "properties": {
         "id": "nsa_office",
         "name": "NSA OFFICE",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "NSA OFFICE",
         "nearest_node": "RD_NSAOFFICE",
@@ -106,7 +106,7 @@
       "properties": {
         "id": "cbt01_cbt02",
         "name": "CBT01 &CBT02",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CBT01 &CBT02",
         "nearest_node": "RD_Cb1Cb2",
@@ -126,7 +126,7 @@
       "properties": {
         "id": "clinic",
         "name": "CLINIC",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CLINIC",
         "nearest_node": "RD_CLINIC",
@@ -146,7 +146,7 @@
       "properties": {
         "id": "chapel",
         "name": "CHAPEL",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CHAPEL",
         "nearest_node": "RD_Chapel",
@@ -166,7 +166,7 @@
       "properties": {
         "id": "textbook_section",
         "name": "Texbook Section",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Textbook Section",
         "nearest_node": "RD_TextbookSec",
@@ -186,7 +186,7 @@
       "properties": {
         "id": "pe_faculty",
         "name": "PE FACULTY",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "PE FACULTY",
         "nearest_node": "RD_PE_FACULTY",
@@ -206,7 +206,7 @@
       "properties": {
         "id": "foodcourt",
         "name": "FOODCOURT",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "FOODCOURT",
         "nearest_node": "RD_foodcourt",
@@ -226,7 +226,7 @@
       "properties": {
         "id": "stairs_elevator_president",
         "name": "Stairs, elevator, and President's office",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Stairs, elevator, and President's office",
         "nearest_node": "IT_Yesser",
@@ -246,7 +246,7 @@
       "properties": {
         "id": "maritime_stairs",
         "name": "Maritime Building Stairs",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Maritime Building Stairs",
         "nearest_node": "IT_yes",
@@ -266,7 +266,7 @@
       "properties": {
         "id": "small_stairs_old",
         "name": "Small stairs(old building)",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Mezzanine Stairs (Old Building)",
         "nearest_node": "Stairs1OldRoadEnd",
@@ -286,7 +286,7 @@
       "properties": {
         "id": "main_stairs_old",
         "name": "Main Stairs (oldbuilding)",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Main Stairs (Old Building)",
         "nearest_node": "main_stairs_oldRoad_end",
@@ -306,7 +306,7 @@
       "properties": {
         "id": "stairs_uro_old",
         "name": "Stairs to URO(old building)",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Stairs to URO (Old Building)",
         "nearest_node": "RE_stairs_uro_old",
@@ -326,7 +326,7 @@
       "properties": {
         "id": "annex1_stairs",
         "name": "ANNEX 1 stairs",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "ANNEX 1 Stairs",
         "nearest_node": "RD_AnnexStairs",
@@ -346,7 +346,7 @@
       "properties": {
         "id": "annex1_elevator",
         "name": "Annex 1 elevator",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Annex 1 elevator",
         "nearest_node": "RD_ANNEXElevatorr",
@@ -366,7 +366,7 @@
       "properties": {
         "id": "study_hall",
         "name": "Study Hall",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Study Hall",
         "nearest_node": "RD_StudyHall",
@@ -386,7 +386,7 @@
       "properties": {
         "id": "canteen_annex1",
         "name": "Canteen Annex 1",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Canteen Annex 1",
         "nearest_node": "RD_AnnexCanteen",
@@ -406,7 +406,7 @@
       "properties": {
         "id": "stairs_sao",
         "name": "Stairs to SAO",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Stairs to SAO",
         "nearest_node": "RD_SAOStairs",
@@ -426,7 +426,7 @@
       "properties": {
         "id": "gate_1",
         "name": "Gate 1",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "UCLM Gate 1",
         "nearest_node": "Gate1_RoadEnd",
@@ -446,7 +446,7 @@
       "properties": {
         "id": "gate_2",
         "name": "Gate 2",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "UCLM Gate 2",
         "nearest_node": "RD_Gate2",
@@ -466,7 +466,7 @@
       "properties": {
         "id": "gate_3",
         "name": "Gate 3",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "UCLM Gate 3",
         "nearest_node": "RD_Gate3",
@@ -486,7 +486,7 @@
       "properties": {
         "id": "gate_4",
         "name": "Gate 4",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "UCLM Gate 4",
         "nearest_node": "RD_Gate4",
@@ -506,7 +506,7 @@
       "properties": {
         "id": "gate_5",
         "name": "Gate 5",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "UCLM Gate 5",
         "nearest_node": "RD_Gate5",
@@ -526,7 +526,7 @@
       "properties": {
         "id": "gate_6",
         "name": "Gate 6",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "UCLM Gate 6",
         "nearest_node": "RD_Gate6",
@@ -546,7 +546,7 @@
       "properties": {
         "id": "gate_7",
         "name": "Gate 7",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Gates",
         "description": "UCLM Gate 7",
         "nearest_node": "RD_gate_7",
@@ -580,7 +580,7 @@
     {
       "type": "Feature",
       "properties": {
-        "isDestination": "false",
+        "isDestination": false,
         "name": "OldBuildingIntersection",
         "id": "OldBuildingIntersection"
       },
@@ -598,7 +598,7 @@
       "properties": {
         "id": "RE_stairs_uro_old",
         "name": "RE_stairs_uro_old",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -614,7 +614,7 @@
       "properties": {
         "id": "Stairs1OldRoadEnd",
         "name": "Stairs1OldRoadEnd",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -705,7 +705,7 @@
       "properties": {
         "id": "IT_Gate2",
         "name": "IT_Gate2",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -719,7 +719,7 @@
     {
       "type": "Feature",
       "properties": {
-        "isDestination": "false",
+        "isDestination": false,
         "name": "IT_Gate3",
         "id": "IT_Gate3"
       },
@@ -737,7 +737,7 @@
       "properties": {
         "id": "RD_Gate3",
         "name": "RD_Gate3",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -751,7 +751,7 @@
     {
       "type": "Feature",
       "properties": {
-        "isDestination": "false",
+        "isDestination": false,
         "name": "RD_Gate2",
         "id": "RD_Gate2"
       },
@@ -769,7 +769,7 @@
       "properties": {
         "id": "RD_SAOStairs",
         "name": "RD_SAOStairs",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -785,7 +785,7 @@
       "properties": {
         "id": "RD_AnnexStairs",
         "name": "RD_AnnexStairs",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -801,7 +801,7 @@
       "properties": {
         "id": "RD_ANNEXElevatorr",
         "name": "RD_ANNEXElevatorr",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -817,7 +817,7 @@
       "properties": {
         "id": "RD_AnnexCanteen",
         "name": "RD_AnnexCanteen",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -833,7 +833,7 @@
       "properties": {
         "id": "IT_4",
         "name": "IT_4",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -849,7 +849,7 @@
       "properties": {
         "id": "RD_Gate4",
         "name": "RD_Gate4",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -865,7 +865,7 @@
       "properties": {
         "id": "RD_StudyHall",
         "name": "RD_StudyHall",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -881,7 +881,7 @@
       "properties": {
         "id": "IT_2",
         "name": "IT_2",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -897,7 +897,7 @@
       "properties": {
         "id": "RD_Gate6",
         "name": "RD_Gate6",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -913,7 +913,7 @@
       "properties": {
         "id": "IT_6",
         "name": "IT_6",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -929,7 +929,7 @@
       "properties": {
         "id": "IT_yes",
         "name": "IT_yes",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -945,7 +945,7 @@
       "properties": {
         "id": "RD_PE_FACULTY",
         "name": "RD_PE_FACULTY",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -961,7 +961,7 @@
       "properties": {
         "id": "RD_TextbookSec",
         "name": "RD_TextbookSec",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -977,7 +977,7 @@
       "properties": {
         "id": "IT_9",
         "name": "IT_9",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -993,7 +993,7 @@
       "properties": {
         "id": "RD_Chapel",
         "name": "RD_Chapel",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1009,7 +1009,7 @@
       "properties": {
         "id": "IT_11",
         "name": "IT_11",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1025,7 +1025,7 @@
       "properties": {
         "id": "IT_Yesser",
         "name": "IT_Yesser",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1041,7 +1041,7 @@
       "properties": {
         "id": "RD_CLINIC",
         "name": "RD_CLINIC",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1057,7 +1057,7 @@
       "properties": {
         "id": "RD_NSAOFFICE",
         "name": "RD_NSAOFFICE",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1073,7 +1073,7 @@
       "properties": {
         "id": "IT_14",
         "name": "IT_14",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1089,7 +1089,7 @@
       "properties": {
         "id": "IT_12",
         "name": "IT_12",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1105,7 +1105,7 @@
       "properties": {
         "id": "RD_gate_8",
         "name": "RD_gate_8",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1121,7 +1121,7 @@
       "properties": {
         "id": "IT_15",
         "name": "IT_15",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1137,7 +1137,7 @@
       "properties": {
         "id": "RD_cbe_elevator",
         "name": "RD_cbe_elevator",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1153,7 +1153,7 @@
       "properties": {
         "id": "IT_16",
         "name": "IT_16",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1169,7 +1169,7 @@
       "properties": {
         "id": "RD_Gate9",
         "name": "RD_Gate9",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1185,7 +1185,7 @@
       "properties": {
         "id": "IT_1",
         "name": "IT_1",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1201,7 +1201,7 @@
       "properties": {
         "id": "RD_Gate5",
         "name": "RD_Gate5",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1217,7 +1217,7 @@
       "properties": {
         "id": "IT_3",
         "name": "IT_3",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1233,7 +1233,7 @@
       "properties": {
         "id": "IT_7",
         "name": "IT_7",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1249,7 +1249,7 @@
       "properties": {
         "id": "IT_5",
         "name": "IT_5",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1265,7 +1265,7 @@
       "properties": {
         "id": "RD_foodcourt",
         "name": "RD_foodcourt",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1281,7 +1281,7 @@
       "properties": {
         "id": "IT_8",
         "name": "IT_8",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1297,7 +1297,7 @@
       "properties": {
         "id": "RD_Cb1Cb2",
         "name": "RD_Cb1Cb2",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1313,7 +1313,7 @@
       "properties": {
         "id": "IT_10",
         "name": "IT_10",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1329,7 +1329,7 @@
       "properties": {
         "id": "IT_13",
         "name": "IT_13",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1376,7 +1376,7 @@
       "properties": {
         "id": "RD_CBECanteen",
         "name": "RD_CBECanteen",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1392,7 +1392,7 @@
       "properties": {
         "id": "cbe_canteen",
         "name": "CBE Canteen (Ground Floor)",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Canteen (Ground Floor)",
         "nearest_node": "RD_CBECanteen",
@@ -1412,7 +1412,7 @@
       "properties": {
         "id": "RD_ToolRoomME",
         "name": "RD_ToolRoomRD_ToolRoomME",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1428,7 +1428,7 @@
       "properties": {
         "id": "me_tool_room",
         "name": "ME TOOL ROOM AND LAB",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "ME TOOL ROOM AND LAB",
         "nearest_node": "RD_ToolRoomME",
@@ -1448,7 +1448,7 @@
       "properties": {
         "id": "RD_GUIDANCE",
         "name": "RD_GUIDANCE",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1464,7 +1464,7 @@
       "properties": {
         "id": "guidance",
         "name": "Guidance",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Guidance Office",
         "nearest_node": "RD_GUIDANCE",
@@ -1484,7 +1484,7 @@
       "properties": {
         "id": "RD_nsa_dorm_canteen",
         "name": "RD_nsa_dorm_canteen",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1500,7 +1500,7 @@
       "properties": {
         "id": "nsa_dorm_canteen",
         "name": "NSA DORM and Canteen(Ground floor)",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "NSA DORM and Canteen(Ground floor)",
         "nearest_node": "RD_nsa_dorm_canteen",
@@ -1523,7 +1523,7 @@
         "category": "Points of Interest",
         "description": "UC POOL",
         "nearest_node": "RD_UCLM_POOL",
-        "isDestination": "true",
+        "isDestination": true,
         "additionalDescription": ""
       },
       "geometry": {
@@ -1540,7 +1540,7 @@
       "properties": {
         "id": "RD_UCLM_POOL",
         "name": "RD_UCLM_POOL",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1556,7 +1556,7 @@
       "properties": {
         "id": "Seamanship_Lab",
         "name": "Seamanship_Lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Seamanship Laboratory",
         "nearest_node": "RD_Seamanship_Lab",
@@ -1576,7 +1576,7 @@
       "properties": {
         "id": "RD_Seamanship_Lab",
         "name": "RD_Seamanship_Lab",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1592,7 +1592,7 @@
       "properties": {
         "id": "MACHINE_SHOP",
         "name": "MACHINE_SHOP",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Machine Shop",
         "nearest_node": "RD_MACHINE_SHOP",
@@ -1612,7 +1612,7 @@
       "properties": {
         "id": "RD_MACHINE_SHOP",
         "name": "RD_MACHINE_SHOP",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1628,7 +1628,7 @@
       "properties": {
         "id": "RD_COVERED_COURT",
         "name": "RD_COVERED_COURT",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1644,7 +1644,7 @@
       "properties": {
         "id": "COVERED_COURT",
         "name": "COVERED_COURT",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Covered Court",
         "nearest_node": "RD_COVERED_COURT",
@@ -1664,7 +1664,7 @@
       "properties": {
         "id": "ANNEX2_STAIRS1",
         "name": "ANNEX2_STAIRS1",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Annex 2 Entrance 1",
         "nearest_node": "RD_ANNEX2_STAIRS1",
@@ -1684,7 +1684,7 @@
       "properties": {
         "id": "RD_ANNEX2_STAIRS1",
         "name": "RD_ANNEX2_STAIRS1",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1700,7 +1700,7 @@
       "properties": {
         "id": "SOCIAL_HALL",
         "name": "SOCIAL_HALL",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Social Hall",
         "nearest_node": "RD_SOCIAL_HALL",
@@ -1720,7 +1720,7 @@
       "properties": {
         "id": "RD_SOCIAL_HALL",
         "name": "RD_SOCIAL_HALL",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1736,7 +1736,7 @@
       "properties": {
         "id": "ROBOTICS_LAB",
         "name": "ROBOTICS_LAB",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Robotics Lab",
         "nearest_node": "RD_ROBOTICS_LAB",
@@ -1756,7 +1756,7 @@
       "properties": {
         "id": "RD_ROBOTICS_LAB",
         "name": "RD_ROBOTICS_LAB",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1772,7 +1772,7 @@
       "properties": {
         "id": "ANNEX2_STAIRS2",
         "name": "ANNEX2_STAIRS2",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Annex 2 Entrance 2",
         "nearest_node": "RD_ANNEX2_STAIRS2",
@@ -1792,7 +1792,7 @@
       "properties": {
         "id": "RD_ANNEX2_STAIRS2",
         "name": "RD_ANNEX2_STAIRS2",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1808,7 +1808,7 @@
       "properties": {
         "id": "CASHIER_ACC_RECORDS",
         "name": "CASHIER_ACC_RECORDS",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Cashier, Accounting, Records",
         "nearest_node": "RD_CASHIER_ACC_RECORDS",
@@ -1828,7 +1828,7 @@
       "properties": {
         "id": "RD_CASHIER_ACC_RECORDS",
         "name": "RD_CASHIER_ACC_RECORDS",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1844,7 +1844,7 @@
       "properties": {
         "id": "EDP_SECTION",
         "name": "EDP_SECTION",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "EDP Section",
         "nearest_node": "RD_EDP_SECTION",
@@ -1864,7 +1864,7 @@
       "properties": {
         "id": "RD_EDP_SECTION",
         "name": "RD_EDP_SECTION",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1880,7 +1880,7 @@
       "properties": {
         "id": "RD_BASICED_BLDG",
         "name": "RD_BASICED_BLDG",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1896,7 +1896,7 @@
       "properties": {
         "id": "BASICED_BLDG",
         "name": "BASICED_BLDG",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Basic Education Building",
         "nearest_node": "RD_BASICED_BLDG",
@@ -1916,7 +1916,7 @@
       "properties": {
         "id": "RD_gate_7",
         "name": "RD_gate_7",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -1932,7 +1932,7 @@
       "properties": {
         "id": "CADS_OFFICE",
         "name": "CADS_OFFICE",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM CADS Office (Campus Director)",
         "nearest_node": "RE_stairs_uro_old",
@@ -1952,7 +1952,7 @@
       "properties": {
         "id": "URO",
         "name": "URO",
-        "isDestination": "true",
+        "isDestination": true,
         "description": "UCLM University Research Office",
         "category": "Points of Interest",
         "nearest_node": "RE_stairs_uro_old",
@@ -1972,7 +1972,7 @@
       "properties": {
         "id": "anatomy_lab",
         "name": "anatomy_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Anatomy Laboratory",
         "nearest_node": "RE_stairs_uro_old",
@@ -1992,7 +1992,7 @@
       "properties": {
         "id": "kitchen_lab1",
         "name": "kitchen_lab1",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Kitchen Laboratory 1",
         "nearest_node": "RE_stairs_uro_old",
@@ -2012,7 +2012,7 @@
       "properties": {
         "id": "nursing_faculty_room",
         "name": "nursing_faculty_room",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Nursing Faculty Room",
         "nearest_node": "main_stairs_oldRoad_end",
@@ -2032,7 +2032,7 @@
       "properties": {
         "id": "uc_resto",
         "name": "uc_resto",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest ",
         "description": "UCLM Mini Resto",
         "nearest_node": "main_stairs_oldRoad_end",
@@ -2052,7 +2052,7 @@
       "properties": {
         "id": "coop_office",
         "name": "coop_office",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Coop Office",
         "nearest_node": "Stairs1OldRoadEnd",
@@ -2072,7 +2072,7 @@
       "properties": {
         "id": "yearbook_office",
         "name": "yearbook_office",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Yearbook Office",
         "nearest_node": "Stairs1OldRoadEnd",
@@ -2092,7 +2092,7 @@
       "properties": {
         "id": "prefect_discipline",
         "name": "prefect_discipline",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Prefect of Discipline",
         "nearest_node": "RD_prefect_discipline",
@@ -2112,7 +2112,7 @@
       "properties": {
         "id": "RD_prefect_discipline",
         "name": "RD_prefect_discipline",
-        "isDestination": "false"
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -2128,7 +2128,7 @@
       "properties": {
         "id": "sao_office",
         "name": "sao_office",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Student's Affair Office",
         "nearest_node": "RD_AnnexStairs",
@@ -2148,7 +2148,7 @@
       "properties": {
         "id": "uccp_office",
         "name": "uccp_office",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCCP Office",
         "nearest_node": "RD_AnnexStairs",
@@ -2168,7 +2168,7 @@
       "properties": {
         "id": "uc_hotel",
         "name": "uc_hotel",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Hotel",
         "nearest_node": "RD_AnnexStairs",
@@ -2188,7 +2188,7 @@
       "properties": {
         "id": "avr",
         "name": "avr",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Audio Visual Room",
         "nearest_node": "RD_AnnexStairs",
@@ -2208,7 +2208,7 @@
       "properties": {
         "id": "function_hall",
         "name": "function_hall",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Function Hall",
         "nearest_node": "RD_AnnexStairs",
@@ -2228,7 +2228,7 @@
       "properties": {
         "id": "kitchen_lab2",
         "name": "kitchen_lab2",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Kitchen Laboratory 2",
         "nearest_node": "RD_AnnexStairs",
@@ -2248,7 +2248,7 @@
       "properties": {
         "id": "uc_travel_and_tours",
         "name": "uc_travel_and_tours",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UC Travel and Tours",
         "nearest_node": "RD_AnnexStairs",
@@ -2268,7 +2268,7 @@
       "properties": {
         "id": "chtm_faculty",
         "name": "chtm_faculty",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CHTM Faculty Room and Dean's Office",
         "nearest_node": "RD_AnnexStairs",
@@ -2288,7 +2288,7 @@
       "properties": {
         "id": "shs_faculty",
         "name": "shs_faculty",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "SHS Faculty Room",
         "nearest_node": "RD_ANNEX2_STAIRS1",
@@ -2308,7 +2308,7 @@
       "properties": {
         "id": "rooftop_canteen",
         "name": "rooftop_canteen",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Rooftop Canteen",
         "nearest_node": "RD_ANNEX2_STAIRS1",
@@ -2328,7 +2328,7 @@
       "properties": {
         "id": "basic_ed_guidance_office",
         "name": "basic_ed_guidance_office",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Basic Ed. Guidance Office",
         "nearest_node": "RD_BASICED_BLDG",
@@ -2348,7 +2348,7 @@
       "properties": {
         "id": "hs_library",
         "name": "hs_library",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "High School Library",
         "nearest_node": "RD_BASICED_BLDG",
@@ -2368,7 +2368,7 @@
       "properties": {
         "id": "elem_library",
         "name": "elem_library",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Elementary Library",
         "nearest_node": "RD_BASICED_BLDG",
@@ -2388,7 +2388,7 @@
       "properties": {
         "id": "hs_comp_lab",
         "name": "hs_comp_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "High School Computer Laboratory",
         "nearest_node": "RD_BASICED_BLDG",
@@ -2408,7 +2408,7 @@
       "properties": {
         "id": "hs_faculty",
         "name": "hs_faculty",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "High School Faculty Room",
         "nearest_node": "RD_BASICED_BLDG",
@@ -2428,7 +2428,7 @@
       "properties": {
         "id": "auditorium_basiced",
         "name": "auditorium_basiced",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Auditorium",
         "nearest_node": "RD_BASICED_BLDG",
@@ -2448,7 +2448,7 @@
       "properties": {
         "id": "elem_comp_lab",
         "name": "elem_comp_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Elementary Computer Laboratory",
         "nearest_node": "RD_BASICED_BLDG",
@@ -2468,7 +2468,7 @@
       "properties": {
         "id": "new_library",
         "name": "new_library",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Nursing & Crim Library",
         "nearest_node": "IT_yes",
@@ -2488,7 +2488,7 @@
       "properties": {
         "id": "marine_library",
         "name": "marine_library",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Maritime Library",
         "nearest_node": "IT_Yesser",
@@ -2508,7 +2508,7 @@
       "properties": {
         "id": "uc_library",
         "name": "uc_library",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Library",
         "nearest_node": "IT_Yesser",
@@ -2528,7 +2528,7 @@
       "properties": {
         "id": "marine_office",
         "name": "marine_office",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Maritime Transportation Office",
         "nearest_node": "IT_Yesser",
@@ -2548,7 +2548,7 @@
       "properties": {
         "id": "marine_faculty",
         "name": "marine_faculty",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Maritime Faculty Room",
         "nearest_node": "IT_Yesser",
@@ -2568,7 +2568,7 @@
       "properties": {
         "id": "c5_lab",
         "name": "c5_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "C5 Computer Laboratory",
         "nearest_node": "IT_Yesser",
@@ -2588,7 +2588,7 @@
       "properties": {
         "id": "maritime_avr",
         "name": "maritime_avr",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Maritime AVR",
         "nearest_node": "IT_Yesser",
@@ -2608,7 +2608,7 @@
       "properties": {
         "id": "cba_comp_lab",
         "name": "cba_comp_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CBA Computer Laboratory",
         "nearest_node": "RD_cbe_elevator",
@@ -2628,7 +2628,7 @@
       "properties": {
         "id": "cba_faculty",
         "name": "cba_faculty",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CBA Faculty Room",
         "nearest_node": "RD_cbe_elevator",
@@ -2648,7 +2648,7 @@
       "properties": {
         "id": "cbe_function_hall",
         "name": "cbe_function_hall",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Function Hall",
         "nearest_node": "RD_cbe_elevator",
@@ -2668,7 +2668,7 @@
       "properties": {
         "id": "customs_faculty",
         "name": "customs_faculty",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Customs' Faculty Room",
         "nearest_node": "RD_cbe_elevator",
@@ -2688,7 +2688,7 @@
       "properties": {
         "id": "custom_dean_office",
         "name": "custom_dean_office",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Customs' Dean's Office",
         "nearest_node": "RD_cbe_elevator",
@@ -2708,7 +2708,7 @@
       "properties": {
         "id": "ai_lab",
         "name": "ai_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "AInnovation Laboratory",
         "nearest_node": "RD_cbe_elevator",
@@ -2728,7 +2728,7 @@
       "properties": {
         "id": "educ_faculty_dean",
         "name": "educ_faculty_dean",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Education Faculty Room and Dean's Office",
         "nearest_node": "RD_cbe_elevator",
@@ -2748,7 +2748,7 @@
       "properties": {
         "id": "cbe_review",
         "name": "cbe_review",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Review Room",
         "nearest_node": "RD_cbe_elevator",
@@ -2768,7 +2768,7 @@
       "properties": {
         "id": "ee_lab",
         "name": "ee_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "EE Laboratory",
         "nearest_node": "RD_cbe_elevator",
@@ -2788,7 +2788,7 @@
       "properties": {
         "id": "engr_faculty",
         "name": "engr_faculty",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Engineering Faculty and Dean's Office",
         "nearest_node": "RD_cbe_elevator",
@@ -2808,7 +2808,7 @@
       "properties": {
         "id": "ece_lab",
         "name": "ece_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "ECE Laboratory",
         "nearest_node": "RD_cbe_elevator",
@@ -2828,7 +2828,7 @@
       "properties": {
         "id": "engr_toolroom",
         "name": "engr_toolroom",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Engineering Toolroom",
         "nearest_node": "RD_cbe_elevator",
@@ -2848,7 +2848,7 @@
       "properties": {
         "id": "cpe_lab",
         "name": "cpe_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CPE Laboratory",
         "nearest_node": "RD_cbe_elevator",
@@ -2868,7 +2868,7 @@
       "properties": {
         "id": "css_lab",
         "name": "css_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "CSS Laboratory",
         "nearest_node": "RD_cbe_elevator",
@@ -2888,7 +2888,7 @@
       "properties": {
         "id": "fab_lab",
         "name": "fab_lab",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Fabrication Laboratory",
         "nearest_node": "RD_cbe_elevator",
@@ -2908,7 +2908,7 @@
       "properties": {
         "id": "ec_office",
         "name": "ec_office",
-        "isDestination": "true",
+        "isDestination": true,
         "category": "Points of Interest",
         "description": "Engineering Council Office",
         "nearest_node": "RD_cbe_elevator",
@@ -3960,7 +3960,7 @@
       "type": "Feature",
       "properties": {
         "type": "path",
-        "name": "RD52",
+        "name": "RD62",
         "from": "IT_11",
         "to": "RD_CLINIC"
       },
@@ -4077,7 +4077,7 @@
         "type": "path",
         "name": "RD57",
         "from": "IT_12",
-        "to": "IT_Gate2"
+        "to": "RD_nsa_dorm_canteen"
       },
       "geometry": {
         "coordinates": [
@@ -4751,7 +4751,7 @@
       "properties": {
         "type": "path",
         "name": "RD47",
-        "from": "IT_12",
+        "from": "IT_13",
         "to": "IT_12"
       },
       "geometry": {
