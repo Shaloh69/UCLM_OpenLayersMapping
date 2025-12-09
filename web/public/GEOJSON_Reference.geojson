@@ -105,7 +105,7 @@
       "type": "Feature",
       "properties": {
         "id": "cbt01_cbt02",
-        "name": "CBT01 &CBT02",
+        "name": "CBT01 & CBT02",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBT01 &CBT02",
@@ -1519,7 +1519,7 @@
       "type": "Feature",
       "properties": {
         "id": "UCLM_POOL",
-        "name": "UCLM_POOL",
+        "name": "UCLM Pool",
         "category": "Points of Interest",
         "description": "UC POOL",
         "nearest_node": "RD_UCLM_POOL",
@@ -1555,7 +1555,7 @@
       "type": "Feature",
       "properties": {
         "id": "Seamanship_Lab",
-        "name": "Seamanship_Lab",
+        "name": "Seamanship Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Seamanship Laboratory",
@@ -1591,7 +1591,7 @@
       "type": "Feature",
       "properties": {
         "id": "MACHINE_SHOP",
-        "name": "MACHINE_SHOP",
+        "name": "Machine Shop",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Machine Shop",
@@ -1643,7 +1643,7 @@
       "type": "Feature",
       "properties": {
         "id": "COVERED_COURT",
-        "name": "COVERED_COURT",
+        "name": "Covered Court",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Covered Court",
@@ -1699,12 +1699,13 @@
       "type": "Feature",
       "properties": {
         "id": "SOCIAL_HALL",
-        "name": "SOCIAL_HALL",
+        "name": "Social Hall",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Social Hall",
         "nearest_node": "RD_SOCIAL_HALL",
-        "additionalDescription": ""
+        "additionalDescription": "",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -1735,12 +1736,13 @@
       "type": "Feature",
       "properties": {
         "id": "ROBOTICS_LAB",
-        "name": "ROBOTICS_LAB",
+        "name": "Robotics",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Robotics Lab",
         "nearest_node": "RD_ROBOTICS_LAB",
-        "additionalDescription": ""
+        "additionalDescription": "",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -1776,7 +1778,8 @@
         "category": "Points of Interest",
         "description": "Annex 2 Entrance 2",
         "nearest_node": "RD_ANNEX2_STAIRS2",
-        "additionalDescription": ""
+        "additionalDescription": "",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -1807,12 +1810,13 @@
       "type": "Feature",
       "properties": {
         "id": "CASHIER_ACC_RECORDS",
-        "name": "CASHIER_ACC_RECORDS",
+        "name": "Cashier, Accounting, and Records",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Cashier, Accounting, Records",
         "nearest_node": "RD_CASHIER_ACC_RECORDS",
-        "additionalDescription": ""
+        "additionalDescription": "",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -1843,12 +1847,13 @@
       "type": "Feature",
       "properties": {
         "id": "EDP_SECTION",
-        "name": "EDP_SECTION",
+        "name": "EDP Section",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "EDP Section",
         "nearest_node": "RD_EDP_SECTION",
-        "additionalDescription": ""
+        "additionalDescription": "",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -1895,12 +1900,13 @@
       "type": "Feature",
       "properties": {
         "id": "BASICED_BLDG",
-        "name": "BASICED_BLDG",
+        "name": "Basic Education Building",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Basic Education Building",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": ""
+        "additionalDescription": "",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -1931,7 +1937,7 @@
       "type": "Feature",
       "properties": {
         "id": "CADS_OFFICE",
-        "name": "CADS_OFFICE",
+        "name": "CADS Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM CADS Office (Campus Director)",
@@ -1973,7 +1979,7 @@
       "type": "Feature",
       "properties": {
         "id": "anatomy_lab",
-        "name": "anatomy_lab",
+        "name": "Anatomy Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Anatomy Laboratory",
@@ -1994,7 +2000,7 @@
       "type": "Feature",
       "properties": {
         "id": "kitchen_lab1",
-        "name": "kitchen_lab1",
+        "name": "Kitchen Lab 1",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Kitchen Laboratory 1",
@@ -2015,7 +2021,7 @@
       "type": "Feature",
       "properties": {
         "id": "nursing_faculty_room",
-        "name": "nursing_faculty_room",
+        "name": "Nursing Faculty Room",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Nursing Faculty Room",
@@ -2036,7 +2042,7 @@
       "type": "Feature",
       "properties": {
         "id": "uc_resto",
-        "name": "uc_resto",
+        "name": "UC Resto",
         "isDestination": true,
         "category": "Points of Interest ",
         "description": "UCLM Mini Resto",
@@ -2057,7 +2063,7 @@
       "type": "Feature",
       "properties": {
         "id": "coop_office",
-        "name": "coop_office",
+        "name": "Coop Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Coop Office",
@@ -2078,7 +2084,7 @@
       "type": "Feature",
       "properties": {
         "id": "yearbook_office",
-        "name": "yearbook_office",
+        "name": "Yearbook Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Yearbook Office",
@@ -2099,12 +2105,13 @@
       "type": "Feature",
       "properties": {
         "id": "prefect_discipline",
-        "name": "prefect_discipline",
+        "name": "Prefect of Discipline",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Prefect of Discipline",
         "nearest_node": "RD_prefect_discipline",
-        "additionalDescription": ""
+        "additionalDescription": "",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2135,12 +2142,13 @@
       "type": "Feature",
       "properties": {
         "id": "sao_office",
-        "name": "sao_office",
+        "name": "SAO Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Student's Affair Office",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs and then turn right, go to the far end and turn left for the room"
+        "additionalDescription": "Go upstairs and then turn right, go to the far end and turn left for the room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2155,12 +2163,13 @@
       "type": "Feature",
       "properties": {
         "id": "uccp_office",
-        "name": "uccp_office",
+        "name": "UCCP Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCCP Office",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs, turn right and the room is at the far end of the hallway"
+        "additionalDescription": "Go upstairs, turn right and the room is at the far end of the hallway",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2196,12 +2205,13 @@
       "type": "Feature",
       "properties": {
         "id": "avr",
-        "name": "avr",
+        "name": "Audio Visual Room",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Audio Visual Room",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs until the 2nd floor and then turn right, the room ahead is the AVR"
+        "additionalDescription": "Go upstairs until the 2nd floor and then turn right, the room ahead is the AVR",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2216,12 +2226,13 @@
       "type": "Feature",
       "properties": {
         "id": "function_hall",
-        "name": "function_hall",
+        "name": "Function Hall",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Function Hall",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs until the 2nd floor and then the room on the left is that room"
+        "additionalDescription": "Go upstairs until the 2nd floor and then the room on the left is that room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2236,12 +2247,13 @@
       "type": "Feature",
       "properties": {
         "id": "kitchen_lab2",
-        "name": "kitchen_lab2",
+        "name": "Kitchen Lab 2",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Kitchen Laboratory 2",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs until 4th Floor and then turn right walk across the hallways till you see the room"
+        "additionalDescription": "Go upstairs until 4th Floor and then turn right walk across the hallways till you see the room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2256,12 +2268,13 @@
       "type": "Feature",
       "properties": {
         "id": "uc_travel_and_tours",
-        "name": "uc_travel_and_tours",
+        "name": "UC Travel and Tours",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UC Travel and Tours",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs until the 4th floor, turn right and then go to the left hallway. The first room is the room you're looking for."
+        "additionalDescription": "Go upstairs until the 4th floor, turn right and then go to the left hallway. The first room is the room you're looking for.",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2297,12 +2310,13 @@
       "type": "Feature",
       "properties": {
         "id": "shs_faculty",
-        "name": "shs_faculty",
+        "name": "SHS Faculty",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "SHS Faculty Room",
         "nearest_node": "RD_ANNEX2_STAIRS1",
-        "additionalDescription": "Go upstairs up to 4th Floor, go left across the hallway until you find the room."
+        "additionalDescription": "Go upstairs up to 4th Floor, go left across the hallway until you find the room.",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2317,12 +2331,13 @@
       "type": "Feature",
       "properties": {
         "id": "rooftop_canteen",
-        "name": "rooftop_canteen",
+        "name": "Rooftop Canteen",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Rooftop Canteen",
         "nearest_node": "RD_ANNEX2_STAIRS1",
-        "additionalDescription": "Go upstairs up to the end, go left, go straight across the hallway to find the rooftop canteen."
+        "additionalDescription": "Go upstairs up to the end, go left, go straight across the hallway to find the rooftop canteen.",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2337,12 +2352,13 @@
       "type": "Feature",
       "properties": {
         "id": "basic_ed_guidance_office",
-        "name": "basic_ed_guidance_office",
+        "name": "Basic Ed Guidance Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Basic Ed. Guidance Office",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 2nd floor and then turn left and go straight ahead to the end for the room"
+        "additionalDescription": "Go upstairs up to 2nd floor and then turn left and go straight ahead to the end for the room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2357,12 +2373,13 @@
       "type": "Feature",
       "properties": {
         "id": "hs_library",
-        "name": "hs_library",
+        "name": "HS Library",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "High School Library",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 3rd Floor turn left, go by the center of the building for the room"
+        "additionalDescription": "Go upstairs up to 3rd Floor turn left, go by the center of the building for the room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2377,12 +2394,13 @@
       "type": "Feature",
       "properties": {
         "id": "elem_library",
-        "name": "elem_library",
+        "name": "Elementary Library",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Elementary Library",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 3rd Floor, turn left, go by the center of the building"
+        "additionalDescription": "Go upstairs up to 3rd Floor, turn left, go by the center of the building",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2397,12 +2415,13 @@
       "type": "Feature",
       "properties": {
         "id": "hs_comp_lab",
-        "name": "hs_comp_lab",
+        "name": "HS Computer Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "High School Computer Laboratory",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 4th Floor, turn left and then go by the center of the building for the room"
+        "additionalDescription": "Go upstairs up to 4th Floor, turn left and then go by the center of the building for the room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2417,12 +2436,13 @@
       "type": "Feature",
       "properties": {
         "id": "hs_faculty",
-        "name": "hs_faculty",
+        "name": "HS Faculty",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "High School Faculty Room",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 4th Floor, turn left, go across the center hallway to the end for the room"
+        "additionalDescription": "Go upstairs up to 4th Floor, turn left, go across the center hallway to the end for the room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2437,12 +2457,13 @@
       "type": "Feature",
       "properties": {
         "id": "auditorium_basiced",
-        "name": "auditorium_basiced",
+        "name": "Basic Ed Auditorium",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Auditorium",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to the highest level and then go by the center of the building"
+        "additionalDescription": "Go upstairs up to the highest level and then go by the center of the building",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2457,12 +2478,13 @@
       "type": "Feature",
       "properties": {
         "id": "elem_comp_lab",
-        "name": "elem_comp_lab",
+        "name": "Elementary Computer Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Elementary Computer Laboratory",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 4th Floor, turn left, go by the center of the building"
+        "additionalDescription": "Go upstairs up to 4th Floor, turn left, go by the center of the building",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2477,12 +2499,13 @@
       "type": "Feature",
       "properties": {
         "id": "new_library",
-        "name": "new_library",
+        "name": "New Library",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Nursing & Crim Library",
         "nearest_node": "IT_yes",
-        "additionalDescription": "Go upstairs up to 2nd floor, turn right, first room is the room you're looking for"
+        "additionalDescription": "Go upstairs up to 2nd floor, turn right, first room is the room you're looking for",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2497,12 +2520,13 @@
       "type": "Feature",
       "properties": {
         "id": "marine_library",
-        "name": "marine_library",
+        "name": "Maritime Library",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Maritime Library",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs up to 2nd Floor, turn left, the library on the right is the room you're looking for"
+        "additionalDescription": "Go upstairs up to 2nd Floor, turn left, the library on the right is the room you're looking for",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2517,12 +2541,13 @@
       "type": "Feature",
       "properties": {
         "id": "uc_library",
-        "name": "uc_library",
+        "name": "UC Library",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "UCLM Library",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs up to 2nd Floor, turn left, the library on the left is the one you're looking for"
+        "additionalDescription": "Go upstairs up to 2nd Floor, turn left, the library on the left is the one you're looking for",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2537,12 +2562,13 @@
       "type": "Feature",
       "properties": {
         "id": "marine_office",
-        "name": "marine_office",
+        "name": "Maritime Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Maritime Transportation Office",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs up to 3rd floor, go left, one of the two rooms is what you're looking for"
+        "additionalDescription": "Go upstairs up to 3rd floor, go left, one of the two rooms is what you're looking for",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2557,12 +2583,13 @@
       "type": "Feature",
       "properties": {
         "id": "marine_faculty",
-        "name": "marine_faculty",
+        "name": "Maritime Faculty",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Maritime Faculty Room",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs up to 3rd Floor, turn left, one of the two rooms is what you're looking for"
+        "additionalDescription": "Go upstairs up to 3rd Floor, turn left, one of the two rooms is what you're looking for",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2577,12 +2604,13 @@
       "type": "Feature",
       "properties": {
         "id": "c5_lab",
-        "name": "c5_lab",
+        "name": "C5 Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "C5 Computer Laboratory",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs up to 5th Floor, then go right by the end of the building"
+        "additionalDescription": "Go upstairs up to 5th Floor, then go right by the end of the building",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2597,12 +2625,13 @@
       "type": "Feature",
       "properties": {
         "id": "maritime_avr",
-        "name": "maritime_avr",
+        "name": "Maritime Audio Visual Room",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Maritime AVR",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs all the way to the top, go left and left and the biggest room is the Maritime AVR"
+        "additionalDescription": "Go upstairs all the way to the top, go left and left and the biggest room is the Maritime AVR",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2617,12 +2646,13 @@
       "type": "Feature",
       "properties": {
         "id": "cba_comp_lab",
-        "name": "cba_comp_lab",
+        "name": "CBA Computer Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBA Computer Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 2nd Floor, go right and take a few stepsd"
+        "additionalDescription": "Ride the Elevator to 2nd Floor, go right and take a few stepsd",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2637,12 +2667,13 @@
       "type": "Feature",
       "properties": {
         "id": "cba_faculty",
-        "name": "cba_faculty",
+        "name": "CBA Faculty",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBA Faculty Room",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 3rd Floor, go take a right and take few steps"
+        "additionalDescription": "Ride the Elevator to 3rd Floor, go take a right and take few steps",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2657,12 +2688,13 @@
       "type": "Feature",
       "properties": {
         "id": "cbe_function_hall",
-        "name": "cbe_function_hall",
+        "name": "CBE Function Hall",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Function Hall",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 4th Floor, take a right and take a few steps ahead"
+        "additionalDescription": "Ride the Elevator to 4th Floor, take a right and take a few steps ahead",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2677,12 +2709,13 @@
       "type": "Feature",
       "properties": {
         "id": "customs_faculty",
-        "name": "customs_faculty",
+        "name": "Customs Faculty",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Customs' Faculty Room",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the elevator to 3rd Floor, then take right and take a few steps"
+        "additionalDescription": "Ride the elevator to 3rd Floor, then take right and take a few steps",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2697,12 +2730,13 @@
       "type": "Feature",
       "properties": {
         "id": "custom_dean_office",
-        "name": "custom_dean_office",
+        "name": "Customs Dean's Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Customs' Dean's Office",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 3rd Floor, take right and take a few steps"
+        "additionalDescription": "Ride the Elevator to 3rd Floor, take right and take a few steps",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2717,12 +2751,13 @@
       "type": "Feature",
       "properties": {
         "id": "ai_lab",
-        "name": "ai_lab",
+        "name": "AI Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "AInnovation Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, go all the way to the end of the hallway and then turn left, the room will be ahead of you"
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, go all the way to the end of the hallway and then turn left, the room will be ahead of you",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2737,12 +2772,13 @@
       "type": "Feature",
       "properties": {
         "id": "educ_faculty_dean",
-        "name": "educ_faculty_dean",
+        "name": "Educ Faculty and Dean's Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Education Faculty Room and Dean's Office",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 4th Floor, take a left and take a few steps ahead"
+        "additionalDescription": "Ride the Elevator to 4th Floor, take a left and take a few steps ahead",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2757,12 +2793,13 @@
       "type": "Feature",
       "properties": {
         "id": "cbe_review",
-        "name": "cbe_review",
+        "name": "CBE Review Room",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CBE Review Room",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, go all the way to the end of the hallway and the room on the right will be it"
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, go all the way to the end of the hallway and the room on the right will be it",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2777,12 +2814,13 @@
       "type": "Feature",
       "properties": {
         "id": "ee_lab",
-        "name": "ee_lab",
+        "name": "EE Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "EE Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, 3rd to the last room is it"
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, 3rd to the last room is it",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2797,12 +2835,13 @@
       "type": "Feature",
       "properties": {
         "id": "engr_faculty",
-        "name": "engr_faculty",
+        "name": "Engineer Faculty and Dean's Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Engineering Faculty and Dean's Office",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, take a left and then a few steps ahead and it will be the room"
+        "additionalDescription": "Ride the Elevator to 9th Floor, take a left and then a few steps ahead and it will be the room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2817,12 +2856,13 @@
       "type": "Feature",
       "properties": {
         "id": "ece_lab",
-        "name": "ece_lab",
+        "name": "ECE Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "ECE Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, take a right, go all the way to the 2nd to the last room and that's it"
+        "additionalDescription": "Ride the Elevator to 9th Floor, take a right, go all the way to the 2nd to the last room and that's it",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2837,12 +2877,13 @@
       "type": "Feature",
       "properties": {
         "id": "engr_toolroom",
-        "name": "engr_toolroom",
+        "name": "Engineering Toolroom",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Engineering Toolroom",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, 2 rooms ahead and that would be the Engr. Toolroom"
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, 2 rooms ahead and that would be the Engr. Toolroom",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2857,12 +2898,13 @@
       "type": "Feature",
       "properties": {
         "id": "cpe_lab",
-        "name": "cpe_lab",
+        "name": "CPE Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CPE Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right and the first room you see will be it"
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right and the first room you see will be it",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2877,12 +2919,13 @@
       "type": "Feature",
       "properties": {
         "id": "css_lab",
-        "name": "css_lab",
+        "name": "CSS Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "CSS Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, take a left, go all the way to the end, the room on it is the one you're looking for"
+        "additionalDescription": "Ride the Elevator to 9th Floor, take a left, go all the way to the end, the room on it is the one you're looking for",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2897,12 +2940,13 @@
       "type": "Feature",
       "properties": {
         "id": "fab_lab",
-        "name": "fab_lab",
+        "name": "Fabrication Lab",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Fabrication Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right and the 2nd room ahead is the Fab Lab"
+        "additionalDescription": "Ride the Elevator to 9th Floor, turn right and the 2nd room ahead is the Fab Lab",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
@@ -2917,12 +2961,13 @@
       "type": "Feature",
       "properties": {
         "id": "ec_office",
-        "name": "ec_office",
+        "name": "Engineering Council Office",
         "isDestination": true,
         "category": "Points of Interest",
         "description": "Engineering Council Office",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 10th Floor, take a right and take a few steps ahead to find the room"
+        "additionalDescription": "Ride the Elevator to 10th Floor, take a right and take a few steps ahead to find the room",
+        "isHidable": true
       },
       "geometry": {
         "coordinates": [
