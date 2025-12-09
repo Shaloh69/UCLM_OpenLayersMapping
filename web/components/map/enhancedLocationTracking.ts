@@ -289,23 +289,9 @@ export class EnhancedLocationTracker {
           stroke: new Stroke({ color: "#ffffff", width: 3 }),
         }),
       });
-    } else if (name === "accuracy" && this.options.showAccuracyCircle) {
-      // Accuracy circle - make it more visible when GPS is poor
-      const accuracy = this.currentPosition?.accuracy ?? 50;
-      const isLowAccuracy = accuracy > this.maxAccuracyThreshold;
-
-      return new Style({
-        fill: new Fill({
-          color: isLowAccuracy
-            ? "rgba(239, 68, 68, 0.1)"  // Red tint for low accuracy
-            : "rgba(59, 130, 246, 0.1)" // Blue for good accuracy
-        }),
-        stroke: new Stroke({
-          color: isLowAccuracy ? "#EF4444" : "#3B82F6",
-          width: isLowAccuracy ? 2 : 1.5,
-          lineDash: [5, 5]
-        }),
-      });
+    } else if (name === "accuracy") {
+      // Hide accuracy circle entirely
+      return new Style();
     } else if (name === "directionArrow" && this.options.showDirectionArrow) {
       // Only show direction arrow when we have valid heading AND are moving
       if (!hasValidHeading || !isMoving) {
@@ -576,8 +562,32 @@ export class EnhancedLocationTracker {
     // GUARANTEED: finalRenderCoordinates is ALWAYS on road when route exists
     // =============================================
 
-    console.log(`[RENDER] 🎯 Rendering marker at: [${finalRenderCoordinates[0].toFixed(6)}, ${finalRenderCoordinates[1].toFixed(6)}]`);
-    this.updateMapFeatures(finalRenderCoordinates);
+    // Add GPS noise for poor signal quality
+    let renderCoordinates = finalRenderCoordinates;
+    if (!isHighQualityGPS && accuracy) {
+      // Add random jitter proportional to GPS accuracy
+      // Poor GPS (50-100m accuracy) gets 5-15m of random noise
+      const noiseScale = Math.min((accuracy - this.maxAccuracyThreshold) / 50, 1.0); // 0 to 1
+      const maxNoise = 5 + (noiseScale * 10); // 5m to 15m of noise
+
+      // Random offset in meters
+      const noiseDistance = Math.random() * maxNoise;
+      const noiseAngle = Math.random() * 2 * Math.PI;
+
+      // Convert noise to lat/lon offset (approximate)
+      const latOffset = (noiseDistance * Math.cos(noiseAngle)) / 111320; // 1 degree lat ≈ 111.32 km
+      const lonOffset = (noiseDistance * Math.sin(noiseAngle)) / (111320 * Math.cos(finalRenderCoordinates[1] * Math.PI / 180));
+
+      renderCoordinates = [
+        finalRenderCoordinates[0] + lonOffset,
+        finalRenderCoordinates[1] + latOffset
+      ] as [number, number];
+
+      console.log(`[GPS NOISE] Adding ${noiseDistance.toFixed(1)}m jitter due to poor GPS (accuracy: ${accuracy.toFixed(0)}m)`);
+    }
+
+    console.log(`[RENDER] 🎯 Rendering marker at: [${renderCoordinates[0].toFixed(6)}, ${renderCoordinates[1].toFixed(6)}]`);
+    this.updateMapFeatures(renderCoordinates);
 
     // =============================================
     // PHASE 6.5: ALWAYS CHECK ARRIVAL (CRITICAL)
