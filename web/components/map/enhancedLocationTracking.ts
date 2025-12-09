@@ -638,14 +638,15 @@ export class EnhancedLocationTracker {
     }
 
     // =============================================
-    // PHASE 7: UPDATE HEADING/ROTATION
-    // Smooth compass rotation
+    // PHASE 7: UPDATE HEADING (for direction arrow only)
+    // Rotation is now handled in animation loop to face destination
     // =============================================
 
+    // Store heading for direction arrow display, but don't use for map rotation
     if (effectiveHeading !== null && effectiveHeading !== undefined) {
       if (this.targetHeading === null) {
         this.targetHeading = effectiveHeading;
-        console.log(`[GPS] 🧭 Initial heading: ${effectiveHeading.toFixed(1)}°`);
+        console.log(`[GPS] 🧭 Initial heading: ${effectiveHeading.toFixed(1)}° (used for arrow, not map rotation)`);
       }
 
       if (this.rotationDebounceTimer !== null) {
@@ -1006,23 +1007,26 @@ export class EnhancedLocationTracker {
 
   private startAnimationLoop(): void {
     const animate = () => {
-      // Use debounced targetHeading instead of direct currentPosition.heading
-      // This prevents jittery compass rotation from rapid GPS heading updates
-      if (
-        this.options.rotateMap &&
-        this.targetHeading !== null &&
-        this.targetHeading !== undefined
-      ) {
-        // Smooth rotation interpolation
-        const targetRotation = -((this.targetHeading * Math.PI) / 180);
-        this.currentRotation = interpolateAngle(
-          this.currentRotation,
-          targetRotation,
-          0.1 // Smoothing factor
-        );
+      if (this.options.rotateMap) {
+        let bearingToUse: number | null = null;
 
-        const view = this.map.getView();
-        view.setRotation(this.currentRotation);
+        // ALWAYS point towards destination when navigating
+        if (this.currentPosition && this.destinationPosition) {
+          // Calculate bearing from current position to destination
+          const userCoords = this.snappedPosition || this.currentPosition.coordinates;
+          bearingToUse = calculateBearing(userCoords, this.destinationPosition);
+
+          // Smooth rotation interpolation
+          const targetRotation = -((bearingToUse * Math.PI) / 180);
+          this.currentRotation = interpolateAngle(
+            this.currentRotation,
+            targetRotation,
+            0.1 // Smoothing factor
+          );
+
+          const view = this.map.getView();
+          view.setRotation(this.currentRotation);
+        }
       }
 
       this.animationFrameId = requestAnimationFrame(animate);
