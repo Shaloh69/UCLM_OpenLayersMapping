@@ -668,6 +668,7 @@ const CampusMap: React.FC<MapProps> = ({
         imageUrl: startFeature.get("imageUrl"),
         nearest_node: startFeature.get("nearest_node"),
         additionalDirections: startFeature.get("additionalDirections"),
+        isHidable: startFeature.get("isHidable"),
       };
 
       const endNode: RoadNode = {
@@ -680,6 +681,7 @@ const CampusMap: React.FC<MapProps> = ({
         imageUrl: endFeature.get("imageUrl"),
         nearest_node: endFeature.get("nearest_node"),
         additionalDirections: endFeature.get("additionalDirections"),
+        isHidable: endFeature.get("isHidable"),
       };
 
       // Set nodes in state
@@ -1137,14 +1139,15 @@ const CampusMap: React.FC<MapProps> = ({
       });
 
       // Create multi-layered route for better visibility
+      // IMPORTANT: Keep route narrower than highlighted roads so red roads remain visible
       const routeLayer = new VectorLayer({
         source: routeSource,
         style: [
-          // Outer glow/shadow for depth
+          // Outer glow/shadow for depth - narrower to not cover highlighted roads
           new Style({
             stroke: new Stroke({
-              color: "rgba(255, 87, 34, 0.4)", // Brighter orange glow
-              width: 16, // Wider for better visibility
+              color: "rgba(255, 87, 34, 0.3)", // More transparent
+              width: 10, // Narrower (was 16) to show highlighted roads
               lineCap: "round",
               lineJoin: "round",
             }),
@@ -1154,7 +1157,7 @@ const CampusMap: React.FC<MapProps> = ({
           new Style({
             stroke: new Stroke({
               color: "#FF5722", // Bright orange-red
-              width: 10, // Wider
+              width: 6, // Narrower (was 10)
               lineCap: "round",
               lineJoin: "round",
             }),
@@ -1164,7 +1167,7 @@ const CampusMap: React.FC<MapProps> = ({
           new Style({
             stroke: new Stroke({
               color: "#FFFFFF",
-              width: 4, // Wider white core
+              width: 2, // Narrower (was 4)
               lineCap: "round",
               lineJoin: "round",
             }),
@@ -1658,6 +1661,7 @@ const CampusMap: React.FC<MapProps> = ({
               imageUrl: props.imageUrl,
               nearest_node: props.nearest_node,
               additionalDirections: props.additionalDirections,
+              isHidable: props.isHidable,
             };
 
             // Find and set main gate as default starting point
@@ -1753,6 +1757,7 @@ const CampusMap: React.FC<MapProps> = ({
                 imageUrl: feature.properties.imageUrl,
                 nearest_node: feature.properties.nearest_node,
                 additionalDirections: feature.properties.additionalDirections,
+                isHidable: feature.properties.isHidable,
               };
 
               // Find and set main gate as default starting point
@@ -1817,6 +1822,7 @@ const CampusMap: React.FC<MapProps> = ({
               imageUrl: props.imageUrl,
               nearest_node: props.nearest_node,
               additionalDirections: props.additionalDirections,
+              isHidable: props.isHidable,
             };
 
             // Find main gate

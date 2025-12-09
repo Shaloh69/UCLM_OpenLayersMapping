@@ -1,0 +1,48 @@
+{
+  "totalRoads": 68,
+  "duplicateNames": [
+    {
+      "name": "RD52",
+      "count": 2,
+      "instances": [
+        {
+          "from": "IT_11",
+          "to": "RD_CLINIC",
+          "coordinates": [
+            [
+              123.9547587363798,
+              10.326129795978844
+            ],
+            [
+              123.95480464400566,
+              10.326193066369441
+            ]
+          ]
+        },
+        {
+          "from": "RD_UCLM_POOL",
+          "to": "RD_Seamanship_Lab",
+          "coordinates": [
+            [
+              123.9545733714047,
+              10.326842582653057
+            ],
+            [
+              123.95449563483129,
+              10.326744861603785
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "invalidGeometry": [],
+  "zeroLengthRoads": [],
+  "missingProperties": [],
+  "selfReferencingRoads": [
+    {
+      "name": "RD47",
+      "node": "IT_12"
+    }
+  ]
+}

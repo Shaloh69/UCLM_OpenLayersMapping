@@ -28,6 +28,7 @@ export interface RoadNode {
   imageUrl?: string;
   nearest_node?: string; // ID of nearest road node (for POIs not on road network)
   additionalDirections?: string; // Walking directions from nearest_node to this POI
+  isHidable?: boolean; // If true, marker and name won't show on map but point is still selectable as destination
 }
 
 /**
@@ -185,28 +186,12 @@ export const findShortestPath = (
     return `${i+1}. ${p.name} (${p.from} → ${p.to})`;
   }));
 
-  let oldBuildingRD4Found = false;
   roadFeatures.forEach((feature, index) => {
     const props = feature.getProperties();
-
-    // Debug logging for OldBuildingRD4
-    if (props.name === "OldBuildingRD4") {
-      oldBuildingRD4Found = true;
-      console.log("🔍 [OldBuildingRD4] Found in roads at index", index, ":", {
-        name: props.name,
-        from: props.from,
-        to: props.to,
-        type: props.type,
-        hasGeometry: !!feature.getGeometry()
-      });
-    }
 
     if (props.from && props.to) {
       const geometry = feature.getGeometry();
       if (!geometry) {
-        if (props.name === "OldBuildingRD4") {
-          console.error("🔍 [OldBuildingRD4] NO GEOMETRY!");
-        }
         return;
       }
 
@@ -224,39 +209,16 @@ export const findShortestPath = (
         }
       }
 
-      // Debug for OldBuildingRD4
-      if (props.name === "OldBuildingRD4") {
-        console.log("🔍 [OldBuildingRD4] Distance calculated:", distance);
-      }
-
       // Add to graph in both directions (assuming bidirectional roads)
       if (!graph[props.from]) graph[props.from] = {};
       if (!graph[props.to]) graph[props.to] = {};
 
       graph[props.from][props.to] = distance;
       graph[props.to][props.from] = distance;
-
-      // Debug for OldBuildingRD4
-      if (props.name === "OldBuildingRD4") {
-        console.log("🔍 [OldBuildingRD4] Added to graph:", {
-          from: props.from,
-          to: props.to,
-          distance: distance,
-          graphHasConnection: !!graph[props.from][props.to]
-        });
-      }
-    } else {
-      if (props.name === "OldBuildingRD4") {
-        console.error("🔍 [OldBuildingRD4] MISSING from/to:", {
-          from: props.from,
-          to: props.to
-        });
-      }
     }
   });
 
   // Debug logging AFTER all roads have been processed
-  console.log(`🛣️  OldBuildingRD4 was ${oldBuildingRD4Found ? 'FOUND ✓' : 'NOT FOUND ✗'} in road features`);
   console.log("😊😊 Graph structure built:");
   console.log("  Total nodes in graph:", Object.keys(graph).length);
   console.log("  Looking for path between:", startNodeId, "and", endNodeId);
@@ -342,6 +304,7 @@ export const findShortestPath = (
 
   // Convert path to features
   const pathFeatures: Feature[] = [];
+  const missingSegments: string[] = [];
 
   for (let i = 0; i < path.length - 1; i++) {
     const fromNode = path[i];
@@ -358,7 +321,18 @@ export const findShortestPath = (
 
     if (roadSegment) {
       pathFeatures.push(roadSegment);
+      console.log(`✅ Found road segment: ${roadSegment.getProperties().name} (${fromNode} ↔ ${toNode})`);
+    } else {
+      const missingSegment = `${fromNode} ↔ ${toNode}`;
+      missingSegments.push(missingSegment);
+      console.warn(`❌ Missing road segment: ${missingSegment}`);
     }
+  }
+
+  if (missingSegments.length > 0) {
+    console.error(`❌ Path incomplete! Missing ${missingSegments.length} road segments:`, missingSegments);
+  } else {
+    console.log(`✅ Complete path with ${pathFeatures.length} road segments`);
   }
 
 
@@ -443,6 +417,8 @@ export const setupRoadSystem = (
           width: width,
           lineDash: lineDash,
         }),
+        // Highlighted roads should render above points layer (zIndex 10)
+        zIndex: isInActiveRoute ? 15 : 5,
       });
     },
     zIndex: 5, // Place below points but above polygon areas
@@ -459,24 +435,6 @@ export const setupRoadSystem = (
       return p.from && p.to;
     });
     console.log(`✅ Found ${roads.length} actual road segments`);
-
-    // Check for OldBuildingRD4
-    const rd4 = roads.find(f => f.getProperties().name === 'OldBuildingRD4');
-    console.log(`✅ OldBuildingRD4 in loaded features: ${rd4 ? 'YES ✓' : 'NO ✗'}`);
-
-    if (rd4) {
-      const props = rd4.getProperties();
-      console.log(`✅ OldBuildingRD4 details:`, {
-        name: props.name,
-        from: props.from,
-        to: props.to,
-        type: props.type,
-        hasGeometry: !!rd4.getGeometry()
-      });
-    } else {
-      // List all road names to help debug
-      console.log(`🔍 All road names:`, roads.map(f => f.getProperties().name));
-    }
 
     // List first 5 roads
     console.log(`✅ First 5 roads loaded:`, roads.slice(0, 5).map(f => {
