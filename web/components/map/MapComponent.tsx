@@ -221,6 +221,8 @@ const CampusMap: React.FC<MapProps> = ({
 
   // Enhanced location tracking
   const enhancedTrackerRef = useRef<EnhancedLocationTracker | null>(null);
+  const locationTrackingCleanupRef = useRef<(() => void) | null>(null);
+
   const requestLocationPermission = useCallback(() => {
     setLocationPermissionRequested(true);
 
@@ -228,10 +230,8 @@ const CampusMap: React.FC<MapProps> = ({
     navigator.geolocation.getCurrentPosition(
       () => {
         // Start location tracking now that we have permission
-        const cleanup = initLocationTracking();
-        return () => {
-          if (cleanup) cleanup();
-        };
+        // Cleanup is now handled inside initLocationTracking via locationTrackingCleanupRef
+        initLocationTracking();
       },
       (error) => {
         console.error("Location permission denied", error);
@@ -240,7 +240,7 @@ const CampusMap: React.FC<MapProps> = ({
         );
       }
     );
-  }, []);
+  }, [initLocationTracking]);
 
   // =============================================
   // Dynamic Road Highlighting Helper
@@ -273,6 +273,14 @@ const CampusMap: React.FC<MapProps> = ({
 
   const initLocationTracking = useCallback(() => {
     if (!mapInstanceRef.current) return undefined;
+
+    // CRITICAL FIX: Cleanup any existing tracker before creating a new one
+    // This prevents duplicate markers when initLocationTracking is called multiple times
+    if (locationTrackingCleanupRef.current) {
+      console.log('[GPS] 🧹 Cleaning up existing tracker before creating new one');
+      locationTrackingCleanupRef.current();
+      locationTrackingCleanupRef.current = null;
+    }
 
     setLocationTrackingEnabled(true);
 
@@ -451,14 +459,18 @@ const CampusMap: React.FC<MapProps> = ({
         }
       );
 
-      // Return cleanup function
-      return () => {
+      // Return cleanup function and store it in ref
+      const cleanup = () => {
         if (enhancedTrackerRef.current) {
+          console.log('[GPS] 🧹 Destroying enhanced tracker and removing layer');
           enhancedTrackerRef.current.stopTracking();
           enhancedTrackerRef.current.destroy();
           enhancedTrackerRef.current = null;
         }
       };
+
+      locationTrackingCleanupRef.current = cleanup;
+      return cleanup;
     } else {
       // Use standard tracking for desktop
       const { watchId, userPositionFeature } = setupLocationTracking(
@@ -518,9 +530,10 @@ const CampusMap: React.FC<MapProps> = ({
       const locationNodeInterval = setInterval(updateCurrentLocationNode, 3000);
       locationNodeIntervalRef.current = locationNodeInterval;
 
-      // Return cleanup function
-      return () => {
+      // Return cleanup function and store it in ref
+      const cleanup = () => {
         if (locationWatchIdRef.current) {
+          console.log('[GPS] 🧹 Clearing standard location watch');
           navigator.geolocation.clearWatch(locationWatchIdRef.current);
           locationWatchIdRef.current = null;
         }
@@ -529,6 +542,9 @@ const CampusMap: React.FC<MapProps> = ({
           locationNodeIntervalRef.current = null;
         }
       };
+
+      locationTrackingCleanupRef.current = cleanup;
+      return cleanup;
     }
   // CRITICAL: Only re-run when mobileMode or useEnhancedTracking changes
   // Do NOT include currentLocation or selectedDestination - they change frequently
@@ -2006,6 +2022,12 @@ const CampusMap: React.FC<MapProps> = ({
 
     return () => {
       clearInterval(uiUpdateInterval);
+      // Cleanup location tracking
+      if (locationTrackingCleanupRef.current) {
+        console.log('[Component Cleanup] 🧹 Cleaning up location tracking');
+        locationTrackingCleanupRef.current();
+        locationTrackingCleanupRef.current = null;
+      }
       if (locationWatchIdRef.current) {
         navigator.geolocation.clearWatch(locationWatchIdRef.current);
         locationWatchIdRef.current = null;
