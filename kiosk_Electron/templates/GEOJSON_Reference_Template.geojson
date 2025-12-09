@@ -19,7 +19,7 @@
           10.327094
         ]
       },
-      "id": 0
+      "id": "cbe_elevator"
     },
     {
       "type": "Feature",
@@ -39,7 +39,7 @@
           10.327661
         ]
       },
-      "id": 1
+      "id": "cbe_gate9_elevator"
     },
     {
       "type": "Feature",
@@ -59,7 +59,7 @@
           10.327015
         ]
       },
-      "id": 2
+      "id": "gate_8"
     },
     {
       "type": "Feature",
@@ -79,7 +79,7 @@
           10.327708383097956
         ]
       },
-      "id": 3
+      "id": "gate_9"
     },
     {
       "type": "Feature",
@@ -99,7 +99,7 @@
           10.32645
         ]
       },
-      "id": 4
+      "id": "nsa_office"
     },
     {
       "type": "Feature",
@@ -119,7 +119,7 @@
           10.326366
         ]
       },
-      "id": 5
+      "id": "cbt01_cbt02"
     },
     {
       "type": "Feature",
@@ -139,7 +139,7 @@
           10.326186
         ]
       },
-      "id": 6
+      "id": "clinic"
     },
     {
       "type": "Feature",
@@ -159,7 +159,7 @@
           10.326219
         ]
       },
-      "id": 7
+      "id": "chapel"
     },
     {
       "type": "Feature",
@@ -179,7 +179,7 @@
           10.326382
         ]
       },
-      "id": 8
+      "id": "textbook_section"
     },
     {
       "type": "Feature",
@@ -199,7 +199,7 @@
           10.326242
         ]
       },
-      "id": 9
+      "id": "pe_faculty"
     },
     {
       "type": "Feature",
@@ -219,7 +219,7 @@
           10.326139
         ]
       },
-      "id": 10
+      "id": "foodcourt"
     },
     {
       "type": "Feature",
@@ -239,7 +239,7 @@
           10.326078
         ]
       },
-      "id": 11
+      "id": "stairs_elevator_president"
     },
     {
       "type": "Feature",
@@ -259,7 +259,7 @@
           10.325738
         ]
       },
-      "id": 12
+      "id": "maritime_stairs"
     },
     {
       "type": "Feature",
@@ -279,7 +279,7 @@
           10.325272
         ]
       },
-      "id": 13
+      "id": "small_stairs_old"
     },
     {
       "type": "Feature",
@@ -299,7 +299,7 @@
           10.325286
         ]
       },
-      "id": 14
+      "id": "main_stairs_old"
     },
     {
       "type": "Feature",
@@ -319,7 +319,7 @@
           10.325009
         ]
       },
-      "id": 15
+      "id": "stairs_uro_old"
     },
     {
       "type": "Feature",
@@ -339,7 +339,7 @@
           10.325217
         ]
       },
-      "id": 16
+      "id": "annex1_stairs"
     },
     {
       "type": "Feature",
@@ -359,7 +359,7 @@
           10.325164
         ]
       },
-      "id": 17
+      "id": "annex1_elevator"
     },
     {
       "type": "Feature",
@@ -379,7 +379,7 @@
           10.325306
         ]
       },
-      "id": 18
+      "id": "study_hall"
     },
     {
       "type": "Feature",
@@ -399,7 +399,7 @@
           10.325097
         ]
       },
-      "id": 19
+      "id": "canteen_annex1"
     },
     {
       "type": "Feature",
@@ -419,7 +419,7 @@
           10.32534
         ]
       },
-      "id": 21
+      "id": "stairs_sao"
     },
     {
       "type": "Feature",
@@ -439,7 +439,7 @@
           10.325069490572119
         ]
       },
-      "id": 22
+      "id": "gate_1"
     },
     {
       "type": "Feature",
@@ -459,7 +459,7 @@
           10.325374535347564
         ]
       },
-      "id": 23
+      "id": "gate_2"
     },
     {
       "type": "Feature",
@@ -479,7 +479,7 @@
           10.325405949068255
         ]
       },
-      "id": 24
+      "id": "gate_3"
     },
     {
       "type": "Feature",
@@ -499,7 +499,7 @@
           10.325700272543187
         ]
       },
-      "id": 25
+      "id": "gate_4"
     },
     {
       "type": "Feature",
@@ -519,7 +519,7 @@
           10.32495861020341
         ]
       },
-      "id": 26
+      "id": "gate_5"
     },
     {
       "type": "Feature",
@@ -539,7 +539,7 @@
           10.325597525000873
         ]
       },
-      "id": 27
+      "id": "gate_6"
     },
     {
       "type": "Feature",
@@ -559,7 +559,7 @@
           10.326436677143334
         ]
       },
-      "id": 27
+      "id": "gate_7"
     },
     {
       "type": "Feature",
@@ -575,7 +575,7 @@
         ],
         "type": "Point"
       },
-      "id": 28
+      "id": "Gate1_RoadEnd"
     },
     {
       "type": "Feature",
@@ -591,7 +591,7 @@
         ],
         "type": "Point"
       },
-      "id": 29
+      "id": "OldBuildingIntersection"
     },
     {
       "type": "Feature",
@@ -607,7 +607,7 @@
         ],
         "type": "Point"
       },
-      "id": 30
+      "id": "RE_stairs_uro_old"
     },
     {
       "type": "Feature",
@@ -623,7 +623,7 @@
         ],
         "type": "Point"
       },
-      "id": 31
+      "id": "Stairs1OldRoadEnd"
     },
     {
       "type": "Feature",
@@ -682,7 +682,7 @@
         ],
         "type": "LineString"
       },
-      "id": 32
+      "id": "LineString_32"
     },
     {
       "type": "Feature",
@@ -698,7 +698,7 @@
         ],
         "type": "Point"
       },
-      "id": 37
+      "id": "main_stairs_oldRoad_end"
     },
     {
       "type": "Feature",
@@ -714,7 +714,7 @@
         ],
         "type": "Point"
       },
-      "id": 34
+      "id": "IT_Gate2"
     },
     {
       "type": "Feature",
@@ -730,7 +730,7 @@
         ],
         "type": "Point"
       },
-      "id": 35
+      "id": "IT_Gate3"
     },
     {
       "type": "Feature",
@@ -746,7 +746,7 @@
         ],
         "type": "Point"
       },
-      "id": 36
+      "id": "RD_Gate3"
     },
     {
       "type": "Feature",
@@ -762,7 +762,7 @@
         ],
         "type": "Point"
       },
-      "id": 37
+      "id": "RD_Gate2"
     },
     {
       "type": "Feature",
@@ -778,7 +778,7 @@
         ],
         "type": "Point"
       },
-      "id": 38
+      "id": "RD_SAOStairs"
     },
     {
       "type": "Feature",
@@ -794,7 +794,7 @@
         ],
         "type": "Point"
       },
-      "id": 39
+      "id": "RD_AnnexStairs"
     },
     {
       "type": "Feature",
@@ -810,7 +810,7 @@
         ],
         "type": "Point"
       },
-      "id": 40
+      "id": "RD_ANNEXElevatorr"
     },
     {
       "type": "Feature",
@@ -826,7 +826,7 @@
         ],
         "type": "Point"
       },
-      "id": 41
+      "id": "RD_AnnexCanteen"
     },
     {
       "type": "Feature",
@@ -842,7 +842,7 @@
         ],
         "type": "Point"
       },
-      "id": 42
+      "id": "IT_4"
     },
     {
       "type": "Feature",
@@ -858,7 +858,7 @@
         ],
         "type": "Point"
       },
-      "id": 43
+      "id": "RD_Gate4"
     },
     {
       "type": "Feature",
@@ -874,7 +874,7 @@
         ],
         "type": "Point"
       },
-      "id": 44
+      "id": "RD_StudyHall"
     },
     {
       "type": "Feature",
@@ -890,7 +890,7 @@
         ],
         "type": "Point"
       },
-      "id": 45
+      "id": "IT_2"
     },
     {
       "type": "Feature",
@@ -906,7 +906,7 @@
         ],
         "type": "Point"
       },
-      "id": 46
+      "id": "RD_Gate6"
     },
     {
       "type": "Feature",
@@ -922,7 +922,7 @@
         ],
         "type": "Point"
       },
-      "id": 47
+      "id": "IT_6"
     },
     {
       "type": "Feature",
@@ -938,7 +938,7 @@
         ],
         "type": "Point"
       },
-      "id": 48
+      "id": "IT_yes"
     },
     {
       "type": "Feature",
@@ -954,7 +954,7 @@
         ],
         "type": "Point"
       },
-      "id": 49
+      "id": "RD_PE_FACULTY"
     },
     {
       "type": "Feature",
@@ -970,7 +970,7 @@
         ],
         "type": "Point"
       },
-      "id": 50
+      "id": "RD_TextbookSec"
     },
     {
       "type": "Feature",
@@ -986,7 +986,7 @@
         ],
         "type": "Point"
       },
-      "id": 51
+      "id": "IT_9"
     },
     {
       "type": "Feature",
@@ -1002,7 +1002,7 @@
         ],
         "type": "Point"
       },
-      "id": 52
+      "id": "RD_Chapel"
     },
     {
       "type": "Feature",
@@ -1018,7 +1018,7 @@
         ],
         "type": "Point"
       },
-      "id": 53
+      "id": "IT_11"
     },
     {
       "type": "Feature",
@@ -1034,7 +1034,7 @@
         ],
         "type": "Point"
       },
-      "id": 54
+      "id": "IT_Yesser"
     },
     {
       "type": "Feature",
@@ -1050,7 +1050,7 @@
         ],
         "type": "Point"
       },
-      "id": 55
+      "id": "RD_CLINIC"
     },
     {
       "type": "Feature",
@@ -1066,7 +1066,7 @@
         ],
         "type": "Point"
       },
-      "id": 56
+      "id": "RD_NSAOFFICE"
     },
     {
       "type": "Feature",
@@ -1082,7 +1082,7 @@
         ],
         "type": "Point"
       },
-      "id": 57
+      "id": "IT_14"
     },
     {
       "type": "Feature",
@@ -1098,7 +1098,7 @@
         ],
         "type": "Point"
       },
-      "id": 58
+      "id": "IT_12"
     },
     {
       "type": "Feature",
@@ -1114,7 +1114,7 @@
         ],
         "type": "Point"
       },
-      "id": 59
+      "id": "RD_gate_8"
     },
     {
       "type": "Feature",
@@ -1130,7 +1130,7 @@
         ],
         "type": "Point"
       },
-      "id": 60
+      "id": "IT_15"
     },
     {
       "type": "Feature",
@@ -1146,7 +1146,7 @@
         ],
         "type": "Point"
       },
-      "id": 61
+      "id": "RD_cbe_elevator"
     },
     {
       "type": "Feature",
@@ -1162,7 +1162,7 @@
         ],
         "type": "Point"
       },
-      "id": 62
+      "id": "IT_16"
     },
     {
       "type": "Feature",
@@ -1178,7 +1178,7 @@
         ],
         "type": "Point"
       },
-      "id": 63
+      "id": "RD_Gate9"
     },
     {
       "type": "Feature",
@@ -1194,7 +1194,7 @@
         ],
         "type": "Point"
       },
-      "id": 64
+      "id": "IT_1"
     },
     {
       "type": "Feature",
@@ -1210,7 +1210,7 @@
         ],
         "type": "Point"
       },
-      "id": 65
+      "id": "RD_Gate5"
     },
     {
       "type": "Feature",
@@ -1226,7 +1226,7 @@
         ],
         "type": "Point"
       },
-      "id": 66
+      "id": "IT_3"
     },
     {
       "type": "Feature",
@@ -1242,7 +1242,7 @@
         ],
         "type": "Point"
       },
-      "id": 67
+      "id": "IT_7"
     },
     {
       "type": "Feature",
@@ -1258,7 +1258,7 @@
         ],
         "type": "Point"
       },
-      "id": 68
+      "id": "IT_5"
     },
     {
       "type": "Feature",
@@ -1274,7 +1274,7 @@
         ],
         "type": "Point"
       },
-      "id": 69
+      "id": "RD_foodcourt"
     },
     {
       "type": "Feature",
@@ -1290,7 +1290,7 @@
         ],
         "type": "Point"
       },
-      "id": 70
+      "id": "IT_8"
     },
     {
       "type": "Feature",
@@ -1306,7 +1306,7 @@
         ],
         "type": "Point"
       },
-      "id": 71
+      "id": "RD_Cb1Cb2"
     },
     {
       "type": "Feature",
@@ -1322,7 +1322,7 @@
         ],
         "type": "Point"
       },
-      "id": 72
+      "id": "IT_10"
     },
     {
       "type": "Feature",
@@ -1338,7 +1338,7 @@
         ],
         "type": "Point"
       },
-      "id": 73
+      "id": "IT_13"
     },
     {
       "type": "Feature",
@@ -1369,7 +1369,7 @@
         ],
         "type": "LineString"
       },
-      "id": 74
+      "id": "LineString_74"
     },
     {
       "type": "Feature",
@@ -1385,7 +1385,7 @@
         ],
         "type": "Point"
       },
-      "id": 75
+      "id": "RD_CBECanteen"
     },
     {
       "type": "Feature",
@@ -1405,7 +1405,7 @@
         ],
         "type": "Point"
       },
-      "id": 127
+      "id": "cbe_canteen"
     },
     {
       "type": "Feature",
@@ -1421,7 +1421,7 @@
         ],
         "type": "Point"
       },
-      "id": 77
+      "id": "RD_ToolRoomME"
     },
     {
       "type": "Feature",
@@ -1441,7 +1441,7 @@
         ],
         "type": "Point"
       },
-      "id": 129
+      "id": "me_tool_room"
     },
     {
       "type": "Feature",
@@ -1457,7 +1457,7 @@
         ],
         "type": "Point"
       },
-      "id": 79
+      "id": "RD_GUIDANCE"
     },
     {
       "type": "Feature",
@@ -1477,7 +1477,7 @@
         ],
         "type": "Point"
       },
-      "id": 80
+      "id": "guidance"
     },
     {
       "type": "Feature",
@@ -1493,7 +1493,7 @@
         ],
         "type": "Point"
       },
-      "id": 81
+      "id": "RD_nsa_dorm_canteen"
     },
     {
       "type": "Feature",
@@ -1513,7 +1513,7 @@
         ],
         "type": "Point"
       },
-      "id": 82
+      "id": "nsa_dorm_canteen"
     },
     {
       "type": "Feature",
@@ -1533,7 +1533,7 @@
         ],
         "type": "Point"
       },
-      "id": 83
+      "id": "UCLM_POOL"
     },
     {
       "type": "Feature",
@@ -1549,7 +1549,7 @@
         ],
         "type": "Point"
       },
-      "id": 84
+      "id": "RD_UCLM_POOL"
     },
     {
       "type": "Feature",
@@ -1569,7 +1569,7 @@
         ],
         "type": "Point"
       },
-      "id": 85
+      "id": "Seamanship_Lab"
     },
     {
       "type": "Feature",
@@ -1585,7 +1585,7 @@
         ],
         "type": "Point"
       },
-      "id": 86
+      "id": "RD_Seamanship_Lab"
     },
     {
       "type": "Feature",
@@ -1605,7 +1605,7 @@
         ],
         "type": "Point"
       },
-      "id": 138
+      "id": "MACHINE_SHOP"
     },
     {
       "type": "Feature",
@@ -1621,7 +1621,7 @@
         ],
         "type": "Point"
       },
-      "id": 88
+      "id": "RD_MACHINE_SHOP"
     },
     {
       "type": "Feature",
@@ -1637,7 +1637,7 @@
         ],
         "type": "Point"
       },
-      "id": 89
+      "id": "RD_COVERED_COURT"
     },
     {
       "type": "Feature",
@@ -1657,7 +1657,7 @@
         ],
         "type": "Point"
       },
-      "id": 90
+      "id": "COVERED_COURT"
     },
     {
       "type": "Feature",
@@ -1677,7 +1677,7 @@
         ],
         "type": "Point"
       },
-      "id": 91
+      "id": "ANNEX2_STAIRS1"
     },
     {
       "type": "Feature",
@@ -1693,7 +1693,7 @@
         ],
         "type": "Point"
       },
-      "id": 92
+      "id": "RD_ANNEX2_STAIRS1"
     },
     {
       "type": "Feature",
@@ -1713,7 +1713,7 @@
         ],
         "type": "Point"
       },
-      "id": 144
+      "id": "SOCIAL_HALL"
     },
     {
       "type": "Feature",
@@ -1729,7 +1729,7 @@
         ],
         "type": "Point"
       },
-      "id": 94
+      "id": "RD_SOCIAL_HALL"
     },
     {
       "type": "Feature",
@@ -1749,7 +1749,7 @@
         ],
         "type": "Point"
       },
-      "id": 95
+      "id": "ROBOTICS_LAB"
     },
     {
       "type": "Feature",
@@ -1765,7 +1765,7 @@
         ],
         "type": "Point"
       },
-      "id": 96
+      "id": "RD_ROBOTICS_LAB"
     },
     {
       "type": "Feature",
@@ -1785,7 +1785,7 @@
         ],
         "type": "Point"
       },
-      "id": 97
+      "id": "ANNEX2_STAIRS2"
     },
     {
       "type": "Feature",
@@ -1801,7 +1801,7 @@
         ],
         "type": "Point"
       },
-      "id": 98
+      "id": "RD_ANNEX2_STAIRS2"
     },
     {
       "type": "Feature",
@@ -1821,7 +1821,7 @@
         ],
         "type": "Point"
       },
-      "id": 150
+      "id": "CASHIER_ACC_RECORDS"
     },
     {
       "type": "Feature",
@@ -1837,7 +1837,7 @@
         ],
         "type": "Point"
       },
-      "id": 100
+      "id": "RD_CASHIER_ACC_RECORDS"
     },
     {
       "type": "Feature",
@@ -1857,7 +1857,7 @@
         ],
         "type": "Point"
       },
-      "id": 152
+      "id": "EDP_SECTION"
     },
     {
       "type": "Feature",
@@ -1873,7 +1873,7 @@
         ],
         "type": "Point"
       },
-      "id": 102
+      "id": "RD_EDP_SECTION"
     },
     {
       "type": "Feature",
@@ -1889,7 +1889,7 @@
         ],
         "type": "Point"
       },
-      "id": 153
+      "id": "RD_BASICED_BLDG"
     },
     {
       "type": "Feature",
@@ -1909,7 +1909,7 @@
         ],
         "type": "Point"
       },
-      "id": 104
+      "id": "BASICED_BLDG"
     },
     {
       "type": "Feature",
@@ -1925,7 +1925,7 @@
         ],
         "type": "Point"
       },
-      "id": 105
+      "id": "RD_gate_7"
     },
     {
       "type": "Feature",
@@ -1945,7 +1945,7 @@
         ],
         "type": "Point"
       },
-      "id": 157
+      "id": "CADS_OFFICE"
     },
     {
       "type": "Feature",
@@ -1965,7 +1965,7 @@
         ],
         "type": "Point"
       },
-      "id": 158
+      "id": "URO"
     },
     {
       "type": "Feature",
@@ -1985,7 +1985,7 @@
         ],
         "type": "Point"
       },
-      "id": 159
+      "id": "anatomy_lab"
     },
     {
       "type": "Feature",
@@ -2005,7 +2005,7 @@
         ],
         "type": "Point"
       },
-      "id": 160
+      "id": "kitchen_lab1"
     },
     {
       "type": "Feature",
@@ -2025,7 +2025,7 @@
         ],
         "type": "Point"
       },
-      "id": 161
+      "id": "nursing_faculty_room"
     },
     {
       "type": "Feature",
@@ -2045,7 +2045,7 @@
         ],
         "type": "Point"
       },
-      "id": 162
+      "id": "uc_resto"
     },
     {
       "type": "Feature",
@@ -2065,7 +2065,7 @@
         ],
         "type": "Point"
       },
-      "id": 112
+      "id": "coop_office"
     },
     {
       "type": "Feature",
@@ -2085,7 +2085,7 @@
         ],
         "type": "Point"
       },
-      "id": 113
+      "id": "yearbook_office"
     },
     {
       "type": "Feature",
@@ -2105,7 +2105,7 @@
         ],
         "type": "Point"
       },
-      "id": 114
+      "id": "prefect_discipline"
     },
     {
       "type": "Feature",
@@ -2121,7 +2121,7 @@
         ],
         "type": "Point"
       },
-      "id": 115
+      "id": "RD_prefect_discipline"
     },
     {
       "type": "Feature",
@@ -2141,7 +2141,7 @@
         ],
         "type": "Point"
       },
-      "id": 166
+      "id": "sao_office"
     },
     {
       "type": "Feature",
@@ -2161,7 +2161,7 @@
         ],
         "type": "Point"
       },
-      "id": 167
+      "id": "uccp_office"
     },
     {
       "type": "Feature",
@@ -2181,7 +2181,7 @@
         ],
         "type": "Point"
       },
-      "id": 118
+      "id": "uc_hotel"
     },
     {
       "type": "Feature",
@@ -2201,7 +2201,7 @@
         ],
         "type": "Point"
       },
-      "id": 169
+      "id": "avr"
     },
     {
       "type": "Feature",
@@ -2221,7 +2221,7 @@
         ],
         "type": "Point"
       },
-      "id": 170
+      "id": "function_hall"
     },
     {
       "type": "Feature",
@@ -2241,7 +2241,7 @@
         ],
         "type": "Point"
       },
-      "id": 171
+      "id": "kitchen_lab2"
     },
     {
       "type": "Feature",
@@ -2261,7 +2261,7 @@
         ],
         "type": "Point"
       },
-      "id": 172
+      "id": "uc_travel_and_tours"
     },
     {
       "type": "Feature",
@@ -2281,7 +2281,7 @@
         ],
         "type": "Point"
       },
-      "id": 173
+      "id": "chtm_faculty"
     },
     {
       "type": "Feature",
@@ -2301,7 +2301,7 @@
         ],
         "type": "Point"
       },
-      "id": 174
+      "id": "shs_faculty"
     },
     {
       "type": "Feature",
@@ -2321,7 +2321,7 @@
         ],
         "type": "Point"
       },
-      "id": 175
+      "id": "rooftop_canteen"
     },
     {
       "type": "Feature",
@@ -2341,7 +2341,7 @@
         ],
         "type": "Point"
       },
-      "id": 126
+      "id": "basic_ed_guidance_office"
     },
     {
       "type": "Feature",
@@ -2361,7 +2361,7 @@
         ],
         "type": "Point"
       },
-      "id": 127
+      "id": "hs_library"
     },
     {
       "type": "Feature",
@@ -2381,7 +2381,7 @@
         ],
         "type": "Point"
       },
-      "id": 178
+      "id": "elem_library"
     },
     {
       "type": "Feature",
@@ -2401,7 +2401,7 @@
         ],
         "type": "Point"
       },
-      "id": 129
+      "id": "hs_comp_lab"
     },
     {
       "type": "Feature",
@@ -2421,7 +2421,7 @@
         ],
         "type": "Point"
       },
-      "id": 180
+      "id": "hs_faculty"
     },
     {
       "type": "Feature",
@@ -2441,7 +2441,7 @@
         ],
         "type": "Point"
       },
-      "id": 181
+      "id": "auditorium_basiced"
     },
     {
       "type": "Feature",
@@ -2461,7 +2461,7 @@
         ],
         "type": "Point"
       },
-      "id": 132
+      "id": "elem_comp_lab"
     },
     {
       "type": "Feature",
@@ -2481,7 +2481,7 @@
         ],
         "type": "Point"
       },
-      "id": 133
+      "id": "new_library"
     },
     {
       "type": "Feature",
@@ -2501,7 +2501,7 @@
         ],
         "type": "Point"
       },
-      "id": 134
+      "id": "marine_library"
     },
     {
       "type": "Feature",
@@ -2521,7 +2521,7 @@
         ],
         "type": "Point"
       },
-      "id": 135
+      "id": "uc_library"
     },
     {
       "type": "Feature",
@@ -2541,7 +2541,7 @@
         ],
         "type": "Point"
       },
-      "id": 136
+      "id": "marine_office"
     },
     {
       "type": "Feature",
@@ -2561,7 +2561,7 @@
         ],
         "type": "Point"
       },
-      "id": 137
+      "id": "marine_faculty"
     },
     {
       "type": "Feature",
@@ -2581,7 +2581,7 @@
         ],
         "type": "Point"
       },
-      "id": 138
+      "id": "c5_lab"
     },
     {
       "type": "Feature",
@@ -2601,7 +2601,7 @@
         ],
         "type": "Point"
       },
-      "id": 139
+      "id": "maritime_avr"
     },
     {
       "type": "Feature",
@@ -2621,7 +2621,7 @@
         ],
         "type": "Point"
       },
-      "id": 190
+      "id": "cba_comp_lab"
     },
     {
       "type": "Feature",
@@ -2641,7 +2641,7 @@
         ],
         "type": "Point"
       },
-      "id": 191
+      "id": "cba_faculty"
     },
     {
       "type": "Feature",
@@ -2661,7 +2661,7 @@
         ],
         "type": "Point"
       },
-      "id": 192
+      "id": "cbe_function_hall"
     },
     {
       "type": "Feature",
@@ -2681,7 +2681,7 @@
         ],
         "type": "Point"
       },
-      "id": 143
+      "id": "customs_faculty"
     },
     {
       "type": "Feature",
@@ -2701,7 +2701,7 @@
         ],
         "type": "Point"
       },
-      "id": 194
+      "id": "custom_dean_office"
     },
     {
       "type": "Feature",
@@ -2721,7 +2721,7 @@
         ],
         "type": "Point"
       },
-      "id": 195
+      "id": "ai_lab"
     },
     {
       "type": "Feature",
@@ -2741,7 +2741,7 @@
         ],
         "type": "Point"
       },
-      "id": 196
+      "id": "educ_faculty_dean"
     },
     {
       "type": "Feature",
@@ -2761,7 +2761,7 @@
         ],
         "type": "Point"
       },
-      "id": 197
+      "id": "cbe_review"
     },
     {
       "type": "Feature",
@@ -2781,7 +2781,7 @@
         ],
         "type": "Point"
       },
-      "id": 198
+      "id": "ee_lab"
     },
     {
       "type": "Feature",
@@ -2801,7 +2801,7 @@
         ],
         "type": "Point"
       },
-      "id": 199
+      "id": "engr_faculty"
     },
     {
       "type": "Feature",
@@ -2821,7 +2821,7 @@
         ],
         "type": "Point"
       },
-      "id": 200
+      "id": "ece_lab"
     },
     {
       "type": "Feature",
@@ -2841,7 +2841,7 @@
         ],
         "type": "Point"
       },
-      "id": 201
+      "id": "engr_toolroom"
     },
     {
       "type": "Feature",
@@ -2861,7 +2861,7 @@
         ],
         "type": "Point"
       },
-      "id": 202
+      "id": "cpe_lab"
     },
     {
       "type": "Feature",
@@ -2881,7 +2881,7 @@
         ],
         "type": "Point"
       },
-      "id": 203
+      "id": "css_lab"
     },
     {
       "type": "Feature",
@@ -2901,7 +2901,7 @@
         ],
         "type": "Point"
       },
-      "id": 204
+      "id": "fab_lab"
     },
     {
       "type": "Feature",
@@ -2921,7 +2921,7 @@
         ],
         "type": "Point"
       },
-      "id": 205
+      "id": "ec_office"
     },
     {
       "type": "Feature",
@@ -2984,7 +2984,7 @@
         ],
         "type": "LineString"
       },
-      "id": 156
+      "id": "LineString_156"
     },
     {
       "type": "Feature",
@@ -3007,7 +3007,7 @@
         ],
         "type": "LineString"
       },
-      "id": 157
+      "id": "LineString_157"
     },
     {
       "type": "Feature",
@@ -3030,7 +3030,7 @@
         ],
         "type": "LineString"
       },
-      "id": 158
+      "id": "LineString_158"
     },
     {
       "type": "Feature",
@@ -3069,7 +3069,7 @@
         ],
         "type": "LineString"
       },
-      "id": 159
+      "id": "LineString_159"
     },
     {
       "type": "Feature",
@@ -3092,7 +3092,7 @@
         ],
         "type": "LineString"
       },
-      "id": 160
+      "id": "LineString_160"
     },
     {
       "type": "Feature",
@@ -3115,7 +3115,7 @@
         ],
         "type": "LineString"
       },
-      "id": 161
+      "id": "LineString_161"
     },
     {
       "type": "Feature",
@@ -3158,7 +3158,7 @@
         ],
         "type": "LineString"
       },
-      "id": 162
+      "id": "LineString_162"
     },
     {
       "type": "Feature",
@@ -3181,7 +3181,7 @@
         ],
         "type": "LineString"
       },
-      "id": 163
+      "id": "LineString_163"
     },
     {
       "type": "Feature",
@@ -3204,7 +3204,7 @@
         ],
         "type": "LineString"
       },
-      "id": 164
+      "id": "LineString_164"
     },
     {
       "type": "Feature",
@@ -3227,7 +3227,7 @@
         ],
         "type": "LineString"
       },
-      "id": 165
+      "id": "LineString_165"
     },
     {
       "type": "Feature",
@@ -3270,7 +3270,7 @@
         ],
         "type": "LineString"
       },
-      "id": 166
+      "id": "LineString_166"
     },
     {
       "type": "Feature",
@@ -3293,7 +3293,7 @@
         ],
         "type": "LineString"
       },
-      "id": 167
+      "id": "LineString_167"
     },
     {
       "type": "Feature",
@@ -3316,7 +3316,7 @@
         ],
         "type": "LineString"
       },
-      "id": 168
+      "id": "LineString_168"
     },
     {
       "type": "Feature",
@@ -3339,7 +3339,7 @@
         ],
         "type": "LineString"
       },
-      "id": 169
+      "id": "LineString_169"
     },
     {
       "type": "Feature",
@@ -3362,7 +3362,7 @@
         ],
         "type": "LineString"
       },
-      "id": 170
+      "id": "LineString_170"
     },
     {
       "type": "Feature",
@@ -3385,7 +3385,7 @@
         ],
         "type": "LineString"
       },
-      "id": 171
+      "id": "LineString_171"
     },
     {
       "type": "Feature",
@@ -3424,7 +3424,7 @@
         ],
         "type": "LineString"
       },
-      "id": 172
+      "id": "LineString_172"
     },
     {
       "type": "Feature",
@@ -3447,7 +3447,7 @@
         ],
         "type": "LineString"
       },
-      "id": 173
+      "id": "LineString_173"
     },
     {
       "type": "Feature",
@@ -3470,7 +3470,7 @@
         ],
         "type": "LineString"
       },
-      "id": 174
+      "id": "LineString_174"
     },
     {
       "type": "Feature",
@@ -3493,7 +3493,7 @@
         ],
         "type": "LineString"
       },
-      "id": 175
+      "id": "LineString_175"
     },
     {
       "type": "Feature",
@@ -3516,7 +3516,7 @@
         ],
         "type": "LineString"
       },
-      "id": 176
+      "id": "LineString_176"
     },
     {
       "type": "Feature",
@@ -3575,7 +3575,7 @@
         ],
         "type": "LineString"
       },
-      "id": 177
+      "id": "LineString_177"
     },
     {
       "type": "Feature",
@@ -3598,7 +3598,7 @@
         ],
         "type": "LineString"
       },
-      "id": 178
+      "id": "LineString_178"
     },
     {
       "type": "Feature",
@@ -3637,7 +3637,7 @@
         ],
         "type": "LineString"
       },
-      "id": 179
+      "id": "LineString_179"
     },
     {
       "type": "Feature",
@@ -3676,7 +3676,7 @@
         ],
         "type": "LineString"
       },
-      "id": 180
+      "id": "LineString_180"
     },
     {
       "type": "Feature",
@@ -3699,7 +3699,7 @@
         ],
         "type": "LineString"
       },
-      "id": 181
+      "id": "LineString_181"
     },
     {
       "type": "Feature",
@@ -3722,7 +3722,7 @@
         ],
         "type": "LineString"
       },
-      "id": 182
+      "id": "LineString_182"
     },
     {
       "type": "Feature",
@@ -3753,7 +3753,7 @@
         ],
         "type": "LineString"
       },
-      "id": 183
+      "id": "LineString_183"
     },
     {
       "type": "Feature",
@@ -3780,7 +3780,7 @@
         ],
         "type": "LineString"
       },
-      "id": 184
+      "id": "LineString_184"
     },
     {
       "type": "Feature",
@@ -3811,7 +3811,7 @@
         ],
         "type": "LineString"
       },
-      "id": 185
+      "id": "LineString_185"
     },
     {
       "type": "Feature",
@@ -3846,7 +3846,7 @@
         ],
         "type": "LineString"
       },
-      "id": 186
+      "id": "LineString_186"
     },
     {
       "type": "Feature",
@@ -3869,7 +3869,7 @@
         ],
         "type": "LineString"
       },
-      "id": 187
+      "id": "LineString_187"
     },
     {
       "type": "Feature",
@@ -3892,7 +3892,7 @@
         ],
         "type": "LineString"
       },
-      "id": 188
+      "id": "LineString_188"
     },
     {
       "type": "Feature",
@@ -3931,7 +3931,7 @@
         ],
         "type": "LineString"
       },
-      "id": 189
+      "id": "LineString_189"
     },
     {
       "type": "Feature",
@@ -3954,7 +3954,7 @@
         ],
         "type": "LineString"
       },
-      "id": 190
+      "id": "LineString_190"
     },
     {
       "type": "Feature",
@@ -3977,7 +3977,7 @@
         ],
         "type": "LineString"
       },
-      "id": 191
+      "id": "LineString_191"
     },
     {
       "type": "Feature",
@@ -4000,7 +4000,7 @@
         ],
         "type": "LineString"
       },
-      "id": 192
+      "id": "LineString_192"
     },
     {
       "type": "Feature",
@@ -4023,7 +4023,7 @@
         ],
         "type": "LineString"
       },
-      "id": 193
+      "id": "LineString_193"
     },
     {
       "type": "Feature",
@@ -4046,7 +4046,7 @@
         ],
         "type": "LineString"
       },
-      "id": 194
+      "id": "LineString_194"
     },
     {
       "type": "Feature",
@@ -4069,7 +4069,7 @@
         ],
         "type": "LineString"
       },
-      "id": 195
+      "id": "LineString_195"
     },
     {
       "type": "Feature",
@@ -4100,7 +4100,7 @@
         ],
         "type": "LineString"
       },
-      "id": 196
+      "id": "LineString_196"
     },
     {
       "type": "Feature",
@@ -4127,7 +4127,7 @@
         ],
         "type": "LineString"
       },
-      "id": 197
+      "id": "LineString_197"
     },
     {
       "type": "Feature",
@@ -4158,7 +4158,7 @@
         ],
         "type": "LineString"
       },
-      "id": 198
+      "id": "LineString_198"
     },
     {
       "type": "Feature",
@@ -4201,7 +4201,7 @@
         ],
         "type": "LineString"
       },
-      "id": 199
+      "id": "LineString_199"
     },
     {
       "type": "Feature",
@@ -4224,7 +4224,7 @@
         ],
         "type": "LineString"
       },
-      "id": 200
+      "id": "LineString_200"
     },
     {
       "type": "Feature",
@@ -4263,7 +4263,7 @@
         ],
         "type": "LineString"
       },
-      "id": 201
+      "id": "LineString_201"
     },
     {
       "type": "Feature",
@@ -4286,7 +4286,7 @@
         ],
         "type": "LineString"
       },
-      "id": 202
+      "id": "LineString_202"
     },
     {
       "type": "Feature",
@@ -4309,7 +4309,7 @@
         ],
         "type": "LineString"
       },
-      "id": 203
+      "id": "LineString_203"
     },
     {
       "type": "Feature",
@@ -4332,7 +4332,7 @@
         ],
         "type": "LineString"
       },
-      "id": 204
+      "id": "LineString_204"
     },
     {
       "type": "Feature",
@@ -4355,7 +4355,7 @@
         ],
         "type": "LineString"
       },
-      "id": 205
+      "id": "LineString_205"
     },
     {
       "type": "Feature",
@@ -4386,7 +4386,7 @@
         ],
         "type": "LineString"
       },
-      "id": 206
+      "id": "LineString_206"
     },
     {
       "type": "Feature",
@@ -4409,7 +4409,7 @@
         ],
         "type": "LineString"
       },
-      "id": 207
+      "id": "LineString_207"
     },
     {
       "type": "Feature",
@@ -4432,7 +4432,7 @@
         ],
         "type": "LineString"
       },
-      "id": 208
+      "id": "LineString_208"
     },
     {
       "type": "Feature",
@@ -4467,7 +4467,7 @@
         ],
         "type": "LineString"
       },
-      "id": 209
+      "id": "LineString_209"
     },
     {
       "type": "Feature",
@@ -4490,7 +4490,7 @@
         ],
         "type": "LineString"
       },
-      "id": 210
+      "id": "LineString_210"
     },
     {
       "type": "Feature",
@@ -4521,7 +4521,7 @@
         ],
         "type": "LineString"
       },
-      "id": 211
+      "id": "LineString_211"
     },
     {
       "type": "Feature",
@@ -4556,7 +4556,7 @@
         ],
         "type": "LineString"
       },
-      "id": 212
+      "id": "LineString_212"
     },
     {
       "type": "Feature",
@@ -4579,7 +4579,7 @@
         ],
         "type": "LineString"
       },
-      "id": 213
+      "id": "LineString_213"
     },
     {
       "type": "Feature",
@@ -4602,7 +4602,7 @@
         ],
         "type": "LineString"
       },
-      "id": 214
+      "id": "LineString_214"
     },
     {
       "type": "Feature",
@@ -4629,7 +4629,7 @@
         ],
         "type": "LineString"
       },
-      "id": 215
+      "id": "LineString_215"
     },
     {
       "type": "Feature",
@@ -4652,7 +4652,7 @@
         ],
         "type": "LineString"
       },
-      "id": 216
+      "id": "LineString_216"
     },
     {
       "type": "Feature",
@@ -4675,7 +4675,7 @@
         ],
         "type": "LineString"
       },
-      "id": 217
+      "id": "LineString_217"
     },
     {
       "type": "Feature",
@@ -4698,7 +4698,7 @@
         ],
         "type": "LineString"
       },
-      "id": 218
+      "id": "LineString_218"
     },
     {
       "type": "Feature",
@@ -4721,7 +4721,7 @@
         ],
         "type": "LineString"
       },
-      "id": 219
+      "id": "LineString_219"
     },
     {
       "type": "Feature",
@@ -4744,7 +4744,7 @@
         ],
         "type": "LineString"
       },
-      "id": 220
+      "id": "LineString_220"
     },
     {
       "type": "Feature",
@@ -4767,7 +4767,7 @@
         ],
         "type": "LineString"
       },
-      "id": 221
+      "id": "LineString_221"
     }
   ]
 }
