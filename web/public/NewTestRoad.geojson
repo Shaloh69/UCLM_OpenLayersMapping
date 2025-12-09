@@ -4,11 +4,667 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "gate1",
+        "id": "cbe_elevator",
+        "name": "CBE ELEVATOR",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "CBE ELEVATOR",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955704,
+          10.327094
+        ]
+      },
+      "id": 0
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_gate9_elevator",
+        "name": "CBE Gate 9 Elevator",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CBE Gate 9 Elevator",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.956028,
+          10.327661
+        ]
+      },
+      "id": 1
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_8",
+        "name": "GATE 8",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "GATE 8",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955668,
+          10.327015
+        ]
+      },
+      "id": 2
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_9",
+        "name": "Gate 9",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95601430391741,
+          10.327708383097956
+        ]
+      },
+      "id": 3
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbe_canteen",
+        "name": "CBE Canteen (Ground Floor)",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "CBE Canteen (Ground Floor)",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955409,
+          10.32677
+        ]
+      },
+      "id": 4
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nsa_dorm_canteen",
+        "name": "NSA DORM and Canteen(Ground floor)",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "NSA DORM and Canteen(Ground floor)",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95509,
+          10.326573
+        ]
+      },
+      "id": 5
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "guidance",
+        "name": "Guidance",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Guidance",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955145,
+          10.326631
+        ]
+      },
+      "id": 6
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "me_tool_room",
+        "name": "ME TOOL ROOM AND LAB",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "ME TOOL ROOM AND LAB",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955247,
+          10.326984
+        ]
+      },
+      "id": 7
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nsa_office",
+        "name": "NSA OFFICE",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "NSA OFFICE",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955049,
+          10.32645
+        ]
+      },
+      "id": 8
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "cbt01_cbt02",
+        "name": "CBT01 &CBT02",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "CBT01 &CBT02",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.955005,
+          10.326366
+        ]
+      },
+      "id": 9
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "clinic",
+        "name": "CLINIC",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "CLINIC",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95481,
+          10.326186
+        ]
+      },
+      "id": 10
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "chapel",
+        "name": "CHAPEL",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "CHAPEL",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954704,
+          10.326219
+        ]
+      },
+      "id": 11
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "textbook_section",
+        "name": "Texbook Section",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Texbook Section",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954484,
+          10.326382
+        ]
+      },
+      "id": 12
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "pe_faculty",
+        "name": "PE FACULTY",
+        "isDestination": "true",
+        "category": "Points of Interest",
+        "description": "PE FACULTY",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954459,
+          10.326242
+        ]
+      },
+      "id": 13
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "foodcourt",
+        "name": "FOODCOURT",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "FOODCOURT",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954397,
+          10.326139
+        ]
+      },
+      "id": 14
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs_elevator_president",
+        "name": "Stairs, elevator, and President's office",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Stairs, elevator, and President's office",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954725,
+          10.326078
+        ]
+      },
+      "id": 15
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "maritime_stairs",
+        "name": "Maritime Building Stairs",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Maritime Building Stairs",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.954435,
+          10.325738
+        ]
+      },
+      "id": 16
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "small_stairs_old",
+        "name": "Small stairs(old building)",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Small stairs(old building)",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953078,
+          10.325272
+        ]
+      },
+      "id": 19
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "main_stairs_old",
+        "name": "Main Stairs (oldbuilding)",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Main Stairs (oldbuilding)",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953095,
+          10.325286
+        ]
+      },
+      "id": 20
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs_uro_old",
+        "name": "Stairs to URO(old building)",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Stairs to URO(old building)",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953219,
+          10.325009
+        ]
+      },
+      "id": 21
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "annex1_stairs",
+        "name": "ANNEX 1 stairs",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "ANNEX 1 stairs",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953571,
+          10.325217
+        ]
+      },
+      "id": 20
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "annex1_elevator",
+        "name": "Annex 1 elevator",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Annex 1 elevator",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953578,
+          10.325164
+        ]
+      },
+      "id": 21
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "study_hall",
+        "name": "Study Hall",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Study Hall",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95352,
+          10.325306
+        ]
+      },
+      "id": 22
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "canteen_annex1",
+        "name": "Canteen Annex 1",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Canteen Annex 1",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953497,
+          10.325097
+        ]
+      },
+      "id": 23
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "prefect_discipline",
+        "name": "Prefect of Descipline",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Prefect of Descipline",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.953343,
+          10.325268
+        ]
+      },
+      "id": 24
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stairs_sao",
+        "name": "Stairs to SAO",
+        "isDestination": true,
+        "category": "Points of Interest",
+        "description": "Stairs to SAO",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95335,
+          10.32534
+        ]
+      },
+      "id": 25
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_1",
         "name": "Gate 1",
         "isDestination": true,
         "category": "Gates",
-        "description": "Main gate - fallback start point for kiosk mode"
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95304889265816,
+          10.325069490572119
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_2",
+        "name": "Gate 2",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95324804319557,
+          10.325374535347564
+        ]
+      },
+      "id": 27
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_3",
+        "name": "Gate 3",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95329860032285,
+          10.325405949068255
+        ]
+      },
+      "id": 28
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_4",
+        "name": "Gate 4",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.9537337637567,
+          10.325700272543187
+        ]
+      },
+      "id": 29
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_5",
+        "name": "Gate 5",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.9539442753603,
+          10.32495861020341
+        ]
+      },
+      "id": 30
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_6",
+        "name": "Gate 6",
+        "isDestination": "true",
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95446220889471,
+          10.325597525000873
+        ]
+      },
+      "id": 31
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_7",
+        "name": "Gate 7",
+        "isDestination": true,
+        "category": "Gates",
+        "description": "",
+        "nearest_node": "",
+        "additionalDirections": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.95520327445519,
+          10.326436677143334
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Gate1_RoadEnd",
+        "name": "Gate1_RoadEnd",
+        "isDestination": false
       },
       "geometry": {
         "coordinates": [
@@ -17,14 +673,14 @@
         ],
         "type": "Point"
       },
-      "id": 1000
+      "id": 35
     },
     {
       "type": "Feature",
       "properties": {
         "type": "path",
         "name": "fromgate1",
-        "from": "gate1",
+        "from": "Gate1_RoadEnd",
         "to": "OldBuildingIntersection"
       },
       "geometry": {
@@ -112,7 +768,7 @@
         ],
         "type": "LineString"
       },
-      "id": 1001
+      "id": 36
     },
     {
       "type": "Feature",
@@ -128,7 +784,7 @@
         ],
         "type": "Point"
       },
-      "id": 1002
+      "id": 35
     },
     {
       "type": "Feature",
@@ -275,7 +931,7 @@
         ],
         "type": "LineString"
       },
-      "id": 1003
+      "id": 38
     },
     {
       "type": "Feature",
@@ -291,7 +947,7 @@
         ],
         "type": "Point"
       },
-      "id": 1004
+      "id": 39
     },
     {
       "type": "Feature",
@@ -382,7 +1038,7 @@
         ],
         "type": "LineString"
       },
-      "id": 1005
+      "id": 40
     },
     {
       "type": "Feature",
@@ -398,7 +1054,7 @@
         ],
         "type": "Point"
       },
-      "id": 1006
+      "id": 41
     },
     {
       "type": "Feature",
@@ -457,7 +1113,7 @@
         ],
         "type": "LineString"
       },
-      "id": 1007
+      "id": 42
     },
     {
       "type": "Feature",
@@ -473,7 +1129,7 @@
         ],
         "type": "Point"
       },
-      "id": 1008
+      "id": 41
     },
     {
       "type": "Feature",
@@ -481,7 +1137,7 @@
         "type": "path",
         "name": "OldBuildingRD4",
         "from": "OldBuildingIntersection",
-        "to": "IT_Gate2"
+        "to": "test_east"
       },
       "geometry": {
         "coordinates": [
@@ -552,14 +1208,14 @@
         ],
         "type": "LineString"
       },
-      "id": 1009
+      "id": 42
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_Gate2",
         "name": "IT_Gate2",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -568,12 +1224,12 @@
         ],
         "type": "Point"
       },
-      "id": 1010
+      "id": 43
     },
     {
       "type": "Feature",
       "properties": {
-        "isDestination": false,
+        "isDestination": "false",
         "name": "IT_Gate3",
         "id": "IT_Gate3"
       },
@@ -584,14 +1240,14 @@
         ],
         "type": "Point"
       },
-      "id": 1011
+      "id": 44
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_Gate3",
         "name": "RD_Gate3",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -600,12 +1256,12 @@
         ],
         "type": "Point"
       },
-      "id": 1012
+      "id": 45
     },
     {
       "type": "Feature",
       "properties": {
-        "isDestination": false,
+        "isDestination": "false",
         "name": "RD_Gate2",
         "id": "RD_Gate2"
       },
@@ -616,14 +1272,14 @@
         ],
         "type": "Point"
       },
-      "id": 1013
+      "id": 46
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_SAOStairs",
         "name": "RD_SAOStairs",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -632,14 +1288,14 @@
         ],
         "type": "Point"
       },
-      "id": 1014
+      "id": 47
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_AnnexStairs",
         "name": "RD_AnnexStairs",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -648,14 +1304,14 @@
         ],
         "type": "Point"
       },
-      "id": 1015
+      "id": 48
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_ANNEXElevatorr",
         "name": "RD_ANNEXElevatorr",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -664,14 +1320,14 @@
         ],
         "type": "Point"
       },
-      "id": 1016
+      "id": 49
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_AnnexCanteen",
         "name": "RD_AnnexCanteen",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -680,14 +1336,14 @@
         ],
         "type": "Point"
       },
-      "id": 1017
+      "id": 50
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_4",
         "name": "IT_4",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -696,14 +1352,14 @@
         ],
         "type": "Point"
       },
-      "id": 1018
+      "id": 51
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_Gate4",
         "name": "RD_Gate4",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -712,14 +1368,14 @@
         ],
         "type": "Point"
       },
-      "id": 1019
+      "id": 52
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_StudyHall",
         "name": "RD_StudyHall",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -728,14 +1384,14 @@
         ],
         "type": "Point"
       },
-      "id": 1020
+      "id": 53
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_2",
         "name": "IT_2",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -744,14 +1400,14 @@
         ],
         "type": "Point"
       },
-      "id": 1021
+      "id": 54
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_Gate6",
         "name": "RD_Gate6",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -760,14 +1416,14 @@
         ],
         "type": "Point"
       },
-      "id": 1022
+      "id": 55
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_6",
         "name": "IT_6",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -776,14 +1432,14 @@
         ],
         "type": "Point"
       },
-      "id": 1023
+      "id": 56
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_yes",
         "name": "IT_yes",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -792,7 +1448,7 @@
         ],
         "type": "Point"
       },
-      "id": 1024
+      "id": 57
     },
     {
       "type": "Feature",
@@ -808,14 +1464,14 @@
         ],
         "type": "Point"
       },
-      "id": 1025
+      "id": 58
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_TextbookSec",
         "name": "RD_TextbookSec",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -824,14 +1480,14 @@
         ],
         "type": "Point"
       },
-      "id": 1026
+      "id": 59
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_9",
         "name": "IT_9",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -840,14 +1496,14 @@
         ],
         "type": "Point"
       },
-      "id": 1027
+      "id": 60
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_Chapel",
         "name": "RD_Chapel",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -856,14 +1512,14 @@
         ],
         "type": "Point"
       },
-      "id": 1028
+      "id": 61
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_11",
         "name": "IT_11",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -872,14 +1528,14 @@
         ],
         "type": "Point"
       },
-      "id": 1029
+      "id": 62
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_Yesser",
         "name": "IT_Yesser",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -888,7 +1544,7 @@
         ],
         "type": "Point"
       },
-      "id": 1030
+      "id": 63
     },
     {
       "type": "Feature",
@@ -904,14 +1560,14 @@
         ],
         "type": "Point"
       },
-      "id": 1031
+      "id": 64
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_NSAOFFICE",
         "name": "RD_NSAOFFICE",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -920,14 +1576,14 @@
         ],
         "type": "Point"
       },
-      "id": 1032
+      "id": 65
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_nsa_dorm_canteen",
         "name": "RD_nsa_dorm_canteen",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -936,14 +1592,14 @@
         ],
         "type": "Point"
       },
-      "id": 1033
+      "id": 66
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_GUIDANCE",
         "name": "RD_GUIDANCE",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -952,14 +1608,14 @@
         ],
         "type": "Point"
       },
-      "id": 1034
+      "id": 67
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_ToolRoomME",
         "name": "RD_ToolRoomRD_ToolRoomME",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -968,14 +1624,14 @@
         ],
         "type": "Point"
       },
-      "id": 1035
+      "id": 68
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_14",
         "name": "IT_14",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -984,14 +1640,14 @@
         ],
         "type": "Point"
       },
-      "id": 1036
+      "id": 69
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_12",
         "name": "IT_12",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1000,14 +1656,14 @@
         ],
         "type": "Point"
       },
-      "id": 1037
+      "id": 70
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_CBECanteen",
         "name": "RD_CBECanteen",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1016,14 +1672,14 @@
         ],
         "type": "Point"
       },
-      "id": 1038
+      "id": 71
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_gate_8",
         "name": "RD_gate_8",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1032,14 +1688,14 @@
         ],
         "type": "Point"
       },
-      "id": 1039
+      "id": 72
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_15",
         "name": "IT_15",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1048,14 +1704,14 @@
         ],
         "type": "Point"
       },
-      "id": 1040
+      "id": 73
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_cbe_elevator",
         "name": "RD_cbe_elevator",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1064,14 +1720,14 @@
         ],
         "type": "Point"
       },
-      "id": 1041
+      "id": 74
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_16",
         "name": "IT_16",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1080,14 +1736,14 @@
         ],
         "type": "Point"
       },
-      "id": 1042
+      "id": 75
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_Gate9",
-        "name": "RD_Gate9t",
-        "isDestination": false
+        "name": "RD_Gate9",
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1096,14 +1752,14 @@
         ],
         "type": "Point"
       },
-      "id": 1043
+      "id": 76
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_1",
         "name": "IT_1",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1112,14 +1768,14 @@
         ],
         "type": "Point"
       },
-      "id": 1044
+      "id": 78
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_Gate5",
         "name": "RD_Gate5",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1128,14 +1784,14 @@
         ],
         "type": "Point"
       },
-      "id": 1045
+      "id": 79
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_3",
         "name": "IT_3",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1144,14 +1800,14 @@
         ],
         "type": "Point"
       },
-      "id": 1046
+      "id": 80
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_7",
         "name": "IT_7",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1160,14 +1816,14 @@
         ],
         "type": "Point"
       },
-      "id": 1047
+      "id": 81
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_5",
         "name": "IT_5",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1176,14 +1832,14 @@
         ],
         "type": "Point"
       },
-      "id": 1048
+      "id": 82
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_foodcourt",
         "name": "RD_foodcourt",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1192,14 +1848,14 @@
         ],
         "type": "Point"
       },
-      "id": 1049
+      "id": 83
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_8",
         "name": "IT_8",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1208,14 +1864,14 @@
         ],
         "type": "Point"
       },
-      "id": 1050
+      "id": 84
     },
     {
       "type": "Feature",
       "properties": {
         "id": "RD_Cb1Cb2",
         "name": "RD_Cb1Cb2",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1224,14 +1880,14 @@
         ],
         "type": "Point"
       },
-      "id": 1051
+      "id": 85
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_10",
         "name": "IT_10",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1240,7 +1896,7 @@
         ],
         "type": "Point"
       },
-      "id": 1052
+      "id": 86
     },
     {
       "type": "Feature",
@@ -1319,14 +1975,14 @@
         ],
         "type": "LineString"
       },
-      "id": 1053
+      "id": 87
     },
     {
       "type": "Feature",
       "properties": {
         "id": "IT_13",
         "name": "IT_13",
-        "isDestination": false
+        "isDestination": "false"
       },
       "geometry": {
         "coordinates": [
@@ -1335,6055 +1991,7 @@
         ],
         "type": "Point"
       },
-      "id": 1054
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD2",
-        "from": "IT_Gate2",
-        "to": "IT_Gate3"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95327310988188,
-            10.325334838377273
-          ],
-          [
-            123.95327737492386,
-            10.325338138979788
-          ],
-          [
-            123.95328147990557,
-            10.325341023625057
-          ],
-          [
-            123.95328793058923,
-            10.32534448520019
-          ],
-          [
-            123.95329526091058,
-            10.32534881216796
-          ],
-          [
-            123.95330303009916,
-            10.325355160268316
-          ],
-          [
-            123.95330567474343,
-            10.325362098444216
-          ],
-          [
-            123.95330743783848,
-            10.325367735712632
-          ],
-          [
-            123.95330831938605,
-            10.325374240252529
-          ],
-          [
-            123.95331096403032,
-            10.325379010248355
-          ],
-          [
-            123.95331350317673,
-            10.325383572664506
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1055
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD4",
-        "from": "IT_Gate3",
-        "to": "RD_Gate3"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95331369113785,
-            10.325383333028284
-          ],
-          [
-            123.95331184711796,
-            10.325385147184434
-          ],
-          [
-            123.95331067365117,
-            10.325387456109866
-          ],
-          [
-            123.95330866199419,
-            10.325389929959996
-          ],
-          [
-            123.95330698561384,
-            10.325393228425185
-          ],
-          [
-            123.95330547687291,
-            10.325395702274065
-          ],
-          [
-            123.95330396812949,
-            10.325398341046395
-          ],
-          [
-            123.95330346521592,
-            10.325400485049471
-          ],
-          [
-            123.9533021241096,
-            10.32540196935851
-          ],
-          [
-            123.95330111828235,
-            10.325403948438051
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1056
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD3",
-        "from": "IT_Gate3",
-        "to": "RD_SAOStairs"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95331393414324,
-            10.325383703182041
-          ],
-          [
-            123.95331695162747,
-            10.325381559180073
-          ],
-          [
-            123.95332030438828,
-            10.325380899487286
-          ],
-          [
-            123.95332265132186,
-            10.325377765944225
-          ],
-          [
-            123.9533263393592,
-            10.325374962248219
-          ],
-          [
-            123.95332969212001,
-            10.325371169012286
-          ],
-          [
-            123.9533323743301,
-            10.325368530239714
-          ],
-          [
-            123.95333388307102,
-            10.325366221314113
-          ],
-          [
-            123.95333639764408,
-            10.325361108691183
-          ],
-          [
-            123.9533377387479,
-            10.325358964689059
-          ],
-          [
-            123.95334042095556,
-            10.325355171452955
-          ],
-          [
-            123.9533420973384,
-            10.32535269760372
-          ],
-          [
-            123.95334410899295,
-            10.32534906929105
-          ],
-          [
-            123.95334612064994,
-            10.325345605900665
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1057
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD5",
-        "from": "IT_Gate3",
-        "to": "IT_1"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95331313755383,
-            10.325383415746714
-          ],
-          [
-            123.95331949062853,
-            10.32538542473614
-          ],
-          [
-            123.95332402854001,
-            10.325386987284375
-          ],
-          [
-            123.95333083540464,
-            10.325388773053149
-          ],
-          [
-            123.9533367346894,
-            10.325389665937948
-          ],
-          [
-            123.95334512982316,
-            10.32539145170675
-          ],
-          [
-            123.9533524245216,
-            10.325386137185177
-          ],
-          [
-            123.95336254429765,
-            10.325386137185177
-          ],
-          [
-            123.95337582650336,
-            10.32538551494099
-          ],
-          [
-            123.95338910871146,
-            10.325386759428241
-          ],
-          [
-            123.95339733102924,
-            10.325389870644685
-          ],
-          [
-            123.953408715779,
-            10.325392981862208
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1058
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD6",
-        "from": "IT_1",
-        "to": "RD_StudyHall"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9534092874448,
-            10.32539368468737
-          ],
-          [
-            123.95341562832505,
-            10.325386879384837
-          ],
-          [
-            123.95342312209425,
-            10.325383476733023
-          ],
-          [
-            123.95343234519243,
-            10.325373835886651
-          ],
-          [
-            123.95344099184626,
-            10.32536703058372
-          ],
-          [
-            123.95345252072013,
-            10.325352285759664
-          ],
-          [
-            123.95346462603624,
-            10.325340376477897
-          ],
-          [
-            123.9534761549101,
-            10.325333004065811
-          ],
-          [
-            123.95348364867715,
-            10.32532619876099
-          ],
-          [
-            123.95349344821983,
-            10.325321661891707
-          ],
-          [
-            123.95349921265779,
-            10.32531372236977
-          ],
-          [
-            123.95350612998044,
-            10.325305215739164
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1059
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD7",
-        "from": "RD_StudyHall",
-        "to": "RD_AnnexStairs"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95350612998044,
-            10.325306349957103
-          ],
-          [
-            123.953511317974,
-            10.325297276216801
-          ],
-          [
-            123.95351996462989,
-            10.32528990380375
-          ],
-          [
-            123.9535251526213,
-            10.325279695846078
-          ],
-          [
-            123.95353437572169,
-            10.325264951017928
-          ],
-          [
-            123.95354071660194,
-            10.325255310167961
-          ],
-          [
-            123.95354532815111,
-            10.32524850486243
-          ],
-          [
-            123.95354821036909,
-            10.32523886401195
-          ],
-          [
-            123.95355800991172,
-            10.325225820508678
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1060
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD8",
-        "from": "RD_AnnexStairs",
-        "to": "RD_ANNEXElevatorr"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95355796911986,
-            10.325224205249654
-          ],
-          [
-            123.95356027489328,
-            10.325213997289836
-          ],
-          [
-            123.95356085133773,
-            10.32520775909201
-          ],
-          [
-            123.95356200422447,
-            10.32520152089414
-          ],
-          [
-            123.95356258066892,
-            10.325186776062324
-          ],
-          [
-            123.95356200422447,
-            10.325173165448177
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1061
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD9",
-        "from": "RD_ANNEXElevatorr",
-        "to": "IT_2"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95356258066892,
-            10.325173732556877
-          ],
-          [
-            123.95355393401297,
-            10.32516352459541
-          ],
-          [
-            123.95354586380154,
-            10.325157853505331
-          ],
-          [
-            123.9535383700345,
-            10.325153883742331
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1062
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD11",
-        "from": "IT_2",
-        "to": "RD_AnnexCanteen"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9535387543217,
-            10.325154012475991
-          ],
-          [
-            123.95352942721178,
-            10.325143816841447
-          ],
-          [
-            123.95352044555091,
-            10.325138039314808
-          ],
-          [
-            123.95351319113234,
-            10.325129882807047
-          ],
-          [
-            123.95350455491797,
-            10.325122745861478
-          ],
-          [
-            123.9535031731246,
-            10.32511594877198
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1063
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD10",
-        "from": "IT_2",
-        "to": "IT_3"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95353864246272,
-            10.32515381506947
-          ],
-          [
-            123.95354247920739,
-            10.325149285531424
-          ],
-          [
-            123.95354785065064,
-            10.325143246148173
-          ],
-          [
-            123.95355744251361,
-            10.325128902610857
-          ],
-          [
-            123.95356818540012,
-            10.325120598458014
-          ],
-          [
-            123.95358353238134,
-            10.325103990151675
-          ],
-          [
-            123.95360233243218,
-            10.325089646613918
-          ],
-          [
-            123.95362880597372,
-            10.325069263690864
-          ],
-          [
-            123.9536410835575,
-            10.325053787766691
-          ],
-          [
-            123.95366084900331,
-            10.325030471098657
-          ],
-          [
-            123.95370178856604,
-            10.32502759419772
-          ],
-          [
-            123.95374175337594,
-            10.325044855606365
-          ],
-          [
-            123.95379942074015,
-            10.325076471715889
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1064
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD12",
-        "from": "IT_3",
-        "to": "RD_Gate5"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95379807624352,
-            10.325076233151322
-          ],
-          [
-            123.9538151998533,
-            10.32506219454983
-          ],
-          [
-            123.95383232346302,
-            10.325049091854112
-          ],
-          [
-            123.9538532523191,
-            10.325035053251398
-          ],
-          [
-            123.9538741811752,
-            10.325017271020513
-          ],
-          [
-            123.95388654822557,
-            10.325009783764429
-          ],
-          [
-            123.95390652577055,
-            10.324992937438651
-          ],
-          [
-            123.95392174675794,
-            10.3249742192979
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1065
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD6",
-        "from": "IT_1",
-        "to": "IT_4"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95340764532699,
-            10.325392929576523
-          ],
-          [
-            123.95344153247254,
-            10.325407034269972
-          ],
-          [
-            123.95347411626693,
-            10.325418574473332
-          ],
-          [
-            123.95351061011701,
-            10.325437808144258
-          ],
-          [
-            123.95356795759443,
-            10.325467299771617
-          ],
-          [
-            123.95358359781483,
-            10.325483968950607
-          ],
-          [
-            123.95362009166496,
-            10.325508331595046
-          ],
-          [
-            123.95366570897761,
-            10.325531411993893
-          ],
-          [
-            123.95369177601168,
-            10.325558339124129
-          ],
-          [
-            123.95372957321291,
-            10.325577572786557
-          ],
-          [
-            123.95374260673117,
-            10.325596806447763
-          ],
-          [
-            123.95376606706304,
-            10.32560706440077
-          ],
-          [
-            123.95378822404143,
-            10.325619886840087
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1066
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_19",
-        "from": "IT_4",
-        "to": "RD_Gate4"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95378779416194,
-            10.325619402209924
-          ],
-          [
-            123.9537837996715,
-            10.325624843472283
-          ],
-          [
-            123.95377888337407,
-            10.325632400781785
-          ],
-          [
-            123.95377396707437,
-            10.325639051213884
-          ],
-          [
-            123.95376782170314,
-            10.32565114290884
-          ],
-          [
-            123.95376136906287,
-            10.325660513971954
-          ],
-          [
-            123.95375460915363,
-            10.325671396496276
-          ],
-          [
-            123.953750307392,
-            10.325678953804669
-          ],
-          [
-            123.9537456983636,
-            10.325685301943082
-          ],
-          [
-            123.9537435474827,
-            10.325691045496981
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1067
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_18",
-        "from": "IT_4",
-        "to": "IT_5"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95378704157372,
-            10.325620235082582
-          ],
-          [
-            123.95380889941043,
-            10.325629451017747
-          ],
-          [
-            123.9538330991569,
-            10.325657866814879
-          ],
-          [
-            123.9538612020894,
-            10.325676298681913
-          ],
-          [
-            123.95388540183728,
-            10.32569780252605
-          ],
-          [
-            123.9539150660429,
-            10.325716234390768
-          ],
-          [
-            123.95393380134084,
-            10.325736970240413
-          ],
-          [
-            123.95398873019894,
-            10.325770601145507
-          ],
-          [
-            123.95403939280641,
-            10.325803106861557
-          ],
-          [
-            123.95408785269092,
-            10.325813942100169
-          ],
-          [
-            123.95414071801929,
-            10.32581177505267
-          ],
-          [
-            123.95419798879152,
-            10.325803106861557
-          ],
-          [
-            123.95425085412194,
-            10.325785770479627
-          ],
-          [
-            123.95428169222896,
-            10.325792271623598
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1068
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_13",
-        "from": "IT_3",
-        "to": "IT_6"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9537977500799,
-            10.32507831577108
-          ],
-          [
-            123.95382858818897,
-            10.325121656821153
-          ],
-          [
-            123.95385061540821,
-            10.325154162604363
-          ],
-          [
-            123.95387704807348,
-            10.325182334281465
-          ],
-          [
-            123.95391449434732,
-            10.325219174161546
-          ],
-          [
-            123.95394533245639,
-            10.32524734583285
-          ],
-          [
-            123.95396956239864,
-            10.325277684551835
-          ],
-          [
-            123.95398057600744,
-            10.325314524428094
-          ],
-          [
-            123.95396956239875,
-            10.32534919724199
-          ],
-          [
-            123.95395634606518,
-            10.325394705306138
-          ],
-          [
-            123.95393652156685,
-            10.325427211061054
-          ],
-          [
-            123.95391889979129,
-            10.32545754976367
-          ],
-          [
-            123.95390348073681,
-            10.325485721412647
-          ],
-          [
-            123.95393652156685,
-            10.32551389305911
-          ],
-          [
-            123.95397837328653,
-            10.325520394207729
-          ],
-          [
-            123.95404886039034,
-            10.325531229456061
-          ],
-          [
-            123.95411273932928,
-            10.325555066999925
-          ],
-          [
-            123.95415018560516,
-            10.325572403394602
-          ],
-          [
-            123.95418542915615,
-            10.325574570443706
-          ],
-          [
-            123.9542316863197,
-            10.32556373519688
-          ],
-          [
-            123.95428234892711,
-            10.325552899950623
-          ],
-          [
-            123.95430878159027,
-            10.325557234049143
-          ],
-          [
-            123.9543440251432,
-            10.325574570443706
-          ],
-          [
-            123.95438147141908,
-            10.325613577327687
-          ],
-          [
-            123.95441671497002,
-            10.325633080767915
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1069
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_14",
-        "from": "IT_6",
-        "to": "RD_Gate6"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95441629779816,
-            10.32563316301595
-          ],
-          [
-            123.95442245873568,
-            10.3256287548992
-          ],
-          [
-            123.95442973984291,
-            10.32562434678242
-          ],
-          [
-            123.95443730099333,
-            10.325616357069663
-          ],
-          [
-            123.95444290184685,
-            10.3256122244604
-          ],
-          [
-            123.95444794261232,
-            10.325608091850029
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1070
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_16",
-        "from": "IT_5",
-        "to": "IT_7"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95428177079191,
-            10.32579255431446
-          ],
-          [
-            123.95431240934568,
-            10.32578999987787
-          ],
-          [
-            123.9543337005432,
-            10.325782847456821
-          ],
-          [
-            123.95435031806272,
-            10.325773140599793
-          ],
-          [
-            123.9543648583932,
-            10.325762411967602
-          ],
-          [
-            123.95438147591273,
-            10.325748107125023
-          ],
-          [
-            123.95439601624327,
-            10.325739932928016
-          ],
-          [
-            123.95440276711219,
-            10.325733802280851
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1071
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_15",
-        "from": "IT_6",
-        "to": "IT_7"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95441678814456,
-            10.325632646579919
-          ],
-          [
-            123.95442613549875,
-            10.32565768006485
-          ],
-          [
-            123.95443444425848,
-            10.325670963137298
-          ],
-          [
-            123.95443756004386,
-            10.325681691772658
-          ],
-          [
-            123.95444119512752,
-            10.325689355083085
-          ],
-          [
-            123.95442873198596,
-            10.325710301464142
-          ],
-          [
-            123.9544131530609,
-            10.325722562760205
-          ],
-          [
-            123.95440380570182,
-            10.325732780505191
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1072
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_20",
-        "from": "IT_7",
-        "to": "IT_yes"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9544031091371,
-            10.325733761236009
-          ],
-          [
-            123.95440989837931,
-            10.325739009247783
-          ],
-          [
-            123.95441571772852,
-            10.325743780167727
-          ],
-          [
-            123.95442832632165,
-            10.325739963431289
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1073
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_17",
-        "from": "IT_5",
-        "to": "IT_8"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95428137787644,
-            10.32579208363967
-          ],
-          [
-            123.95427795175169,
-            10.325810622142257
-          ],
-          [
-            123.9542770952209,
-            10.32583674457591
-          ],
-          [
-            123.9542796648148,
-            10.325865394984774
-          ],
-          [
-            123.95427795175169,
-            10.32590752793351
-          ],
-          [
-            123.95428394747046,
-            10.325944604924743
-          ],
-          [
-            123.95429165625234,
-            10.325985895204596
-          ],
-          [
-            123.95430536075139,
-            10.326022972185768
-          ],
-          [
-            123.9543079303453,
-            10.326071846381865
-          ],
-          [
-            123.954316495657,
-            10.326101339434999
-          ],
-          [
-            123.95432334790661,
-            10.326140944377727
-          ],
-          [
-            123.95432163484338,
-            10.326164538808982
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1074
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_27",
-        "from": "IT_8",
-        "to": "RD_foodcourt"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95431979647753,
-            10.326163877672911
-          ],
-          [
-            123.95433465144447,
-            10.326162964275468
-          ],
-          [
-            123.95435229171812,
-            10.326160224081562
-          ],
-          [
-            123.95436621825172,
-            10.32615017670473
-          ],
-          [
-            123.95437457417017,
-            10.326146523113238
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1075
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_26",
-        "from": "IT_8",
-        "to": "pe_faculty"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95432072491258,
-            10.326166617866761
-          ],
-          [
-            123.95431515429914,
-            10.326196759994644
-          ],
-          [
-            123.95431979647753,
-            10.326221421733763
-          ],
-          [
-            123.95432258178431,
-            10.326241516482511
-          ],
-          [
-            123.95434022205797,
-            10.326256130844627
-          ],
-          [
-            123.95436064763828,
-            10.326252477254357
-          ],
-          [
-            123.9543838585339,
-            10.32624882366055
-          ],
-          [
-            123.95442061948393,
-            10.326241609072937
-          ],
-          [
-            123.95444290193603,
-            10.326238868879713
-          ],
-          [
-            123.95445775690285,
-            10.326240695674898
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1076
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_27",
-        "from": "pe_faculty",
-        "to": "IT_9"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9544590594337,
-            10.32624095280957
-          ],
-          [
-            123.95445545306632,
-            10.326256918607555
-          ],
-          [
-            123.95445139590242,
-            10.326271110428152
-          ],
-          [
-            123.95445139590242,
-            10.326290180685874
-          ],
-          [
-            123.95445815784228,
-            10.326315903357212
-          ],
-          [
-            123.95446221500623,
-            10.326327877703932
-          ],
-          [
-            123.9544680753529,
-            10.326336304095278
-          ],
-          [
-            123.95447709127217,
-            10.326341626026391
-          ],
-          [
-            123.95448655798629,
-            10.326344286992367
-          ],
-          [
-            123.95450098345577,
-            10.326340739038287
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1077
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_28",
-        "from": "IT_9",
-        "to": "RD_TextbookSec"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95450143425228,
-            10.326340739038287
-          ],
-          [
-            123.95449377072106,
-            10.32635404386619
-          ],
-          [
-            123.95449151674165,
-            10.326363357245711
-          ],
-          [
-            123.9544870087829,
-            10.326373557612982
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1078
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_21",
-        "from": "IT_yes",
-        "to": "IT_Yesser"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95442772965521,
-            10.325741418507121
-          ],
-          [
-            123.95444420302243,
-            10.325770419742554
-          ],
-          [
-            123.95446772699734,
-            10.325804273813887
-          ],
-          [
-            123.95448885859815,
-            10.325827142112374
-          ],
-          [
-            123.95451210336205,
-            10.325855207749413
-          ],
-          [
-            123.9545258389021,
-            10.325872878704374
-          ],
-          [
-            123.9545511968251,
-            10.325910299547743
-          ],
-          [
-            123.95458183764782,
-            10.325940444112675
-          ],
-          [
-            123.95460613898933,
-            10.325980983350163
-          ],
-          [
-            123.95464100613219,
-            10.326018404180687
-          ],
-          [
-            123.95467798643614,
-            10.326056864474523
-          ],
-          [
-            123.95470545751823,
-            10.326070377549229
-          ],
-          [
-            123.95471707989918,
-            10.326083890623394
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1079
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_29",
-        "from": "IT_9",
-        "to": "IT_10"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95450079202385,
-            10.326341141469115
-          ],
-          [
-            123.95450989572709,
-            10.32633389117349
-          ],
-          [
-            123.95451813240999,
-            10.326331758733915
-          ],
-          [
-            123.95452333452607,
-            10.326324934925836
-          ],
-          [
-            123.95453503928826,
-            10.326317684623902
-          ],
-          [
-            123.95455064563504,
-            10.326303610519957
-          ],
-          [
-            123.95456104986573,
-            10.326295080760048
-          ],
-          [
-            123.95457362164427,
-            10.32628313909494
-          ],
-          [
-            123.95458229183731,
-            10.326275888797966
-          ],
-          [
-            123.95459052852016,
-            10.326269917965107
-          ],
-          [
-            123.95459833169434,
-            10.326264800108646
-          ],
-          [
-            123.95460440082928,
-            10.3262609617164
-          ],
-          [
-            123.95461610558897,
-            10.32625243195453
-          ],
-          [
-            123.95462347525296,
-            10.326247314097785
-          ],
-          [
-            123.9546330124648,
-            10.326244328681085
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1080
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_25",
-        "from": "IT_10",
-        "to": "RD_Chapel"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.954632145446,
-            10.326245181656859
-          ],
-          [
-            123.95464081563739,
-            10.326240063799972
-          ],
-          [
-            123.95464948583043,
-            10.326235372430858
-          ],
-          [
-            123.95465382092624,
-            10.326230254573844
-          ],
-          [
-            123.95466292462947,
-            10.326223430763562
-          ],
-          [
-            123.95467029429341,
-            10.32621831290632
-          ],
-          [
-            123.95467549640796,
-            10.326213621536894
-          ],
-          [
-            123.95468936871708,
-            10.326204238797885
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1081
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_24",
-        "from": "RD_Chapel",
-        "to": "IT_11"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95468978809015,
-            10.32620500353866
-          ],
-          [
-            123.95470034956332,
-            10.32619288139125
-          ],
-          [
-            123.95470797729405,
-            10.326185377204183
-          ],
-          [
-            123.95472440625429,
-            10.3261617101533
-          ],
-          [
-            123.95473790147207,
-            10.32615478321145
-          ],
-          [
-            123.95474376895697,
-            10.326141506571219
-          ],
-          [
-            123.95475961116995,
-            10.32612880717636
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1082
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_22",
-        "from": "IT_Yesser",
-        "to": "IT_11"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9547163761157,
-            10.32608451064776
-          ],
-          [
-            123.9547241075881,
-            10.326095574284537
-          ],
-          [
-            123.95473113619846,
-            10.326099723147095
-          ],
-          [
-            123.95474167911522,
-            10.326117010077539
-          ],
-          [
-            123.95475362775488,
-            10.326122196156973
-          ],
-          [
-            123.95475925064358,
-            10.32612945666682
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1083
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_30",
-        "from": "IT_10",
-        "to": "IT_13"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95463213769335,
-            10.326244678651165
-          ],
-          [
-            123.954658922698,
-            10.326269273074544
-          ],
-          [
-            123.95467767220197,
-            10.326278056797278
-          ],
-          [
-            123.95471427837526,
-            10.326292110751766
-          ],
-          [
-            123.95474909888242,
-            10.32631758354394
-          ],
-          [
-            123.95475892005095,
-            10.326353596798583
-          ],
-          [
-            123.95475892005095,
-            10.32637643446968
-          ],
-          [
-            123.95475981288399,
-            10.32640190725499
-          ],
-          [
-            123.95478034805404,
-            10.326430893525313
-          ],
-          [
-            123.95479861032373,
-            10.326454033604733
-          ],
-          [
-            123.9548247232421,
-            10.326492568528238
-          ],
-          [
-            123.95483777970037,
-            10.32651718805947
-          ],
-          [
-            123.9548606285037,
-            10.32653645551791
-          ],
-          [
-            123.95487694907695,
-            10.326568567946353
-          ],
-          [
-            123.95489653376518,
-            10.32658676498707
-          ],
-          [
-            123.9549302629514,
-            10.326606032441262
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1084
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_31",
-        "from": "IT_13",
-        "to": "IT_14"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95492911996945,
-            10.326604443644356
-          ],
-          [
-            123.9549117490617,
-            10.326622957302902
-          ],
-          [
-            123.95489582573015,
-            10.326636486514104
-          ],
-          [
-            123.95485167467535,
-            10.326672089699713
-          ],
-          [
-            123.95482923725291,
-            10.326684906845514
-          ],
-          [
-            123.9548075236192,
-            10.3267076928813
-          ],
-          [
-            123.95479015271138,
-            10.326729054785204
-          ],
-          [
-            123.95479594301486,
-            10.326746144308885
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1085
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_32",
-        "from": "IT_14",
-        "to": "RD_ToolRoomME"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95479577875795,
-            10.326744189643591
-          ],
-          [
-            123.95481536344624,
-            10.326778442876773
-          ],
-          [
-            123.954819715599,
-            10.32679985114595
-          ],
-          [
-            123.95485453282089,
-            10.326831963547505
-          ],
-          [
-            123.95487846966381,
-            10.326857653465822
-          ],
-          [
-            123.9548969663125,
-            10.326875850489841
-          ],
-          [
-            123.95491872707805,
-            10.326894047513719
-          ],
-          [
-            123.95493613568902,
-            10.326898329165942
-          ],
-          [
-            123.95495898449241,
-            10.326898329165942
-          ],
-          [
-            123.95498944956353,
-            10.32689083627406
-          ],
-          [
-            123.9550155624799,
-            10.326874780077205
-          ],
-          [
-            123.95503841128317,
-            10.32686193511853
-          ],
-          [
-            123.95506561223937,
-            10.326855512639455
-          ],
-          [
-            123.95509498927078,
-            10.326855512639455
-          ],
-          [
-            123.95512436630418,
-            10.326867287184768
-          ],
-          [
-            123.95515809548834,
-            10.326892977100172
-          ],
-          [
-            123.95517550410125,
-            10.32691010370965
-          ],
-          [
-            123.95518529644443,
-            10.32693365279573
-          ],
-          [
-            123.95519617682726,
-            10.326952920228678
-          ],
-          [
-            123.95520379309505,
-            10.326978610137104
-          ],
-          [
-            123.95521140936273,
-            10.326995736741864
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1086
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_36",
-        "from": "RD_Cb1Cb2",
-        "to": "RD_NSAOFFICE"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95499669315268,
-            10.326374311824736
-          ],
-          [
-            123.95500505249555,
-            10.326387470133483
-          ],
-          [
-            123.9550113220015,
-            10.326397750061815
-          ],
-          [
-            123.95502093524578,
-            10.326420777099472
-          ],
-          [
-            123.95502720475173,
-            10.326430645829788
-          ],
-          [
-            123.95503180239007,
-            10.32644174815043
-          ],
-          [
-            123.95503681799602,
-            10.32645408406266
-          ],
-          [
-            123.95503598206221,
-            10.326458196032519
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1087
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_37",
-        "from": "RD_NSAOFFICE",
-        "to": "IT_12"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95503595329808,
-            10.326457671435733
-          ],
-          [
-            123.95504682044395,
-            10.326472063332204
-          ],
-          [
-            123.95505392588524,
-            10.326482343257737
-          ],
-          [
-            123.95505935945738,
-            10.326500024728858
-          ],
-          [
-            123.95506479302946,
-            10.326514827820134
-          ],
-          [
-            123.95506437506333,
-            10.32652017338026
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1088
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_23",
-        "from": "IT_11",
-        "to": "clinic"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95475882014227,
-            10.32612932116227
-          ],
-          [
-            123.95476618635269,
-            10.326137682971336
-          ],
-          [
-            123.95476986945584,
-            10.326141027694248
-          ],
-          [
-            123.95477496913946,
-            10.326146044780188
-          ],
-          [
-            123.95478035213722,
-            10.326151619319589
-          ],
-          [
-            123.9547897015562,
-            10.326159981128072
-          ],
-          [
-            123.95479536787212,
-            10.326164440759001
-          ],
-          [
-            123.95479933429135,
-            10.326169736570805
-          ],
-          [
-            123.95480755044804,
-            10.32617670474427
-          ],
-          [
-            123.9548095336587,
-            10.326182836736734
-          ],
-          [
-            123.95481066692105,
-            10.326186181460201
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1089
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_35",
-        "from": "clinic",
-        "to": "RD_Cb1Cb2"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95481004898096,
-            10.326186118351814
-          ],
-          [
-            123.95481486534646,
-            10.326188348168174
-          ],
-          [
-            123.9548262944632,
-            10.326200197384438
-          ],
-          [
-            123.95484272788838,
-            10.326209599179151
-          ],
-          [
-            123.95486144224839,
-            10.32623155104966
-          ],
-          [
-            123.95488015660965,
-            10.326243589170332
-          ],
-          [
-            123.95490318966728,
-            10.326265541038495
-          ],
-          [
-            123.95492550294352,
-            10.326289617278078
-          ],
-          [
-            123.95493486012418,
-            10.326303071646421
-          ],
-          [
-            123.95495069535195,
-            10.32631723413975
-          ],
-          [
-            123.95496868992791,
-            10.326334937254828
-          ],
-          [
-            123.95497732733514,
-            10.326345559136726
-          ],
-          [
-            123.95498956364798,
-            10.326356181004698
-          ],
-          [
-            123.95499604169504,
-            10.326374592241763
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1090
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_34",
-        "from": "IT_13",
-        "to": "IT_12"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95492999658131,
-            10.32660455587444
-          ],
-          [
-            123.9549498356509,
-            10.326590204612259
-          ],
-          [
-            123.95495917168387,
-            10.326584464106972
-          ],
-          [
-            123.95497434273909,
-            10.32657355714747
-          ],
-          [
-            123.95498951379437,
-            10.326566094490104
-          ],
-          [
-            123.9550052683503,
-            10.326550595125596
-          ],
-          [
-            123.95502510742199,
-            10.32654083626555
-          ],
-          [
-            123.95504319598518,
-            10.326528781202754
-          ],
-          [
-            123.95505486602741,
-            10.326522466646054
-          ],
-          [
-            123.95506361855979,
-            10.326519596393368
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1091
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_38",
-        "from": "IT_12",
-        "to": "RD_nsa_dorm_canteen"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95506424257047,
-            10.326520523577898
-          ],
-          [
-            123.95506967679478,
-            10.326524342292728
-          ],
-          [
-            123.95507394654237,
-            10.326530834109022
-          ],
-          [
-            123.95508132156078,
-            10.326543053997838
-          ],
-          [
-            123.95508714394447,
-            10.326553364528223
-          ],
-          [
-            123.9550921900094,
-            10.326561383829798
-          ],
-          [
-            123.95509878871047,
-            10.326567875645338
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1092
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_39",
-        "from": "RD_nsa_dorm_canteen",
-        "to": "RD_GUIDANCE"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95509878871047,
-            10.326567875645338
-          ],
-          [
-            123.95510771636503,
-            10.326576276817818
-          ],
-          [
-            123.95511470322407,
-            10.32658505986133
-          ],
-          [
-            123.9551286769435,
-            10.326604535305322
-          ],
-          [
-            123.95514070986889,
-            10.326612172734386
-          ],
-          [
-            123.95515119016108,
-            10.326620955780015
-          ],
-          [
-            123.955156236226,
-            10.326626301979914
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1093
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_40",
-        "from": "RD_GUIDANCE",
-        "to": "RD_CBECanteen"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95515536736957,
-            10.32662719925061
-          ],
-          [
-            123.95516645391479,
-            10.32663351381008
-          ],
-          [
-            123.95518092101116,
-            10.326641020183132
-          ],
-          [
-            123.955206595103,
-            10.326656519543121
-          ],
-          [
-            123.95523110218903,
-            10.32667546320583
-          ],
-          [
-            123.95525735978373,
-            10.326693258765275
-          ],
-          [
-            123.95527953286262,
-            10.32671105432479
-          ],
-          [
-            123.95529995543723,
-            10.326722535329523
-          ],
-          [
-            123.95531862750323,
-            10.32673803468657
-          ],
-          [
-            123.9553279635362,
-            10.326743201138015
-          ],
-          [
-            123.9553460521015,
-            10.326755830242462
-          ],
-          [
-            123.95536414066675,
-            10.326767311246613
-          ],
-          [
-            123.95538047872554,
-            10.326774773898151
-          ],
-          [
-            123.95538864775494,
-            10.326786828951455
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1094
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_41",
-        "from": "RD_CBECanteen",
-        "to": "IT_15"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95538736911783,
-            10.326787892238414
-          ],
-          [
-            123.95540246330717,
-            10.326805362453328
-          ],
-          [
-            123.9554157817089,
-            10.326820212134905
-          ],
-          [
-            123.95544330640524,
-            10.326855152560114
-          ],
-          [
-            123.95545928848759,
-            10.326887472449712
-          ],
-          [
-            123.95547083110324,
-            10.326911057232252
-          ],
-          [
-            123.95547971003822,
-            10.326939009564967
-          ],
-          [
-            123.95549746790658,
-            10.326973949976988
-          ],
-          [
-            123.95550634684156,
-            10.327004522834102
-          ],
-          [
-            123.95552321681691,
-            10.327036842709134
-          ],
-          [
-            123.95554008679221,
-            10.327068289069715
-          ],
-          [
-            123.95555784466222,
-            10.327088379799093
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1095
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_42",
-        "from": "IT_15",
-        "to": "RD_gate_8"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95555851197383,
-            10.327086959287882
-          ],
-          [
-            123.95557623138177,
-            10.327075918792744
-          ],
-          [
-            123.95558745367339,
-            10.32706952692682
-          ],
-          [
-            123.95560162919935,
-            10.327060229666415
-          ],
-          [
-            123.9556140327864,
-            10.327052094563697
-          ],
-          [
-            123.95562761766462,
-            10.327043959461875
-          ],
-          [
-            123.95563706801738,
-            10.32703931083077
-          ],
-          [
-            123.95564474642697,
-            10.327035243279212
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1096
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_43",
-        "from": "IT_15",
-        "to": "IT_16"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95555726728884,
-            10.327088812896037
-          ],
-          [
-            123.95556908022598,
-            10.32709927231241
-          ],
-          [
-            123.95557616798999,
-            10.327112637121274
-          ],
-          [
-            123.95558916222268,
-            10.327127745165527
-          ],
-          [
-            123.95559920322103,
-            10.327137623502253
-          ],
-          [
-            123.95560806292389,
-            10.327148082916992
-          ],
-          [
-            123.95561337874693,
-            10.327150407231201
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1097
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_44",
-        "from": "IT_16",
-        "to": "RD_cbe_elevator"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95561396939462,
-            10.327150407231201
-          ],
-          [
-            123.95562401039297,
-            10.327141109973155
-          ],
-          [
-            123.95563641397791,
-            10.327133555951988
-          ],
-          [
-            123.95564704562184,
-            10.327124258693445
-          ],
-          [
-            123.95565354273816,
-            10.327119028986246
-          ],
-          [
-            123.95566122114991,
-            10.327108569570598
-          ],
-          [
-            123.95566771826623,
-            10.327102758783738
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1098
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_45",
-        "from": "IT_16",
-        "to": "cbe_gate9_elevator"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95561370724334,
-            10.327150505234926
-          ],
-          [
-            123.9556408646111,
-            10.327174254053887
-          ],
-          [
-            123.95565493523185,
-            10.32718216415617
-          ],
-          [
-            123.95566498567689,
-            10.327193040547911
-          ],
-          [
-            123.9556780512537,
-            10.327206883227205
-          ],
-          [
-            123.9556991571884,
-            10.327232591059186
-          ],
-          [
-            123.9557092076335,
-            10.327244456212128
-          ],
-          [
-            123.95572629339159,
-            10.327270164041053
-          ],
-          [
-            123.95573734888131,
-            10.327282029192546
-          ],
-          [
-            123.95575443463707,
-            10.32730180444321
-          ],
-          [
-            123.9557654901268,
-            10.327313669592328
-          ],
-          [
-            123.95577755066131,
-            10.327331467316895
-          ],
-          [
-            123.95579463641707,
-            10.327351242564447
-          ],
-          [
-            123.95580669695153,
-            10.327370029048296
-          ],
-          [
-            123.95581875748599,
-            10.327387826769666
-          ],
-          [
-            123.95584187351017,
-            10.327403646965251
-          ],
-          [
-            123.95584991386573,
-            10.327417489635238
-          ],
-          [
-            123.95585996431072,
-            10.327440231163195
-          ],
-          [
-            123.95587101980044,
-            10.327457040118318
-          ],
-          [
-            123.9558850904221,
-            10.327473849072604
-          ],
-          [
-            123.95590016609071,
-            10.327496590596454
-          ],
-          [
-            123.95591323166985,
-            10.32751438831066
-          ],
-          [
-            123.95592227707016,
-            10.32753416354673
-          ],
-          [
-            123.95594840822622,
-            10.327554927543474
-          ],
-          [
-            123.95596649902672,
-            10.327575691538897
-          ],
-          [
-            123.95597755451644,
-            10.327592500485665
-          ],
-          [
-            123.95599363522985,
-            10.327602388101397
-          ],
-          [
-            123.95600670080904,
-            10.32761919704788
-          ],
-          [
-            123.95602981683089,
-            10.327636994755167
-          ],
-          [
-            123.95602981683089,
-            10.327653803698652
-          ],
-          [
-            123.95602780674375,
-            10.327665668835664
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1099
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_46",
-        "from": "cbe_gate9_elevator",
-        "to": "RD_Gate9"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95602823639359,
-            10.327661750630298
-          ],
-          [
-            123.9560240454419,
-            10.32766372969509
-          ],
-          [
-            123.95602086031874,
-            10.327665873682733
-          ],
-          [
-            123.95601231077791,
-            10.32767148103349
-          ],
-          [
-            123.95600929329203,
-            10.32767494439733
-          ],
-          [
-            123.9560062758078,
-            10.327679232371707
-          ],
-          [
-            123.95600376123548,
-            10.327681706202739
-          ],
-          [
-            123.956001581941,
-            10.327685004644337
-          ],
-          [
-            123.95599772626542,
-            10.327691271683193
-          ],
-          [
-            123.95599487641846,
-            10.327694735046805
-          ],
-          [
-            123.95599420586603,
-            10.327697538721935
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 1100
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_CLINIC",
-        "name": "RD_CLINIC",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95480475263412,
-          10.32619328472714
-        ],
-        "type": "Point"
-      },
-      "id": 60
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_PE_FACULTY",
-        "name": "RD_PE_FACULTY",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95446654110418,
-          10.326243942894195
-        ],
-        "type": "Point"
-      },
-      "id": 54
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "Gate1_RoadEnd",
-        "name": "Gate1_RoadEnd",
-        "isDestination": false
-      },
-      "geometry": {
-        "coordinates": [
-          123.95305706561953,
-          10.325073770725623
-        ],
-        "type": "Point"
-      },
-      "id": 29
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_gate_7",
-        "name": "RD_gate_7",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95518649651348,
-          10.326449560592536
-        ],
-        "type": "Point"
-      },
-      "id": 155
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_UCLM_POOL",
-        "name": "RD_UCLM_POOL",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95457408662799,
-          10.326841385488407
-        ],
-        "type": "Point"
-      },
-      "id": 135
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_Seamanship_Lab",
-        "name": "RD_Seamanship_Lab",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95449592227737,
-          10.326746180513993
-        ],
-        "type": "Point"
-      },
-      "id": 137
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_MACHINE_SHOP",
-        "name": "RD_MACHINE_SHOP",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.9548126439538,
-          10.326975448175347
-        ],
-        "type": "Point"
-      },
-      "id": 139
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_COVERED_COURT",
-        "name": "RD_COVERED_COURT",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.9548525159936,
-          10.326532189636936
-        ],
-        "type": "Point"
-      },
-      "id": 140
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_ANNEX2_STAIRS1",
-        "name": "RD_ANNEX2_STAIRS1",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95355661811783,
-          10.325418573635858
-        ],
-        "type": "Point"
-      },
-      "id": 142
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_SOCIAL_HALL",
-        "name": "RD_SOCIAL_HALL",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95362055136587,
-          10.325559874342062
-        ],
-        "type": "Point"
-      },
-      "id": 145
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_ROBOTICS_LAB",
-        "name": "RD_ROBOTICS_LAB",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95386751001894,
-          10.3257521459238
-        ],
-        "type": "Point"
-      },
-      "id": 147
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_ANNEX2_STAIRS2",
-        "name": "RD_ANNEX2_STAIRS2",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.954058065357,
-          10.325792507717168
-        ],
-        "type": "Point"
-      },
-      "id": 149
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_CASHIER_ACC_RECORDS",
-        "name": "RD_CASHIER_ACC_RECORDS",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95409802852896,
-          10.325268848159013
-        ],
-        "type": "Point"
-      },
-      "id": 151
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_EDP_SECTION",
-        "name": "RD_EDP_SECTION",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95425395432142,
-          10.325377075658452
-        ],
-        "type": "Point"
-      },
-      "id": 153
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_BASICED_BLDG",
-        "name": "RD_BASICED_BLDG",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95398115945761,
-          10.325474913786707
-        ],
-        "type": "Point"
-      },
-      "id": 153
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "RD_prefect_discipline",
-        "name": "RD_prefect_discipline",
-        "isDestination": "false"
-      },
-      "geometry": {
-        "coordinates": [
-          123.95322304219309,
-          10.325317455934524
-        ],
-        "type": "Point"
-      },
-      "id": 166
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "fromgate1",
-        "from": "Gate1_RoadEnd",
-        "to": "OldBuildingIntersection"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95305706561953,
-            10.325073770725623
-          ],
-          [
-            123.95305974782724,
-            10.325075255036225
-          ],
-          [
-            123.95306142421003,
-            10.325077728887607
-          ],
-          [
-            123.95306444169427,
-            10.32507970796918
-          ],
-          [
-            123.95306779445508,
-            10.325081851974403
-          ],
-          [
-            123.95307382942599,
-            10.325085150442817
-          ],
-          [
-            123.9530770145521,
-            10.325087624294014
-          ],
-          [
-            123.95308445918164,
-            10.325092753782343
-          ],
-          [
-            123.95308992363357,
-            10.325094666509699
-          ],
-          [
-            123.95309770047635,
-            10.325099129539765
-          ],
-          [
-            123.95310353310839,
-            10.325104867720611
-          ],
-          [
-            123.95311325415946,
-            10.325108055599813
-          ],
-          [
-            123.95312103100224,
-            10.325115068932334
-          ],
-          [
-            123.95311584644116,
-            10.325123994991912
-          ],
-          [
-            123.9531093657381,
-            10.32513292105007
-          ],
-          [
-            123.9531061253877,
-            10.325141209533797
-          ],
-          [
-            123.95310677345879,
-            10.325152685894963
-          ],
-          [
-            123.95311260609077,
-            10.325155873772516
-          ],
-          [
-            123.95312232714184,
-            10.32515969922649
-          ],
-          [
-            123.95313204819536,
-            10.32516479983093
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 36
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "OldBuildingRD2",
-        "from": "OldBuildingIntersection",
-        "to": "RE_stairs_uro_old"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95313204819536,
-            10.32516479983093
-          ],
-          [
-            123.95313418816556,
-            10.325161032094513
-          ],
-          [
-            123.95313588806016,
-            10.325157687360104
-          ],
-          [
-            123.95313872121699,
-            10.325154063898552
-          ],
-          [
-            123.95314042111158,
-            10.325148768069624
-          ],
-          [
-            123.95314438753292,
-            10.325142357328772
-          ],
-          [
-            123.95314778732205,
-            10.325139570050652
-          ],
-          [
-            123.95315005384674,
-            10.325131765670506
-          ],
-          [
-            123.95315572016051,
-            10.32512563365755
-          ],
-          [
-            123.95315968658184,
-            10.325118665460764
-          ],
-          [
-            123.95316336968705,
-            10.325113090903002
-          ],
-          [
-            123.9531670527902,
-            10.3251083525289
-          ],
-          [
-            123.95317045257934,
-            10.325101941787239
-          ],
-          [
-            123.95317229888059,
-            10.325099049175122
-          ],
-          [
-            123.95317330689346,
-            10.325095330342947
-          ],
-          [
-            123.95317557491887,
-            10.325091363589166
-          ],
-          [
-            123.95317733893961,
-            10.325085413458439
-          ],
-          [
-            123.95318011097152,
-            10.325081198782058
-          ],
-          [
-            123.95318263100017,
-            10.325075496572708
-          ],
-          [
-            123.95318464702234,
-            10.325070538130632
-          ],
-          [
-            123.95318741905419,
-            10.325063348388042
-          ],
-          [
-            123.95318943507817,
-            10.32505962955635
-          ],
-          [
-            123.95319145110216,
-            10.32505268773599
-          ],
-          [
-            123.95319371912757,
-            10.325049216825732
-          ],
-          [
-            123.95319623915617,
-            10.325045250071398
-          ],
-          [
-            123.9531982551801,
-            10.325042770849194
-          ],
-          [
-            123.95320027120238,
-            10.325038556172274
-          ],
-          [
-            123.95320329523742,
-            10.32503434149622
-          ],
-          [
-            123.9532048072549,
-            10.325031614351474
-          ],
-          [
-            123.95320682327713,
-            10.325028639286003
-          ],
-          [
-            123.95320833529468,
-            10.325026407986229
-          ],
-          [
-            123.95321035131872,
-            10.325021945387476
-          ],
-          [
-            123.9532116113329,
-            10.325019962010131
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 38
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "OldBuildingRD3",
-        "from": "OldBuildingIntersection",
-        "to": "Stairs1OldRoadEnd"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95313204819536,
-            10.32516479983093
-          ],
-          [
-            123.95312887926156,
-            10.32516820217532
-          ],
-          [
-            123.95312563487994,
-            10.325171170797532
-          ],
-          [
-            123.95312143655218,
-            10.325178880768817
-          ],
-          [
-            123.95311835777801,
-            10.325183011111392
-          ],
-          [
-            123.9531152790039,
-            10.325190996438877
-          ],
-          [
-            123.95311108067608,
-            10.325197329630214
-          ],
-          [
-            123.95310800190202,
-            10.325204213533397
-          ],
-          [
-            123.95310128457595,
-            10.325213575641769
-          ],
-          [
-            123.95309848569082,
-            10.325218807407765
-          ],
-          [
-            123.9530948471388,
-            10.325224589885636
-          ],
-          [
-            123.95309204825361,
-            10.32523064771982
-          ],
-          [
-            123.95308812981472,
-            10.325241111251216
-          ],
-          [
-            123.95308477115174,
-            10.325246343017795
-          ],
-          [
-            123.95308309182019,
-            10.325250473358466
-          ],
-          [
-            123.95308141248864,
-            10.32525487905555
-          ],
-          [
-            123.95308057282392,
-            10.32525763261691
-          ],
-          [
-            123.95308141248864,
-            10.325261487602049
-          ],
-          [
-            123.95308141248864,
-            10.325263690450527
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 40
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "Intersection to East",
-        "from": "Stairs1OldRoadEnd",
-        "to": "main_stairs_oldRoad_end"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95308141248864,
-            10.325263690450527
-          ],
-          [
-            123.95308400938222,
-            10.325265321293855
-          ],
-          [
-            123.95308669159238,
-            10.325266970527096
-          ],
-          [
-            123.95309037962971,
-            10.32526845483801
-          ],
-          [
-            123.95309289420032,
-            10.325270433918362
-          ],
-          [
-            123.95309607932404,
-            10.325272742844646
-          ],
-          [
-            123.95309825861813,
-            10.325275051770902
-          ],
-          [
-            123.95309842625761,
-            10.325276865927663
-          ],
-          [
-            123.95309959972195,
-            10.325278845007986
-          ],
-          [
-            123.95309892917129,
-            10.32528049424117
-          ],
-          [
-            123.95309825861813,
-            10.325282308397888
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 42
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD1",
-        "from": "IT_Gate2",
-        "to": "RD_Gate2"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95327317582428,
-            10.325334998031195
-          ],
-          [
-            123.95327099653025,
-            10.3253368121876
-          ],
-          [
-            123.95326898487332,
-            10.325339286036922
-          ],
-          [
-            123.95326747612995,
-            10.325341430040368
-          ],
-          [
-            123.95326563211006,
-            10.325344068813209
-          ],
-          [
-            123.95326429100618,
-            10.325346047893092
-          ],
-          [
-            123.95326294990235,
-            10.325348356818793
-          ],
-          [
-            123.95326227934925,
-            10.325350335898676
-          ],
-          [
-            123.95326043533174,
-            10.325354294058371
-          ],
-          [
-            123.95325842367475,
-            10.325356932831099
-          ],
-          [
-            123.95325758548461,
-            10.325359241756757
-          ],
-          [
-            123.95325557382762,
-            10.325361385760033
-          ],
-          [
-            123.95325389744721,
-            10.325363859609183
-          ],
-          [
-            123.95325255634339,
-            10.325366168535965
-          ],
-          [
-            123.95325071232344,
-            10.325368147615706
-          ],
-          [
-            123.95325020940982,
-            10.325370291617773
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 87
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD2",
-        "from": "IT_Gate2",
-        "to": "IT_Gate3"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95327310988188,
-            10.325334838377273
-          ],
-          [
-            123.95327737492386,
-            10.325338138979788
-          ],
-          [
-            123.95328147990557,
-            10.325341023625057
-          ],
-          [
-            123.95328793058923,
-            10.32534448520019
-          ],
-          [
-            123.95329526091058,
-            10.32534881216796
-          ],
-          [
-            123.95330303009916,
-            10.325355160268316
-          ],
-          [
-            123.95330567474343,
-            10.325362098444216
-          ],
-          [
-            123.95330743783848,
-            10.325367735712632
-          ],
-          [
-            123.95330831938605,
-            10.325374240252529
-          ],
-          [
-            123.95331096403032,
-            10.325379010248355
-          ],
-          [
-            123.95331350317673,
-            10.325383572664506
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 89
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD4",
-        "from": "IT_Gate3",
-        "to": "RD_Gate3"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95331369113785,
-            10.325383333028284
-          ],
-          [
-            123.95331184711796,
-            10.325385147184434
-          ],
-          [
-            123.95331067365117,
-            10.325387456109866
-          ],
-          [
-            123.95330866199419,
-            10.325389929959996
-          ],
-          [
-            123.95330698561384,
-            10.325393228425185
-          ],
-          [
-            123.95330547687291,
-            10.325395702274065
-          ],
-          [
-            123.95330396812949,
-            10.325398341046395
-          ],
-          [
-            123.95330346521592,
-            10.325400485049471
-          ],
-          [
-            123.9533021241096,
-            10.32540196935851
-          ],
-          [
-            123.95330111828235,
-            10.325403948438051
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 90
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD3",
-        "from": "IT_Gate3",
-        "to": "RD_SAOStairs"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95331393414324,
-            10.325383703182041
-          ],
-          [
-            123.95331695162747,
-            10.325381559180073
-          ],
-          [
-            123.95332030438828,
-            10.325380899487286
-          ],
-          [
-            123.95332265132186,
-            10.325377765944225
-          ],
-          [
-            123.9533263393592,
-            10.325374962248219
-          ],
-          [
-            123.95332969212001,
-            10.325371169012286
-          ],
-          [
-            123.9533323743301,
-            10.325368530239714
-          ],
-          [
-            123.95333388307102,
-            10.325366221314113
-          ],
-          [
-            123.95333639764408,
-            10.325361108691183
-          ],
-          [
-            123.9533377387479,
-            10.325358964689059
-          ],
-          [
-            123.95334042095556,
-            10.325355171452955
-          ],
-          [
-            123.9533420973384,
-            10.32535269760372
-          ],
-          [
-            123.95334410899295,
-            10.32534906929105
-          ],
-          [
-            123.95334612064994,
-            10.325345605900665
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 91
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD5",
-        "from": "IT_Gate3",
-        "to": "IT_1"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95331313755383,
-            10.325383415746714
-          ],
-          [
-            123.95331949062853,
-            10.32538542473614
-          ],
-          [
-            123.95332402854001,
-            10.325386987284375
-          ],
-          [
-            123.95333083540464,
-            10.325388773053149
-          ],
-          [
-            123.9533367346894,
-            10.325389665937948
-          ],
-          [
-            123.95334512982316,
-            10.32539145170675
-          ],
-          [
-            123.9533524245216,
-            10.325386137185177
-          ],
-          [
-            123.95336254429765,
-            10.325386137185177
-          ],
-          [
-            123.95337582650336,
-            10.32538551494099
-          ],
-          [
-            123.95338910871146,
-            10.325386759428241
-          ],
-          [
-            123.95339733102924,
-            10.325389870644685
-          ],
-          [
-            123.953408715779,
-            10.325392981862208
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 92
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD6",
-        "from": "IT_1",
-        "to": "RD_StudyHall"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9534092874448,
-            10.32539368468737
-          ],
-          [
-            123.95341562832505,
-            10.325386879384837
-          ],
-          [
-            123.95342312209425,
-            10.325383476733023
-          ],
-          [
-            123.95343234519243,
-            10.325373835886651
-          ],
-          [
-            123.95344099184626,
-            10.32536703058372
-          ],
-          [
-            123.95345252072013,
-            10.325352285759664
-          ],
-          [
-            123.95346462603624,
-            10.325340376477897
-          ],
-          [
-            123.9534761549101,
-            10.325333004065811
-          ],
-          [
-            123.95348364867715,
-            10.32532619876099
-          ],
-          [
-            123.95349344821983,
-            10.325321661891707
-          ],
-          [
-            123.95349921265779,
-            10.32531372236977
-          ],
-          [
-            123.95350612998044,
-            10.325305215739164
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 93
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD7",
-        "from": "RD_StudyHall",
-        "to": "RD_AnnexStairs"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95350612998044,
-            10.325306349957103
-          ],
-          [
-            123.953511317974,
-            10.325297276216801
-          ],
-          [
-            123.95351996462989,
-            10.32528990380375
-          ],
-          [
-            123.9535251526213,
-            10.325279695846078
-          ],
-          [
-            123.95353437572169,
-            10.325264951017928
-          ],
-          [
-            123.95354071660194,
-            10.325255310167961
-          ],
-          [
-            123.95354532815111,
-            10.32524850486243
-          ],
-          [
-            123.95354821036909,
-            10.32523886401195
-          ],
-          [
-            123.95355800991172,
-            10.325225820508678
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 94
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD8",
-        "from": "RD_AnnexStairs",
-        "to": "RD_ANNEXElevatorr"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95355796911986,
-            10.325224205249654
-          ],
-          [
-            123.95356027489328,
-            10.325213997289836
-          ],
-          [
-            123.95356085133773,
-            10.32520775909201
-          ],
-          [
-            123.95356200422447,
-            10.32520152089414
-          ],
-          [
-            123.95356258066892,
-            10.325186776062324
-          ],
-          [
-            123.95356200422447,
-            10.325173165448177
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 95
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD9",
-        "from": "RD_ANNEXElevatorr",
-        "to": "IT_2"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95356258066892,
-            10.325173732556877
-          ],
-          [
-            123.95355393401297,
-            10.32516352459541
-          ],
-          [
-            123.95354586380154,
-            10.325157853505331
-          ],
-          [
-            123.9535383700345,
-            10.325153883742331
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 96
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD11",
-        "from": "IT_2",
-        "to": "RD_AnnexCanteen"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9535387543217,
-            10.325154012475991
-          ],
-          [
-            123.95352942721178,
-            10.325143816841447
-          ],
-          [
-            123.95352044555091,
-            10.325138039314808
-          ],
-          [
-            123.95351319113234,
-            10.325129882807047
-          ],
-          [
-            123.95350455491797,
-            10.325122745861478
-          ],
-          [
-            123.9535031731246,
-            10.32511594877198
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 97
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD10",
-        "from": "IT_2",
-        "to": "IT_3"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95353864246272,
-            10.32515381506947
-          ],
-          [
-            123.95354247920739,
-            10.325149285531424
-          ],
-          [
-            123.95354785065064,
-            10.325143246148173
-          ],
-          [
-            123.95355744251361,
-            10.325128902610857
-          ],
-          [
-            123.95356818540012,
-            10.325120598458014
-          ],
-          [
-            123.95358353238134,
-            10.325103990151675
-          ],
-          [
-            123.95360233243218,
-            10.325089646613918
-          ],
-          [
-            123.95362880597372,
-            10.325069263690864
-          ],
-          [
-            123.9536410835575,
-            10.325053787766691
-          ],
-          [
-            123.95366084900331,
-            10.325030471098657
-          ],
-          [
-            123.95370178856604,
-            10.32502759419772
-          ],
-          [
-            123.95374175337594,
-            10.325044855606365
-          ],
-          [
-            123.95379942074015,
-            10.325076471715889
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 98
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD12",
-        "from": "IT_3",
-        "to": "RD_Gate5"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95379807624352,
-            10.325076233151322
-          ],
-          [
-            123.9538151998533,
-            10.32506219454983
-          ],
-          [
-            123.95383232346302,
-            10.325049091854112
-          ],
-          [
-            123.9538532523191,
-            10.325035053251398
-          ],
-          [
-            123.9538741811752,
-            10.325017271020513
-          ],
-          [
-            123.95388654822557,
-            10.325009783764429
-          ],
-          [
-            123.95390652577055,
-            10.324992937438651
-          ],
-          [
-            123.95392174675794,
-            10.3249742192979
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 99
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD6",
-        "from": "IT_1",
-        "to": "IT_4"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95340764532699,
-            10.325392929576523
-          ],
-          [
-            123.95344153247254,
-            10.325407034269972
-          ],
-          [
-            123.95347411626693,
-            10.325418574473332
-          ],
-          [
-            123.95351061011701,
-            10.325437808144258
-          ],
-          [
-            123.95356795759443,
-            10.325467299771617
-          ],
-          [
-            123.95358359781483,
-            10.325483968950607
-          ],
-          [
-            123.95362009166496,
-            10.325508331595046
-          ],
-          [
-            123.95366570897761,
-            10.325531411993893
-          ],
-          [
-            123.95369177601168,
-            10.325558339124129
-          ],
-          [
-            123.95372957321291,
-            10.325577572786557
-          ],
-          [
-            123.95374260673117,
-            10.325596806447763
-          ],
-          [
-            123.95376606706304,
-            10.32560706440077
-          ],
-          [
-            123.95378822404143,
-            10.325619886840087
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 100
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_19",
-        "from": "IT_4",
-        "to": "RD_Gate4"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95378779416194,
-            10.325619402209924
-          ],
-          [
-            123.9537837996715,
-            10.325624843472283
-          ],
-          [
-            123.95377888337407,
-            10.325632400781785
-          ],
-          [
-            123.95377396707437,
-            10.325639051213884
-          ],
-          [
-            123.95376782170314,
-            10.32565114290884
-          ],
-          [
-            123.95376136906287,
-            10.325660513971954
-          ],
-          [
-            123.95375460915363,
-            10.325671396496276
-          ],
-          [
-            123.953750307392,
-            10.325678953804669
-          ],
-          [
-            123.9537456983636,
-            10.325685301943082
-          ],
-          [
-            123.9537435474827,
-            10.325691045496981
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 101
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_18",
-        "from": "IT_4",
-        "to": "IT_5"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95378704157372,
-            10.325620235082582
-          ],
-          [
-            123.95380889941043,
-            10.325629451017747
-          ],
-          [
-            123.9538330991569,
-            10.325657866814879
-          ],
-          [
-            123.9538612020894,
-            10.325676298681913
-          ],
-          [
-            123.95388540183728,
-            10.32569780252605
-          ],
-          [
-            123.9539150660429,
-            10.325716234390768
-          ],
-          [
-            123.95393380134084,
-            10.325736970240413
-          ],
-          [
-            123.95398873019894,
-            10.325770601145507
-          ],
-          [
-            123.95403939280641,
-            10.325803106861557
-          ],
-          [
-            123.95408785269092,
-            10.325813942100169
-          ],
-          [
-            123.95414071801929,
-            10.32581177505267
-          ],
-          [
-            123.95419798879152,
-            10.325803106861557
-          ],
-          [
-            123.95425085412194,
-            10.325785770479627
-          ],
-          [
-            123.95428169222896,
-            10.325792271623598
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 102
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_13",
-        "from": "IT_3",
-        "to": "IT_6"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9537977500799,
-            10.32507831577108
-          ],
-          [
-            123.95382858818897,
-            10.325121656821153
-          ],
-          [
-            123.95385061540821,
-            10.325154162604363
-          ],
-          [
-            123.95387704807348,
-            10.325182334281465
-          ],
-          [
-            123.95391449434732,
-            10.325219174161546
-          ],
-          [
-            123.95394533245639,
-            10.32524734583285
-          ],
-          [
-            123.95396956239864,
-            10.325277684551835
-          ],
-          [
-            123.95398057600744,
-            10.325314524428094
-          ],
-          [
-            123.95396956239875,
-            10.32534919724199
-          ],
-          [
-            123.95395634606518,
-            10.325394705306138
-          ],
-          [
-            123.95393652156685,
-            10.325427211061054
-          ],
-          [
-            123.95391889979129,
-            10.32545754976367
-          ],
-          [
-            123.95390348073681,
-            10.325485721412647
-          ],
-          [
-            123.95393652156685,
-            10.32551389305911
-          ],
-          [
-            123.95397837328653,
-            10.325520394207729
-          ],
-          [
-            123.95404886039034,
-            10.325531229456061
-          ],
-          [
-            123.95411273932928,
-            10.325555066999925
-          ],
-          [
-            123.95415018560516,
-            10.325572403394602
-          ],
-          [
-            123.95418542915615,
-            10.325574570443706
-          ],
-          [
-            123.9542316863197,
-            10.32556373519688
-          ],
-          [
-            123.95428234892711,
-            10.325552899950623
-          ],
-          [
-            123.95430878159027,
-            10.325557234049143
-          ],
-          [
-            123.9543440251432,
-            10.325574570443706
-          ],
-          [
-            123.95438147141908,
-            10.325613577327687
-          ],
-          [
-            123.95441671497002,
-            10.325633080767915
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 103
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_14",
-        "from": "IT_6",
-        "to": "RD_Gate6"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95441629779816,
-            10.32563316301595
-          ],
-          [
-            123.95442245873568,
-            10.3256287548992
-          ],
-          [
-            123.95442973984291,
-            10.32562434678242
-          ],
-          [
-            123.95443730099333,
-            10.325616357069663
-          ],
-          [
-            123.95444290184685,
-            10.3256122244604
-          ],
-          [
-            123.95444794261232,
-            10.325608091850029
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 104
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_16",
-        "from": "IT_5",
-        "to": "IT_7"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95428177079191,
-            10.32579255431446
-          ],
-          [
-            123.95431240934568,
-            10.32578999987787
-          ],
-          [
-            123.9543337005432,
-            10.325782847456821
-          ],
-          [
-            123.95435031806272,
-            10.325773140599793
-          ],
-          [
-            123.9543648583932,
-            10.325762411967602
-          ],
-          [
-            123.95438147591273,
-            10.325748107125023
-          ],
-          [
-            123.95439601624327,
-            10.325739932928016
-          ],
-          [
-            123.95440276711219,
-            10.325733802280851
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 105
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_15",
-        "from": "IT_6",
-        "to": "IT_7"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95441678814456,
-            10.325632646579919
-          ],
-          [
-            123.95442613549875,
-            10.32565768006485
-          ],
-          [
-            123.95443444425848,
-            10.325670963137298
-          ],
-          [
-            123.95443756004386,
-            10.325681691772658
-          ],
-          [
-            123.95444119512752,
-            10.325689355083085
-          ],
-          [
-            123.95442873198596,
-            10.325710301464142
-          ],
-          [
-            123.9544131530609,
-            10.325722562760205
-          ],
-          [
-            123.95440380570182,
-            10.325732780505191
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 106
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_20",
-        "from": "IT_7",
-        "to": "IT_yes"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9544031091371,
-            10.325733761236009
-          ],
-          [
-            123.95440989837931,
-            10.325739009247783
-          ],
-          [
-            123.95441571772852,
-            10.325743780167727
-          ],
-          [
-            123.95442832632165,
-            10.325739963431289
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 107
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_17",
-        "from": "IT_5",
-        "to": "IT_8"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95428137787644,
-            10.32579208363967
-          ],
-          [
-            123.95427795175169,
-            10.325810622142257
-          ],
-          [
-            123.9542770952209,
-            10.32583674457591
-          ],
-          [
-            123.9542796648148,
-            10.325865394984774
-          ],
-          [
-            123.95427795175169,
-            10.32590752793351
-          ],
-          [
-            123.95428394747046,
-            10.325944604924743
-          ],
-          [
-            123.95429165625234,
-            10.325985895204596
-          ],
-          [
-            123.95430536075139,
-            10.326022972185768
-          ],
-          [
-            123.9543079303453,
-            10.326071846381865
-          ],
-          [
-            123.954316495657,
-            10.326101339434999
-          ],
-          [
-            123.95432334790661,
-            10.326140944377727
-          ],
-          [
-            123.95432163484338,
-            10.326164538808982
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 108
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_27",
-        "from": "IT_8",
-        "to": "RD_foodcourt"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95431979647753,
-            10.326163877672911
-          ],
-          [
-            123.95433465144447,
-            10.326162964275468
-          ],
-          [
-            123.95435229171812,
-            10.326160224081562
-          ],
-          [
-            123.95436621825172,
-            10.32615017670473
-          ],
-          [
-            123.95437457417017,
-            10.326146523113238
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 109
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_28",
-        "from": "IT_9",
-        "to": "RD_TextbookSec"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95450143425228,
-            10.326340739038287
-          ],
-          [
-            123.95449377072106,
-            10.32635404386619
-          ],
-          [
-            123.95449151674165,
-            10.326363357245711
-          ],
-          [
-            123.9544870087829,
-            10.326373557612982
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 112
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_21",
-        "from": "IT_yes",
-        "to": "IT_Yesser"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95442772965521,
-            10.325741418507121
-          ],
-          [
-            123.95444420302243,
-            10.325770419742554
-          ],
-          [
-            123.95446772699734,
-            10.325804273813887
-          ],
-          [
-            123.95448885859815,
-            10.325827142112374
-          ],
-          [
-            123.95451210336205,
-            10.325855207749413
-          ],
-          [
-            123.9545258389021,
-            10.325872878704374
-          ],
-          [
-            123.9545511968251,
-            10.325910299547743
-          ],
-          [
-            123.95458183764782,
-            10.325940444112675
-          ],
-          [
-            123.95460613898933,
-            10.325980983350163
-          ],
-          [
-            123.95464100613219,
-            10.326018404180687
-          ],
-          [
-            123.95467798643614,
-            10.326056864474523
-          ],
-          [
-            123.95470545751823,
-            10.326070377549229
-          ],
-          [
-            123.95471707989918,
-            10.326083890623394
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 113
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_29",
-        "from": "IT_9",
-        "to": "IT_10"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95450079202385,
-            10.326341141469115
-          ],
-          [
-            123.95450989572709,
-            10.32633389117349
-          ],
-          [
-            123.95451813240999,
-            10.326331758733915
-          ],
-          [
-            123.95452333452607,
-            10.326324934925836
-          ],
-          [
-            123.95453503928826,
-            10.326317684623902
-          ],
-          [
-            123.95455064563504,
-            10.326303610519957
-          ],
-          [
-            123.95456104986573,
-            10.326295080760048
-          ],
-          [
-            123.95457362164427,
-            10.32628313909494
-          ],
-          [
-            123.95458229183731,
-            10.326275888797966
-          ],
-          [
-            123.95459052852016,
-            10.326269917965107
-          ],
-          [
-            123.95459833169434,
-            10.326264800108646
-          ],
-          [
-            123.95460440082928,
-            10.3262609617164
-          ],
-          [
-            123.95461610558897,
-            10.32625243195453
-          ],
-          [
-            123.95462347525296,
-            10.326247314097785
-          ],
-          [
-            123.9546330124648,
-            10.326244328681085
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 114
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_25",
-        "from": "IT_10",
-        "to": "RD_Chapel"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.954632145446,
-            10.326245181656859
-          ],
-          [
-            123.95464081563739,
-            10.326240063799972
-          ],
-          [
-            123.95464948583043,
-            10.326235372430858
-          ],
-          [
-            123.95465382092624,
-            10.326230254573844
-          ],
-          [
-            123.95466292462947,
-            10.326223430763562
-          ],
-          [
-            123.95467029429341,
-            10.32621831290632
-          ],
-          [
-            123.95467549640796,
-            10.326213621536894
-          ],
-          [
-            123.95468936871708,
-            10.326204238797885
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 115
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_24",
-        "from": "RD_Chapel",
-        "to": "IT_11"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95468978809015,
-            10.32620500353866
-          ],
-          [
-            123.95470034956332,
-            10.32619288139125
-          ],
-          [
-            123.95470797729405,
-            10.326185377204183
-          ],
-          [
-            123.95472440625429,
-            10.3261617101533
-          ],
-          [
-            123.95473790147207,
-            10.32615478321145
-          ],
-          [
-            123.95474376895697,
-            10.326141506571219
-          ],
-          [
-            123.95475961116995,
-            10.32612880717636
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 116
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_22",
-        "from": "IT_Yesser",
-        "to": "IT_11"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.9547163761157,
-            10.32608451064776
-          ],
-          [
-            123.9547241075881,
-            10.326095574284537
-          ],
-          [
-            123.95473113619846,
-            10.326099723147095
-          ],
-          [
-            123.95474167911522,
-            10.326117010077539
-          ],
-          [
-            123.95475362775488,
-            10.326122196156973
-          ],
-          [
-            123.95475925064358,
-            10.32612945666682
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 117
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_30",
-        "from": "IT_10",
-        "to": "IT_13"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95463213769335,
-            10.326244678651165
-          ],
-          [
-            123.954658922698,
-            10.326269273074544
-          ],
-          [
-            123.95467767220197,
-            10.326278056797278
-          ],
-          [
-            123.95471427837526,
-            10.326292110751766
-          ],
-          [
-            123.95474909888242,
-            10.32631758354394
-          ],
-          [
-            123.95475892005095,
-            10.326353596798583
-          ],
-          [
-            123.95475892005095,
-            10.32637643446968
-          ],
-          [
-            123.95475981288399,
-            10.32640190725499
-          ],
-          [
-            123.95478034805404,
-            10.326430893525313
-          ],
-          [
-            123.95479861032373,
-            10.326454033604733
-          ],
-          [
-            123.9548247232421,
-            10.326492568528238
-          ],
-          [
-            123.95483777970037,
-            10.32651718805947
-          ],
-          [
-            123.9548606285037,
-            10.32653645551791
-          ],
-          [
-            123.95487694907695,
-            10.326568567946353
-          ],
-          [
-            123.95489653376518,
-            10.32658676498707
-          ],
-          [
-            123.9549302629514,
-            10.326606032441262
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 118
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_31",
-        "from": "IT_13",
-        "to": "IT_14"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95492911996945,
-            10.326604443644356
-          ],
-          [
-            123.9549117490617,
-            10.326622957302902
-          ],
-          [
-            123.95489582573015,
-            10.326636486514104
-          ],
-          [
-            123.95485167467535,
-            10.326672089699713
-          ],
-          [
-            123.95482923725291,
-            10.326684906845514
-          ],
-          [
-            123.9548075236192,
-            10.3267076928813
-          ],
-          [
-            123.95479015271138,
-            10.326729054785204
-          ],
-          [
-            123.95479594301486,
-            10.326746144308885
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 119
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_32",
-        "from": "IT_14",
-        "to": "RD_ToolRoomME"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95479577875795,
-            10.326744189643591
-          ],
-          [
-            123.95481536344624,
-            10.326778442876773
-          ],
-          [
-            123.954819715599,
-            10.32679985114595
-          ],
-          [
-            123.95485453282089,
-            10.326831963547505
-          ],
-          [
-            123.95487846966381,
-            10.326857653465822
-          ],
-          [
-            123.9548969663125,
-            10.326875850489841
-          ],
-          [
-            123.95491872707805,
-            10.326894047513719
-          ],
-          [
-            123.95493613568902,
-            10.326898329165942
-          ],
-          [
-            123.95495898449241,
-            10.326898329165942
-          ],
-          [
-            123.95498944956353,
-            10.32689083627406
-          ],
-          [
-            123.9550155624799,
-            10.326874780077205
-          ],
-          [
-            123.95503841128317,
-            10.32686193511853
-          ],
-          [
-            123.95506561223937,
-            10.326855512639455
-          ],
-          [
-            123.95509498927078,
-            10.326855512639455
-          ],
-          [
-            123.95512436630418,
-            10.326867287184768
-          ],
-          [
-            123.95515809548834,
-            10.326892977100172
-          ],
-          [
-            123.95517550410125,
-            10.32691010370965
-          ],
-          [
-            123.95518529644443,
-            10.32693365279573
-          ],
-          [
-            123.95519617682726,
-            10.326952920228678
-          ],
-          [
-            123.95520379309505,
-            10.326978610137104
-          ],
-          [
-            123.95521140936273,
-            10.326995736741864
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 120
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_36",
-        "from": "RD_Cb1Cb2",
-        "to": "RD_NSAOFFICE"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95499669315268,
-            10.326374311824736
-          ],
-          [
-            123.95500505249555,
-            10.326387470133483
-          ],
-          [
-            123.9550113220015,
-            10.326397750061815
-          ],
-          [
-            123.95502093524578,
-            10.326420777099472
-          ],
-          [
-            123.95502720475173,
-            10.326430645829788
-          ],
-          [
-            123.95503180239007,
-            10.32644174815043
-          ],
-          [
-            123.95503681799602,
-            10.32645408406266
-          ],
-          [
-            123.95503598206221,
-            10.326458196032519
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 121
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_37",
-        "from": "RD_NSAOFFICE",
-        "to": "IT_12"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95503595329808,
-            10.326457671435733
-          ],
-          [
-            123.95504682044395,
-            10.326472063332204
-          ],
-          [
-            123.95505392588524,
-            10.326482343257737
-          ],
-          [
-            123.95505935945738,
-            10.326500024728858
-          ],
-          [
-            123.95506479302946,
-            10.326514827820134
-          ],
-          [
-            123.95506437506333,
-            10.32652017338026
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 122
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_34",
-        "from": "IT_13",
-        "to": "IT_12"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95492999658131,
-            10.32660455587444
-          ],
-          [
-            123.9549498356509,
-            10.326590204612259
-          ],
-          [
-            123.95495917168387,
-            10.326584464106972
-          ],
-          [
-            123.95497434273909,
-            10.32657355714747
-          ],
-          [
-            123.95498951379437,
-            10.326566094490104
-          ],
-          [
-            123.9550052683503,
-            10.326550595125596
-          ],
-          [
-            123.95502510742199,
-            10.32654083626555
-          ],
-          [
-            123.95504319598518,
-            10.326528781202754
-          ],
-          [
-            123.95505486602741,
-            10.326522466646054
-          ],
-          [
-            123.95506361855979,
-            10.326519596393368
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 125
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_38",
-        "from": "IT_12",
-        "to": "RD_nsa_dorm_canteen"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95506424257047,
-            10.326520523577898
-          ],
-          [
-            123.95506967679478,
-            10.326524342292728
-          ],
-          [
-            123.95507394654237,
-            10.326530834109022
-          ],
-          [
-            123.95508132156078,
-            10.326543053997838
-          ],
-          [
-            123.95508714394447,
-            10.326553364528223
-          ],
-          [
-            123.9550921900094,
-            10.326561383829798
-          ],
-          [
-            123.95509878871047,
-            10.326567875645338
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 126
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_39",
-        "from": "RD_nsa_dorm_canteen",
-        "to": "RD_GUIDANCE"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95509878871047,
-            10.326567875645338
-          ],
-          [
-            123.95510771636503,
-            10.326576276817818
-          ],
-          [
-            123.95511470322407,
-            10.32658505986133
-          ],
-          [
-            123.9551286769435,
-            10.326604535305322
-          ],
-          [
-            123.95514070986889,
-            10.326612172734386
-          ],
-          [
-            123.95515119016108,
-            10.326620955780015
-          ],
-          [
-            123.955156236226,
-            10.326626301979914
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 127
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_40",
-        "from": "RD_GUIDANCE",
-        "to": "RD_CBECanteen"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95515536736957,
-            10.32662719925061
-          ],
-          [
-            123.95516645391479,
-            10.32663351381008
-          ],
-          [
-            123.95518092101116,
-            10.326641020183132
-          ],
-          [
-            123.955206595103,
-            10.326656519543121
-          ],
-          [
-            123.95523110218903,
-            10.32667546320583
-          ],
-          [
-            123.95525735978373,
-            10.326693258765275
-          ],
-          [
-            123.95527953286262,
-            10.32671105432479
-          ],
-          [
-            123.95529995543723,
-            10.326722535329523
-          ],
-          [
-            123.95531862750323,
-            10.32673803468657
-          ],
-          [
-            123.9553279635362,
-            10.326743201138015
-          ],
-          [
-            123.9553460521015,
-            10.326755830242462
-          ],
-          [
-            123.95536414066675,
-            10.326767311246613
-          ],
-          [
-            123.95538047872554,
-            10.326774773898151
-          ],
-          [
-            123.95538864775494,
-            10.326786828951455
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 128
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_41",
-        "from": "RD_CBECanteen",
-        "to": "IT_15"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95538736911783,
-            10.326787892238414
-          ],
-          [
-            123.95540246330717,
-            10.326805362453328
-          ],
-          [
-            123.9554157817089,
-            10.326820212134905
-          ],
-          [
-            123.95544330640524,
-            10.326855152560114
-          ],
-          [
-            123.95545928848759,
-            10.326887472449712
-          ],
-          [
-            123.95547083110324,
-            10.326911057232252
-          ],
-          [
-            123.95547971003822,
-            10.326939009564967
-          ],
-          [
-            123.95549746790658,
-            10.326973949976988
-          ],
-          [
-            123.95550634684156,
-            10.327004522834102
-          ],
-          [
-            123.95552321681691,
-            10.327036842709134
-          ],
-          [
-            123.95554008679221,
-            10.327068289069715
-          ],
-          [
-            123.95555784466222,
-            10.327088379799093
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 129
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_42",
-        "from": "IT_15",
-        "to": "RD_gate_8"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95555851197383,
-            10.327086959287882
-          ],
-          [
-            123.95557623138177,
-            10.327075918792744
-          ],
-          [
-            123.95558745367339,
-            10.32706952692682
-          ],
-          [
-            123.95560162919935,
-            10.327060229666415
-          ],
-          [
-            123.9556140327864,
-            10.327052094563697
-          ],
-          [
-            123.95562761766462,
-            10.327043959461875
-          ],
-          [
-            123.95563706801738,
-            10.32703931083077
-          ],
-          [
-            123.95564474642697,
-            10.327035243279212
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 130
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_43",
-        "from": "IT_15",
-        "to": "IT_16"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95555726728884,
-            10.327088812896037
-          ],
-          [
-            123.95556908022598,
-            10.32709927231241
-          ],
-          [
-            123.95557616798999,
-            10.327112637121274
-          ],
-          [
-            123.95558916222268,
-            10.327127745165527
-          ],
-          [
-            123.95559920322103,
-            10.327137623502253
-          ],
-          [
-            123.95560806292389,
-            10.327148082916992
-          ],
-          [
-            123.95561337874693,
-            10.327150407231201
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 131
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD_44",
-        "from": "IT_16",
-        "to": "RD_cbe_elevator"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95561396939462,
-            10.327150407231201
-          ],
-          [
-            123.95562401039297,
-            10.327141109973155
-          ],
-          [
-            123.95563641397791,
-            10.327133555951988
-          ],
-          [
-            123.95564704562184,
-            10.327124258693445
-          ],
-          [
-            123.95565354273816,
-            10.327119028986246
-          ],
-          [
-            123.95566122114991,
-            10.327108569570598
-          ],
-          [
-            123.95566771826623,
-            10.327102758783738
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 131
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "pe_faculty",
-        "name": "PE FACULTY",
-        "isDestination": "true",
-        "category": "Points of Interest",
-        "description": "PE FACULTY",
-        "nearest_node": "",
-        "additionalDirections": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          123.954459,
-          10.326242
-        ]
-      },
-      "id": 13
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "clinic",
-        "name": "CLINIC",
-        "isDestination": "true",
-        "category": "Points of Interest",
-        "description": "CLINIC",
-        "nearest_node": "",
-        "additionalDirections": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          123.95481,
-          10.326186
-        ]
-      },
-      "id": 10
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "cbe_gate9_elevator",
-        "name": "CBE Gate 9 Elevator",
-        "isDestination": "true",
-        "category": "Points of Interest",
-        "description": "CBE Gate 9 Elevator",
-        "nearest_node": "",
-        "additionalDirections": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          123.956028,
-          10.327661
-        ]
-      },
-      "id": 1
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "fromgate1",
-        "from": "Gate1_RoadEnd",
-        "to": "OldBuildingIntersection"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95305706561953,
-            10.325073770725623
-          ],
-          [
-            123.95305974782724,
-            10.325075255036225
-          ],
-          [
-            123.95306142421003,
-            10.325077728887607
-          ],
-          [
-            123.95306444169427,
-            10.32507970796918
-          ],
-          [
-            123.95306779445508,
-            10.325081851974403
-          ],
-          [
-            123.95307382942599,
-            10.325085150442817
-          ],
-          [
-            123.9530770145521,
-            10.325087624294014
-          ],
-          [
-            123.95308445918164,
-            10.325092753782343
-          ],
-          [
-            123.95308992363357,
-            10.325094666509699
-          ],
-          [
-            123.95309770047635,
-            10.325099129539765
-          ],
-          [
-            123.95310353310839,
-            10.325104867720611
-          ],
-          [
-            123.95311325415946,
-            10.325108055599813
-          ],
-          [
-            123.95312103100224,
-            10.325115068932334
-          ],
-          [
-            123.95311584644116,
-            10.325123994991912
-          ],
-          [
-            123.9531093657381,
-            10.32513292105007
-          ],
-          [
-            123.9531061253877,
-            10.325141209533797
-          ],
-          [
-            123.95310677345879,
-            10.325152685894963
-          ],
-          [
-            123.95311260609077,
-            10.325155873772516
-          ],
-          [
-            123.95312232714184,
-            10.32515969922649
-          ],
-          [
-            123.95313204819536,
-            10.32516479983093
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 36
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "OldBuildingRD2",
-        "from": "OldBuildingIntersection",
-        "to": "RE_stairs_uro_old"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95313204819536,
-            10.32516479983093
-          ],
-          [
-            123.95313418816556,
-            10.325161032094513
-          ],
-          [
-            123.95313588806016,
-            10.325157687360104
-          ],
-          [
-            123.95313872121699,
-            10.325154063898552
-          ],
-          [
-            123.95314042111158,
-            10.325148768069624
-          ],
-          [
-            123.95314438753292,
-            10.325142357328772
-          ],
-          [
-            123.95314778732205,
-            10.325139570050652
-          ],
-          [
-            123.95315005384674,
-            10.325131765670506
-          ],
-          [
-            123.95315572016051,
-            10.32512563365755
-          ],
-          [
-            123.95315968658184,
-            10.325118665460764
-          ],
-          [
-            123.95316336968705,
-            10.325113090903002
-          ],
-          [
-            123.9531670527902,
-            10.3251083525289
-          ],
-          [
-            123.95317045257934,
-            10.325101941787239
-          ],
-          [
-            123.95317229888059,
-            10.325099049175122
-          ],
-          [
-            123.95317330689346,
-            10.325095330342947
-          ],
-          [
-            123.95317557491887,
-            10.325091363589166
-          ],
-          [
-            123.95317733893961,
-            10.325085413458439
-          ],
-          [
-            123.95318011097152,
-            10.325081198782058
-          ],
-          [
-            123.95318263100017,
-            10.325075496572708
-          ],
-          [
-            123.95318464702234,
-            10.325070538130632
-          ],
-          [
-            123.95318741905419,
-            10.325063348388042
-          ],
-          [
-            123.95318943507817,
-            10.32505962955635
-          ],
-          [
-            123.95319145110216,
-            10.32505268773599
-          ],
-          [
-            123.95319371912757,
-            10.325049216825732
-          ],
-          [
-            123.95319623915617,
-            10.325045250071398
-          ],
-          [
-            123.9531982551801,
-            10.325042770849194
-          ],
-          [
-            123.95320027120238,
-            10.325038556172274
-          ],
-          [
-            123.95320329523742,
-            10.32503434149622
-          ],
-          [
-            123.9532048072549,
-            10.325031614351474
-          ],
-          [
-            123.95320682327713,
-            10.325028639286003
-          ],
-          [
-            123.95320833529468,
-            10.325026407986229
-          ],
-          [
-            123.95321035131872,
-            10.325021945387476
-          ],
-          [
-            123.9532116113329,
-            10.325019962010131
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 38
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "OldBuildingRD3",
-        "from": "OldBuildingIntersection",
-        "to": "Stairs1OldRoadEnd"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95313204819536,
-            10.32516479983093
-          ],
-          [
-            123.95312887926156,
-            10.32516820217532
-          ],
-          [
-            123.95312563487994,
-            10.325171170797532
-          ],
-          [
-            123.95312143655218,
-            10.325178880768817
-          ],
-          [
-            123.95311835777801,
-            10.325183011111392
-          ],
-          [
-            123.9531152790039,
-            10.325190996438877
-          ],
-          [
-            123.95311108067608,
-            10.325197329630214
-          ],
-          [
-            123.95310800190202,
-            10.325204213533397
-          ],
-          [
-            123.95310128457595,
-            10.325213575641769
-          ],
-          [
-            123.95309848569082,
-            10.325218807407765
-          ],
-          [
-            123.9530948471388,
-            10.325224589885636
-          ],
-          [
-            123.95309204825361,
-            10.32523064771982
-          ],
-          [
-            123.95308812981472,
-            10.325241111251216
-          ],
-          [
-            123.95308477115174,
-            10.325246343017795
-          ],
-          [
-            123.95308309182019,
-            10.325250473358466
-          ],
-          [
-            123.95308141248864,
-            10.32525487905555
-          ],
-          [
-            123.95308057282392,
-            10.32525763261691
-          ],
-          [
-            123.95308141248864,
-            10.325261487602049
-          ],
-          [
-            123.95308141248864,
-            10.325263690450527
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 40
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "Intersection to East",
-        "from": "Stairs1OldRoadEnd",
-        "to": "main_stairs_oldRoad_end"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95308141248864,
-            10.325263690450527
-          ],
-          [
-            123.95308400938222,
-            10.325265321293855
-          ],
-          [
-            123.95308669159238,
-            10.325266970527096
-          ],
-          [
-            123.95309037962971,
-            10.32526845483801
-          ],
-          [
-            123.95309289420032,
-            10.325270433918362
-          ],
-          [
-            123.95309607932404,
-            10.325272742844646
-          ],
-          [
-            123.95309825861813,
-            10.325275051770902
-          ],
-          [
-            123.95309842625761,
-            10.325276865927663
-          ],
-          [
-            123.95309959972195,
-            10.325278845007986
-          ],
-          [
-            123.95309892917129,
-            10.32528049424117
-          ],
-          [
-            123.95309825861813,
-            10.325282308397888
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 42
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "path",
-        "name": "RD1",
-        "from": "IT_Gate2",
-        "to": "RD_Gate2"
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            123.95327317582428,
-            10.325334998031195
-          ],
-          [
-            123.95327099653025,
-            10.3253368121876
-          ],
-          [
-            123.95326898487332,
-            10.325339286036922
-          ],
-          [
-            123.95326747612995,
-            10.325341430040368
-          ],
-          [
-            123.95326563211006,
-            10.325344068813209
-          ],
-          [
-            123.95326429100618,
-            10.325346047893092
-          ],
-          [
-            123.95326294990235,
-            10.325348356818793
-          ],
-          [
-            123.95326227934925,
-            10.325350335898676
-          ],
-          [
-            123.95326043533174,
-            10.325354294058371
-          ],
-          [
-            123.95325842367475,
-            10.325356932831099
-          ],
-          [
-            123.95325758548461,
-            10.325359241756757
-          ],
-          [
-            123.95325557382762,
-            10.325361385760033
-          ],
-          [
-            123.95325389744721,
-            10.325363859609183
-          ],
-          [
-            123.95325255634339,
-            10.325366168535965
-          ],
-          [
-            123.95325071232344,
-            10.325368147615706
-          ],
-          [
-            123.95325020940982,
-            10.325370291617773
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": 87
+      "id": 88
     },
     {
       "type": "Feature",
@@ -9998,6 +4606,246 @@
         "type": "LineString"
       },
       "id": 133
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_CLINIC",
+        "name": "RD_CLINIC",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95480475263412,
+          10.32619328472714
+        ],
+        "type": "Point"
+      },
+      "id": 60
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_PE_FACULTY",
+        "name": "RD_PE_FACULTY",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95446654110418,
+          10.326243942894195
+        ],
+        "type": "Point"
+      },
+      "id": 54
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_gate_7",
+        "name": "RD_gate_7",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95518649651348,
+          10.326449560592536
+        ],
+        "type": "Point"
+      },
+      "id": 155
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_UCLM_POOL",
+        "name": "RD_UCLM_POOL",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95457408662799,
+          10.326841385488407
+        ],
+        "type": "Point"
+      },
+      "id": 135
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_Seamanship_Lab",
+        "name": "RD_Seamanship_Lab",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95449592227737,
+          10.326746180513993
+        ],
+        "type": "Point"
+      },
+      "id": 137
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_MACHINE_SHOP",
+        "name": "RD_MACHINE_SHOP",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.9548126439538,
+          10.326975448175347
+        ],
+        "type": "Point"
+      },
+      "id": 139
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_COVERED_COURT",
+        "name": "RD_COVERED_COURT",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.9548525159936,
+          10.326532189636936
+        ],
+        "type": "Point"
+      },
+      "id": 140
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ANNEX2_STAIRS1",
+        "name": "RD_ANNEX2_STAIRS1",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95355661811783,
+          10.325418573635858
+        ],
+        "type": "Point"
+      },
+      "id": 142
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_SOCIAL_HALL",
+        "name": "RD_SOCIAL_HALL",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95362055136587,
+          10.325559874342062
+        ],
+        "type": "Point"
+      },
+      "id": 145
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ROBOTICS_LAB",
+        "name": "RD_ROBOTICS_LAB",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95386751001894,
+          10.3257521459238
+        ],
+        "type": "Point"
+      },
+      "id": 147
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_ANNEX2_STAIRS2",
+        "name": "RD_ANNEX2_STAIRS2",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.954058065357,
+          10.325792507717168
+        ],
+        "type": "Point"
+      },
+      "id": 149
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_CASHIER_ACC_RECORDS",
+        "name": "RD_CASHIER_ACC_RECORDS",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95409802852896,
+          10.325268848159013
+        ],
+        "type": "Point"
+      },
+      "id": 151
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_EDP_SECTION",
+        "name": "RD_EDP_SECTION",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95425395432142,
+          10.325377075658452
+        ],
+        "type": "Point"
+      },
+      "id": 153
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_BASICED_BLDG",
+        "name": "RD_BASICED_BLDG",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95398115945761,
+          10.325474913786707
+        ],
+        "type": "Point"
+      },
+      "id": 153
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "RD_prefect_discipline",
+        "name": "RD_prefect_discipline",
+        "isDestination": false
+      },
+      "geometry": {
+        "coordinates": [
+          123.95322304219309,
+          10.325317455934524
+        ],
+        "type": "Point"
+      },
+      "id": 166
     }
   ]
 }
