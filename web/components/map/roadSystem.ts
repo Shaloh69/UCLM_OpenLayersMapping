@@ -342,6 +342,7 @@ export const findShortestPath = (
 
   // Convert path to features
   const pathFeatures: Feature[] = [];
+  const missingSegments: string[] = [];
 
   for (let i = 0; i < path.length - 1; i++) {
     const fromNode = path[i];
@@ -358,7 +359,18 @@ export const findShortestPath = (
 
     if (roadSegment) {
       pathFeatures.push(roadSegment);
+      console.log(`✅ Found road segment: ${roadSegment.getProperties().name} (${fromNode} ↔ ${toNode})`);
+    } else {
+      const missingSegment = `${fromNode} ↔ ${toNode}`;
+      missingSegments.push(missingSegment);
+      console.warn(`❌ Missing road segment: ${missingSegment}`);
     }
+  }
+
+  if (missingSegments.length > 0) {
+    console.error(`❌ Path incomplete! Missing ${missingSegments.length} road segments:`, missingSegments);
+  } else {
+    console.log(`✅ Complete path with ${pathFeatures.length} road segments`);
   }
 
 
