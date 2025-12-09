@@ -604,8 +604,9 @@ const CampusMap: React.FC<MapProps> = ({
             const phoneLat = position.coords.latitude;
             console.log(`[MOBILE] 📍 Phone GPS: ${phoneLat.toFixed(6)}, ${phoneLon.toFixed(6)} (accuracy: ${position.coords.accuracy?.toFixed(0)}m)`);
 
-            if (nodesSourceRef.current) {
-              const phoneNode = findClosestNode(phoneLon, phoneLat, nodesSourceRef.current);
+            // FIXED: Use pointsSource instead of nodesSource (nodesSource returns 0 features)
+            if (pointsSourceRef.current) {
+              const phoneNode = findClosestNode(phoneLon, phoneLat, pointsSourceRef.current);
               if (phoneNode) {
                 startNodeId = phoneNode.id;
                 console.log(`[MOBILE] ✅ Route starting from phone's location: ${phoneNode.name} (${phoneNode.id})`);
@@ -630,12 +631,13 @@ const CampusMap: React.FC<MapProps> = ({
 
     // Fallback: Use kiosk GPS from QR code if phone GPS fails
     const useFallbackStart = () => {
-      if (routeData.startGPS && nodesSourceRef.current) {
+      // FIXED: Use pointsSource instead of nodesSource (nodesSource returns 0 features)
+      if (routeData.startGPS && pointsSourceRef.current) {
         console.log(`[MOBILE] Using fallback GPS from QR: ${routeData.startGPS.longitude}, ${routeData.startGPS.latitude}`);
         const gpsNode = findClosestNode(
           routeData.startGPS.longitude,
           routeData.startGPS.latitude,
-          nodesSourceRef.current
+          pointsSourceRef.current
         );
         if (gpsNode) {
           startNodeId = gpsNode.id;
@@ -647,13 +649,18 @@ const CampusMap: React.FC<MapProps> = ({
 
     // Continue setting up the route after determining start node
     const continueRouteSetup = (finalStartNodeId: string) => {
-      const features = nodesSourceRef.current!.getFeatures();
+      // FIXED: Use pointsSource instead of nodesSource since nodesSource fails to load
+      // when both sources point to the same URL. pointsSource reliably loads all features.
+      const features = pointsSourceRef.current!.getFeatures();
 
       const startFeature = features.find((f) => f.get("id") === finalStartNodeId);
       const endFeature = features.find((f) => f.get("id") === endNodeId);
 
       if (!startFeature || !endFeature) {
         console.error("Could not find start or end node features");
+        console.log(`[DEBUG] Looking for start: ${finalStartNodeId}, end: ${endNodeId}`);
+        console.log(`[DEBUG] Available features with isDestination: ${features.filter(f => f.get("isDestination")).length}`);
+        console.log(`[DEBUG] First 5 destination IDs:`, features.filter(f => f.get("isDestination")).slice(0, 5).map(f => f.get("id")));
         return;
       }
 
@@ -1539,23 +1546,25 @@ const CampusMap: React.FC<MapProps> = ({
 
           const mapReady = !!mapInstanceRef.current;
           const roadsReady = roadsSourceRef.current && roadsSourceRef.current.getState() === "ready";
-          const nodesReady = nodesSourceRef.current && nodesSourceRef.current.getState() === "ready";
+          // FIXED: Use pointsSource instead of nodesSource since nodesSource fails to load
+          const pointsReady = pointsSourceRef.current && pointsSourceRef.current.getState() === "ready";
 
           // CRITICAL: Check actual feature count, not just state
           const roadsCount = roadsSourceRef.current?.getFeatures().length || 0;
-          const nodesCount = nodesSourceRef.current?.getFeatures().length || 0;
+          // FIXED: Use pointsSource which reliably loads all features (includes nodes/destinations)
+          const pointsCount = pointsSourceRef.current?.getFeatures().length || 0;
 
           console.log(`[Mobile Route] Check ${checkAttempts}/${MAX_CHECK_ATTEMPTS}:`, {
             mapReady,
             roadsReady,
-            nodesReady,
+            pointsReady,
             roadsCount,
-            nodesCount
+            pointsCount
           });
 
           // Need actual features loaded, not just source ready state
-          if (mapReady && roadsReady && nodesReady && roadsCount > 0 && nodesCount > 0) {
-            console.log(`[Mobile Route] ✅ All sources loaded with ${roadsCount} roads and ${nodesCount} nodes. Processing route...`);
+          if (mapReady && roadsReady && pointsReady && roadsCount > 0 && pointsCount > 0) {
+            console.log(`[Mobile Route] ✅ All sources loaded with ${roadsCount} roads and ${pointsCount} points. Processing route...`);
             processRouteData(routeData);
           } else if (checkAttempts < MAX_CHECK_ATTEMPTS) {
             // Exponential backoff with cap at 1 second
@@ -1565,7 +1574,7 @@ const CampusMap: React.FC<MapProps> = ({
           } else {
             console.error(`[Mobile Route] ❌ Failed to load sources after ${MAX_CHECK_ATTEMPTS} attempts`);
             // Try processing anyway - maybe partial data is available
-            if (roadsCount > 0 || nodesCount > 0) {
+            if (roadsCount > 0 || pointsCount > 0) {
               console.log(`[Mobile Route] 🔄 Attempting route processing with partial data...`);
               processRouteData(routeData);
             }
