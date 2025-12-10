@@ -377,8 +377,11 @@ export const setupRoadSystem = (
       // Check if this road is part of the active route
       const isInActiveRoute = activeRouteRoadsRef?.current?.has(roadName) || false;
 
-      // REMOVED: Excessive debug logging (called 200+ times per render)
-      // Road highlighting still works, just without the console spam
+      // Temporary diagnostic logging (will remove after fixing highlighting issue)
+      if (isInActiveRoute) {
+        console.log(`[Road Style] ✅ Highlighting "${roadName}" - activeRouteRoads:`,
+          activeRouteRoadsRef?.current ? Array.from(activeRouteRoadsRef.current) : 'undefined');
+      }
 
       // Different styling based on road type
       let color = "#555555";
