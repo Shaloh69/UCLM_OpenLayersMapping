@@ -1396,7 +1396,7 @@
         "category": "Points of Interest",
         "description": "CBE Canteen (Ground Floor)",
         "nearest_node": "RD_CBECanteen",
-        "additionalDirection": ""
+        "additionalDirections": ""
       },
       "geometry": {
         "coordinates": [
@@ -1524,7 +1524,7 @@
         "description": "UC POOL",
         "nearest_node": "RD_UCLM_POOL",
         "isDestination": true,
-        "additionalDescription": ""
+        "additionalDirections": ""
       },
       "geometry": {
         "coordinates": [
@@ -1560,7 +1560,7 @@
         "category": "Points of Interest",
         "description": "Seamanship Laboratory",
         "nearest_node": "RD_Seamanship_Lab",
-        "additionalDescription": ""
+        "additionalDirections": ""
       },
       "geometry": {
         "coordinates": [
@@ -1596,7 +1596,7 @@
         "category": "Points of Interest",
         "description": "UCLM Machine Shop",
         "nearest_node": "RD_MACHINE_SHOP",
-        "additionalDescription": ""
+        "additionalDirections": ""
       },
       "geometry": {
         "coordinates": [
@@ -1648,7 +1648,7 @@
         "category": "Points of Interest",
         "description": "UCLM Covered Court",
         "nearest_node": "RD_COVERED_COURT",
-        "additionalDescription": ""
+        "additionalDirections": ""
       },
       "geometry": {
         "coordinates": [
@@ -1668,7 +1668,7 @@
         "category": "Points of Interest",
         "description": "Annex 2 Entrance 1",
         "nearest_node": "RD_ANNEX2_STAIRS1",
-        "additionalDescription": ""
+        "additionalDirections": ""
       },
       "geometry": {
         "coordinates": [
@@ -1704,7 +1704,7 @@
         "category": "Points of Interest",
         "description": "UCLM Social Hall",
         "nearest_node": "RD_SOCIAL_HALL",
-        "additionalDescription": "",
+        "additionalDirections": "",
         "isHidable": true
       },
       "geometry": {
@@ -1741,7 +1741,7 @@
         "category": "Points of Interest",
         "description": "Robotics Lab",
         "nearest_node": "RD_ROBOTICS_LAB",
-        "additionalDescription": "",
+        "additionalDirections": "",
         "isHidable": true
       },
       "geometry": {
@@ -1778,7 +1778,7 @@
         "category": "Points of Interest",
         "description": "Annex 2 Entrance 2",
         "nearest_node": "RD_ANNEX2_STAIRS2",
-        "additionalDescription": "",
+        "additionalDirections": "",
         "isHidable": true
       },
       "geometry": {
@@ -1815,7 +1815,7 @@
         "category": "Points of Interest",
         "description": "Cashier, Accounting, Records",
         "nearest_node": "RD_CASHIER_ACC_RECORDS",
-        "additionalDescription": "",
+        "additionalDirections": "",
         "isHidable": true
       },
       "geometry": {
@@ -1852,7 +1852,7 @@
         "category": "Points of Interest",
         "description": "EDP Section",
         "nearest_node": "RD_EDP_SECTION",
-        "additionalDescription": "",
+        "additionalDirections": "",
         "isHidable": true
       },
       "geometry": {
@@ -1905,7 +1905,7 @@
         "category": "Points of Interest",
         "description": "Basic Education Building",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "",
+        "additionalDirections": "",
         "isHidable": true
       },
       "geometry": {
@@ -1942,7 +1942,7 @@
         "category": "Points of Interest",
         "description": "UCLM CADS Office (Campus Director)",
         "nearest_node": "RE_stairs_uro_old",
-        "additionalDescription": "Go upstairs until 4th Floor then the first room that you see on the left is the CADS Office",
+        "additionalDirections": "Go upstairs until 4th Floor then the first room that you see on the left is the CADS Office",
         "isHidable": true
       },
       "geometry": {
@@ -1963,7 +1963,7 @@
         "description": "UCLM University Research Office",
         "category": "Points of Interest",
         "nearest_node": "RE_stairs_uro_old",
-        "additionalDescription": "Go upstairs and then turn right, go all the way to the end.",
+        "additionalDirections": "Go upstairs and then turn right, go all the way to the end.",
         "isHidable": true
       },
       "geometry": {
@@ -1984,7 +1984,7 @@
         "category": "Points of Interest",
         "description": "Anatomy Laboratory",
         "nearest_node": "RE_stairs_uro_old",
-        "additionalDescription": "Go upstairs up to 4th Floor and then the 2nd room from there is Anatomy Lab",
+        "additionalDirections": "Go upstairs up to 4th Floor and then the 2nd room from there is Anatomy Lab",
         "isHidable": true
       },
       "geometry": {
@@ -2005,7 +2005,7 @@
         "category": "Points of Interest",
         "description": "Kitchen Laboratory 1",
         "nearest_node": "RE_stairs_uro_old",
-        "additionalDescription": "Go upstairs up to 4th Floor and then go right",
+        "additionalDirections": "Go upstairs up to 4th Floor and then go right",
         "isHidable": true
       },
       "geometry": {
@@ -2026,7 +2026,7 @@
         "category": "Points of Interest",
         "description": "Nursing Faculty Room",
         "nearest_node": "main_stairs_oldRoad_end",
-        "additionalDescription": "Go upstairs up to 3rd Floor go left and then the 1st room is the Nursing Faculty Room",
+        "additionalDirections": "Go upstairs up to 3rd Floor go left and then the 1st room is the Nursing Faculty Room",
         "isHidable": true
       },
       "geometry": {
@@ -2047,7 +2047,7 @@
         "category": "Points of Interest",
         "description": "UCLM Mini Resto",
         "nearest_node": "main_stairs_oldRoad_end",
-        "additionalDescription": "Go upstairs up to 4th Floor go left and then the 1st room is that room.",
+        "additionalDirections": "Go upstairs up to 4th Floor go left and then the 1st room is that room.",
         "isHidable": true
       },
       "geometry": {
@@ -2068,7 +2068,7 @@
         "category": "Points of Interest",
         "description": "UCLM Coop Office",
         "nearest_node": "Stairs1OldRoadEnd",
-        "additionalDescription": "Go upstairs and then the end room is that room",
+        "additionalDirections": "Go upstairs and then the end room is that room",
         "isHidable": true
       },
       "geometry": {
@@ -2089,7 +2089,7 @@
         "category": "Points of Interest",
         "description": "UCLM Yearbook Office",
         "nearest_node": "Stairs1OldRoadEnd",
-        "additionalDescription": "Go upstairs and then the room after the Multimedia Room is that room",
+        "additionalDirections": "Go upstairs and then the room after the Multimedia Room is that room",
         "isHidable": true
       },
       "geometry": {
@@ -2110,7 +2110,7 @@
         "category": "Points of Interest",
         "description": "Prefect of Discipline",
         "nearest_node": "RD_prefect_discipline",
-        "additionalDescription": "",
+        "additionalDirections": "",
         "isHidable": true
       },
       "geometry": {
@@ -2147,7 +2147,7 @@
         "category": "Points of Interest",
         "description": "UCLM Student's Affair Office",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs and then turn right, go to the far end and turn left for the room",
+        "additionalDirections": "Go upstairs and then turn right, go to the far end and turn left for the room",
         "isHidable": true
       },
       "geometry": {
@@ -2168,7 +2168,7 @@
         "category": "Points of Interest",
         "description": "UCCP Office",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs, turn right and the room is at the far end of the hallway",
+        "additionalDirections": "Go upstairs, turn right and the room is at the far end of the hallway",
         "isHidable": true
       },
       "geometry": {
@@ -2189,7 +2189,7 @@
         "category": "Points of Interest",
         "description": "UCLM Hotel",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs until 4th Floor and then turn right, go by the end of the hallway",
+        "additionalDirections": "Go upstairs until 4th Floor and then turn right, go by the end of the hallway",
         "isHidable": true
       },
       "geometry": {
@@ -2210,7 +2210,7 @@
         "category": "Points of Interest",
         "description": "Audio Visual Room",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs until the 2nd floor and then turn right, the room ahead is the AVR",
+        "additionalDirections": "Go upstairs until the 2nd floor and then turn right, the room ahead is the AVR",
         "isHidable": true
       },
       "geometry": {
@@ -2231,7 +2231,7 @@
         "category": "Points of Interest",
         "description": "Function Hall",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs until the 2nd floor and then the room on the left is that room",
+        "additionalDirections": "Go upstairs until the 2nd floor and then the room on the left is that room",
         "isHidable": true
       },
       "geometry": {
@@ -2252,7 +2252,7 @@
         "category": "Points of Interest",
         "description": "Kitchen Laboratory 2",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs until 4th Floor and then turn right walk across the hallways till you see the room",
+        "additionalDirections": "Go upstairs until 4th Floor and then turn right walk across the hallways till you see the room",
         "isHidable": true
       },
       "geometry": {
@@ -2273,7 +2273,7 @@
         "category": "Points of Interest",
         "description": "UC Travel and Tours",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs until the 4th floor, turn right and then go to the left hallway. The first room is the room you're looking for.",
+        "additionalDirections": "Go upstairs until the 4th floor, turn right and then go to the left hallway. The first room is the room you're looking for.",
         "isHidable": true
       },
       "geometry": {
@@ -2294,7 +2294,7 @@
         "category": "Points of Interest",
         "description": "CHTM Faculty",
         "nearest_node": "RD_AnnexStairs",
-        "additionalDescription": "Go upstairs up to 4th Floor, turn right, and then go to left hallway, next to UC Travel and Tours",
+        "additionalDirections": "Go upstairs up to 4th Floor, turn right, and then go to left hallway, next to UC Travel and Tours",
         "isHidable": true
       },
       "geometry": {
@@ -2315,7 +2315,7 @@
         "category": "Points of Interest",
         "description": "SHS Faculty Room",
         "nearest_node": "RD_ANNEX2_STAIRS1",
-        "additionalDescription": "Go upstairs up to 4th Floor, go left across the hallway until you find the room.",
+        "additionalDirections": "Go upstairs up to 4th Floor, go left across the hallway until you find the room.",
         "isHidable": true
       },
       "geometry": {
@@ -2336,7 +2336,7 @@
         "category": "Points of Interest",
         "description": "UCLM Rooftop Canteen",
         "nearest_node": "RD_ANNEX2_STAIRS1",
-        "additionalDescription": "Go upstairs up to the end, go left, go straight across the hallway to find the rooftop canteen.",
+        "additionalDirections": "Go upstairs up to the end, go left, go straight across the hallway to find the rooftop canteen.",
         "isHidable": true
       },
       "geometry": {
@@ -2357,7 +2357,7 @@
         "category": "Points of Interest",
         "description": "Basic Ed. Guidance Office",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 2nd floor and then turn left and go straight ahead to the end for the room",
+        "additionalDirections": "Go upstairs up to 2nd floor and then turn left and go straight ahead to the end for the room",
         "isHidable": true
       },
       "geometry": {
@@ -2378,7 +2378,7 @@
         "category": "Points of Interest",
         "description": "High School Library",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 3rd Floor turn left, go by the center of the building for the room",
+        "additionalDirections": "Go upstairs up to 3rd Floor turn left, go by the center of the building for the room",
         "isHidable": true
       },
       "geometry": {
@@ -2399,7 +2399,7 @@
         "category": "Points of Interest",
         "description": "Elementary Library",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 3rd Floor, turn left, go by the center of the building",
+        "additionalDirections": "Go upstairs up to 3rd Floor, turn left, go by the center of the building",
         "isHidable": true
       },
       "geometry": {
@@ -2420,7 +2420,7 @@
         "category": "Points of Interest",
         "description": "High School Computer Laboratory",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 4th Floor, turn left and then go by the center of the building for the room",
+        "additionalDirections": "Go upstairs up to 4th Floor, turn left and then go by the center of the building for the room",
         "isHidable": true
       },
       "geometry": {
@@ -2441,7 +2441,7 @@
         "category": "Points of Interest",
         "description": "High School Faculty Room",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 4th Floor, turn left, go across the center hallway to the end for the room",
+        "additionalDirections": "Go upstairs up to 4th Floor, turn left, go across the center hallway to the end for the room",
         "isHidable": true
       },
       "geometry": {
@@ -2462,7 +2462,7 @@
         "category": "Points of Interest",
         "description": "UCLM Auditorium",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to the highest level and then go by the center of the building",
+        "additionalDirections": "Go upstairs up to the highest level and then go by the center of the building",
         "isHidable": true
       },
       "geometry": {
@@ -2483,7 +2483,7 @@
         "category": "Points of Interest",
         "description": "Elementary Computer Laboratory",
         "nearest_node": "RD_BASICED_BLDG",
-        "additionalDescription": "Go upstairs up to 4th Floor, turn left, go by the center of the building",
+        "additionalDirections": "Go upstairs up to 4th Floor, turn left, go by the center of the building",
         "isHidable": true
       },
       "geometry": {
@@ -2504,7 +2504,7 @@
         "category": "Points of Interest",
         "description": "Nursing & Crim Library",
         "nearest_node": "IT_yes",
-        "additionalDescription": "Go upstairs up to 2nd floor, turn right, first room is the room you're looking for",
+        "additionalDirections": "Go upstairs up to 2nd floor, turn right, first room is the room you're looking for",
         "isHidable": true
       },
       "geometry": {
@@ -2525,7 +2525,7 @@
         "category": "Points of Interest",
         "description": "Maritime Library",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs up to 2nd Floor, turn left, the library on the right is the room you're looking for",
+        "additionalDirections": "Go upstairs up to 2nd Floor, turn left, the library on the right is the room you're looking for",
         "isHidable": true
       },
       "geometry": {
@@ -2546,7 +2546,7 @@
         "category": "Points of Interest",
         "description": "UCLM Library",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs up to 2nd Floor, turn left, the library on the left is the one you're looking for",
+        "additionalDirections": "Go upstairs up to 2nd Floor, turn left, the library on the left is the one you're looking for",
         "isHidable": true
       },
       "geometry": {
@@ -2567,7 +2567,7 @@
         "category": "Points of Interest",
         "description": "Maritime Transportation Office",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs up to 3rd floor, go left, one of the two rooms is what you're looking for",
+        "additionalDirections": "Go upstairs up to 3rd floor, go left, one of the two rooms is what you're looking for",
         "isHidable": true
       },
       "geometry": {
@@ -2588,7 +2588,7 @@
         "category": "Points of Interest",
         "description": "Maritime Faculty Room",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs up to 3rd Floor, turn left, one of the two rooms is what you're looking for",
+        "additionalDirections": "Go upstairs up to 3rd Floor, turn left, one of the two rooms is what you're looking for",
         "isHidable": true
       },
       "geometry": {
@@ -2609,7 +2609,7 @@
         "category": "Points of Interest",
         "description": "C5 Computer Laboratory",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs up to 5th Floor, then go right by the end of the building",
+        "additionalDirections": "Go upstairs up to 5th Floor, then go right by the end of the building",
         "isHidable": true
       },
       "geometry": {
@@ -2630,7 +2630,7 @@
         "category": "Points of Interest",
         "description": "Maritime AVR",
         "nearest_node": "IT_Yesser",
-        "additionalDescription": "Go upstairs all the way to the top, go left and left and the biggest room is the Maritime AVR",
+        "additionalDirections": "Go upstairs all the way to the top, go left and left and the biggest room is the Maritime AVR",
         "isHidable": true
       },
       "geometry": {
@@ -2651,7 +2651,7 @@
         "category": "Points of Interest",
         "description": "CBA Computer Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 2nd Floor, go right and take a few stepsd",
+        "additionalDirections": "Ride the Elevator to 2nd Floor, go right and take a few stepsd",
         "isHidable": true
       },
       "geometry": {
@@ -2672,7 +2672,7 @@
         "category": "Points of Interest",
         "description": "CBA Faculty Room",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 3rd Floor, go take a right and take few steps",
+        "additionalDirections": "Ride the Elevator to 3rd Floor, go take a right and take few steps",
         "isHidable": true
       },
       "geometry": {
@@ -2693,7 +2693,7 @@
         "category": "Points of Interest",
         "description": "CBE Function Hall",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 4th Floor, take a right and take a few steps ahead",
+        "additionalDirections": "Ride the Elevator to 4th Floor, take a right and take a few steps ahead",
         "isHidable": true
       },
       "geometry": {
@@ -2714,7 +2714,7 @@
         "category": "Points of Interest",
         "description": "Customs' Faculty Room",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the elevator to 3rd Floor, then take right and take a few steps",
+        "additionalDirections": "Ride the elevator to 3rd Floor, then take right and take a few steps",
         "isHidable": true
       },
       "geometry": {
@@ -2735,7 +2735,7 @@
         "category": "Points of Interest",
         "description": "Customs' Dean's Office",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 3rd Floor, take right and take a few steps",
+        "additionalDirections": "Ride the Elevator to 3rd Floor, take right and take a few steps",
         "isHidable": true
       },
       "geometry": {
@@ -2756,7 +2756,7 @@
         "category": "Points of Interest",
         "description": "AInnovation Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, go all the way to the end of the hallway and then turn left, the room will be ahead of you",
+        "additionalDirections": "Ride the Elevator to 9th Floor, turn right, go all the way to the end of the hallway and then turn left, the room will be ahead of you",
         "isHidable": true
       },
       "geometry": {
@@ -2777,7 +2777,7 @@
         "category": "Points of Interest",
         "description": "Education Faculty Room and Dean's Office",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 4th Floor, take a left and take a few steps ahead",
+        "additionalDirections": "Ride the Elevator to 4th Floor, take a left and take a few steps ahead",
         "isHidable": true
       },
       "geometry": {
@@ -2798,7 +2798,7 @@
         "category": "Points of Interest",
         "description": "CBE Review Room",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, go all the way to the end of the hallway and the room on the right will be it",
+        "additionalDirections": "Ride the Elevator to 9th Floor, turn right, go all the way to the end of the hallway and the room on the right will be it",
         "isHidable": true
       },
       "geometry": {
@@ -2819,7 +2819,7 @@
         "category": "Points of Interest",
         "description": "EE Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, 3rd to the last room is it",
+        "additionalDirections": "Ride the Elevator to 9th Floor, turn right, 3rd to the last room is it",
         "isHidable": true
       },
       "geometry": {
@@ -2840,7 +2840,7 @@
         "category": "Points of Interest",
         "description": "Engineering Faculty and Dean's Office",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, take a left and then a few steps ahead and it will be the room",
+        "additionalDirections": "Ride the Elevator to 9th Floor, take a left and then a few steps ahead and it will be the room",
         "isHidable": true
       },
       "geometry": {
@@ -2861,7 +2861,7 @@
         "category": "Points of Interest",
         "description": "ECE Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, take a right, go all the way to the 2nd to the last room and that's it",
+        "additionalDirections": "Ride the Elevator to 9th Floor, take a right, go all the way to the 2nd to the last room and that's it",
         "isHidable": true
       },
       "geometry": {
@@ -2882,7 +2882,7 @@
         "category": "Points of Interest",
         "description": "Engineering Toolroom",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right, 2 rooms ahead and that would be the Engr. Toolroom",
+        "additionalDirections": "Ride the Elevator to 9th Floor, turn right, 2 rooms ahead and that would be the Engr. Toolroom",
         "isHidable": true
       },
       "geometry": {
@@ -2903,7 +2903,7 @@
         "category": "Points of Interest",
         "description": "CPE Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right and the first room you see will be it",
+        "additionalDirections": "Ride the Elevator to 9th Floor, turn right and the first room you see will be it",
         "isHidable": true
       },
       "geometry": {
@@ -2924,7 +2924,7 @@
         "category": "Points of Interest",
         "description": "CSS Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, take a left, go all the way to the end, the room on it is the one you're looking for",
+        "additionalDirections": "Ride the Elevator to 9th Floor, take a left, go all the way to the end, the room on it is the one you're looking for",
         "isHidable": true
       },
       "geometry": {
@@ -2945,7 +2945,7 @@
         "category": "Points of Interest",
         "description": "Fabrication Laboratory",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 9th Floor, turn right and the 2nd room ahead is the Fab Lab",
+        "additionalDirections": "Ride the Elevator to 9th Floor, turn right and the 2nd room ahead is the Fab Lab",
         "isHidable": true
       },
       "geometry": {
@@ -2966,7 +2966,7 @@
         "category": "Points of Interest",
         "description": "Engineering Council Office",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDescription": "Ride the Elevator to 10th Floor, take a right and take a few steps ahead to find the room",
+        "additionalDirections": "Ride the Elevator to 10th Floor, take a right and take a few steps ahead to find the room",
         "isHidable": true
       },
       "geometry": {
