@@ -381,6 +381,14 @@ export class EnhancedLocationTracker {
       const { latitude, longitude, accuracy, heading, speed } = geoPosition.coords;
       console.log(`[GPS] 📍 Raw GPS: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} | Accuracy: ${accuracy?.toFixed(1)}m`);
 
+      // DIAGNOSTIC: Check route exists
+      if (!this.routePath || this.routePath.length === 0) {
+        console.error('[SNAP] ❌ NO ROUTE SET! Cannot snap marker. Route was cleared or never set.');
+        console.log('[SNAP] 🔍 Check if setRoute was called. Route should have been set during displayRoute.');
+      } else {
+        console.log(`[SNAP] ✅ Route exists: ${this.routePath.length} points`);
+      }
+
       // =============================================
       // PHASE 1: ACCURACY VALIDATION
       // Check GPS quality but continue to process
