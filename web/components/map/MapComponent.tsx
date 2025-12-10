@@ -1675,7 +1675,10 @@ const CampusMap: React.FC<MapProps> = ({
 
     // Store road system refs
     roadsSourceRef.current = roadsSource;
-    nodesSourceRef.current = nodesSource;
+    // FIX: nodesSource loads from same URL as pointsSource, causing duplication and 0 features
+    // Use pointsSource as nodesSource since they contain the same data from unified GeoJSON
+    console.log('[Road System] ⚠️ Using pointsSource as nodesSource to avoid duplicate loading');
+    nodesSourceRef.current = pointsSource; // Use pointsSource instead of redundant nodesSource
     roadsLayerRef.current = roadsLayer;
     roadSystemCleanupRef.current = cleanup; // Store cleanup function for later
 
@@ -1837,17 +1840,17 @@ const CampusMap: React.FC<MapProps> = ({
         });
     };
 
-    // Function to combine and load destinations from both sources
+    // Function to load destinations from pointsSource (unified GeoJSON)
+    // NOTE: nodesSourceRef now points to pointsSource, so we only need one source
     const loadCombinedDestinations = () => {
-      console.log("[Destinations] Loading combined destinations");
+      console.log("[Destinations] Loading destinations from unified GeoJSON (pointsSource)");
       const pointFeatures = pointsSource.getFeatures();
-      const nodeFeatures = nodesSource.getFeatures();
 
       console.log(`[Destinations] pointsSource has ${pointFeatures.length} features`);
-      console.log(`[Destinations] nodesSource has ${nodeFeatures.length} features`);
+      console.log(`[Destinations] ✅ All nodes+roads+destinations in one unified GeoJSON`);
 
-      // Combine features from both sources
-      const allFeatures = [...pointFeatures, ...nodeFeatures];
+      // Use features from pointsSource (which contains everything)
+      const allFeatures = pointFeatures;
       const combinedDestinations: RoadNode[] = [];
       let mainGate: RoadNode | null = null;
 
@@ -1896,9 +1899,9 @@ const CampusMap: React.FC<MapProps> = ({
       }
     };
 
-    // Load destinations when EITHER source finishes loading
+    // Load destinations when pointsSource finishes loading
+    // NOTE: nodesSourceRef now points to pointsSource, so only need one listener
     pointsSource.on("featuresloadend", loadCombinedDestinations);
-    nodesSource.on("featuresloadend", loadCombinedDestinations);
 
     // REMOVED: Duplicate nodesSource.on("featuresloadend") event listener
     // The pointsSource listener above already correctly combines destinations from both sources
