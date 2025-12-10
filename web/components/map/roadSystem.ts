@@ -377,11 +377,6 @@ export const setupRoadSystem = (
       // Check if this road is part of the active route
       const isInActiveRoute = activeRouteRoadsRef?.current?.has(roadName) || false;
 
-      // Debug logging for highlighted roads
-      if (isInActiveRoute) {
-        console.log(`[Road Style] 🔴 Highlighting road: "${roadName}" (type: ${roadType})`);
-      }
-
       // Different styling based on road type
       let color = "#555555";
       let width = 3;

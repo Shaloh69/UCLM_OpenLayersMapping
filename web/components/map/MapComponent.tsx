@@ -1738,7 +1738,11 @@ const CampusMap: React.FC<MapProps> = ({
         }
 
         // Check for pending route from URL parameters
-        processPendingRoute(loadedDestinations, mainGate);
+        // CRITICAL FIX: Skip in mobile mode - processRouteData handles routing properly
+        // processPendingRoute calls displayRoute before roads load, causing 0 features bug
+        if (!mobileMode) {
+          processPendingRoute(loadedDestinations, mainGate);
+        }
       } else {
         loadDestinationsDirectly();
       }
