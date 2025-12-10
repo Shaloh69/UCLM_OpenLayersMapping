@@ -229,6 +229,9 @@ const CampusMap: React.FC<MapProps> = ({
   const gpsRetryCountRef = useRef<number>(0);
   const gpsRetryTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Track if location tracking is active (use ref to avoid race conditions)
+  const locationTrackingEnabledRef = useRef<boolean>(false);
+
   // Pending route data - set route on tracker when it's ready
   const pendingRouteDataRef = useRef<{
     path: [number, number][];
@@ -357,6 +360,12 @@ const CampusMap: React.FC<MapProps> = ({
   const initLocationTracking = useCallback(() => {
     if (!mapInstanceRef.current) return undefined;
 
+    // CRITICAL: Prevent duplicate initialization (race condition protection)
+    if (locationTrackingEnabledRef.current) {
+      console.warn('[GPS] ⚠️ Tracking already initialized - skipping to prevent route loss');
+      return undefined;
+    }
+
     // CRITICAL FIX: Cleanup any existing tracker before creating a new one
     // This prevents duplicate markers when initLocationTracking is called multiple times
     if (locationTrackingCleanupRef.current) {
@@ -365,7 +374,8 @@ const CampusMap: React.FC<MapProps> = ({
       locationTrackingCleanupRef.current = null;
     }
 
-    setLocationTrackingEnabled(true);
+    locationTrackingEnabledRef.current = true; // Set ref immediately (no async delay)
+    setLocationTrackingEnabled(true); // Also set state for UI
 
     // Use enhanced tracking for mobile mode
     if (mobileMode && useEnhancedTracking) {
