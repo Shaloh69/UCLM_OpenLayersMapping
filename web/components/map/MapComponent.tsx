@@ -224,37 +224,97 @@ const CampusMap: React.FC<MapProps> = ({
   const locationTrackingCleanupRef = useRef<(() => void) | null>(null);
   const roadSystemCleanupRef = useRef<(() => void) | null>(null);
 
+  // GPS recovery state
+  const gpsWatchIdRef = useRef<number | null>(null);
+  const gpsRetryCountRef = useRef<number>(0);
+  const gpsRetryTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   const requestLocationPermission = useCallback(() => {
     setLocationPermissionRequested(true);
 
     console.log('[GPS] 📍 Requesting location permission...');
 
-    // CRITICAL FIX: Use watchPosition instead of getCurrentPosition
-    // watchPosition continues trying to get GPS even if first fix fails
-    // getCurrentPosition has a short timeout and gives up quickly
-    const watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        console.log('[GPS] ✅ Permission granted, got first position');
-        // Stop watching - we just needed to verify permission
-        navigator.geolocation.clearWatch(watchId);
+    // Clear any existing retry timer
+    if (gpsRetryTimerRef.current) {
+      clearTimeout(gpsRetryTimerRef.current);
+      gpsRetryTimerRef.current = null;
+    }
 
-        // Start location tracking now that we have permission
-        // Cleanup is now handled inside initLocationTracking via locationTrackingCleanupRef
-        initLocationTracking();
-      },
-      (error) => {
-        console.error("[GPS] ❌ Location permission denied or error:", error.message);
-        navigator.geolocation.clearWatch(watchId);
-        setLocationError(
-          "Location permission denied. Using default entry point for navigation."
-        );
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 30000, // 30 second timeout for first fix
-        maximumAge: 0
-      }
-    );
+    // Clear any existing watch
+    if (gpsWatchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(gpsWatchIdRef.current);
+      gpsWatchIdRef.current = null;
+    }
+
+    // CRITICAL FIX: Persistent GPS recovery
+    // Keep trying to get GPS even if signal is poor or temporarily unavailable
+    // Will retry indefinitely until GPS is acquired
+    const startGPSWatch = () => {
+      gpsRetryCountRef.current++;
+      console.log(`[GPS Recovery] Attempt ${gpsRetryCountRef.current} - Starting GPS watch...`);
+
+      gpsWatchIdRef.current = navigator.geolocation.watchPosition(
+        (position) => {
+          console.log(`[GPS] ✅ GPS acquired after ${gpsRetryCountRef.current} attempt(s)`);
+          console.log(`[GPS] Signal quality: ${position.coords.accuracy.toFixed(0)}m accuracy`);
+
+          // Stop watching - we just needed to verify permission and get first fix
+          if (gpsWatchIdRef.current !== null) {
+            navigator.geolocation.clearWatch(gpsWatchIdRef.current);
+            gpsWatchIdRef.current = null;
+          }
+
+          // Clear any pending retry
+          if (gpsRetryTimerRef.current) {
+            clearTimeout(gpsRetryTimerRef.current);
+            gpsRetryTimerRef.current = null;
+          }
+
+          // Start location tracking now that we have permission and GPS signal
+          initLocationTracking();
+        },
+        (error) => {
+          console.warn(`[GPS Recovery] ⚠️ GPS error (attempt ${gpsRetryCountRef.current}): ${error.message}`);
+
+          // Clear the failed watch
+          if (gpsWatchIdRef.current !== null) {
+            navigator.geolocation.clearWatch(gpsWatchIdRef.current);
+            gpsWatchIdRef.current = null;
+          }
+
+          // Handle different error types
+          if (error.code === error.PERMISSION_DENIED) {
+            console.error("[GPS] ❌ Location permission DENIED by user");
+            setLocationError(
+              "Location permission denied. Please enable location access in your browser settings."
+            );
+            // Don't retry if permission denied
+            return;
+          }
+
+          // For timeout or position unavailable, retry with exponential backoff
+          const retryDelay = Math.min(5000 * Math.pow(1.5, Math.min(gpsRetryCountRef.current - 1, 5)), 60000);
+          console.log(`[GPS Recovery] 🔄 Will retry in ${(retryDelay / 1000).toFixed(1)}s... (Poor signal or GPS unavailable)`);
+
+          setLocationError(
+            `Acquiring GPS signal... (Attempt ${gpsRetryCountRef.current}). Move to a window or outdoors for better signal.`
+          );
+
+          // Schedule retry
+          gpsRetryTimerRef.current = setTimeout(() => {
+            startGPSWatch(); // Recursive retry
+          }, retryDelay);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 45000, // 45 second timeout per attempt
+          maximumAge: 0
+        }
+      );
+    };
+
+    // Start the first attempt
+    startGPSWatch();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // initLocationTracking is defined later in the file, but stable via useCallback
 
