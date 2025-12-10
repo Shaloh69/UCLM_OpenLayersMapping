@@ -229,6 +229,13 @@ const CampusMap: React.FC<MapProps> = ({
   const gpsRetryCountRef = useRef<number>(0);
   const gpsRetryTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Pending route data - set route on tracker when it's ready
+  const pendingRouteDataRef = useRef<{
+    path: [number, number][];
+    destination?: [number, number];
+    segmentRoads: string[];
+  } | null>(null);
+
   const requestLocationPermission = useCallback(() => {
     setLocationPermissionRequested(true);
 
@@ -386,6 +393,19 @@ const CampusMap: React.FC<MapProps> = ({
       // Configure GPS noise filtering thresholds
       tracker.setMinMovementThreshold(5);  // Ignore movements less than 5 meters
       tracker.setMaxAccuracyThreshold(50); // Ignore readings with accuracy > 50m
+
+      // CRITICAL: Apply pending route if it was calculated before tracker was created
+      if (pendingRouteDataRef.current) {
+        console.log('[Route Recovery] 🔄 Applying pending route to newly created tracker');
+        console.log(`[Route Recovery]   - Route points: ${pendingRouteDataRef.current.path.length}`);
+        tracker.setRoute(
+          pendingRouteDataRef.current.path,
+          pendingRouteDataRef.current.destination,
+          pendingRouteDataRef.current.segmentRoads
+        );
+        console.log('[Route Recovery] ✅ Pending route applied - tracker ready for snapping');
+        pendingRouteDataRef.current = null; // Clear pending data
+      }
 
       // =============================================
       // GPS TIMEOUT PROTECTION
@@ -1345,7 +1365,8 @@ const CampusMap: React.FC<MapProps> = ({
       }
 
       // Set route path for enhanced tracking
-      if (enhancedTrackerRef.current && mobileMode) {
+      // CRITICAL: Process route even if tracker doesn't exist yet - we'll store it as pending
+      if (mobileMode) {
         // Extract route coordinates from path features AND build road mapping
         const routePath: [number, number][] = [];
         const routeRoadNames: string[] = []; // Maps each coordinate to its road name
@@ -1421,10 +1442,20 @@ const CampusMap: React.FC<MapProps> = ({
           console.log(`[Route Setup]   - Destination: ${destinationCoords ? `[${destinationCoords[0].toFixed(6)}, ${destinationCoords[1].toFixed(6)}]` : 'None'}`);
           console.log(`[Route Setup]   - Segment roads: ${segmentRoads.length}`);
 
-          enhancedTrackerRef.current.setRoute(densifiedPath, destinationCoords, segmentRoads);
-
-          console.log('[Route Setup] ✅ Route successfully set on tracker');
-          console.log('[Route Setup] 📍 Tracker is ready for GPS updates and marker snapping');
+          // CRITICAL: Handle race condition - tracker might not exist yet if GPS still acquiring
+          if (enhancedTrackerRef.current) {
+            enhancedTrackerRef.current.setRoute(densifiedPath, destinationCoords, segmentRoads);
+            console.log('[Route Setup] ✅ Route successfully set on tracker');
+            console.log('[Route Setup] 📍 Tracker is ready for GPS updates and marker snapping');
+          } else {
+            console.warn('[Route Setup] ⚠️ Tracker not ready yet - storing route data');
+            console.log('[Route Setup] 📦 Route will be applied when GPS is acquired');
+            pendingRouteDataRef.current = {
+              path: densifiedPath,
+              destination: destinationCoords,
+              segmentRoads: segmentRoads
+            };
+          }
 
           // CRITICAL: Now that route is set, marker can snap to it
           // Call onMarkerSnapped to signal navigation is ready
