@@ -684,7 +684,14 @@ export class EnhancedLocationTracker {
   }
 
   private handlePositionError(error: GeolocationPositionError): void {
-    const errorMsg = `Location error: ${error.message}`;
+    const errorType = error.code === 1 ? 'PERMISSION_DENIED' :
+                      error.code === 2 ? 'POSITION_UNAVAILABLE' :
+                      error.code === 3 ? 'TIMEOUT' : 'UNKNOWN';
+
+    console.warn(`[GPS Error] ⚠️ ${errorType}: ${error.message}`);
+    console.log('[GPS Error] 🔄 Browser will automatically retry (watchPosition is persistent)');
+
+    const errorMsg = `GPS ${errorType}: ${error.message}. Recovering...`;
     this.locationErrorRef.current = errorMsg;
   }
 
