@@ -227,18 +227,32 @@ const CampusMap: React.FC<MapProps> = ({
   const requestLocationPermission = useCallback(() => {
     setLocationPermissionRequested(true);
 
-    // This will now be in response to a user gesture
-    navigator.geolocation.getCurrentPosition(
-      () => {
+    console.log('[GPS] 📍 Requesting location permission...');
+
+    // CRITICAL FIX: Use watchPosition instead of getCurrentPosition
+    // watchPosition continues trying to get GPS even if first fix fails
+    // getCurrentPosition has a short timeout and gives up quickly
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        console.log('[GPS] ✅ Permission granted, got first position');
+        // Stop watching - we just needed to verify permission
+        navigator.geolocation.clearWatch(watchId);
+
         // Start location tracking now that we have permission
         // Cleanup is now handled inside initLocationTracking via locationTrackingCleanupRef
         initLocationTracking();
       },
       (error) => {
-        console.error("Location permission denied", error);
+        console.error("[GPS] ❌ Location permission denied or error:", error.message);
+        navigator.geolocation.clearWatch(watchId);
         setLocationError(
           "Location permission denied. Using default entry point for navigation."
         );
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 30000, // 30 second timeout for first fix
+        maximumAge: 0
       }
     );
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1342,7 +1356,15 @@ const CampusMap: React.FC<MapProps> = ({
           }
 
           // Pass densified path AND segment road mapping
+          console.log(`[Route Setup] 🛣️ Setting route on tracker:`);
+          console.log(`[Route Setup]   - Route points: ${densifiedPath.length}`);
+          console.log(`[Route Setup]   - Destination: ${destinationCoords ? `[${destinationCoords[0].toFixed(6)}, ${destinationCoords[1].toFixed(6)}]` : 'None'}`);
+          console.log(`[Route Setup]   - Segment roads: ${segmentRoads.length}`);
+
           enhancedTrackerRef.current.setRoute(densifiedPath, destinationCoords, segmentRoads);
+
+          console.log('[Route Setup] ✅ Route successfully set on tracker');
+          console.log('[Route Setup] 📍 Tracker is ready for GPS updates and marker snapping');
 
           // CRITICAL: Now that route is set, marker can snap to it
           // Call onMarkerSnapped to signal navigation is ready
