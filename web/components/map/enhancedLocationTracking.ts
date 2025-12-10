@@ -162,6 +162,9 @@ export class EnhancedLocationTracker {
   private forceUpdateInterval: number | null = null;
   private forceUpdateIntervalMs = 5000; // 5 seconds - force recalculation when close to destination
 
+  // Race condition guard - prevents concurrent GPS updates from overlapping
+  private isUpdatingPosition: boolean = false;
+
   // Animation
   private animationFrameId: number | null = null;
   private targetRotation: number = 0;
@@ -363,13 +366,25 @@ export class EnhancedLocationTracker {
   }
 
   private handlePositionUpdate(geoPosition: GeolocationPosition): void {
-    const { latitude, longitude, accuracy, heading, speed } = geoPosition.coords;
-    console.log(`[GPS] 📍 Raw GPS: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} | Accuracy: ${accuracy?.toFixed(1)}m`);
+    // =============================================
+    // RACE CONDITION GUARD
+    // Prevent concurrent GPS updates from overlapping
+    // =============================================
+    if (this.isUpdatingPosition) {
+      console.log('[GPS] ⚠️ Race condition prevented - skipping update (previous update still in progress)');
+      return;
+    }
 
-    // =============================================
-    // PHASE 1: ACCURACY VALIDATION
-    // Check GPS quality but continue to process
-    // =============================================
+    this.isUpdatingPosition = true;
+
+    try {
+      const { latitude, longitude, accuracy, heading, speed } = geoPosition.coords;
+      console.log(`[GPS] 📍 Raw GPS: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} | Accuracy: ${accuracy?.toFixed(1)}m`);
+
+      // =============================================
+      // PHASE 1: ACCURACY VALIDATION
+      // Check GPS quality but continue to process
+      // =============================================
 
     let isHighQualityGPS = true;
     if (accuracy && accuracy > this.maxAccuracyThreshold) {
@@ -659,9 +674,13 @@ export class EnhancedLocationTracker {
         this.targetHeading = effectiveHeading;
         this.rotationDebounceTimer = null;
       }, this.rotationDebounceDelay);
-    }
+      }
 
-    console.log(`[RENDER] ✅ Render cycle complete`);
+      console.log(`[RENDER] ✅ Render cycle complete`);
+    } finally {
+      // Always release the lock, even if there's an error
+      this.isUpdatingPosition = false;
+    }
   }
 
   private handlePositionError(error: GeolocationPositionError): void {

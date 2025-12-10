@@ -87,14 +87,13 @@ export const MAP_CONSTANTS = {
   EXTENT_PADDING_FACTOR: 3.0, // Multiplier for scrollable map extent
   BOUNDARY_BUFFER_M: 500, // Buffer around campus boundary (meters)
 
-  // Retry configuration
-  MAX_ROAD_LOAD_RETRIES: 15, // Maximum retries for road loading (mobile)
-  MAX_ROAD_LOAD_RETRIES_DESKTOP: 5, // Maximum retries for road loading (desktop)
+  // Retry configuration - OPTIMIZED to prevent UI blocking
+  MAX_ROAD_LOAD_RETRIES: 5, // Maximum retries for road loading (reduced from 15)
   ROAD_LOAD_RETRY_BASE_DELAY_MS: 300, // Base delay for retry exponential backoff
-  ROAD_LOAD_RETRY_MAX_DELAY_MS: 2000, // Maximum delay between retries
+  ROAD_LOAD_RETRY_MAX_DELAY_MS: 1000, // Maximum delay between retries (capped to prevent storm)
 
-  // Source check configuration
-  MAX_SOURCE_CHECK_ATTEMPTS: 30, // Maximum attempts to check if sources loaded
+  // Source check configuration - OPTIMIZED to reduce wait time
+  MAX_SOURCE_CHECK_ATTEMPTS: 20, // Maximum attempts to check if sources loaded (reduced from 30)
   SOURCE_CHECK_BASE_DELAY_MS: 300, // Base delay for source check
   SOURCE_CHECK_MAX_DELAY_MS: 1000, // Maximum delay for source checks
 } as const;

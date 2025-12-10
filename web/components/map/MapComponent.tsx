@@ -318,15 +318,19 @@ const CampusMap: React.FC<MapProps> = ({
       // Prevents loading screen from hanging forever if GPS never arrives
       // =============================================
       const GPS_TIMEOUT_MS = 20000; // 20 seconds max wait for GPS
+      let gpsActuallySucceeded = false; // Track if GPS really worked vs timeout fallback
+
       const gpsTimeoutId = setTimeout(() => {
         if (!gpsReadyCalledRef.current && onGpsReady) {
-          console.warn('[MapComponent] ⚠️ GPS timeout after 20s - calling onGpsReady anyway');
+          console.error('[MapComponent] ❌ GPS TIMEOUT - Failed to acquire GPS signal after 20s');
+          console.warn('[MapComponent] ⚠️ Using fallback mode - GPS did NOT succeed');
           gpsReadyCalledRef.current = true;
+          gpsActuallySucceeded = false; // Mark as failed
           onGpsReady();
         }
         // Also trigger marker snapped if route exists but no GPS yet
         if (!markerSnappedCalledRef.current && onMarkerSnapped) {
-          console.warn('[MapComponent] ⚠️ GPS timeout - calling onMarkerSnapped with route start position');
+          console.warn('[MapComponent] ⚠️ GPS timeout - calling onMarkerSnapped with route start position (GPS FAILED)');
           markerSnappedCalledRef.current = true;
           onMarkerSnapped();
         }
@@ -344,6 +348,8 @@ const CampusMap: React.FC<MapProps> = ({
           // Call onGpsReady callback on first successful GPS update
           if (!gpsReadyCalledRef.current && onGpsReady) {
             gpsReadyCalledRef.current = true;
+            gpsActuallySucceeded = true; // Mark as successful
+            console.log('[MapComponent] ✅ GPS ACQUIRED - Real GPS signal received');
             console.log('[MapComponent] 📡 GPS ready callback triggered');
             onGpsReady();
           }
@@ -1057,6 +1063,11 @@ const CampusMap: React.FC<MapProps> = ({
       }
 
       // Extract road names from path features and update activeRouteRoadsRef
+      // CRITICAL: Clear old route FIRST to prevent persistence bugs
+      console.log('[Road Highlighting] 🧹 Clearing old route highlights before setting new route');
+      activeRouteRoadsRef.current.clear();
+
+      // Now add new route roads
       const roadNames = new Set<string>();
       pathFeatures.forEach((feature, index) => {
         const props = feature.getProperties();
@@ -1070,9 +1081,9 @@ const CampusMap: React.FC<MapProps> = ({
         });
         if (roadName) {
           roadNames.add(roadName);
+          activeRouteRoadsRef.current.add(roadName); // Add to ref directly
         }
       });
-      activeRouteRoadsRef.current = roadNames;
       console.log(`[Road Highlighting] Highlighted ${roadNames.size} roads:`, Array.from(roadNames));
 
       // CRITICAL: Force roads layer to re-style to show highlighted roads
@@ -1080,9 +1091,10 @@ const CampusMap: React.FC<MapProps> = ({
       // OpenLayers caches feature styles for performance, so we must manually clear them
 
       // Function to clear road style cache and force re-render
-      // ENHANCED: More retries and longer delays for mobile devices
-      const MAX_ROAD_RETRIES = mobileMode ? 15 : 5; // More retries on mobile
-      const BASE_RETRY_DELAY = mobileMode ? 400 : 300; // Longer base delay on mobile
+      // OPTIMIZED: Reasonable retry count with exponential backoff + cap
+      const MAX_ROAD_RETRIES = 5; // Reduced from 15 to prevent UI blocking
+      const BASE_RETRY_DELAY = 300; // Base delay
+      const MAX_RETRY_DELAY = 1000; // Cap at 1 second to prevent storm
 
       const clearRoadStyleCache = (retryCount = 0): Promise<void> => {
         return new Promise((resolve) => {
@@ -1097,9 +1109,10 @@ const CampusMap: React.FC<MapProps> = ({
           console.log(`[Road Highlighting] Active route roads: ${Array.from(activeRouteRoadsRef.current).join(', ')}`);
 
           if (allRoads.length === 0 && retryCount < MAX_ROAD_RETRIES) {
-            // Roads not loaded yet, retry after a delay (increased retries for mobile)
-            const delay = BASE_RETRY_DELAY * (retryCount + 1);
-            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${delay}ms... (attempt ${retryCount + 1}/${MAX_ROAD_RETRIES})`);
+            // Roads not loaded yet, retry with exponential backoff (capped)
+            const uncappedDelay = BASE_RETRY_DELAY * Math.pow(1.5, retryCount); // Exponential backoff
+            const delay = Math.min(uncappedDelay, MAX_RETRY_DELAY); // Cap at MAX_RETRY_DELAY
+            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${delay.toFixed(0)}ms... (attempt ${retryCount + 1}/${MAX_ROAD_RETRIES})`);
             setTimeout(() => {
               clearRoadStyleCache(retryCount + 1).then(resolve);
             }, delay);
@@ -1566,7 +1579,7 @@ const CampusMap: React.FC<MapProps> = ({
         // CRITICAL FIX: Check actual feature count, not just source state
         // Source state can be "ready" but features array can still be empty
         let checkAttempts = 0;
-        const MAX_CHECK_ATTEMPTS = 30; // 30 attempts x 500ms = 15 seconds max wait
+        const MAX_CHECK_ATTEMPTS = 20; // Reduced from 30 to prevent excessive retry delays
 
         const checkSourcesLoaded = () => {
           checkAttempts++;
