@@ -178,8 +178,13 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
       // CRITICAL: Auto-expand panel so user SEES the arrival celebration
       setPanelState('expanded');
 
-      if (destination.additionalDirections) {
+      // Show additional directions if they exist and are not empty
+      const hasDirections = destination.additionalDirections && destination.additionalDirections.trim().length > 0;
+      if (hasDirections) {
+        console.log(`[Arrival] ✅ Showing additional directions: "${destination.additionalDirections}"`);
         setShowAdditionalInfo(true);
+      } else {
+        console.log('[Arrival] ⚠️ No additional directions for this destination');
       }
     }
   }, [hasArrived, destination.additionalDirections]);
@@ -525,7 +530,7 @@ const ModernMobileNavUI: React.FC<ModernMobileNavUIProps> = ({
         </div>
 
         {/* Additional Directions */}
-        {destination.additionalDirections && (
+        {destination.additionalDirections && destination.additionalDirections.trim().length > 0 && (
           <motion.div
             layout
             className="mb-4 bg-amber-50 border-2 border-amber-200 rounded-xl p-4"

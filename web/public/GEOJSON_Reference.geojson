@@ -10,7 +10,7 @@
         "category": "Points of Interest",
         "description": "CBE ELEVATOR",
         "nearest_node": "RD_cbe_elevator",
-        "additionalDirections": ""
+        "additionalDirections": "CBE Elevator entrance. Take the elevator to access upper floors. Floor 2: Faculty offices, Floor 3: Computer labs."
       },
       "geometry": {
         "type": "Point",
@@ -50,7 +50,7 @@
         "category": "Gates",
         "description": "UCLM Gate 8",
         "nearest_node": "RD_gate_8",
-        "additionalDirections": ""
+        "additionalDirections": "Gate 8 entrance. This gate provides access to the eastern part of the campus. The library is 200m to your left."
       },
       "geometry": {
         "type": "Point",
@@ -430,7 +430,7 @@
         "category": "Gates",
         "description": "UCLM Gate 1",
         "nearest_node": "Gate1_RoadEnd",
-        "additionalDirections": ""
+        "additionalDirections": "Welcome to UCLM! The main gate entrance. Security may ask for ID. The administration building is straight ahead."
       },
       "geometry": {
         "type": "Point",
