@@ -1053,9 +1053,13 @@ const CampusMap: React.FC<MapProps> = ({
           console.warn('[displayRoute] ⚠️ No path found but calling onRouteCalculated to prevent hang');
           onRouteCalculated();
         }
-        // Also call onMarkerSnapped since we can't snap without a route
-        if (!markerSnappedCalledRef.current && onMarkerSnapped) {
-          console.warn('[displayRoute] ⚠️ No route - calling onMarkerSnapped anyway');
+
+        // CRITICAL FIX: In mobile mode, DON'T call onMarkerSnapped when route fails
+        // The premature onMarkerSnapped call sets markerSnappedCalledRef = true,
+        // which prevents the REAL onMarkerSnapped from being called when route succeeds
+        // On desktop, we can call it to unblock UI since there's no GPS-based snapping
+        if (!mobileMode && !markerSnappedCalledRef.current && onMarkerSnapped) {
+          console.warn('[displayRoute] ⚠️ No route - calling onMarkerSnapped (desktop only)');
           markerSnappedCalledRef.current = true;
           onMarkerSnapped();
         }
@@ -1339,6 +1343,19 @@ const CampusMap: React.FC<MapProps> = ({
 
           // Pass densified path AND segment road mapping
           enhancedTrackerRef.current.setRoute(densifiedPath, destinationCoords, segmentRoads);
+
+          // CRITICAL: Now that route is set, marker can snap to it
+          // Call onMarkerSnapped to signal navigation is ready
+          // Use small delay to ensure tracker has processed the route
+          if (!markerSnappedCalledRef.current && onMarkerSnapped) {
+            setTimeout(() => {
+              if (!markerSnappedCalledRef.current) {
+                markerSnappedCalledRef.current = true;
+                console.log('[Mobile Navigation] ✅ Route set on tracker - calling onMarkerSnapped');
+                onMarkerSnapped();
+              }
+            }, 200); // Small delay to ensure tracker is ready
+          }
         }
       }
       };
