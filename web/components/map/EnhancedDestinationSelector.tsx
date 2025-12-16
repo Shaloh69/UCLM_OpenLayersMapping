@@ -11,23 +11,13 @@ interface EnhancedDestinationSelectorProps {
 
 const categoryIcons: Record<string, string> = {
   "Gates": "🚪",
-  "Main Buildings": "🏛️",
-  "Maritime": "⚓",
-  "Business": "💼",
-  "Facilities": "🏢",
-  "Sports Facilities": "⚽",
-  "Stairs": "🪜",
+  "Points of Interest": "📍",
   "Other": "📍",
 };
 
 const categoryColors: Record<string, string> = {
   "Gates": "from-emerald-500 to-teal-600",
-  "Main Buildings": "from-blue-500 to-indigo-600",
-  "Maritime": "from-cyan-500 to-blue-600",
-  "Business": "from-purple-500 to-pink-600",
-  "Facilities": "from-orange-500 to-red-600",
-  "Sports Facilities": "from-green-500 to-emerald-600",
-  "Stairs": "from-yellow-500 to-orange-600",
+  "Points of Interest": "from-blue-500 to-indigo-600",
   "Other": "from-gray-500 to-gray-600",
 };
 

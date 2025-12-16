@@ -184,10 +184,13 @@ const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
                   <h4 className="text-sm font-semibold text-gray-700 mb-3">
                     Route Information
                   </h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          
+                  {/* GRID that flows left→right, centers the whole row */}
+                  <div className="grid grid-flow-col auto-cols-max gap-4 justify-center">
+                          
                     <motion.div
                       whileHover={{ scale: 1.05 }}
-                      className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl text-center"
+                      className="w-40 min-w-[160px] bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl text-center"
                     >
                       <div className="text-2xl mb-1">🏃</div>
                       <div className="text-xs text-gray-600 mb-1">Distance</div>
@@ -195,10 +198,10 @@ const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
                         {formattedDistance}
                       </div>
                     </motion.div>
-
+                          
                     <motion.div
                       whileHover={{ scale: 1.05 }}
-                      className="bg-gradient-to-br from-purple-50 to-purple-100 p-3 rounded-xl text-center"
+                      className="w-40 min-w-[160px] bg-gradient-to-br from-purple-50 to-purple-100 p-3 rounded-xl text-center"
                     >
                       <div className="text-2xl mb-1">⏱️</div>
                       <div className="text-xs text-gray-600 mb-1">Time</div>
@@ -206,10 +209,10 @@ const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
                         {formattedTime}
                       </div>
                     </motion.div>
-
+                          
                     <motion.div
                       whileHover={{ scale: 1.05 }}
-                      className="bg-gradient-to-br from-pink-50 to-pink-100 p-3 rounded-xl text-center"
+                      className="w-40 min-w-[160px] bg-gradient-to-br from-pink-50 to-pink-100 p-3 rounded-xl text-center"
                     >
                       <div className="text-2xl mb-1">🔥</div>
                       <div className="text-xs text-gray-600 mb-1">Calories</div>
@@ -217,21 +220,10 @@ const CompactRouteFooter: React.FC<CompactRouteFooterProps> = ({
                         {calories}
                       </div>
                     </motion.div>
-
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      className="bg-gradient-to-br from-green-50 to-green-100 p-3 rounded-xl text-center"
-                    >
-                      <div className="text-2xl mb-1">✅</div>
-                      <div className="text-xs text-gray-600 mb-1">
-                        Difficulty
-                      </div>
-                      <div className="text-lg font-bold text-green-700">
-                        Easy
-                      </div>
-                    </motion.div>
+                          
                   </div>
                 </div>
+                          
 
                 {/* Description */}
                 {destination.description && (

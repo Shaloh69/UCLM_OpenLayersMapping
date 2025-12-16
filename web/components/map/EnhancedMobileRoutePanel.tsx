@@ -62,9 +62,8 @@ const EnhancedMobileRoutePanel: React.FC<EnhancedMobileRoutePanelProps> = ({
   const displayTime = routeProgress?.estimatedTimeRemaining ?? (routeInfo?.estimatedTime ? routeInfo.estimatedTime * 60 : 0);
   const percentComplete = routeProgress?.percentComplete ?? 0;
 
-  // Arrival detection: User has arrived when within 70 meters of destination
-  // Large threshold to trigger early - ensures message shows well before reaching destination
-  const hasArrived = displayDistance < 70;
+  // Arrival detection: User has arrived when within 3 meters of destination
+  const hasArrived = displayDistance < 3;
 
   const handleDrag = (_: any, info: PanInfo) => {
     setDragY(info.offset.y);

@@ -11,12 +11,7 @@ interface CompactDestinationSelectorProps {
 
 const categoryIcons: Record<string, string> = {
   Gates: "🚪",
-  "Main Buildings": "🏛️",
-  Maritime: "⚓",
-  Business: "💼",
-  Facilities: "🏢",
-  "Sports Facilities": "⚽",
-  Stairs: "🪜",
+  "Points of Interest": "📍",
   Other: "📍",
 };
 

@@ -180,7 +180,7 @@ export const setupLayers = (
   const view = new View({
     center: fromLonLat(centerCoordinates),
     zoom: initialZoom,
-    minZoom: 17.5, // Restrict zoom out to prevent losing context
+    minZoom: 14, // Allow more zoom out for better context (was 17.5)
     maxZoom: 21,
     enableRotation: true,
     rotation: 44.86,

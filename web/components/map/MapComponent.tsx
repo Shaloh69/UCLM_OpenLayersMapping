@@ -221,26 +221,112 @@ const CampusMap: React.FC<MapProps> = ({
 
   // Enhanced location tracking
   const enhancedTrackerRef = useRef<EnhancedLocationTracker | null>(null);
+  const locationTrackingCleanupRef = useRef<(() => void) | null>(null);
+  const roadSystemCleanupRef = useRef<(() => void) | null>(null);
+
+  // GPS recovery state
+  const gpsWatchIdRef = useRef<number | null>(null);
+  const gpsRetryCountRef = useRef<number>(0);
+  const gpsRetryTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Track if location tracking is active (use ref to avoid race conditions)
+  const locationTrackingEnabledRef = useRef<boolean>(false);
+
+  // Pending route data - set route on tracker when it's ready
+  const pendingRouteDataRef = useRef<{
+    path: [number, number][];
+    destination?: [number, number];
+    segmentRoads: string[];
+  } | null>(null);
+
   const requestLocationPermission = useCallback(() => {
     setLocationPermissionRequested(true);
 
-    // This will now be in response to a user gesture
-    navigator.geolocation.getCurrentPosition(
-      () => {
-        // Start location tracking now that we have permission
-        const cleanup = initLocationTracking();
-        return () => {
-          if (cleanup) cleanup();
-        };
-      },
-      (error) => {
-        console.error("Location permission denied", error);
-        setLocationError(
-          "Location permission denied. Using default entry point for navigation."
-        );
-      }
-    );
-  }, []);
+    console.log('[GPS] 📍 Requesting location permission...');
+
+    // Clear any existing retry timer
+    if (gpsRetryTimerRef.current) {
+      clearTimeout(gpsRetryTimerRef.current);
+      gpsRetryTimerRef.current = null;
+    }
+
+    // Clear any existing watch
+    if (gpsWatchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(gpsWatchIdRef.current);
+      gpsWatchIdRef.current = null;
+    }
+
+    // CRITICAL FIX: Persistent GPS recovery
+    // Keep trying to get GPS even if signal is poor or temporarily unavailable
+    // Will retry indefinitely until GPS is acquired
+    const startGPSWatch = () => {
+      gpsRetryCountRef.current++;
+      console.log(`[GPS Recovery] Attempt ${gpsRetryCountRef.current} - Starting GPS watch...`);
+
+      gpsWatchIdRef.current = navigator.geolocation.watchPosition(
+        (position) => {
+          console.log(`[GPS] ✅ GPS acquired after ${gpsRetryCountRef.current} attempt(s)`);
+          console.log(`[GPS] Signal quality: ${position.coords.accuracy.toFixed(0)}m accuracy`);
+
+          // Stop watching - we just needed to verify permission and get first fix
+          if (gpsWatchIdRef.current !== null) {
+            navigator.geolocation.clearWatch(gpsWatchIdRef.current);
+            gpsWatchIdRef.current = null;
+          }
+
+          // Clear any pending retry
+          if (gpsRetryTimerRef.current) {
+            clearTimeout(gpsRetryTimerRef.current);
+            gpsRetryTimerRef.current = null;
+          }
+
+          // Start location tracking now that we have permission and GPS signal
+          initLocationTracking();
+        },
+        (error) => {
+          console.warn(`[GPS Recovery] ⚠️ GPS error (attempt ${gpsRetryCountRef.current}): ${error.message}`);
+
+          // Clear the failed watch
+          if (gpsWatchIdRef.current !== null) {
+            navigator.geolocation.clearWatch(gpsWatchIdRef.current);
+            gpsWatchIdRef.current = null;
+          }
+
+          // Handle different error types
+          if (error.code === error.PERMISSION_DENIED) {
+            console.error("[GPS] ❌ Location permission DENIED by user");
+            setLocationError(
+              "Location permission denied. Please enable location access in your browser settings."
+            );
+            // Don't retry if permission denied
+            return;
+          }
+
+          // For timeout or position unavailable, retry with exponential backoff
+          const retryDelay = Math.min(5000 * Math.pow(1.5, Math.min(gpsRetryCountRef.current - 1, 5)), 60000);
+          console.log(`[GPS Recovery] 🔄 Will retry in ${(retryDelay / 1000).toFixed(1)}s... (Poor signal or GPS unavailable)`);
+
+          setLocationError(
+            `Acquiring GPS signal... (Attempt ${gpsRetryCountRef.current}). Move to a window or outdoors for better signal.`
+          );
+
+          // Schedule retry
+          gpsRetryTimerRef.current = setTimeout(() => {
+            startGPSWatch(); // Recursive retry
+          }, retryDelay);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 45000, // 45 second timeout per attempt
+          maximumAge: 0
+        }
+      );
+    };
+
+    // Start the first attempt
+    startGPSWatch();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // initLocationTracking is defined later in the file, but stable via useCallback
 
   // =============================================
   // Dynamic Road Highlighting Helper
@@ -274,7 +360,22 @@ const CampusMap: React.FC<MapProps> = ({
   const initLocationTracking = useCallback(() => {
     if (!mapInstanceRef.current) return undefined;
 
-    setLocationTrackingEnabled(true);
+    // CRITICAL: Prevent duplicate initialization (race condition protection)
+    if (locationTrackingEnabledRef.current) {
+      console.warn('[GPS] ⚠️ Tracking already initialized - skipping to prevent route loss');
+      return undefined;
+    }
+
+    // CRITICAL FIX: Cleanup any existing tracker before creating a new one
+    // This prevents duplicate markers when initLocationTracking is called multiple times
+    if (locationTrackingCleanupRef.current) {
+      console.log('[GPS] 🧹 Cleaning up existing tracker before creating new one');
+      locationTrackingCleanupRef.current();
+      locationTrackingCleanupRef.current = null;
+    }
+
+    locationTrackingEnabledRef.current = true; // Set ref immediately (no async delay)
+    setLocationTrackingEnabled(true); // Also set state for UI
 
     // Use enhanced tracking for mobile mode
     if (mobileMode && useEnhancedTracking) {
@@ -303,20 +404,37 @@ const CampusMap: React.FC<MapProps> = ({
       tracker.setMinMovementThreshold(5);  // Ignore movements less than 5 meters
       tracker.setMaxAccuracyThreshold(50); // Ignore readings with accuracy > 50m
 
+      // CRITICAL: Apply pending route if it was calculated before tracker was created
+      if (pendingRouteDataRef.current) {
+        console.log('[Route Recovery] 🔄 Applying pending route to newly created tracker');
+        console.log(`[Route Recovery]   - Route points: ${pendingRouteDataRef.current.path.length}`);
+        tracker.setRoute(
+          pendingRouteDataRef.current.path,
+          pendingRouteDataRef.current.destination,
+          pendingRouteDataRef.current.segmentRoads
+        );
+        console.log('[Route Recovery] ✅ Pending route applied - tracker ready for snapping');
+        pendingRouteDataRef.current = null; // Clear pending data
+      }
+
       // =============================================
       // GPS TIMEOUT PROTECTION
       // Prevents loading screen from hanging forever if GPS never arrives
       // =============================================
       const GPS_TIMEOUT_MS = 20000; // 20 seconds max wait for GPS
+      let gpsActuallySucceeded = false; // Track if GPS really worked vs timeout fallback
+
       const gpsTimeoutId = setTimeout(() => {
         if (!gpsReadyCalledRef.current && onGpsReady) {
-          console.warn('[MapComponent] ⚠️ GPS timeout after 20s - calling onGpsReady anyway');
+          console.error('[MapComponent] ❌ GPS TIMEOUT - Failed to acquire GPS signal after 20s');
+          console.warn('[MapComponent] ⚠️ Using fallback mode - GPS did NOT succeed');
           gpsReadyCalledRef.current = true;
+          gpsActuallySucceeded = false; // Mark as failed
           onGpsReady();
         }
         // Also trigger marker snapped if route exists but no GPS yet
         if (!markerSnappedCalledRef.current && onMarkerSnapped) {
-          console.warn('[MapComponent] ⚠️ GPS timeout - calling onMarkerSnapped with route start position');
+          console.warn('[MapComponent] ⚠️ GPS timeout - calling onMarkerSnapped with route start position (GPS FAILED)');
           markerSnappedCalledRef.current = true;
           onMarkerSnapped();
         }
@@ -334,6 +452,8 @@ const CampusMap: React.FC<MapProps> = ({
           // Call onGpsReady callback on first successful GPS update
           if (!gpsReadyCalledRef.current && onGpsReady) {
             gpsReadyCalledRef.current = true;
+            gpsActuallySucceeded = true; // Mark as successful
+            console.log('[MapComponent] ✅ GPS ACQUIRED - Real GPS signal received');
             console.log('[MapComponent] 📡 GPS ready callback triggered');
             onGpsReady();
           }
@@ -451,14 +571,18 @@ const CampusMap: React.FC<MapProps> = ({
         }
       );
 
-      // Return cleanup function
-      return () => {
+      // Return cleanup function and store it in ref
+      const cleanup = () => {
         if (enhancedTrackerRef.current) {
+          console.log('[GPS] 🧹 Destroying enhanced tracker and removing layer');
           enhancedTrackerRef.current.stopTracking();
           enhancedTrackerRef.current.destroy();
           enhancedTrackerRef.current = null;
         }
       };
+
+      locationTrackingCleanupRef.current = cleanup;
+      return cleanup;
     } else {
       // Use standard tracking for desktop
       const { watchId, userPositionFeature } = setupLocationTracking(
@@ -518,9 +642,10 @@ const CampusMap: React.FC<MapProps> = ({
       const locationNodeInterval = setInterval(updateCurrentLocationNode, 3000);
       locationNodeIntervalRef.current = locationNodeInterval;
 
-      // Return cleanup function
-      return () => {
+      // Return cleanup function and store it in ref
+      const cleanup = () => {
         if (locationWatchIdRef.current) {
+          console.log('[GPS] 🧹 Clearing standard location watch');
           navigator.geolocation.clearWatch(locationWatchIdRef.current);
           locationWatchIdRef.current = null;
         }
@@ -529,9 +654,15 @@ const CampusMap: React.FC<MapProps> = ({
           locationNodeIntervalRef.current = null;
         }
       };
+
+      locationTrackingCleanupRef.current = cleanup;
+      return cleanup;
     }
+  // CRITICAL: Only re-run when mobileMode or useEnhancedTracking changes
+  // Do NOT include currentLocation or selectedDestination - they change frequently
+  // and would cause multiple trackers to be created!
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentLocation, selectedDestination, mobileMode, useEnhancedTracking, updateDynamicRoadHighlighting]);
+  }, [mobileMode, useEnhancedTracking]);
 
   const getFeatureCoordinates = (feature: Feature<Geometry>) => {
     const geometry = feature.getGeometry();
@@ -604,8 +735,9 @@ const CampusMap: React.FC<MapProps> = ({
             const phoneLat = position.coords.latitude;
             console.log(`[MOBILE] 📍 Phone GPS: ${phoneLat.toFixed(6)}, ${phoneLon.toFixed(6)} (accuracy: ${position.coords.accuracy?.toFixed(0)}m)`);
 
-            if (nodesSourceRef.current) {
-              const phoneNode = findClosestNode(phoneLon, phoneLat, nodesSourceRef.current);
+            // FIXED: Use pointsSource instead of nodesSource (nodesSource returns 0 features)
+            if (pointsSourceRef.current) {
+              const phoneNode = findClosestNode(phoneLon, phoneLat, pointsSourceRef.current);
               if (phoneNode) {
                 startNodeId = phoneNode.id;
                 console.log(`[MOBILE] ✅ Route starting from phone's location: ${phoneNode.name} (${phoneNode.id})`);
@@ -630,12 +762,13 @@ const CampusMap: React.FC<MapProps> = ({
 
     // Fallback: Use kiosk GPS from QR code if phone GPS fails
     const useFallbackStart = () => {
-      if (routeData.startGPS && nodesSourceRef.current) {
+      // FIXED: Use pointsSource instead of nodesSource (nodesSource returns 0 features)
+      if (routeData.startGPS && pointsSourceRef.current) {
         console.log(`[MOBILE] Using fallback GPS from QR: ${routeData.startGPS.longitude}, ${routeData.startGPS.latitude}`);
         const gpsNode = findClosestNode(
           routeData.startGPS.longitude,
           routeData.startGPS.latitude,
-          nodesSourceRef.current
+          pointsSourceRef.current
         );
         if (gpsNode) {
           startNodeId = gpsNode.id;
@@ -647,13 +780,18 @@ const CampusMap: React.FC<MapProps> = ({
 
     // Continue setting up the route after determining start node
     const continueRouteSetup = (finalStartNodeId: string) => {
-      const features = nodesSourceRef.current!.getFeatures();
+      // FIXED: Use pointsSource instead of nodesSource since nodesSource fails to load
+      // when both sources point to the same URL. pointsSource reliably loads all features.
+      const features = pointsSourceRef.current!.getFeatures();
 
       const startFeature = features.find((f) => f.get("id") === finalStartNodeId);
       const endFeature = features.find((f) => f.get("id") === endNodeId);
 
       if (!startFeature || !endFeature) {
         console.error("Could not find start or end node features");
+        console.log(`[DEBUG] Looking for start: ${finalStartNodeId}, end: ${endNodeId}`);
+        console.log(`[DEBUG] Available features with isDestination: ${features.filter(f => f.get("isDestination")).length}`);
+        console.log(`[DEBUG] First 5 destination IDs:`, features.filter(f => f.get("isDestination")).slice(0, 5).map(f => f.get("id")));
         return;
       }
 
@@ -769,6 +907,12 @@ const CampusMap: React.FC<MapProps> = ({
     },
     [userPosition, followUserPosition]
   );
+
+  // Stable callback for toggling camera follow without parameters
+  // Prevents re-creating function on every render
+  const handleToggleCameraFollow = useCallback(() => {
+    toggleCameraFollow(!cameraFollowMode);
+  }, [cameraFollowMode, toggleCameraFollow]);
 
   // Update feature property
   const updateFeatureProperty = useCallback(
@@ -1013,9 +1157,13 @@ const CampusMap: React.FC<MapProps> = ({
           console.warn('[displayRoute] ⚠️ No path found but calling onRouteCalculated to prevent hang');
           onRouteCalculated();
         }
-        // Also call onMarkerSnapped since we can't snap without a route
-        if (!markerSnappedCalledRef.current && onMarkerSnapped) {
-          console.warn('[displayRoute] ⚠️ No route - calling onMarkerSnapped anyway');
+
+        // CRITICAL FIX: In mobile mode, DON'T call onMarkerSnapped when route fails
+        // The premature onMarkerSnapped call sets markerSnappedCalledRef = true,
+        // which prevents the REAL onMarkerSnapped from being called when route succeeds
+        // On desktop, we can call it to unblock UI since there's no GPS-based snapping
+        if (!mobileMode && !markerSnappedCalledRef.current && onMarkerSnapped) {
+          console.warn('[displayRoute] ⚠️ No route - calling onMarkerSnapped (desktop only)');
           markerSnappedCalledRef.current = true;
           onMarkerSnapped();
         }
@@ -1023,6 +1171,11 @@ const CampusMap: React.FC<MapProps> = ({
       }
 
       // Extract road names from path features and update activeRouteRoadsRef
+      // CRITICAL: Clear old route FIRST to prevent persistence bugs
+      console.log('[Road Highlighting] 🧹 Clearing old route highlights before setting new route');
+      activeRouteRoadsRef.current.clear();
+
+      // Now add new route roads
       const roadNames = new Set<string>();
       pathFeatures.forEach((feature, index) => {
         const props = feature.getProperties();
@@ -1036,9 +1189,9 @@ const CampusMap: React.FC<MapProps> = ({
         });
         if (roadName) {
           roadNames.add(roadName);
+          activeRouteRoadsRef.current.add(roadName); // Add to ref directly
         }
       });
-      activeRouteRoadsRef.current = roadNames;
       console.log(`[Road Highlighting] Highlighted ${roadNames.size} roads:`, Array.from(roadNames));
 
       // CRITICAL: Force roads layer to re-style to show highlighted roads
@@ -1046,9 +1199,10 @@ const CampusMap: React.FC<MapProps> = ({
       // OpenLayers caches feature styles for performance, so we must manually clear them
 
       // Function to clear road style cache and force re-render
-      // ENHANCED: More retries and longer delays for mobile devices
-      const MAX_ROAD_RETRIES = mobileMode ? 15 : 5; // More retries on mobile
-      const BASE_RETRY_DELAY = mobileMode ? 400 : 300; // Longer base delay on mobile
+      // OPTIMIZED: Reasonable retry count with exponential backoff + cap
+      const MAX_ROAD_RETRIES = 5; // Reduced from 15 to prevent UI blocking
+      const BASE_RETRY_DELAY = 300; // Base delay
+      const MAX_RETRY_DELAY = 1000; // Cap at 1 second to prevent storm
 
       const clearRoadStyleCache = (retryCount = 0): Promise<void> => {
         return new Promise((resolve) => {
@@ -1063,9 +1217,10 @@ const CampusMap: React.FC<MapProps> = ({
           console.log(`[Road Highlighting] Active route roads: ${Array.from(activeRouteRoadsRef.current).join(', ')}`);
 
           if (allRoads.length === 0 && retryCount < MAX_ROAD_RETRIES) {
-            // Roads not loaded yet, retry after a delay (increased retries for mobile)
-            const delay = BASE_RETRY_DELAY * (retryCount + 1);
-            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${delay}ms... (attempt ${retryCount + 1}/${MAX_ROAD_RETRIES})`);
+            // Roads not loaded yet, retry with exponential backoff (capped)
+            const uncappedDelay = BASE_RETRY_DELAY * Math.pow(1.5, retryCount); // Exponential backoff
+            const delay = Math.min(uncappedDelay, MAX_RETRY_DELAY); // Cap at MAX_RETRY_DELAY
+            console.warn(`[Road Highlighting] ⚠️ No road features found! Retrying in ${delay.toFixed(0)}ms... (attempt ${retryCount + 1}/${MAX_ROAD_RETRIES})`);
             setTimeout(() => {
               clearRoadStyleCache(retryCount + 1).then(resolve);
             }, delay);
@@ -1220,7 +1375,8 @@ const CampusMap: React.FC<MapProps> = ({
       }
 
       // Set route path for enhanced tracking
-      if (enhancedTrackerRef.current && mobileMode) {
+      // CRITICAL: Process route even if tracker doesn't exist yet - we'll store it as pending
+      if (mobileMode) {
         // Extract route coordinates from path features AND build road mapping
         const routePath: [number, number][] = [];
         const routeRoadNames: string[] = []; // Maps each coordinate to its road name
@@ -1291,7 +1447,38 @@ const CampusMap: React.FC<MapProps> = ({
           }
 
           // Pass densified path AND segment road mapping
-          enhancedTrackerRef.current.setRoute(densifiedPath, destinationCoords, segmentRoads);
+          console.log(`[Route Setup] 🛣️ Setting route on tracker:`);
+          console.log(`[Route Setup]   - Route points: ${densifiedPath.length}`);
+          console.log(`[Route Setup]   - Destination: ${destinationCoords ? `[${destinationCoords[0].toFixed(6)}, ${destinationCoords[1].toFixed(6)}]` : 'None'}`);
+          console.log(`[Route Setup]   - Segment roads: ${segmentRoads.length}`);
+
+          // CRITICAL: Handle race condition - tracker might not exist yet if GPS still acquiring
+          if (enhancedTrackerRef.current) {
+            enhancedTrackerRef.current.setRoute(densifiedPath, destinationCoords, segmentRoads);
+            console.log('[Route Setup] ✅ Route successfully set on tracker');
+            console.log('[Route Setup] 📍 Tracker is ready for GPS updates and marker snapping');
+          } else {
+            console.warn('[Route Setup] ⚠️ Tracker not ready yet - storing route data');
+            console.log('[Route Setup] 📦 Route will be applied when GPS is acquired');
+            pendingRouteDataRef.current = {
+              path: densifiedPath,
+              destination: destinationCoords,
+              segmentRoads: segmentRoads
+            };
+          }
+
+          // CRITICAL: Now that route is set, marker can snap to it
+          // Call onMarkerSnapped to signal navigation is ready
+          // Use small delay to ensure tracker has processed the route
+          if (!markerSnappedCalledRef.current && onMarkerSnapped) {
+            setTimeout(() => {
+              if (!markerSnappedCalledRef.current) {
+                markerSnappedCalledRef.current = true;
+                console.log('[Mobile Navigation] ✅ Route set on tracker - calling onMarkerSnapped');
+                onMarkerSnapped();
+              }
+            }, 200); // Small delay to ensure tracker is ready
+          }
         }
       }
       };
@@ -1532,30 +1719,32 @@ const CampusMap: React.FC<MapProps> = ({
         // CRITICAL FIX: Check actual feature count, not just source state
         // Source state can be "ready" but features array can still be empty
         let checkAttempts = 0;
-        const MAX_CHECK_ATTEMPTS = 30; // 30 attempts x 500ms = 15 seconds max wait
+        const MAX_CHECK_ATTEMPTS = 20; // Reduced from 30 to prevent excessive retry delays
 
         const checkSourcesLoaded = () => {
           checkAttempts++;
 
           const mapReady = !!mapInstanceRef.current;
           const roadsReady = roadsSourceRef.current && roadsSourceRef.current.getState() === "ready";
-          const nodesReady = nodesSourceRef.current && nodesSourceRef.current.getState() === "ready";
+          // FIXED: Use pointsSource instead of nodesSource since nodesSource fails to load
+          const pointsReady = pointsSourceRef.current && pointsSourceRef.current.getState() === "ready";
 
           // CRITICAL: Check actual feature count, not just state
           const roadsCount = roadsSourceRef.current?.getFeatures().length || 0;
-          const nodesCount = nodesSourceRef.current?.getFeatures().length || 0;
+          // FIXED: Use pointsSource which reliably loads all features (includes nodes/destinations)
+          const pointsCount = pointsSourceRef.current?.getFeatures().length || 0;
 
           console.log(`[Mobile Route] Check ${checkAttempts}/${MAX_CHECK_ATTEMPTS}:`, {
             mapReady,
             roadsReady,
-            nodesReady,
+            pointsReady,
             roadsCount,
-            nodesCount
+            pointsCount
           });
 
           // Need actual features loaded, not just source ready state
-          if (mapReady && roadsReady && nodesReady && roadsCount > 0 && nodesCount > 0) {
-            console.log(`[Mobile Route] ✅ All sources loaded with ${roadsCount} roads and ${nodesCount} nodes. Processing route...`);
+          if (mapReady && roadsReady && pointsReady && roadsCount > 0 && pointsCount > 0) {
+            console.log(`[Mobile Route] ✅ All sources loaded with ${roadsCount} roads and ${pointsCount} points. Processing route...`);
             processRouteData(routeData);
           } else if (checkAttempts < MAX_CHECK_ATTEMPTS) {
             // Exponential backoff with cap at 1 second
@@ -1565,7 +1754,7 @@ const CampusMap: React.FC<MapProps> = ({
           } else {
             console.error(`[Mobile Route] ❌ Failed to load sources after ${MAX_CHECK_ATTEMPTS} attempts`);
             // Try processing anyway - maybe partial data is available
-            if (roadsCount > 0 || nodesCount > 0) {
+            if (roadsCount > 0 || pointsCount > 0) {
               console.log(`[Mobile Route] 🔄 Attempting route processing with partial data...`);
               processRouteData(routeData);
             }
@@ -1615,7 +1804,7 @@ const CampusMap: React.FC<MapProps> = ({
       onMapReady();
     }
 
-    const { roadsLayer, roadsSource, nodesSource } = setupRoadSystem(
+    const { roadsLayer, roadsSource, nodesSource, cleanup } = setupRoadSystem(
       actualRoadsUrl,
       actualNodesUrl,
       activeRouteRoadsRef
@@ -1626,8 +1815,12 @@ const CampusMap: React.FC<MapProps> = ({
 
     // Store road system refs
     roadsSourceRef.current = roadsSource;
-    nodesSourceRef.current = nodesSource;
+    // FIX: nodesSource loads from same URL as pointsSource, causing duplication and 0 features
+    // Use pointsSource as nodesSource since they contain the same data from unified GeoJSON
+    console.log('[Road System] ⚠️ Using pointsSource as nodesSource to avoid duplicate loading');
+    nodesSourceRef.current = pointsSource; // Use pointsSource instead of redundant nodesSource
     roadsLayerRef.current = roadsLayer;
+    roadSystemCleanupRef.current = cleanup; // Store cleanup function for later
 
     // Define a function to process features to avoid code duplication
     const processFeatures = (features: Feature<Geometry>[]) => {
@@ -1685,7 +1878,11 @@ const CampusMap: React.FC<MapProps> = ({
         }
 
         // Check for pending route from URL parameters
-        processPendingRoute(loadedDestinations, mainGate);
+        // CRITICAL FIX: Skip in mobile mode - processRouteData handles routing properly
+        // processPendingRoute calls displayRoute before roads load, causing 0 features bug
+        if (!mobileMode) {
+          processPendingRoute(loadedDestinations, mainGate);
+        }
       } else {
         loadDestinationsDirectly();
       }
@@ -1787,17 +1984,17 @@ const CampusMap: React.FC<MapProps> = ({
         });
     };
 
-    // Function to combine and load destinations from both sources
+    // Function to load destinations from pointsSource (unified GeoJSON)
+    // NOTE: nodesSourceRef now points to pointsSource, so we only need one source
     const loadCombinedDestinations = () => {
-      console.log("[Destinations] Loading combined destinations");
+      console.log("[Destinations] Loading destinations from unified GeoJSON (pointsSource)");
       const pointFeatures = pointsSource.getFeatures();
-      const nodeFeatures = nodesSource.getFeatures();
 
       console.log(`[Destinations] pointsSource has ${pointFeatures.length} features`);
-      console.log(`[Destinations] nodesSource has ${nodeFeatures.length} features`);
+      console.log(`[Destinations] ✅ All nodes+roads+destinations in one unified GeoJSON`);
 
-      // Combine features from both sources
-      const allFeatures = [...pointFeatures, ...nodeFeatures];
+      // Use features from pointsSource (which contains everything)
+      const allFeatures = pointFeatures;
       const combinedDestinations: RoadNode[] = [];
       let mainGate: RoadNode | null = null;
 
@@ -1846,9 +2043,9 @@ const CampusMap: React.FC<MapProps> = ({
       }
     };
 
-    // Load destinations when EITHER source finishes loading
+    // Load destinations when pointsSource finishes loading
+    // NOTE: nodesSourceRef now points to pointsSource, so only need one listener
     pointsSource.on("featuresloadend", loadCombinedDestinations);
-    nodesSource.on("featuresloadend", loadCombinedDestinations);
 
     // REMOVED: Duplicate nodesSource.on("featuresloadend") event listener
     // The pointsSource listener above already correctly combines destinations from both sources
@@ -1874,7 +2071,7 @@ const CampusMap: React.FC<MapProps> = ({
         }
 
         if (extent && extent.every((v) => isFinite(v))) {
-          const paddingFactor = 1.5;
+          const paddingFactor = 3.0; // Increased from 1.5 to 3.0 for more scrolling room
           const centerPoint = [
             (extent[0] + extent[2]) / 2,
             (extent[1] + extent[3]) / 2,
@@ -1988,6 +2185,20 @@ const CampusMap: React.FC<MapProps> = ({
 
     return () => {
       clearInterval(uiUpdateInterval);
+
+      // Cleanup road system event listeners
+      if (roadSystemCleanupRef.current) {
+        console.log('[Component Cleanup] 🧹 Cleaning up road system');
+        roadSystemCleanupRef.current();
+        roadSystemCleanupRef.current = null;
+      }
+
+      // Cleanup location tracking
+      if (locationTrackingCleanupRef.current) {
+        console.log('[Component Cleanup] 🧹 Cleaning up location tracking');
+        locationTrackingCleanupRef.current();
+        locationTrackingCleanupRef.current = null;
+      }
       if (locationWatchIdRef.current) {
         navigator.geolocation.clearWatch(locationWatchIdRef.current);
         locationWatchIdRef.current = null;
@@ -2131,11 +2342,7 @@ const CampusMap: React.FC<MapProps> = ({
             onClose={handleCloseDestinationSelector}
             categories={[
               "Gates",
-              "Main Buildings",
-              "Maritime",
-              "Business",
-              "Facilities",
-              "Sports Facilities",
+              "Points of Interest",
             ]}
           />
         );
@@ -2149,11 +2356,7 @@ const CampusMap: React.FC<MapProps> = ({
             onClose={handleCloseDestinationSelector}
             categories={[
               "Gates",
-              "Main Buildings",
-              "Maritime",
-              "Business",
-              "Facilities",
-              "Sports Facilities",
+              "Points of Interest",
             ]}
           />
         </div>
@@ -2234,159 +2437,6 @@ const CampusMap: React.FC<MapProps> = ({
 
     return (
       <>
-        {/* Enhanced Mobile Header with Destination Info */}
-        <div className="fixed top-0 left-0 right-0 bg-white shadow-lg z-40">
-          {/* Top Bar */}
-          <div className="flex items-center justify-between p-3 border-b border-gray-100">
-            <button
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 active:scale-95 transition-all"
-              onClick={() => router.back()}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m15 18-6-6 6-6"></path>
-              </svg>
-            </button>
-
-            <h1 className="text-lg font-bold text-gray-900 flex-1 text-center truncate px-2">
-              {selectedDestination
-                ? selectedDestination.name
-                : "Campus Navigation"}
-            </h1>
-
-            <button
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 active:scale-95 transition-all"
-              onClick={() => {
-                if (mapInstanceRef.current && currentLocation) {
-                  const coords = fromLonLat(currentLocation.coordinates);
-                  mapInstanceRef.current.getView().setCenter(coords);
-                  mapInstanceRef.current.getView().setZoom(18);
-                } else {
-                  initLocationTracking();
-                }
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10"></circle>
-                <circle cx="12" cy="12" r="1"></circle>
-                <path d="M12 2v4"></path>
-                <path d="M12 18v4"></path>
-                <path d="M4.93 4.93l2.83 2.83"></path>
-                <path d="M16.24 16.24l2.83 2.83"></path>
-                <path d="M2 12h4"></path>
-                <path d="M18 12h4"></path>
-                <path d="M4.93 19.07l2.83-2.83"></path>
-                <path d="M16.24 7.76l2.83-2.83"></path>
-              </svg>
-            </button>
-          </div>
-
-          {/* Destination Info Card - Shows when navigating */}
-          {selectedDestination && (
-            <div className="px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50">
-              <div className="flex items-center gap-3">
-                {/* Destination Icon */}
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                </div>
-
-                {/* Destination Details */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">
-                      Navigating to
-                    </span>
-                    {selectedDestination.category && (
-                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
-                        {selectedDestination.category}
-                      </span>
-                    )}
-                  </div>
-                  <h2 className="text-base font-bold text-gray-900 truncate">
-                    {selectedDestination.name}
-                  </h2>
-                  {selectedDestination.description && (
-                    <p className="text-xs text-gray-600 truncate mt-0.5">
-                      {selectedDestination.description}
-                    </p>
-                  )}
-                </div>
-
-                {/* Distance & Time */}
-                {routeInfo && (
-                  <div className="text-right flex-shrink-0">
-                    <p className="text-lg font-bold text-blue-600">
-                      {formatDistance(routeProgress?.distanceToDestination ?? routeInfo.distance)}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {formatTime(routeProgress?.estimatedTimeRemaining
-                        ? routeProgress.estimatedTimeRemaining / 60
-                        : routeInfo.estimatedTime)}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* Progress Bar */}
-              {routeProgress && routeProgress.percentComplete > 0 && (
-                <div className="mt-3">
-                  <div className="h-1.5 bg-blue-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500"
-                      style={{ width: `${Math.min(100, routeProgress.percentComplete)}%` }}
-                    />
-                  </div>
-                  <div className="flex justify-between mt-1">
-                    <span className="text-xs text-gray-500">
-                      {routeProgress.percentComplete.toFixed(0)}% complete
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      {formatDistance(routeProgress.distanceTraveled)} traveled
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
         {/* Floating Locate Button */}
         <button
           className="fixed right-4 bottom-24 z-40 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center border border-gray-200"
@@ -2473,7 +2523,7 @@ const CampusMap: React.FC<MapProps> = ({
             routeInfo={routeInfo}
             routeProgress={routeProgress}
             cameraFollowMode={cameraFollowMode}
-            onToggleCameraFollow={() => toggleCameraFollow(!cameraFollowMode)}
+            onToggleCameraFollow={handleToggleCameraFollow}
             onClearRoute={clearRoute}
           />
         )}

@@ -8,6 +8,9 @@ import { Style, Stroke } from "ol/style";
 import { MutableRefObject } from "react";
 import Point from "ol/geom/Point";
 import { Geometry } from "ol/geom";
+import { getDistance } from "ol/sphere";
+import { unByKey } from "ol/Observable";
+import { EventsKey } from "ol/events";
 
 export interface Road {
   id: string;
@@ -106,10 +109,9 @@ export const findClosestNode = (
     // Convert from EPSG:3857 to EPSG:4326
     const geoCoords = toLonLat(coordinates);
 
-    // Calculate distance (simple Euclidean for now)
-    const dx = longitude - geoCoords[0];
-    const dy = latitude - geoCoords[1];
-    const distance = Math.sqrt(dx * dx + dy * dy);
+    // Calculate spherical distance using haversine formula
+    // getDistance expects lon/lat coordinates and returns meters
+    const distance = getDistance([longitude, latitude], geoCoords);
 
     if (distance < minDistance) {
       minDistance = distance;
@@ -162,11 +164,9 @@ export const findShortestPath = (
     }
   });
 
-  nodesSource.on("featuresloadend", () => {
-    console.log("🚩 roadsystem.txt - featuresloadend triggered");
-    const features = nodesSource.getFeatures();
-    console.log("🚩 roadsystem.txt - features count:", features.length);
-  });
+  // REMOVED: Debug event listener that caused memory leak
+  // This listener was added on every route calculation and never cleaned up
+  // Features are already loaded when this function is called
 
   // Add edges to the graph
   const roadFeatures = roadsSource.getFeatures();
@@ -377,11 +377,6 @@ export const setupRoadSystem = (
       // Check if this road is part of the active route
       const isInActiveRoute = activeRouteRoadsRef?.current?.has(roadName) || false;
 
-      // Debug logging for highlighted roads
-      if (isInActiveRoute) {
-        console.log(`[Road Style] 🔴 Highlighting road: "${roadName}" (type: ${roadType})`);
-      }
-
       // Different styling based on road type
       let color = "#555555";
       let width = 3;
@@ -424,8 +419,11 @@ export const setupRoadSystem = (
     zIndex: 5, // Place below points but above polygon areas
   });
 
+  // Store event listener keys for cleanup
+  const eventKeys: EventsKey[] = [];
+
   // Load initial roads data
-  roadsSource.on("featuresloadend", () => {
+  const roadsLoadKey = roadsSource.on("featuresloadend", () => {
     const features = roadsSource.getFeatures();
     console.log(`✅ roadsSource loaded ${features.length} features`);
     console.log(`📍 roadsSource URL: ${roadsUrl}`);
@@ -442,13 +440,16 @@ export const setupRoadSystem = (
       return `${p.name} (${p.from} → ${p.to})`;
     }));
   });
+  eventKeys.push(roadsLoadKey);
 
   // Handle potential errors loading roads
-  roadsSource.on("featuresloaderror", (error: any) => {
+  const roadsErrorKey = roadsSource.on("featuresloaderror", (error: any) => {
+    console.error('[Road System] Error loading roads:', error);
   });
+  eventKeys.push(roadsErrorKey);
 
   // Load initial nodes data
-  nodesSource.on("featuresloadend", () => {
+  const nodesLoadKey = nodesSource.on("featuresloadend", () => {
     const features = nodesSource.getFeatures();
 
     // Count destinations for debugging
@@ -457,19 +458,22 @@ export const setupRoadSystem = (
       return props.isDestination === true;
     });
     console.log(
-      `✅ featuresloadend in road system triggered ${features}, total features: ${features.length}`
+      `✅ Nodes loaded: ${features.length} total features, ${destinations.length} destinations`
     );
-
-    console.log(
-      `✅ featuresloadend in road system triggered, total features: ${destinations}`
-    );
-
-
   });
+  eventKeys.push(nodesLoadKey);
 
   // Handle potential errors loading nodes
-  nodesSource.on("featuresloaderror", (error: any) => {
+  const nodesErrorKey = nodesSource.on("featuresloaderror", (error: any) => {
+    console.error('[Road System] Error loading nodes:', error);
   });
+  eventKeys.push(nodesErrorKey);
 
-  return { roadsLayer, roadsSource, nodesSource };
+  // Cleanup function to unsubscribe all event listeners
+  const cleanup = () => {
+    console.log('[Road System] Cleaning up event listeners');
+    eventKeys.forEach(key => unByKey(key));
+  };
+
+  return { roadsLayer, roadsSource, nodesSource, cleanup };
 };
